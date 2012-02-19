@@ -1,0 +1,414 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-01-26 23:16+0800\n"
+"PO-Revision-Date: 2012-01-26 23:16+0800\n"
+"Last-Translator: xiaomo <wxm4ever@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. type: =head1
+#: perlunitut.pod:1
+msgid "NAME"
+msgstr "NAME"
+
+#. type: textblock
+#: perlunitut.pod:3
+msgid "perlunitut - Perl Unicode Tutorial"
+msgstr "perlunitut - Perl Unicode 指南"
+
+#. type: =head1
+#: perlunitut.pod:5
+msgid "DESCRIPTION"
+msgstr "DESCRIPTION"
+
+#. type: textblock
+#: perlunitut.pod:7
+msgid "The days of just flinging strings around are over. It's well established that modern programs need to be capable of communicating funny accented letters, and things like euro symbols. This means that programmers need new habits. It's easy to program Unicode capable software, but it does require discipline to do it right."
+msgstr "好的编程语言应该对多种字符编码有所支持。"
+
+#. type: textblock
+#: perlunitut.pod:13
+msgid "There's a lot to know about character sets, and text encodings. It's probably best to spend a full day learning all this, but the basics can be learned in minutes."
+msgstr "关于字符编码有很多内容，我们可能需要用一整天来学习，但是基本的知识却可以在几分钟"
+"内掌握。"
+
+#. type: textblock
+#: perlunitut.pod:17
+msgid "These are not the very basics, though. It is assumed that you already know the difference between bytes and characters, and realise (and accept!)  that there are many different character sets and encodings, and that your program has to be explicit about them. Recommended reading is \"The Absolute Minimum Every Software Developer Absolutely, Positively Must Know About Unicode and Character Sets (No Excuses!)\" by Joel Spolsky, at L<http://joelonsoftware.com/articles/Unicode.html>."
+msgstr "本篇文档包含关于编码最基本的知识。我们假设你知道不同编码存储结构不同等知识。"
+
+#. type: textblock
+#: perlunitut.pod:25
+msgid "This tutorial speaks in rather absolute terms, and provides only a limited view of the wealth of character string related features that Perl has to offer. For most projects, this information will probably suffice."
+msgstr ""
+
+#. type: =head2
+#: perlunitut.pod:29
+msgid "Definitions"
+msgstr "一些定义"
+
+#. type: textblock
+#: perlunitut.pod:31
+msgid "It's important to set a few things straight first. This is the most important part of this tutorial. This view may conflict with other information that you may have found on the web, but that's mostly because many sources are wrong."
+msgstr ""
+
+#. type: textblock
+#: perlunitut.pod:35
+msgid "You may have to re-read this entire section a few times..."
+msgstr ""
+
+#. type: =head3
+#: perlunitut.pod:37
+msgid "Unicode"
+msgstr "Unicode"
+
+#. type: textblock
+#: perlunitut.pod:39
+msgid "B<Unicode> is a character set with room for lots of characters. The ordinal value of a character is called a B<code point>.  (But in practice, the distinction between code point and character is blurred, so the terms often are used interchangeably.)"
+msgstr "B<Unicode> 是一种字符编码体系。"
+
+#. type: textblock
+#: perlunitut.pod:44
+msgid "There are many, many code points, but computers work with bytes, and a byte has room for only 256 values.  Unicode has many more characters, so you need a method to make these accessible."
+msgstr ""
+
+#. type: textblock
+#: perlunitut.pod:48
+msgid "Unicode is encoded using several competing encodings, of which UTF-8 is the most used. In a Unicode encoding, multiple subsequent bytes can be used to store a single code point, or simply: character."
+msgstr "Unicode 体系中有很多编码形式，UTF-8 是最常用的一种。"
+
+#. type: =head3
+#: perlunitut.pod:52
+msgid "UTF-8"
+msgstr "UTF-8"
+
+#. type: textblock
+#: perlunitut.pod:54
+msgid "B<UTF-8> is a Unicode encoding. Many people think that Unicode and UTF-8 are the same thing, but they're not. There are more Unicode encodings, but much of the world has standardized on UTF-8."
+msgstr "B<UTF-8> 是 Unicode 编码体系中最常用的一种。许多人认为 Unicode 和 UTF-8 是相同的东"
+"西，但是它们却不是。"
+
+#. type: textblock
+#: perlunitut.pod:58
+msgid "UTF-8 treats the first 128 codepoints, 0..127, the same as ASCII. They take only one byte per character. All other characters are encoded as two or more (up to six) bytes using a complex scheme. Fortunately, Perl handles this for us, so we don't have to worry about this."
+msgstr ""
+
+#. type: =head3
+#: perlunitut.pod:63
+msgid "Text strings (character strings)"
+msgstr "文本字符串"
+
+#. type: textblock
+#: perlunitut.pod:65
+msgid "B<Text strings>, or B<character strings> are made of characters. Bytes are irrelevant here, and so are encodings. Each character is just that: the character."
+msgstr "B<文本字符串>是由字符构成的。字节和编码跟它都没有什么太大关系，字符就是字符而已。"
+
+#. type: textblock
+#: perlunitut.pod:69
+msgid "On a text string, you would do things like:"
+msgstr "在一个文本字符串中，你可以这样做："
+
+#. type: verbatim
+#: perlunitut.pod:71
+#, no-wrap
+msgid ""
+"    $text =~ s/foo/bar/;\n"
+"    if ($string =~ /^\\d+$/) { ... }\n"
+"    $text = ucfirst $text;\n"
+"    my $character_count = length $text;\n"
+"\n"
+msgstr ""
+"    $text =~ s/foo/bar/;\n"
+"    if ($string =~ /^\\d+$/) { ... }\n"
+"    $text = ucfirst $text;\n"
+"    my $character_count = length $text;\n"
+"\n"
+
+#. type: textblock
+#: perlunitut.pod:76
+msgid "The value of a character (C<ord>, C<chr>) is the corresponding Unicode code point."
+msgstr "C<ord>、C<chr> 可以将字符与 ASCII 编码之间进行转化。"
+
+#. type: =head3
+#: perlunitut.pod:79
+msgid "Binary strings (byte strings)"
+msgstr "二进制字符串"
+
+#. type: textblock
+#: perlunitut.pod:81
+msgid "B<Binary strings>, or B<byte strings> are made of bytes. Here, you don't have characters, just bytes. All communication with the outside world (anything outside of your current Perl process) is done in binary."
+msgstr "B<二进制字符串>是由字节构成的。这里你将看不到任何字符，只有字节而已。所有对其的操"
+"作都是在二进制基础上完成的。"
+
+#. type: textblock
+#: perlunitut.pod:85
+msgid "On a binary string, you would do things like:"
+msgstr "对一个二进制字符串，你可以这么做："
+
+#. type: verbatim
+#: perlunitut.pod:87
+#, no-wrap
+msgid ""
+"    my (@length_content) = unpack \"(V/a)*\", $binary;\n"
+"    $binary =~ s/\\x00\\x0F/\\xFF\\xF0/;  # for the brave :)\n"
+"    print {$fh} $binary;\n"
+"    my $byte_count = length $binary;\n"
+"\n"
+msgstr ""
+"    my (@length_content) = unpack \"(V/a)*\", $binary;\n"
+"    $binary =~ s/\\x00\\x0F/\\xFF\\xF0/;  # for the brave :)\n"
+"    print {$fh} $binary;\n"
+"    my $byte_count = length $binary;\n"
+"\n"
+
+#. type: =head3
+#: perlunitut.pod:92
+msgid "Encoding"
+msgstr "编码"
+
+#. type: textblock
+#: perlunitut.pod:94
+msgid "B<Encoding> (as a verb) is the conversion from I<text> to I<binary>. To encode, you have to supply the target encoding, for example C<iso-8859-1> or C<UTF-8>.  Some encodings, like the C<iso-8859> (\"latin\") range, do not support the full Unicode standard; characters that can't be represented are lost in the conversion."
+msgstr "B<编码>是从文本字符串转化为二进制字符串。编码的时候你需要首先指定编码格式，如 "
+"C<iso-8859-1> 或 C<UTF-8>。有一些编码并不支持所有的字符。"
+
+#. type: =head3
+#: perlunitut.pod:100
+msgid "Decoding"
+msgstr "解码"
+
+#. type: textblock
+#: perlunitut.pod:102
+msgid "B<Decoding> is the conversion from I<binary> to I<text>. To decode, you have to know what encoding was used during the encoding phase. And most of all, it must be something decodable. It doesn't make much sense to decode a PNG image into a text string."
+msgstr "B<解码>是从二进制字符串转化为文本字符串。解码的时候你需要首先知道编码格式。否则无"
+"法正确解码。"
+
+#. type: =head3
+#: perlunitut.pod:107
+msgid "Internal format"
+msgstr "内置格式"
+
+#. type: textblock
+#: perlunitut.pod:109
+msgid "Perl has an B<internal format>, an encoding that it uses to encode text strings so it can store them in memory. All text strings are in this internal format.  In fact, text strings are never in any other format!"
+msgstr "Perl 有B<内置格式>。"
+
+#. type: textblock
+#: perlunitut.pod:113
+msgid "You shouldn't worry about what this format is, because conversion is automatically done when you decode or encode."
+msgstr "你不需要知道内置格式是什么，因为 Perl 会自动为你编码、解码。"
+
+#. type: =head2
+#: perlunitut.pod:116
+msgid "Your new toolkit"
+msgstr "工具"
+
+#. type: textblock
+#: perlunitut.pod:118
+msgid "Add to your standard heading the following line:"
+msgstr "在你的代码开始处加入如下代码："
+
+#. type: verbatim
+#: perlunitut.pod:120
+#, no-wrap
+msgid ""
+"    use Encode qw(encode decode);\n"
+"\n"
+msgstr ""
+"    use Encode qw(encode decode);\n"
+"\n"
+
+#. type: textblock
+#: perlunitut.pod:122
+msgid "Or, if you're lazy, just:"
+msgstr "或者偷懒的话，使用："
+
+#. type: verbatim
+#: perlunitut.pod:124
+#, no-wrap
+msgid ""
+"    use Encode;\n"
+"\n"
+msgstr ""
+"    use Encode;\n"
+"\n"
+
+#. type: =head2
+#: perlunitut.pod:126
+msgid "I/O flow (the actual 5 minute tutorial)"
+msgstr "I/O 操作（真正的5分钟指南）"
+
+#. type: textblock
+#: perlunitut.pod:128
+msgid "The typical input/output flow of a program is:"
+msgstr "输入输出流程如下："
+
+#. type: verbatim
+#: perlunitut.pod:130
+#, no-wrap
+msgid ""
+"    1. Receive and decode\n"
+"    2. Process\n"
+"    3. Encode and output\n"
+"\n"
+msgstr ""
+"    1. Receive and decode\n"
+"    2. Process\n"
+"    3. Encode and output\n"
+"\n"
+
+#. type: textblock
+#: perlunitut.pod:134
+msgid "If your input is binary, and is supposed to remain binary, you shouldn't decode it to a text string, of course. But in all other cases, you should decode it."
+msgstr "如果你的输入为二进制字符串，而且想要得到的就是二进制字符串，那么你什么都不需要做。"
+"但是在我们的指南中，我们需要对其解码得到文本字符串。"
+
+#. type: textblock
+#: perlunitut.pod:137
+msgid "Decoding can't happen reliably if you don't know how the data was encoded. If you get to choose, it's a good idea to standardize on UTF-8."
+msgstr "如果你不知道编码格式是什么的话，解码过程不一定会顺利完成。如果随便选一种的话，最好"
+"是标准的格式 UTF-8。"
+
+#. type: verbatim
+#: perlunitut.pod:140
+#, no-wrap
+msgid ""
+"    my $foo   = decode('UTF-8', get 'http://example.com/');\n"
+"    my $bar   = decode('ISO-8859-1', readline STDIN);\n"
+"    my $xyzzy = decode('Windows-1251', $cgi->param('foo'));\n"
+"\n"
+msgstr ""
+"    my $foo   = decode('UTF-8', get 'http://example.com/');\n"
+"    my $bar   = decode('ISO-8859-1', readline STDIN);\n"
+"    my $xyzzy = decode('Windows-1251', $cgi->param('foo'));\n"
+"\n"
+
+#. type: textblock
+#: perlunitut.pod:144
+msgid "Processing happens as you knew before. The only difference is that you're now using characters instead of bytes. That's very useful if you use things like C<substr>, or C<length>."
+msgstr "用 C<substr>、C<length> 等来处理数据。"
+
+#. type: textblock
+#: perlunitut.pod:148
+msgid "It's important to realize that there are no bytes in a text string. Of course, Perl has its internal encoding to store the string in memory, but ignore that.  If you have to do anything with the number of bytes, it's probably best to move that part to step 3, just after you've encoded the string. Then you know exactly how many bytes it will be in the destination string."
+msgstr "最后将处理好的数据编码成相应的编码格式。"
+
+#. type: textblock
+#: perlunitut.pod:154
+msgid "The syntax for encoding text strings to binary strings is as simple as decoding:"
+msgstr "编码代码和解码代码一样简单，如下："
+
+#. type: verbatim
+#: perlunitut.pod:156
+#, no-wrap
+msgid ""
+"    $body = encode('UTF-8', $body);\n"
+"\n"
+msgstr ""
+"    $body = encode('UTF-8', $body);\n"
+"\n"
+
+#. type: textblock
+#: perlunitut.pod:158
+msgid "If you needed to know the length of the string in bytes, now's the perfect time for that. Because C<$body> is now a byte string, C<length> will report the number of bytes, instead of the number of characters. The number of characters is no longer known, because characters only exist in text strings."
+msgstr "如果你想要知道该字符串占多少字节，现在才是查看的时候。因为 C<$body> 现在是二进制字"
+"符串，你可以通过 C<length> 方法得到它的长度。"
+
+#. type: verbatim
+#: perlunitut.pod:163
+#, no-wrap
+msgid ""
+"    my $byte_count = length $body;\n"
+"\n"
+msgstr ""
+"    my $byte_count = length $body;\n"
+"\n"
+
+#. type: textblock
+#: perlunitut.pod:165
+msgid "And if the protocol you're using supports a way of letting the recipient know which character encoding you used, please help the receiving end by using that feature! For example, E-mail and HTTP support MIME headers, so you can use the C<Content-Type> header. They can also have C<Content-Length> to indicate the number of I<bytes>, which is always a good idea to supply if the number is known."
+msgstr ""
+
+#. type: verbatim
+#: perlunitut.pod:172
+#, no-wrap
+msgid ""
+"    \"Content-Type: text/plain; charset=UTF-8\",\n"
+"    \"Content-Length: $byte_count\"\n"
+"\n"
+msgstr ""
+
+#. type: =head1
+#: perlunitut.pod:175
+msgid "SUMMARY"
+msgstr "总结"
+
+#. type: textblock
+#: perlunitut.pod:177
+msgid "Decode everything you receive, encode everything you send out. (If it's text data.)"
+msgstr "获得输入后解码，发送输出前编码。"
+
+#. type: =head1
+#: perlunitut.pod:180
+msgid "Q and A (or FAQ)"
+msgstr "FAQ"
+
+#. type: textblock
+#: perlunitut.pod:182
+msgid "After reading this document, you ought to read L<perlunifaq> too."
+msgstr "读完本篇文档，你应该再去读 L<perlunifaq>。"
+
+#. type: =head1
+#: perlunitut.pod:184
+msgid "ACKNOWLEDGEMENTS"
+msgstr "鸣谢"
+
+#. type: textblock
+#: perlunitut.pod:186
+msgid "Thanks to Johan Vromans from Squirrel Consultancy. His UTF-8 rants during the Amsterdam Perl Mongers meetings got me interested and determined to find out how to use character encodings in Perl in ways that don't break easily."
+msgstr "Thanks to Johan Vromans from Squirrel Consultancy. His UTF-8 rants during the Amsterdam Perl Mongers meetings got me interested and determined to find out how to use character encodings in Perl in ways that don't break easily."
+
+#. type: textblock
+#: perlunitut.pod:190
+msgid "Thanks to Gerard Goossen from TTY. His presentation \"UTF-8 in the wild\" (Dutch Perl Workshop 2006) inspired me to publish my thoughts and write this tutorial."
+msgstr "Thanks to Gerard Goossen from TTY. His presentation \"UTF-8 in the wild\" (Dutch Perl Workshop 2006) inspired me to publish my thoughts and write this tutorial."
+
+#. type: textblock
+#: perlunitut.pod:193
+msgid "Thanks to the people who asked about this kind of stuff in several Perl IRC channels, and have constantly reminded me that a simpler explanation was needed."
+msgstr "Thanks to the people who asked about this kind of stuff in several Perl IRC channels, and have constantly reminded me that a simpler explanation was needed."
+
+#. type: textblock
+#: perlunitut.pod:197
+msgid "Thanks to the people who reviewed this document for me, before it went public.  They are: Benjamin Smith, Jan-Pieter Cornet, Johan Vromans, Lukas Mai, Nathan Gray."
+msgstr "Thanks to the people who reviewed this document for me, before it went public.  They are: Benjamin Smith, Jan-Pieter Cornet, Johan Vromans, Lukas Mai, Nathan Gray."
+
+#. type: =head1
+#: perlunitut.pod:201
+msgid "AUTHOR"
+msgstr "AUTHOR"
+
+#. type: textblock
+#: perlunitut.pod:203
+msgid "Juerd Waalboer <#####@juerd.nl>"
+msgstr "Juerd Waalboer <#####@juerd.nl>"
+
+#. type: =head1
+#: perlunitut.pod:205
+msgid "SEE ALSO"
+msgstr "另见"
+
+#. type: textblock
+#: perlunitut.pod:207
+msgid "L<perlunifaq>, L<perlunicode>, L<perluniintro>, L<Encode>"
+msgstr "L<perlunifaq>, L<perlunicode>, L<perluniintro>, L<Encode>"
+

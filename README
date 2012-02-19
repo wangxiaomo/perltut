@@ -1,0 +1,66 @@
+
+        xiaomo
+            wxm4ever@gmail.com
+
+=pod
+
+=encoding utf8
+
+=head1 NAME
+
+perltut - Perl Tutorial 翻译
+
+=head1 DESCRIPTION
+
+假期无心技术，也就是在开发 pod view 的时候稍微有点状态，所以最好还是
+利用零散的时间来做些别的。
+
+perltut 是一个比较好的系列，对自己的知识既是一种巩固，也是一种提升，
+顺便也提升一下自己的翻译水平。
+
+恩。抓紧所有可能的机会才可能成功。
+
+=head1 TreeView
+
+    ----root
+        ----README
+        ----Pod
+        ----Mess
+        ----CN
+
+=head1 Translate Log
+
+=over 4
+
+=item 2012/01/22 01:21 Sunday
+
+恩。今晚是腊月28。没错，明晚就是奇葩的除夕腊月29。今晚在翻译完 L<perlrequick> 之后
+打算继续翻译 L<perlretut> 的。但是前半部分内容大概相同，主要区别是在一些细节方面，
+所以打算先暂时放弃翻译 L<perlretut>。
+
+明天就开始翻译 Perl OO 了。有四篇 tut 讲解 OO。恩，看来明天得先考虑好哪些暂时要先放弃
+了。
+
+=item 2012/01/22 10:08 Sunday
+
+大早上就被鞭炮给吵醒了。恩。继续翻译吧。昨天睡觉前大概浏览了下 L<perlboot>、L<perltoot>、
+L<perltooc>、L<perlbot> 这四篇文档。内容不是很冲突。所以就在除夕、大年初一这两天把它们
+翻译完吧。饿。不知道能不能做完。尽量吧。
+
+OK.Let the Hacking Begin.
+
+=item 2012/01/26 21:48 Thursday
+
+这几天出去的频率有点高。所以翻译总卡在 OO 那里。暂时先放掉。继续往后翻译吧。
+
+=back
+
+=head1 SeeAlso
+
+其他信息请查看博客 L<xiaomo|http://wpxiaomo.sinaapp.com>。
+
+=head1 Author
+
+译者：xiaomo(wxm4ever@gmail.com)
+
+=cut

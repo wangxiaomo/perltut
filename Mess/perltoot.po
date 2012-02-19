@@ -1,0 +1,3602 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-01-22 16:07+0800\n"
+"PO-Revision-Date: 2012-01-22 16:07+0800\n"
+"Last-Translator: xiaomo <wxm4ever@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. type: =head1
+#: perltoot.pod:1
+msgid "NAME"
+msgstr "NAME"
+
+#. type: textblock
+#: perltoot.pod:3
+msgid "perltoot - Tom's object-oriented tutorial for perl"
+msgstr "perltoot - Perl OO"
+
+#. type: =head1
+#: perltoot.pod:5
+msgid "DESCRIPTION"
+msgstr "DESCRIPTION"
+
+#. type: textblock
+#: perltoot.pod:7
+msgid "Object-oriented programming is a big seller these days.  Some managers would rather have objects than sliced bread.  Why is that? What's so special about an object? Just what I<is> an object anyway?"
+msgstr "面向对象编程现在越来越火了。那么什么是面向对象呢？什么使的它如此特别？什么又是"
+"面向对象的编程呢？"
+
+#. type: textblock
+#: perltoot.pod:11
+msgid "An object is nothing but a way of tucking away complex behaviours into a neat little easy-to-use bundle.  (This is what professors call abstraction.) Smart people who have nothing to do but sit around for weeks on end figuring out really hard problems make these nifty objects that even regular people can use. (This is what professors call software reuse.)  Users (well, programmers) can play with this little bundle all they want, but they aren't to open it up and mess with the insides.  Just like an expensive piece of hardware, the contract says that you void the warranty if you muck with the cover.  So don't do that."
+msgstr "对象就是把属于某物体的所有的特征行为放在一起形成的一个简单易用的组合。"
+
+#. type: textblock
+#: perltoot.pod:21
+msgid "The heart of objects is the class, a protected little private namespace full of data and functions.  A class is a set of related routines that addresses some problem area.  You can think of it as a user-defined type.  The Perl package mechanism, also used for more traditional modules, is used for class modules as well.  Objects \"live\" in a class, meaning that they belong to some package."
+msgstr "跟对象关系最紧密的就是类，类是一个包含着数据、方法的命名空间。你可以把类当作是"
+"一种数据类型。"
+
+#. type: textblock
+#: perltoot.pod:28
+msgid "More often than not, the class provides the user with little bundles.  These bundles are objects.  They know whose class they belong to, and how to behave.  Users ask the class to do something, like \"give me an object.\" Or they can ask one of these objects to do something.  Asking a class to do something for you is calling a I<class method>.  Asking an object to do something for you is calling an I<object method>.  Asking either a class (usually) or an object (sometimes) to give you back an object is calling a I<constructor>, which is just a kind of method."
+msgstr "一般我们通过类的I<构造方法>来创建一个类的实例。"
+
+#. type: textblock
+#: perltoot.pod:38
+msgid "That's all well and good, but how is an object different from any other Perl data type? Just what is an object I<really>; that is, what's its fundamental type? The answer to the first question is easy.  An object is different from any other data type in Perl in one and only one way: you may dereference it using not merely string or numeric subscripts as with simple arrays and hashes, but with named subroutine calls.  In a word, with I<methods>."
+msgstr "那么类与标准的 Perl 数据类型有哪些不同呢？类的基础类型是什么？第一个问题的答案很"
+"简单。类与标准的 Perl 数据类型有且只有一个地方是不同的:使用类时，你需要经过解引用来获得"
+"相应的数据"
+
+#. type: textblock
+#: perltoot.pod:46
+msgid "The answer to the second question is that it's a reference, and not just any reference, mind you, but one whose referent has been I<bless>()ed into a particular class (read: package).  What kind of reference? Well, the answer to that one is a bit less concrete.  That's because in Perl the designer of the class can employ any sort of reference they'd like as the underlying intrinsic data type.  It could be a scalar, an array, or a hash reference.  It could even be a code reference.  But because of its inherent flexibility, an object is usually a hash reference."
+msgstr "第二个问题的答案是引用。这个引用不是普通的引用，而是经过 I<bless> 操作绑定后的"
+"引用。是一个指向什么的引用呢？引用可以指向标量、数组或哈希，甚至指向代码。一般情况下，"
+"该引用是一个指向哈希的引用。"
+
+#. type: =head1
+#: perltoot.pod:55
+msgid "Creating a Class"
+msgstr "创建类"
+
+#. type: textblock
+#: perltoot.pod:57
+msgid "Before you create a class, you need to decide what to name it.  That's because the class (package) name governs the name of the file used to house it, just as with regular modules.  Then, that class (package)  should provide one or more ways to generate objects.  Finally, it should provide mechanisms to allow users of its objects to indirectly manipulate these objects from a distance."
+msgstr "在创建类之前，你需要想好它的名字。因为类的名字将直接决定存储它的文件的名字，这和"
+"普通的模块命名类似。然后，这个类需要有一个或多个方法来实例化。最后，我们应该能够通过实例"
+"来操作这个类。"
+
+#. type: textblock
+#: perltoot.pod:64
+msgid "For example, let's make a simple Person class module.  It gets stored in the file Person.pm.  If it were called a Happy::Person class, it would be stored in the file Happy/Person.pm, and its package would become Happy::Person instead of just Person.  (On a personal computer not running Unix or Plan 9, but something like Mac OS or VMS, the directory separator may be different, but the principle is the same.)  Do not assume any formal relationship between modules based on their directory names.  This is merely a grouping convenience, and has no effect on inheritance, variable accessibility, or anything else."
+msgstr "比如，我们创建一个 Person 类。它存储在 Person.pm 中。如果它叫做 Happy::Person 的"
+"话，它就应该被存储在 Happy/Person.pm 中。不要猜想它们之间有什么关系，它们只是一种组织"
+"形式，在代码意义上没有什么直接联系。"
+
+#. type: textblock
+#: perltoot.pod:74
+msgid "For this module we aren't going to use Exporter, because we're a well-behaved class module that doesn't export anything at all.  In order to manufacture objects, a class needs to have a I<constructor method>.  A constructor gives you back not just a regular data type, but a brand-new object in that class.  This magic is taken care of by the bless() function, whose sole purpose is to enable its referent to be used as an object.  Remember: being an object really means nothing more than that methods may now be called against it."
+msgstr "我们不会在这个模块中使用 Exporter 模块，因为我们这是一个完整类，不需要借助 "
+"Exporter 来导出方法等。当我们构建一个类时，需要借助 I<构造方法> 来实现。构造函数会把数据"
+"与类绑定并返回相应的引用。这个神奇的过程是靠 bless() 操作来完成的。"
+
+#. type: textblock
+#: perltoot.pod:83
+msgid "While a constructor may be named anything you'd like, most Perl programmers seem to like to call theirs new().  However, new() is not a reserved word, and a class is under no obligation to supply such.  Some programmers have also been known to use a function with the same name as the class as the constructor."
+msgstr "构造函数可以被随意命名，大多数的 Perl 程序员习惯将其命名为 new()。new 并不是一个"
+"保留词。有些程序员也用和类名来做构造函数的名称。"
+
+#. type: =head2
+#: perltoot.pod:89
+msgid "Object Representation"
+msgstr "类特征"
+
+#. type: textblock
+#: perltoot.pod:91
+msgid "By far the most common mechanism used in Perl to represent a Pascal record, a C struct, or a C++ class is an anonymous hash.  That's because a hash has an arbitrary number of data fields, each conveniently accessed by an arbitrary name of your own devising."
+msgstr "在 Perl 中最适合来实现 Pascal record、C struct、C++ class 的就是匿名哈希。"
+
+#. type: textblock
+#: perltoot.pod:96
+msgid "If you were just doing a simple struct-like emulation, you would likely go about it something like this:"
+msgstr "你可以用如下结构来存储一些信息："
+
+#. type: verbatim
+#: perltoot.pod:99
+#, no-wrap
+msgid ""
+"    $rec = {\n"
+"        name  => \"Jason\",\n"
+"        age   => 23,\n"
+"        peers => [ \"Norbert\", \"Rhys\", \"Phineas\"],\n"
+"    };\n"
+"\n"
+msgstr ""
+"    $rec = {\n"
+"        name  => \"Jason\",\n"
+"        age   => 23,\n"
+"        peers => [ \"Norbert\", \"Rhys\", \"Phineas\"],\n"
+"    };\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:105
+msgid "If you felt like it, you could add a bit of visual distinction by up-casing the hash keys:"
+msgstr "你也可以用全部大写的字符串来当作键来构成哈希："
+
+#. type: verbatim
+#: perltoot.pod:108
+#, no-wrap
+msgid ""
+"    $rec = {\n"
+"        NAME  => \"Jason\",\n"
+"        AGE   => 23,\n"
+"        PEERS => [ \"Norbert\", \"Rhys\", \"Phineas\"],\n"
+"    };\n"
+"\n"
+msgstr ""
+"    $rec = {\n"
+"        NAME  => \"Jason\",\n"
+"        AGE   => 23,\n"
+"        PEERS => [ \"Norbert\", \"Rhys\", \"Phineas\"],\n"
+"    };\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:114
+msgid "And so you could get at C<< $rec->{NAME} >> to find \"Jason\", or C<< @{ $rec->{PEERS} } >> to get at \"Norbert\", \"Rhys\", and \"Phineas\".  (Have you ever noticed how many 23-year-old programmers seem to be named \"Jason\" these days? :-)"
+msgstr "在上面代码的基础上，你可以通过 C<< $rec->{NAME} >> 来得到 \"Jason\"，或者通过 "
+"C<< @{ $rec->{PEERS} } >> 来得到 \"Norbert\"、\"Rhys\"、\"Phineas\"。"
+
+#. type: textblock
+#: perltoot.pod:119
+msgid "This same model is often used for classes, although it is not considered the pinnacle of programming propriety for folks from outside the class to come waltzing into an object, brazenly accessing its data members directly.  Generally speaking, an object should be considered an opaque cookie that you use I<object methods> to access.  Visually, methods look like you're dereffing a reference using a function name instead of brackets or braces."
+msgstr "和这类似的结构经常用在类中存储数据。"
+
+#. type: =head2
+#: perltoot.pod:127
+msgid "Class Interface"
+msgstr "类接口"
+
+#. type: textblock
+#: perltoot.pod:129
+msgid "Some languages provide a formal syntactic interface to a class's methods, but Perl does not.  It relies on you to read the documentation of each class.  If you try to call an undefined method on an object, Perl won't complain, but the program will trigger an exception while it's running.  Likewise, if you call a method expecting a prime number as its argument with a non-prime one instead, you can't expect the compiler to catch this.  (Well, you can expect it all you like, but it's not going to happen.)"
+msgstr "有些语言提供了类与接口之间的链接关系，所以在编译时可以检查接口函数是否存在，而 "
+"Perl 不提供这个功能。所以如果你调用了一个未定义的接口函数，Perl 在编译时不会报错，但是"
+"在运行时会得到错误。就好比某个函数你想接受质数作为参数而不做合法性检查，那么当传递进一个"
+"不是质数的数时，编译器是不会检查到错误的。虽然你希望它能检查到，但这是不可能的。所以我们"
+"在使用一个类时需要首先好好阅读它的文档。"
+
+#. type: textblock
+#: perltoot.pod:137
+msgid "Let's suppose you have a well-educated user of your Person class, someone who has read the docs that explain the prescribed interface.  Here's how they might use the Person class:"
+msgstr "我们假设你已经定义好了 Person 类，并且用户已经通过文档详细了解了该类的使用方法。"
+"下面是该用户写的代码："
+
+#. type: verbatim
+#: perltoot.pod:141
+#, no-wrap
+msgid ""
+"    use Person;\n"
+"\n"
+msgstr ""
+"    use Person;\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:143
+#, no-wrap
+msgid ""
+"    $him = Person->new();\n"
+"    $him->name(\"Jason\");\n"
+"    $him->age(23);\n"
+"    $him->peers( \"Norbert\", \"Rhys\", \"Phineas\" );\n"
+"\n"
+msgstr ""
+"    $him = Person->new();\n"
+"    $him->name(\"Jason\");\n"
+"    $him->age(23);\n"
+"    $him->peers( \"Norbert\", \"Rhys\", \"Phineas\" );\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:148
+#, no-wrap
+msgid ""
+"    push @All_Recs, $him;  # save object in array for later\n"
+"\n"
+msgstr ""
+"    push @All_Recs, $him;  # save object in array for later\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:150
+#, no-wrap
+msgid ""
+"    printf \"%s is %d years old.\\n"
+"\", $him->name, $him->age;\n"
+"    print \"His peers are: \", join(\", \", $him->peers), \"\\n"
+"\";\n"
+"\n"
+msgstr ""
+"    printf \"%s is %d years old.\\n"
+"\", $him->name, $him->age;\n"
+"    print \"His peers are: \", join(\", \", $him->peers), \"\\n"
+"\";\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:153
+#, no-wrap
+msgid ""
+"    printf \"Last rec's name is %s\\n"
+"\", $All_Recs[-1]->name;\n"
+"\n"
+msgstr ""
+"    printf \"Last rec's name is %s\\n"
+"\", $All_Recs[-1]->name;\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:155
+msgid "As you can see, the user of the class doesn't know (or at least, has no business paying attention to the fact) that the object has one particular implementation or another.  The interface to the class and its objects is exclusively via methods, and that's all the user of the class should ever play with."
+msgstr ""
+
+#. type: =head2
+#: perltoot.pod:161
+msgid "Constructors and Instance Methods"
+msgstr "构造方法和实例方法"
+
+#. type: textblock
+#: perltoot.pod:163
+msgid "Still, I<someone> has to know what's in the object.  And that someone is the class.  It implements methods that the programmer uses to access the object.  Here's how to implement the Person class using the standard hash-ref-as-an-object idiom.  We'll make a class method called new() to act as the constructor, and three object methods called name(), age(), and peers() to get at per-object data hidden away in our anonymous hash."
+msgstr "现在让我们看看如何通过构造方法 new() 方法将数据与类绑定以及如何创建三个实例方法来"
+"构建相应的存取方法。"
+
+#. type: verbatim
+#: perltoot.pod:170
+#: perltoot.pod:1203
+#, no-wrap
+msgid ""
+"    package Person;\n"
+"    use strict;\n"
+"\n"
+msgstr ""
+"    package Person;\n"
+"    use strict;\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:173
+#, no-wrap
+msgid ""
+"    ##################################################\n"
+"    ## the object constructor (simplistic version)  ##\n"
+"    ##################################################\n"
+"    sub new {\n"
+"        my $self  = {};\n"
+"        $self->{NAME}   = undef;\n"
+"        $self->{AGE}    = undef;\n"
+"        $self->{PEERS}  = [];\n"
+"        bless($self);           # but see below\n"
+"        return $self;\n"
+"    }\n"
+"\n"
+msgstr ""
+"    ##################################################\n"
+"    ## the object constructor (simplistic version)  ##\n"
+"    ##################################################\n"
+"    sub new {\n"
+"        my $self  = {};\n"
+"        $self->{NAME}   = undef;\n"
+"        $self->{AGE}    = undef;\n"
+"        $self->{PEERS}  = [];\n"
+"        bless($self);           # but see below\n"
+"        return $self;\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:185
+#, no-wrap
+msgid ""
+"    ##############################################\n"
+"    ## methods to access per-object data        ##\n"
+"    ##                                          ##\n"
+"    ## With args, they set the value.  Without  ##\n"
+"    ## any, they only retrieve it/them.         ##\n"
+"    ##############################################\n"
+"\n"
+msgstr ""
+"    ##############################################\n"
+"    ## methods to access per-object data        ##\n"
+"    ##                                          ##\n"
+"    ## With args, they set the value.  Without  ##\n"
+"    ## any, they only retrieve it/them.         ##\n"
+"    ##############################################\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:192
+#, no-wrap
+msgid ""
+"    sub name {\n"
+"        my $self = shift;\n"
+"        if (@_) { $self->{NAME} = shift }\n"
+"        return $self->{NAME};\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub name {\n"
+"        my $self = shift;\n"
+"        if (@_) { $self->{NAME} = shift }\n"
+"        return $self->{NAME};\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:198
+#, no-wrap
+msgid ""
+"    sub age {\n"
+"        my $self = shift;\n"
+"        if (@_) { $self->{AGE} = shift }\n"
+"        return $self->{AGE};\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub age {\n"
+"        my $self = shift;\n"
+"        if (@_) { $self->{AGE} = shift }\n"
+"        return $self->{AGE};\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:204
+#, no-wrap
+msgid ""
+"    sub peers {\n"
+"        my $self = shift;\n"
+"        if (@_) { @{ $self->{PEERS} } = @_ }\n"
+"        return @{ $self->{PEERS} };\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub peers {\n"
+"        my $self = shift;\n"
+"        if (@_) { @{ $self->{PEERS} } = @_ }\n"
+"        return @{ $self->{PEERS} };\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:210
+#: perltoot.pod:1238
+#, no-wrap
+msgid ""
+"    1;  # so the require or use succeeds\n"
+"\n"
+msgstr ""
+"    1;  # so the require or use succeeds\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:212
+msgid "We've created three methods to access an object's data, name(), age(), and peers().  These are all substantially similar.  If called with an argument, they set the appropriate field; otherwise they return the value held by that field, meaning the value of that hash key."
+msgstr "通过上面的代码，我们创建了三个访问方法，name()、age() 和 peers()。它们基本类似，"
+"当接收到参数时，会把参数存储到实例变量中并返回实例变量中的结果。如果没有接收到参数的话，"
+"会直接返回实例变量中的结果。"
+
+#. type: =head2
+#: perltoot.pod:217
+msgid "Planning for the Future: Better Constructors"
+msgstr "改进构造方法"
+
+#. type: textblock
+#: perltoot.pod:219
+msgid "Even though at this point you may not even know what it means, someday you're going to worry about inheritance.  (You can safely ignore this for now and worry about it later if you'd like.)  To ensure that this all works out smoothly, you must use the double-argument form of bless().  The second argument is the class into which the referent will be blessed.  By not assuming our own class as the default second argument and instead using the class passed into us, we make our constructor inheritable."
+msgstr "也许你现在还不知道我们需要改进什么地方。但是为了保证之后继承工作的正确执行，我们"
+"需要保证 bless 操作正确的完成，也就是保证传递给 bless 的第二个参数要正确。所以我们改成"
+"如下形式："
+
+#. type: verbatim
+#: perltoot.pod:227
+#, no-wrap
+msgid ""
+"    sub new {\n"
+"        my $class = shift;\n"
+"        my $self  = {};\n"
+"        $self->{NAME}   = undef;\n"
+"        $self->{AGE}    = undef;\n"
+"        $self->{PEERS}  = [];\n"
+"        bless ($self, $class);\n"
+"        return $self;\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub new {\n"
+"        my $class = shift;\n"
+"        my $self  = {};\n"
+"        $self->{NAME}   = undef;\n"
+"        $self->{AGE}    = undef;\n"
+"        $self->{PEERS}  = [];\n"
+"        bless ($self, $class);\n"
+"        return $self;\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:237
+msgid "That's about all there is for constructors.  These methods bring objects to life, returning neat little opaque bundles to the user to be used in subsequent method calls."
+msgstr "这就是我们所需要的构造函数，返回与类绑定的实例引用。"
+
+#. type: =head2
+#: perltoot.pod:241
+msgid "Destructors"
+msgstr "析构函数"
+
+#. type: textblock
+#: perltoot.pod:243
+msgid "Every story has a beginning and an end.  The beginning of the object's story is its constructor, explicitly called when the object comes into existence.  But the ending of its story is the I<destructor>, a method implicitly called when an object leaves this life.  Any per-object clean-up code is placed in the destructor, which must (in Perl) be called DESTROY."
+msgstr "每个故事都有开始和结束。类一般都由构造函数开始，从而完成实例化。那么在类的最后，"
+"我们需要对实例进行析构，析构的方法叫做析构函数。Perl OO 中的析构函数为 DESTROY。"
+
+#. type: textblock
+#: perltoot.pod:250
+msgid "If constructors can have arbitrary names, then why not destructors? Because while a constructor is explicitly called, a destructor is not.  Destruction happens automatically via Perl's garbage collection (GC)  system, which is a quick but somewhat lazy reference-based GC system.  To know what to call, Perl insists that the destructor be named DESTROY.  Perl's notion of the right time to call a destructor is not well-defined currently, which is why your destructors should not rely on when they are called."
+msgstr "为什么构造函数可以用户自己命名，而析构函数不可以呢？这是因为构造函数是用户自己调"
+"用的，而析构函数是由 Perl 在释放变量时自动调用的。关于 Perl 何时调用 DESTROY 方法，"
+"Perl 还没有明确的说明，所以在析构方法不应该依赖于它们何时被执行。"
+
+#. type: textblock
+#: perltoot.pod:259
+msgid "Why is DESTROY in all caps? Perl on occasion uses purely uppercase function names as a convention to indicate that the function will be automatically called by Perl in some way.  Others that are called implicitly include BEGIN, END, AUTOLOAD, plus all methods used by tied objects, described in L<perltie>."
+msgstr "为什么 DESTROY 全部都是大写字母？Perl 习惯上把全部是大写字母的方法作为 Perl 自动"
+"调用执行的方法，如 BEGIN、END、AUTOLOAD、还有通过 L<perltie> 绑定的方法。"
+
+#. type: textblock
+#: perltoot.pod:265
+msgid "In really good object-oriented programming languages, the user doesn't care when the destructor is called.  It just happens when it's supposed to.  In low-level languages without any GC at all, there's no way to depend on this happening at the right time, so the programmer must explicitly call the destructor to clean up memory and state, crossing their fingers that it's the right time to do so.  Unlike C++, an object destructor is nearly never needed in Perl, and even when it is, explicit invocation is uncalled for.  In the case of our Person class, we don't need a destructor because Perl takes care of simple matters like memory deallocation."
+msgstr "在好的面向对象语言中，用户根本不需要关心它们的析构函数是否被调用。它的调用应该与"
+" GC 系统挂钩。不像 C++，析构函数在 Perl OO 中基本不需要定义。在我们的例子 Person 类中，"
+"我们不定义析构函数。"
+
+#. type: textblock
+#: perltoot.pod:276
+msgid "The only situation where Perl's reference-based GC won't work is when there's a circularity in the data structure, such as:"
+msgstr "唯一需要定义析构函数的情景是我们要释放一个循环引用的结构，如"
+
+#. type: verbatim
+#: perltoot.pod:279
+#, no-wrap
+msgid ""
+"    $this->{WHATEVER} = $this;\n"
+"\n"
+msgstr ""
+"    $this->{WHATEVER} = $this;\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:281
+msgid "In that case, you must delete the self-reference manually if you expect your program not to leak memory.  While admittedly error-prone, this is the best we can do right now.  Nonetheless, rest assured that when your program is finished, its objects' destructors are all duly called.  So you are guaranteed that an object I<eventually> gets properly destroyed, except in the unique case of a program that never exits.  (If you're running Perl embedded in another application, this full GC pass happens a bit more frequently--whenever a thread shuts down.)"
+msgstr "在上面的代码中，我们必须要手动删除指向自己的引用。"
+
+#. type: =head2
+#: perltoot.pod:290
+msgid "Other Object Methods"
+msgstr "其他类方法"
+
+#. type: textblock
+#: perltoot.pod:292
+msgid "The methods we've talked about so far have either been constructors or else simple \"data methods\", interfaces to data stored in the object.  These are a bit like an object's data members in the C++ world, except that strangers don't access them as data.  Instead, they should only access the object's data indirectly via its methods.  This is an important rule: in Perl, access to an object's data should I<only> be made through methods."
+msgstr "我们在之前谈论过的类方法有构造函数，以及一些简单的对数据进行操作的方法。这和 C++ "
+"的语法有点相似，不过 Perl 无法直接通过实例来存取其数据。注意：在 Perl OO 中，对数据的存"
+"取I<只能>通过方法来完成。"
+
+#. type: textblock
+#: perltoot.pod:300
+msgid "Perl doesn't impose restrictions on who gets to use which methods.  The public-versus-private distinction is by convention, not syntax.  (Well, unless you use the Alias module described below in L<Data Members as Variables>.)  Occasionally you'll see method names beginning or ending with an underscore or two.  This marking is a convention indicating that the methods are private to that class alone and sometimes to its closest acquaintances, its immediate subclasses.  But this distinction is not enforced by Perl itself.  It's up to the programmer to behave."
+msgstr "Perl 不提供方法的访问权限。方法的访问权限由约定指明，而不是通过语法。一般以一个到"
+"两个下划线开头或结尾的方法名即为私有方法。"
+
+#. type: textblock
+#: perltoot.pod:309
+msgid "There's no reason to limit methods to those that simply access data.  Methods can do anything at all.  The key point is that they're invoked against an object or a class.  Let's say we'd like object methods that do more than fetch or set one particular field."
+msgstr "没有理由限制访问方法的权限，需要关注的重点应该是类调用还是实例调用。"
+
+#. type: verbatim
+#: perltoot.pod:314
+#, no-wrap
+msgid ""
+"    sub exclaim {\n"
+"        my $self = shift;\n"
+"        return sprintf \"Hi, I'm %s, age %d, working with %s\",\n"
+"            $self->{NAME}, $self->{AGE}, join(\", \", @{$self->{PEERS}});\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub exclaim {\n"
+"        my $self = shift;\n"
+"        return sprintf \"Hi, I'm %s, age %d, working with %s\",\n"
+"            $self->{NAME}, $self->{AGE}, join(\", \", @{$self->{PEERS}});\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:320
+msgid "Or maybe even one like this:"
+msgstr "或者："
+
+#. type: verbatim
+#: perltoot.pod:322
+#, no-wrap
+msgid ""
+"    sub happy_birthday {\n"
+"        my $self = shift;\n"
+"        return ++$self->{AGE};\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub happy_birthday {\n"
+"        my $self = shift;\n"
+"        return ++$self->{AGE};\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:327
+msgid "Some might argue that one should go at these this way:"
+msgstr "有时候我们可能会这样写："
+
+#. type: verbatim
+#: perltoot.pod:329
+#, no-wrap
+msgid ""
+"    sub exclaim {\n"
+"        my $self = shift;\n"
+"        return sprintf \"Hi, I'm %s, age %d, working with %s\",\n"
+"            $self->name, $self->age, join(\", \", $self->peers);\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub exclaim {\n"
+"        my $self = shift;\n"
+"        return sprintf \"Hi, I'm %s, age %d, working with %s\",\n"
+"            $self->name, $self->age, join(\", \", $self->peers);\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:335
+#, no-wrap
+msgid ""
+"    sub happy_birthday {\n"
+"        my $self = shift;\n"
+"        return $self->age( $self->age() + 1 );\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub happy_birthday {\n"
+"        my $self = shift;\n"
+"        return $self->age( $self->age() + 1 );\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:340
+msgid "But since these methods are all executing in the class itself, this may not be critical.  There are tradeoffs to be made.  Using direct hash access is faster (about an order of magnitude faster, in fact), and it's more convenient when you want to interpolate in strings.  But using methods (the external interface) internally shields not just the users of your class but even you yourself from changes in your data representation."
+msgstr "这两种方法其实没什么太大差别。但是直接通过哈希访问数据的话会节省些时间。"
+
+#. type: =head1
+#: perltoot.pod:347
+msgid "Class Data"
+msgstr "类数据"
+
+#. type: textblock
+#: perltoot.pod:349
+msgid "What about \"class data\", data items common to each object in a class? What would you want that for? Well, in your Person class, you might like to keep track of the total people alive.  How do you implement that?"
+msgstr "什么是类数据？我们用它来做什么？我们可以通过它来使得 Person 类更加生动。那么该怎"
+"么做呢？"
+
+#. type: textblock
+#: perltoot.pod:353
+msgid "You I<could> make it a global variable called $Person::Census.  But about only reason you'd do that would be if you I<wanted> people to be able to get at your class data directly.  They could just say $Person::Census and play around with it.  Maybe this is ok in your design scheme.  You might even conceivably want to make it an exported variable.  To be exportable, a variable must be a (package) global.  If this were a traditional module rather than an object-oriented one, you might do that."
+msgstr "我们I<可以>定义一个全局变量 $Person::Census。我们创建它的一个原因就是想直接获得"
+"相应的类数据。我们也可以将该变量导出模块。要想使该变量能被导出，它必须是全局的。"
+
+#. type: textblock
+#: perltoot.pod:361
+msgid "While this approach is expected in most traditional modules, it's generally considered rather poor form in most object modules.  In an object module, you should set up a protective veil to separate interface from implementation.  So provide a class method to access class data just as you provide object methods to access object data."
+msgstr "我们可以利用类中的方法来存取类数据。"
+
+#. type: textblock
+#: perltoot.pod:367
+msgid "So, you I<could> still keep $Census as a package global and rely upon others to honor the contract of the module and therefore not play around with its implementation.  You could even be supertricky and make $Census a tied object as described in L<perltie>, thereby intercepting all accesses."
+msgstr "我们I<应该>使 $Census 为包全局变量。"
+
+#. type: textblock
+#: perltoot.pod:372
+msgid "But more often than not, you just want to make your class data a file-scoped lexical.  To do so, simply put this at the top of the file:"
+msgstr "很多时候我们只是想把类数据的作用域变为文件作用域，此时，我们只需要简单的将下面的"
+"代码放在文件的开始："
+
+#. type: verbatim
+#: perltoot.pod:375
+#, no-wrap
+msgid ""
+"    my $Census = 0;\n"
+"\n"
+msgstr ""
+"    my $Census = 0;\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:377
+msgid "Even though the scope of a my() normally expires when the block in which it was declared is done (in this case the whole file being required or used), Perl's deep binding of lexical variables guarantees that the variable will not be deallocated, remaining accessible to functions declared within that scope.  This doesn't work with global variables given temporary values via local(), though."
+msgstr "虽然通过 my() 声明的变量在块结束后就会失去作用，但是 Perl 的引用机制会保证该变量"
+"不会被释放掉。"
+
+#. type: textblock
+#: perltoot.pod:384
+msgid "Irrespective of whether you leave $Census a package global or make it instead a file-scoped lexical, you should make these changes to your Person::new() constructor:"
+msgstr "不管你是把它作为包全局变量来处理还是仅仅给予了文件作用域，我们都应该修改 "
+"Person::new() 构造函数："
+
+#. type: verbatim
+#: perltoot.pod:388
+#, no-wrap
+msgid ""
+"    sub new {\n"
+"        my $class = shift;\n"
+"        my $self  = {};\n"
+"        $Census++;\n"
+"        $self->{NAME}   = undef;\n"
+"        $self->{AGE}    = undef;\n"
+"        $self->{PEERS}  = [];\n"
+"        bless ($self, $class);\n"
+"        return $self;\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub new {\n"
+"        my $class = shift;\n"
+"        my $self  = {};\n"
+"        $Census++;\n"
+"        $self->{NAME}   = undef;\n"
+"        $self->{AGE}    = undef;\n"
+"        $self->{PEERS}  = [];\n"
+"        bless ($self, $class);\n"
+"        return $self;\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:399
+#, no-wrap
+msgid ""
+"    sub population {\n"
+"        return $Census;\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub population {\n"
+"        return $Census;\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:403
+msgid "Now that we've done this, we certainly do need a destructor so that when Person is destroyed, the $Census goes down.  Here's how this could be done:"
+msgstr "现在，我们完成了。但是我们也需要一个析构函数，当该实例被释放时完成一定的操作："
+
+#. type: verbatim
+#: perltoot.pod:407
+#, no-wrap
+msgid ""
+"    sub DESTROY { --$Census }\n"
+"\n"
+msgstr ""
+"    sub DESTROY { --$Census }\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:409
+msgid "Notice how there's no memory to deallocate in the destructor? That's something that Perl takes care of for you all by itself."
+msgstr ""
+
+#. type: textblock
+#: perltoot.pod:412
+msgid "Alternatively, you could use the Class::Data::Inheritable module from CPAN."
+msgstr ""
+
+#. type: =head2
+#: perltoot.pod:416
+msgid "Accessing Class Data"
+msgstr "使用类数据"
+
+#. type: textblock
+#: perltoot.pod:418
+msgid "It turns out that this is not really a good way to go about handling class data.  A good scalable rule is that I<you must never reference class data directly from an object method>.  Otherwise you aren't building a scalable, inheritable class.  The object must be the rendezvous point for all operations, especially from an object method.  The globals (class data) would in some sense be in the \"wrong\" package in your derived classes.  In Perl, methods execute in the context of the class they were defined in, I<not> that of the object that triggered them.  Therefore, namespace visibility of package globals in methods is unrelated to inheritance."
+msgstr "上面的代码并没有很好的使用类数据。一个重要的规则是I<你不应该在实例方法中使用类数据>。"
+"不然的话，你就无法创建一个可拓展的可继承的类。"
+
+#. type: textblock
+#: perltoot.pod:429
+msgid "Got that? Maybe not.  Ok, let's say that some other class \"borrowed\" (well, inherited) the DESTROY method as it was defined above.  When those objects are destroyed, the original $Census variable will be altered, not the one in the new class's package namespace.  Perhaps this is what you want, but probably it isn't."
+msgstr ""
+
+#. type: textblock
+#: perltoot.pod:435
+msgid "Here's how to fix this.  We'll store a reference to the data in the value accessed by the hash key \"_CENSUS\".  Why the underscore? Well, mostly because an initial underscore already conveys strong feelings of magicalness to a C programmer.  It's really just a mnemonic device to remind ourselves that this field is special and not to be used as a public data member in the same way that NAME, AGE, and PEERS are.  (Because we've been developing this code under the strict pragma, prior to perl version 5.004 we'll have to quote the field name.)"
+msgstr "现在我们开始改进它。我们将存储一个指向类数据的引用。"
+
+#. type: verbatim
+#: perltoot.pod:444
+#, no-wrap
+msgid ""
+"    sub new {\n"
+"        my $class = shift;\n"
+"        my $self  = {};\n"
+"        $self->{NAME}     = undef;\n"
+"        $self->{AGE}      = undef;\n"
+"        $self->{PEERS}    = [];\n"
+"        # \"private\" data\n"
+"        $self->{\"_CENSUS\"} = \\$Census;\n"
+"        bless ($self, $class);\n"
+"        ++ ${ $self->{\"_CENSUS\"} };\n"
+"        return $self;\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub new {\n"
+"        my $class = shift;\n"
+"        my $self  = {};\n"
+"        $self->{NAME}     = undef;\n"
+"        $self->{AGE}      = undef;\n"
+"        $self->{PEERS}    = [];\n"
+"        # \"private\" data\n"
+"        $self->{\"_CENSUS\"} = \\$Census;\n"
+"        bless ($self, $class);\n"
+"        ++ ${ $self->{\"_CENSUS\"} };\n"
+"        return $self;\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:457
+#, no-wrap
+msgid ""
+"    sub population {\n"
+"        my $self = shift;\n"
+"        if (ref $self) {\n"
+"            return ${ $self->{\"_CENSUS\"} };\n"
+"        } else {\n"
+"            return $Census;\n"
+"        }\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub population {\n"
+"        my $self = shift;\n"
+"        if (ref $self) {\n"
+"            return ${ $self->{\"_CENSUS\"} };\n"
+"        } else {\n"
+"            return $Census;\n"
+"        }\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:466
+#, no-wrap
+msgid ""
+"    sub DESTROY {\n"
+"        my $self = shift;\n"
+"        -- ${ $self->{\"_CENSUS\"} };\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub DESTROY {\n"
+"        my $self = shift;\n"
+"        -- ${ $self->{\"_CENSUS\"} };\n"
+"    }\n"
+"\n"
+
+#. type: =head2
+#: perltoot.pod:471
+msgid "Debugging Methods"
+msgstr "调试方法"
+
+#. type: textblock
+#: perltoot.pod:473
+msgid "It's common for a class to have a debugging mechanism.  For example, you might want to see when objects are created or destroyed.  To do that, add a debugging variable as a file-scoped lexical.  For this, we'll pull in the standard Carp module to emit our warnings and fatal messages.  That way messages will come out with the caller's filename and line number instead of our own; if we wanted them to be from our own perspective, we'd just use die() and warn() directly instead of croak()  and carp() respectively."
+msgstr "为类创建调试方法是很正常的。比如，我们想要看到类是如何被建立或删除的。首先，我们"
+"需要有个 debug 变量用来控制调试状态。而且，我们用 Carp 模块中的方法来提供调试信息。Carp "
+"模块中的方法能够为我们提供错误发生的具体信息。"
+
+#. type: verbatim
+#: perltoot.pod:482
+#: perltoot.pod:884
+#, no-wrap
+msgid ""
+"    use Carp;\n"
+"    my $Debugging = 0;\n"
+"\n"
+msgstr ""
+"    use Carp;\n"
+"    my $Debugging = 0;\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:485
+msgid "Now add a new class method to access the variable."
+msgstr "现在为我们的类添加存取调试变量的方法："
+
+#. type: verbatim
+#: perltoot.pod:487
+#, no-wrap
+msgid ""
+"    sub debug {\n"
+"        my $class = shift;\n"
+"        if (ref $class)  { confess \"Class method called as object method\" }\n"
+"        unless (@_ == 1) { confess \"usage: CLASSNAME->debug(level)\" }\n"
+"        $Debugging = shift;\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub debug {\n"
+"        my $class = shift;\n"
+"        if (ref $class)  { confess \"Class method called as object method\" }\n"
+"        unless (@_ == 1) { confess \"usage: CLASSNAME->debug(level)\" }\n"
+"        $Debugging = shift;\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:494
+msgid "Now fix up DESTROY to murmur a bit as the moribund object expires:"
+msgstr "现在修改 DESTROY 方法："
+
+#. type: verbatim
+#: perltoot.pod:496
+#, no-wrap
+msgid ""
+"    sub DESTROY {\n"
+"        my $self = shift;\n"
+"        if ($Debugging) { carp \"Destroying $self \" . $self->name }\n"
+"        -- ${ $self->{\"_CENSUS\"} };\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub DESTROY {\n"
+"        my $self = shift;\n"
+"        if ($Debugging) { carp \"Destroying $self \" . $self->name }\n"
+"        -- ${ $self->{\"_CENSUS\"} };\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:502
+msgid "One could conceivably make a per-object debug state.  That way you could call both of these:"
+msgstr "我们可以通过下面两种方式来启动调试："
+
+#. type: verbatim
+#: perltoot.pod:505
+#, no-wrap
+msgid ""
+"    Person->debug(1);   # entire class\n"
+"    $him->debug(1);     # just this object\n"
+"\n"
+msgstr ""
+"    Person->debug(1);   # entire class\n"
+"    $him->debug(1);     # just this object\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:508
+msgid "To do so, we need our debugging method to be a \"bimodal\" one, one that works on both classes I<and> objects.  Therefore, adjust the debug()  and DESTROY methods as follows:"
+msgstr "现在我们修改 debug() 方法使其既可以在类调用中正常工作也可以在实例调用中正常工作："
+
+#. type: verbatim
+#: perltoot.pod:512
+#, no-wrap
+msgid ""
+"    sub debug {\n"
+"        my $self = shift;\n"
+"        confess \"usage: thing->debug(level)\"    unless @_ == 1;\n"
+"        my $level = shift;\n"
+"        if (ref($self))  {\n"
+"            $self->{\"_DEBUG\"} = $level;\t\t# just myself\n"
+"        } else {\n"
+"            $Debugging        = $level;         # whole class\n"
+"        }\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub debug {\n"
+"        my $self = shift;\n"
+"        confess \"usage: thing->debug(level)\"    unless @_ == 1;\n"
+"        my $level = shift;\n"
+"        if (ref($self))  {\n"
+"            $self->{\"_DEBUG\"} = $level;\t\t# just myself\n"
+"        } else {\n"
+"            $Debugging        = $level;         # whole class\n"
+"        }\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:523
+#, no-wrap
+msgid ""
+"    sub DESTROY {\n"
+"        my $self = shift;\n"
+"        if ($Debugging || $self->{\"_DEBUG\"}) {\n"
+"            carp \"Destroying $self \" . $self->name;\n"
+"        }\n"
+"        -- ${ $self->{\"_CENSUS\"} };\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub DESTROY {\n"
+"        my $self = shift;\n"
+"        if ($Debugging || $self->{\"_DEBUG\"}) {\n"
+"            carp \"Destroying $self \" . $self->name;\n"
+"        }\n"
+"        -- ${ $self->{\"_CENSUS\"} };\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:531
+msgid "What happens if a derived class (which we'll call Employee) inherits methods from this Person base class? Then C<< Employee->debug() >>, when called as a class method, manipulates $Person::Debugging not $Employee::Debugging."
+msgstr "现在当 Employee 类继承 Person 类时，调用 C<< Employee->debug() >> 方法将会正确执行。"
+
+#. type: =head2
+#: perltoot.pod:535
+msgid "Class Destructors"
+msgstr "类析构"
+
+#. type: textblock
+#: perltoot.pod:537
+msgid "The object destructor handles the death of each distinct object.  But sometimes you want a bit of cleanup when the entire class is shut down, which currently only happens when the program exits.  To make such a I<class destructor>, create a function in that class's package named END.  This works just like the END function in traditional modules, meaning that it gets called whenever your program exits unless it execs or dies of an uncaught signal.  For example,"
+msgstr "类析构指的是该类型释放时调用的方法，这个过程一般发生在程序退出的时候。要想定义该"
+"函数，只需要定义 END 方法，这个方法就会在程序执行的最后被调用。"
+
+#. type: verbatim
+#: perltoot.pod:545
+#, no-wrap
+msgid ""
+"    sub END {\n"
+"        if ($Debugging) {\n"
+"            print \"All persons are going away now.\\n"
+"\";\n"
+"        }\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub END {\n"
+"        if ($Debugging) {\n"
+"            print \"All persons are going away now.\\n"
+"\";\n"
+"        }\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:551
+msgid "When the program exits, all the class destructors (END functions) are be called in the opposite order that they were loaded in (LIFO order)."
+msgstr "当程序结束时，所有类的 END 方法将会按照先进后出的顺序执行。"
+
+#. type: =head2
+#: perltoot.pod:554
+msgid "Documenting the Interface"
+msgstr "文档化接口"
+
+#. type: textblock
+#: perltoot.pod:556
+msgid "And there you have it: we've just shown you the I<implementation> of this Person class.  Its I<interface> would be its documentation.  Usually this means putting it in pod (\"plain old documentation\") format right there in the same file.  In our Person example, we would place the following docs anywhere in the Person.pm file.  Even though it looks mostly like code, it's not.  It's embedded documentation such as would be used by the pod2man, pod2html, or pod2text programs.  The Perl compiler ignores pods entirely, just as the translators ignore code.  Here's an example of some pods describing the informal interface:"
+msgstr "现在我们将会为 Person 类的各接口书写文档。最通常的就是把文档按 pod 格式组织放在"
+"同一个文件中。所以，我们可以把 Person 类文档连同 Person 类代码放在 Person.pm 文件中。"
+"尽管它看起来像是代码，但是它不是，它只是一种内嵌的文档，我们可以通过 pod2man、pod2html、"
+"pod2text 等程序将其提取成特定的格式。Perl 解释器在运行程序时也会忽略掉 pod 文档。下面"
+"是一个简单的例子："
+
+#. type: verbatim
+#: perltoot.pod:566
+#, no-wrap
+msgid ""
+"    =head1 NAME\n"
+"\n"
+msgstr ""
+"    =head1 NAME\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:568
+#, no-wrap
+msgid ""
+"    Person - class to implement people\n"
+"\n"
+msgstr ""
+"    Person - class to implement people\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:570
+#, no-wrap
+msgid ""
+"    =head1 SYNOPSIS\n"
+"\n"
+msgstr ""
+"    =head1 SYNOPSIS\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:572
+#, no-wrap
+msgid ""
+"     use Person;\n"
+"\n"
+msgstr ""
+"     use Person;\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:574
+#, no-wrap
+msgid ""
+"     #################\n"
+"     # class methods #\n"
+"     #################\n"
+"     $ob    = Person->new;\n"
+"     $count = Person->population;\n"
+"\n"
+msgstr ""
+"     #################\n"
+"     # class methods #\n"
+"     #################\n"
+"     $ob    = Person->new;\n"
+"     $count = Person->population;\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:580
+#, no-wrap
+msgid ""
+"     #######################\n"
+"     # object data methods #\n"
+"     #######################\n"
+"\n"
+msgstr ""
+"     #######################\n"
+"     # object data methods #\n"
+"     #######################\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:584
+#, no-wrap
+msgid ""
+"     ### get versions ###\n"
+"         $who   = $ob->name;\n"
+"         $years = $ob->age;\n"
+"         @pals  = $ob->peers;\n"
+"\n"
+msgstr ""
+"     ### get versions ###\n"
+"         $who   = $ob->name;\n"
+"         $years = $ob->age;\n"
+"         @pals  = $ob->peers;\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:589
+#, no-wrap
+msgid ""
+"     ### set versions ###\n"
+"         $ob->name(\"Jason\");\n"
+"         $ob->age(23);\n"
+"         $ob->peers( \"Norbert\", \"Rhys\", \"Phineas\" );\n"
+"\n"
+msgstr ""
+"     ### set versions ###\n"
+"         $ob->name(\"Jason\");\n"
+"         $ob->age(23);\n"
+"         $ob->peers( \"Norbert\", \"Rhys\", \"Phineas\" );\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:594
+#, no-wrap
+msgid ""
+"     ########################\n"
+"     # other object methods #\n"
+"     ########################\n"
+"\n"
+msgstr ""
+"     ########################\n"
+"     # other object methods #\n"
+"     ########################\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:598
+#, no-wrap
+msgid ""
+"     $phrase = $ob->exclaim;\n"
+"     $ob->happy_birthday;\n"
+"\n"
+msgstr ""
+"     $phrase = $ob->exclaim;\n"
+"     $ob->happy_birthday;\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:601
+#, no-wrap
+msgid ""
+"    =head1 DESCRIPTION\n"
+"\n"
+msgstr ""
+"    =head1 DESCRIPTION\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:603
+#, no-wrap
+msgid ""
+"    The Person class implements dah dee dah dee dah....\n"
+"\n"
+msgstr ""
+"    The Person class implements dah dee dah dee dah....\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:605
+msgid "That's all there is to the matter of interface versus implementation.  A programmer who opens up the module and plays around with all the private little shiny bits that were safely locked up behind the interface contract has voided the warranty, and you shouldn't worry about their fate."
+msgstr "通过 pod 文档，人们可以很方便的学会如何去理解使用你的代码。"
+
+#. type: =head1
+#: perltoot.pod:610
+msgid "Aggregation"
+msgstr "组合类"
+
+#. type: textblock
+#: perltoot.pod:612
+msgid "Suppose you later want to change the class to implement better names.  Perhaps you'd like to support both given names (called Christian names, irrespective of one's religion) and family names (called surnames), plus nicknames and titles.  If users of your Person class have been properly accessing it through its documented interface, then you can easily change the underlying implementation.  If they haven't, then they lose and it's their fault for breaking the contract and voiding their warranty."
+msgstr ""
+
+#. type: textblock
+#: perltoot.pod:620
+msgid "To do this, we'll make another class, this one called Fullname.  What's the Fullname class look like? To answer that question, you have to first figure out how you want to use it.  How about we use it this way:"
+msgstr "我们又创建了一个 Fullname 类。在解释 Fullname 类的结构前，我们先看看我们将如何使"
+"用它："
+
+#. type: verbatim
+#: perltoot.pod:624
+#, no-wrap
+msgid ""
+"    $him = Person->new();\n"
+"    $him->fullname->title(\"St\");\n"
+"    $him->fullname->christian(\"Thomas\");\n"
+"    $him->fullname->surname(\"Aquinas\");\n"
+"    $him->fullname->nickname(\"Tommy\");\n"
+"    printf \"His normal name is %s\\n"
+"\", $him->name;\n"
+"    printf \"But his real name is %s\\n"
+"\", $him->fullname->as_string;\n"
+"\n"
+msgstr ""
+"    $him = Person->new();\n"
+"    $him->fullname->title(\"St\");\n"
+"    $him->fullname->christian(\"Thomas\");\n"
+"    $him->fullname->surname(\"Aquinas\");\n"
+"    $him->fullname->nickname(\"Tommy\");\n"
+"    printf \"His normal name is %s\\n"
+"\", $him->name;\n"
+"    printf \"But his real name is %s\\n"
+"\", $him->fullname->as_string;\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:632
+msgid "Ok.  To do this, we'll change Person::new() so that it supports a full name field this way:"
+msgstr "现在我们改进 Person::new() 方法："
+
+#. type: verbatim
+#: perltoot.pod:635
+#, no-wrap
+msgid ""
+"    sub new {\n"
+"        my $class = shift;\n"
+"        my $self  = {};\n"
+"        $self->{FULLNAME} = Fullname->new();\n"
+"        $self->{AGE}      = undef;\n"
+"        $self->{PEERS}    = [];\n"
+"        $self->{\"_CENSUS\"} = \\$Census;\n"
+"        bless ($self, $class);\n"
+"        ++ ${ $self->{\"_CENSUS\"} };\n"
+"        return $self;\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub new {\n"
+"        my $class = shift;\n"
+"        my $self  = {};\n"
+"        $self->{FULLNAME} = Fullname->new();\n"
+"        $self->{AGE}      = undef;\n"
+"        $self->{PEERS}    = [];\n"
+"        $self->{\"_CENSUS\"} = \\$Census;\n"
+"        bless ($self, $class);\n"
+"        ++ ${ $self->{\"_CENSUS\"} };\n"
+"        return $self;\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:647
+#, no-wrap
+msgid ""
+"    sub fullname {\n"
+"        my $self = shift;\n"
+"        return $self->{FULLNAME};\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub fullname {\n"
+"        my $self = shift;\n"
+"        return $self->{FULLNAME};\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:652
+msgid "Then to support old code, define Person::name() this way:"
+msgstr "与此同时，我们重新定义 Person::name() 方法："
+
+#. type: verbatim
+#: perltoot.pod:654
+#, no-wrap
+msgid ""
+"    sub name {\n"
+"        my $self = shift;\n"
+"        return $self->{FULLNAME}->nickname(@_)\n"
+"          ||   $self->{FULLNAME}->christian(@_);\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub name {\n"
+"        my $self = shift;\n"
+"        return $self->{FULLNAME}->nickname(@_)\n"
+"          ||   $self->{FULLNAME}->christian(@_);\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:660
+msgid "Here's the Fullname class.  We'll use the same technique of using a hash reference to hold data fields, and methods by the appropriate name to access them:"
+msgstr "现在，我们开始定义 Fullname 类："
+
+#. type: verbatim
+#: perltoot.pod:664
+#, no-wrap
+msgid ""
+"    package Fullname;\n"
+"    use strict;\n"
+"\n"
+msgstr ""
+"    package Fullname;\n"
+"    use strict;\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:667
+#, no-wrap
+msgid ""
+"    sub new {\n"
+"        my $class = shift;\n"
+"        my $self  = {\n"
+"            TITLE       => undef,\n"
+"            CHRISTIAN   => undef,\n"
+"            SURNAME     => undef,\n"
+"            NICK        => undef,\n"
+"        };\n"
+"        bless ($self, $class);\n"
+"        return $self;\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub new {\n"
+"        my $class = shift;\n"
+"        my $self  = {\n"
+"            TITLE       => undef,\n"
+"            CHRISTIAN   => undef,\n"
+"            SURNAME     => undef,\n"
+"            NICK        => undef,\n"
+"        };\n"
+"        bless ($self, $class);\n"
+"        return $self;\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:679
+#, no-wrap
+msgid ""
+"    sub christian {\n"
+"        my $self = shift;\n"
+"        if (@_) { $self->{CHRISTIAN} = shift }\n"
+"        return $self->{CHRISTIAN};\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub christian {\n"
+"        my $self = shift;\n"
+"        if (@_) { $self->{CHRISTIAN} = shift }\n"
+"        return $self->{CHRISTIAN};\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:685
+#, no-wrap
+msgid ""
+"    sub surname {\n"
+"        my $self = shift;\n"
+"        if (@_) { $self->{SURNAME} = shift }\n"
+"        return $self->{SURNAME};\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub surname {\n"
+"        my $self = shift;\n"
+"        if (@_) { $self->{SURNAME} = shift }\n"
+"        return $self->{SURNAME};\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:691
+#, no-wrap
+msgid ""
+"    sub nickname {\n"
+"        my $self = shift;\n"
+"        if (@_) { $self->{NICK} = shift }\n"
+"        return $self->{NICK};\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub nickname {\n"
+"        my $self = shift;\n"
+"        if (@_) { $self->{NICK} = shift }\n"
+"        return $self->{NICK};\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:697
+#, no-wrap
+msgid ""
+"    sub title {\n"
+"        my $self = shift;\n"
+"        if (@_) { $self->{TITLE} = shift }\n"
+"        return $self->{TITLE};\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub title {\n"
+"        my $self = shift;\n"
+"        if (@_) { $self->{TITLE} = shift }\n"
+"        return $self->{TITLE};\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:703
+#, no-wrap
+msgid ""
+"    sub as_string {\n"
+"        my $self = shift;\n"
+"        my $name = join(\" \", @$self{'CHRISTIAN', 'SURNAME'});\n"
+"        if ($self->{TITLE}) {\n"
+"            $name = $self->{TITLE} . \" \" . $name;\n"
+"        }\n"
+"        return $name;\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub as_string {\n"
+"        my $self = shift;\n"
+"        my $name = join(\" \", @$self{'CHRISTIAN', 'SURNAME'});\n"
+"        if ($self->{TITLE}) {\n"
+"            $name = $self->{TITLE} . \" \" . $name;\n"
+"        }\n"
+"        return $name;\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:712
+#: perltoot.pod:1307
+#: perltoot.pod:1663
+#, no-wrap
+msgid ""
+"    1;\n"
+"\n"
+msgstr ""
+"    1;\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:714
+msgid "Finally, here's the test program:"
+msgstr "最终我们这样测试程序："
+
+#. type: verbatim
+#: perltoot.pod:716
+#, no-wrap
+msgid ""
+"    #!/usr/bin/perl -w\n"
+"    use strict;\n"
+"    use Person;\n"
+"    sub END { show_census() }\n"
+"\n"
+msgstr ""
+"    #!/usr/bin/perl -w\n"
+"    use strict;\n"
+"    use Person;\n"
+"    sub END { show_census() }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:721
+#, no-wrap
+msgid ""
+"    sub show_census ()  {\n"
+"        printf \"Current population: %d\\n"
+"\", Person->population;\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub show_census ()  {\n"
+"        printf \"Current population: %d\\n"
+"\", Person->population;\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:725
+#, no-wrap
+msgid ""
+"    Person->debug(1);\n"
+"\n"
+msgstr ""
+"    Person->debug(1);\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:727
+#: perltoot.pod:742
+#, no-wrap
+msgid ""
+"    show_census();\n"
+"\n"
+msgstr ""
+"    show_census();\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:729
+#, no-wrap
+msgid ""
+"    my $him = Person->new();\n"
+"\n"
+msgstr ""
+"    my $him = Person->new();\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:731
+#, no-wrap
+msgid ""
+"    $him->fullname->christian(\"Thomas\");\n"
+"    $him->fullname->surname(\"Aquinas\");\n"
+"    $him->fullname->nickname(\"Tommy\");\n"
+"    $him->fullname->title(\"St\");\n"
+"    $him->age(1);\n"
+"\n"
+msgstr ""
+"    $him->fullname->christian(\"Thomas\");\n"
+"    $him->fullname->surname(\"Aquinas\");\n"
+"    $him->fullname->nickname(\"Tommy\");\n"
+"    $him->fullname->title(\"St\");\n"
+"    $him->age(1);\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:737
+#, no-wrap
+msgid ""
+"    printf \"%s is really %s.\\n"
+"\", $him->name, $him->fullname->as_string;\n"
+"    printf \"%s's age: %d.\\n"
+"\", $him->name, $him->age;\n"
+"    $him->happy_birthday;\n"
+"    printf \"%s's age: %d.\\n"
+"\", $him->name, $him->age;\n"
+"\n"
+msgstr ""
+"    printf \"%s is really %s.\\n"
+"\", $him->name, $him->fullname->as_string;\n"
+"    printf \"%s's age: %d.\\n"
+"\", $him->name, $him->age;\n"
+"    $him->happy_birthday;\n"
+"    printf \"%s's age: %d.\\n"
+"\", $him->name, $him->age;\n"
+"\n"
+
+#. type: =head1
+#: perltoot.pod:744
+msgid "Inheritance"
+msgstr "继承"
+
+#. type: textblock
+#: perltoot.pod:746
+msgid "Object-oriented programming systems all support some notion of inheritance.  Inheritance means allowing one class to piggy-back on top of another one so you don't have to write the same code again and again.  It's about software reuse, and therefore related to Laziness, the principal virtue of a programmer.  (The import/export mechanisms in traditional modules are also a form of code reuse, but a simpler one than the true inheritance that you find in object modules.)"
+msgstr "不支持继承的语言不是面向对象的编程语言。继承一个类，你便不需要一遍又一遍的编写相"
+"同的代码。通过继承我们可以写出可复用的风格良好的代码。（import/export 也是一种复用方法，"
+"不过和类比起来相对简单。）"
+
+#. type: textblock
+#: perltoot.pod:754
+msgid "Sometimes the syntax of inheritance is built into the core of the language, and sometimes it's not.  Perl has no special syntax for specifying the class (or classes) to inherit from.  Instead, it's all strictly in the semantics.  Each package can have a variable called @ISA, which governs (method) inheritance.  If you try to call a method on an object or class, and that method is not found in that object's package, Perl then looks to @ISA for other packages to go looking through in search of the missing method."
+msgstr "有些语言把继承实现在语言的内部，而有些不是。Perl 没有为类的继承准备特别的语法，"
+"而只是语义上的规定而已。每个包可以通过 @ISA 数组来指定继承的类。如果你调用了一个在该类"
+"中未定义的方法，Perl 便会在它的 @ISA 指明的父类中去递归查找。"
+
+#. type: textblock
+#: perltoot.pod:763
+msgid "Like the special per-package variables recognized by Exporter (such as @EXPORT, @EXPORT_OK, @EXPORT_FAIL, %EXPORT_TAGS, and $VERSION), the @ISA array I<must> be a package-scoped global and not a file-scoped lexical created via my().  Most classes have just one item in their @ISA array.  In this case, we have what's called \"single inheritance\", or SI for short."
+msgstr "和 Exporter 模块中的变量（如 @EXPORT、@EXPORT_OK、@EXPORT_FAIL、%EXPORT_TAGS 和 "
+"$VERSION）一样，@ISA 数组必须是包全局变量而不是通过 my() 声明的文件作用域内的变量。"
+"大部分类的 @ISA 数组包含一个元素，我们称之为单继承。"
+
+#. type: textblock
+#: perltoot.pod:769
+msgid "Consider this class:"
+msgstr "考虑下面这个类："
+
+#. type: verbatim
+#: perltoot.pod:771
+#, no-wrap
+msgid ""
+"    package Employee;\n"
+"    use Person;\n"
+"    @ISA = (\"Person\");\n"
+"    1;\n"
+"\n"
+msgstr ""
+"    package Employee;\n"
+"    use Person;\n"
+"    @ISA = (\"Person\");\n"
+"    1;\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:776
+msgid "Not a lot to it, eh? All it's doing so far is loading in another class and stating that this one will inherit methods from that other class if need be.  We have given it none of its own methods.  We rely upon an Employee to behave just like a Person."
+msgstr "没有很多代码，是吧？我们只是建立了一个 Employee 类并且继承于 Person 类，而且没有"
+"定义属于自己的任何方法，完全和父类相同。"
+
+#. type: textblock
+#: perltoot.pod:781
+msgid "Setting up an empty class like this is called the \"empty subclass test\"; that is, making a derived class that does nothing but inherit from a base class.  If the original base class has been designed properly, then the new derived class can be used as a drop-in replacement for the old one.  This means you should be able to write a program like this:"
+msgstr "这种方式经常用来测试继承关系。如果一切正常的话，你便可以正确执行下面的代码："
+
+#. type: verbatim
+#: perltoot.pod:787
+#, no-wrap
+msgid ""
+"    use Employee;\n"
+"    my $empl = Employee->new();\n"
+"    $empl->name(\"Jason\");\n"
+"    $empl->age(23);\n"
+"    printf \"%s is age %d.\\n"
+"\", $empl->name, $empl->age;\n"
+"\n"
+msgstr ""
+"    use Employee;\n"
+"    my $empl = Employee->new();\n"
+"    $empl->name(\"Jason\");\n"
+"    $empl->age(23);\n"
+"    printf \"%s is age %d.\\n"
+"\", $empl->name, $empl->age;\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:793
+msgid "By proper design, we mean always using the two-argument form of bless(), avoiding direct access of global data, and not exporting anything.  If you look back at the Person::new() function we defined above, we were careful to do that.  There's a bit of package data used in the constructor, but the reference to this is stored on the object itself and all other methods access package data via that reference, so we should be ok."
+msgstr "我们一般通过 bless() 来返回实例引用，之后便可以通过引用来调用实例方法。"
+
+#. type: textblock
+#: perltoot.pod:800
+msgid "What do we mean by the Person::new() function? Isn't that actually a method? Well, in principle, yes.  A method is just a function that expects as its first argument a class name (package) or object (blessed reference).  Person::new() is the function that both the C<< Person->new() >> method and the C<< Employee->new() >> method end up calling.  Understand that while a method call looks a lot like a function call, they aren't really quite the same, and if you treat them as the same, you'll very soon be left with nothing but broken programs.  First, the actual underlying calling conventions are different: method calls get an extra argument.  Second, function calls don't do inheritance, but methods do."
+msgstr "方法不同于函数，方法接收到的第一个参数为类名或实例引用。"
+
+#. type: verbatim
+#: perltoot.pod:812
+#, no-wrap
+msgid ""
+"        Method Call             Resulting Function Call\n"
+"        -----------             ------------------------\n"
+"        Person->new()           Person::new(\"Person\")\n"
+"        Employee->new()         Person::new(\"Employee\")\n"
+"\n"
+msgstr ""
+"        Method Call             Resulting Function Call\n"
+"        -----------             ------------------------\n"
+"        Person->new()           Person::new(\"Person\")\n"
+"        Employee->new()         Person::new(\"Employee\")\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:817
+msgid "So don't use function calls when you mean to call a method."
+msgstr "所以当我们说调用函数时指的就是调用类的方法。"
+
+#. type: textblock
+#: perltoot.pod:819
+msgid "If an employee is just a Person, that's not all too very interesting.  So let's add some other methods.  We'll give our employee data fields to access their salary, their employee ID, and their start date."
+msgstr "如果 Employee 类与 Person 类完全相同，那就太没有意思了。所以让我们添加一些方法进"
+"去。我们会为 Employee 添加一些标量信息，它们的 employee ID、start date。"
+
+#. type: textblock
+#: perltoot.pod:824
+msgid "If you're getting a little tired of creating all these nearly identical methods just to get at the object's data, do not despair.  Later, we'll describe several different convenience mechanisms for shortening this up.  Meanwhile, here's the straight-forward way:"
+msgstr "如果你觉得这些重复的写这些功能类似的函数很枯燥，请不要绝望。稍后我们会介绍不同的"
+"方法来改进它们。但是现在，请继续下去："
+
+#. type: verbatim
+#: perltoot.pod:829
+#, no-wrap
+msgid ""
+"    sub salary {\n"
+"        my $self = shift;\n"
+"        if (@_) { $self->{SALARY} = shift }\n"
+"        return $self->{SALARY};\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub salary {\n"
+"        my $self = shift;\n"
+"        if (@_) { $self->{SALARY} = shift }\n"
+"        return $self->{SALARY};\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:835
+#, no-wrap
+msgid ""
+"    sub id_number {\n"
+"        my $self = shift;\n"
+"        if (@_) { $self->{ID} = shift }\n"
+"        return $self->{ID};\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub id_number {\n"
+"        my $self = shift;\n"
+"        if (@_) { $self->{ID} = shift }\n"
+"        return $self->{ID};\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:841
+#, no-wrap
+msgid ""
+"    sub start_date {\n"
+"        my $self = shift;\n"
+"        if (@_) { $self->{START_DATE} = shift }\n"
+"        return $self->{START_DATE};\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub start_date {\n"
+"        my $self = shift;\n"
+"        if (@_) { $self->{START_DATE} = shift }\n"
+"        return $self->{START_DATE};\n"
+"    }\n"
+"\n"
+
+#. type: =head2
+#: perltoot.pod:847
+msgid "Overridden Methods"
+msgstr "重载方法"
+
+#. type: textblock
+#: perltoot.pod:849
+msgid "What happens when both a derived class and its base class have the same method defined? Well, then you get the derived class's version of that method.  For example, let's say that we want the peers() method called on an employee to act a bit differently.  Instead of just returning the list of peer names, let's return slightly different strings.  So doing this:"
+msgstr "如果子类与它的父类有一个相同名字的函数，那么会发生什么事情呢？那样的话，在默认调"
+"用时我们将会调用子类的该方法。比如，我们调用 Employee 类和 Person 类都有的 peers() "
+"方法"
+
+#. type: verbatim
+#: perltoot.pod:855
+#, no-wrap
+msgid ""
+"    $empl->peers(\"Peter\", \"Paul\", \"Mary\");\n"
+"    printf \"His peers are: %s\\n"
+"\", join(\", \", $empl->peers);\n"
+"\n"
+msgstr ""
+"    $empl->peers(\"Peter\", \"Paul\", \"Mary\");\n"
+"    printf \"His peers are: %s\\n"
+"\", join(\", \", $empl->peers);\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:858
+msgid "will produce:"
+msgstr "将会输出："
+
+#. type: verbatim
+#: perltoot.pod:860
+#, no-wrap
+msgid ""
+"    His peers are: PEON=PETER, PEON=PAUL, PEON=MARY\n"
+"\n"
+msgstr ""
+"    His peers are: PEON=PETER, PEON=PAUL, PEON=MARY\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:862
+msgid "To do this, merely add this definition into the Employee.pm file:"
+msgstr "与此同时，我们需要相应的修改 Employee.pm 文件："
+
+#. type: verbatim
+#: perltoot.pod:864
+#, no-wrap
+msgid ""
+"    sub peers {\n"
+"        my $self = shift;\n"
+"        if (@_) { @{ $self->{PEERS} } = @_ }\n"
+"        return map { \"PEON=\\U$_\" } @{ $self->{PEERS} };\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub peers {\n"
+"        my $self = shift;\n"
+"        if (@_) { @{ $self->{PEERS} } = @_ }\n"
+"        return map { \"PEON=\\U$_\" } @{ $self->{PEERS} };\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:870
+msgid "There, we've just demonstrated the high-falutin' concept known in certain circles as I<polymorphism>.  We've taken on the form and behaviour of an existing object, and then we've altered it to suit our own purposes.  This is a form of Laziness.  (Getting polymorphed is also what happens when the wizard decides you'd look better as a frog.)"
+msgstr "上面的代码已经包含了我们所熟知的I<多态性>概念。我们继承一个类，并且根据自己特殊的"
+"情况对其进行了修改。"
+
+#. type: textblock
+#: perltoot.pod:876
+msgid "Every now and then you'll want to have a method call trigger both its derived class (also known as \"subclass\") version as well as its base class (also known as \"superclass\") version.  In practice, constructors and destructors are likely to want to do this, and it probably also makes sense in the debug() method we showed previously."
+msgstr "无论什么时候我们都想拥有一个触发器来调试方法的执行，无论它是父类方法还是子类方法。"
+"我们可以通过之前提到过的调试方法来实现。"
+
+#. type: textblock
+#: perltoot.pod:882
+msgid "To do this, add this to Employee.pm:"
+msgstr "把下面的代码添加到 Employee.pm 中："
+
+#. type: verbatim
+#: perltoot.pod:887
+#, no-wrap
+msgid ""
+"    sub debug {\n"
+"        my $self = shift;\n"
+"        confess \"usage: thing->debug(level)\"    unless @_ == 1;\n"
+"        my $level = shift;\n"
+"        if (ref($self))  {\n"
+"            $self->{\"_DEBUG\"} = $level;\n"
+"        } else {\n"
+"            $Debugging = $level;            # whole class\n"
+"        }\n"
+"        Person::debug($self, $Debugging);   # don't really do this\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub debug {\n"
+"        my $self = shift;\n"
+"        confess \"usage: thing->debug(level)\"    unless @_ == 1;\n"
+"        my $level = shift;\n"
+"        if (ref($self))  {\n"
+"            $self->{\"_DEBUG\"} = $level;\n"
+"        } else {\n"
+"            $Debugging = $level;            # whole class\n"
+"        }\n"
+"        Person::debug($self, $Debugging);   # don't really do this\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:899
+msgid "As you see, we turn around and call the Person package's debug() function.  But this is far too fragile for good design.  What if Person doesn't have a debug() function, but is inheriting I<its> debug() method from elsewhere? It would have been slightly better to say"
+msgstr "如果我们调用 Person 类的 debug() 方法，而在 Person 类中却不存在 debug() 方法，"
+"这时会发生什么呢？"
+
+#. type: verbatim
+#: perltoot.pod:904
+#, no-wrap
+msgid ""
+"    Person->debug($Debugging);\n"
+"\n"
+msgstr ""
+"    Person->debug($Debugging);\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:906
+msgid "But even that's got too much hard-coded.  It's somewhat better to say"
+msgstr "实际上也就是执行了如下代码："
+
+#. type: verbatim
+#: perltoot.pod:908
+#, no-wrap
+msgid ""
+"    $self->Person::debug($Debugging);\n"
+"\n"
+msgstr ""
+"    $self->Person::debug($Debugging);\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:910
+msgid "Which is a funny way to say to start looking for a debug() method up in Person.  This strategy is more often seen on overridden object methods than on overridden class methods."
+msgstr "它会在 Person 类中查找 debug() 方法。这种形式在重载时经常用到。"
+
+#. type: textblock
+#: perltoot.pod:914
+msgid "There is still something a bit off here.  We've hard-coded our superclass's name.  This in particular is bad if you change which classes you inherit from, or add others.  Fortunately, the pseudoclass SUPER comes to the rescue here."
+msgstr "我们也可以用 SUPER 来代替类名，让 Perl 在其父类中查找方法。"
+
+#. type: verbatim
+#: perltoot.pod:919
+#, no-wrap
+msgid ""
+"    $self->SUPER::debug($Debugging);\n"
+"\n"
+msgstr ""
+"    $self->SUPER::debug($Debugging);\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:921
+msgid "This way it starts looking in my class's @ISA.  This only makes sense from I<within> a method call, though.  Don't try to access anything in SUPER:: from anywhere else, because it doesn't exist outside an overridden method call. Note that C<SUPER> refers to the superclass of the current package, I<not> to the superclass of C<$self>."
+msgstr "需要注意的是 C<SUPER> 指向类的父类，I<而不是> C<$self> 的父类。"
+
+#. type: textblock
+#: perltoot.pod:927
+msgid "Things are getting a bit complicated here.  Have we done anything we shouldn't? As before, one way to test whether we're designing a decent class is via the empty subclass test.  Since we already have an Employee class that we're trying to check, we'd better get a new empty subclass that can derive from Employee.  Here's one:"
+msgstr "现在我们编写个更为复杂的 Boss 类，它继承 Employee 类。"
+
+#. type: verbatim
+#: perltoot.pod:933
+#, no-wrap
+msgid ""
+"    package Boss;\n"
+"    use Employee;        # :-)\n"
+"    @ISA = qw(Employee);\n"
+"\n"
+msgstr ""
+"    package Boss;\n"
+"    use Employee;        # :-)\n"
+"    @ISA = qw(Employee);\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:937
+msgid "And here's the test program:"
+msgstr "下面这段代码用来测试它："
+
+#. type: verbatim
+#: perltoot.pod:939
+#, no-wrap
+msgid ""
+"    #!/usr/bin/perl -w\n"
+"    use strict;\n"
+"    use Boss;\n"
+"    Boss->debug(1);\n"
+"\n"
+msgstr ""
+"    #!/usr/bin/perl -w\n"
+"    use strict;\n"
+"    use Boss;\n"
+"    Boss->debug(1);\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:944
+#, no-wrap
+msgid ""
+"    my $boss = Boss->new();\n"
+"\n"
+msgstr ""
+"    my $boss = Boss->new();\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:946
+#, no-wrap
+msgid ""
+"    $boss->fullname->title(\"Don\");\n"
+"    $boss->fullname->surname(\"Pichon Alvarez\");\n"
+"    $boss->fullname->christian(\"Federico Jesus\");\n"
+"    $boss->fullname->nickname(\"Fred\");\n"
+"\n"
+msgstr ""
+"    $boss->fullname->title(\"Don\");\n"
+"    $boss->fullname->surname(\"Pichon Alvarez\");\n"
+"    $boss->fullname->christian(\"Federico Jesus\");\n"
+"    $boss->fullname->nickname(\"Fred\");\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:951
+#, no-wrap
+msgid ""
+"    $boss->age(47);\n"
+"    $boss->peers(\"Frank\", \"Felipe\", \"Faust\");\n"
+"\n"
+msgstr ""
+"    $boss->age(47);\n"
+"    $boss->peers(\"Frank\", \"Felipe\", \"Faust\");\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:954
+#, no-wrap
+msgid ""
+"    printf \"%s is age %d.\\n"
+"\", $boss->fullname->as_string, $boss->age;\n"
+"    printf \"His peers are: %s\\n"
+"\", join(\", \", $boss->peers);\n"
+"\n"
+msgstr ""
+"    printf \"%s is age %d.\\n"
+"\", $boss->fullname->as_string, $boss->age;\n"
+"    printf \"His peers are: %s\\n"
+"\", join(\", \", $boss->peers);\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:957
+msgid "Running it, we see that we're still ok.  If you'd like to dump out your object in a nice format, somewhat like the way the 'x' command works in the debugger, you could use the Data::Dumper module from CPAN this way:"
+msgstr "运行后，一切正常。如果你想要查看对象的具体情况，可以使用 Data::Dumper 模块。"
+
+#. type: verbatim
+#: perltoot.pod:961
+#, no-wrap
+msgid ""
+"    use Data::Dumper;\n"
+"    print \"Here's the boss:\\n"
+"\";\n"
+"    print Dumper($boss);\n"
+"\n"
+msgstr ""
+"    use Data::Dumper;\n"
+"    print \"Here's the boss:\\n"
+"\";\n"
+"    print Dumper($boss);\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:965
+msgid "Which shows us something like this:"
+msgstr "它将会显示："
+
+#. type: verbatim
+#: perltoot.pod:967
+#, no-wrap
+msgid ""
+"    Here's the boss:\n"
+"    $VAR1 = bless( {\n"
+"\t _CENSUS => \\1,\n"
+"\t FULLNAME => bless( {\n"
+"\t\t\t      TITLE => 'Don',\n"
+"\t\t\t      SURNAME => 'Pichon Alvarez',\n"
+"\t\t\t      NICK => 'Fred',\n"
+"\t\t\t      CHRISTIAN => 'Federico Jesus'\n"
+"\t\t\t    }, 'Fullname' ),\n"
+"\t AGE => 47,\n"
+"\t PEERS => [\n"
+"\t\t    'Frank',\n"
+"\t\t    'Felipe',\n"
+"\t\t    'Faust'\n"
+"\t\t  ]\n"
+"       }, 'Boss' );\n"
+"\n"
+msgstr ""
+"    Here's the boss:\n"
+"    $VAR1 = bless( {\n"
+"\t _CENSUS => \\1,\n"
+"\t FULLNAME => bless( {\n"
+"\t\t\t      TITLE => 'Don',\n"
+"\t\t\t      SURNAME => 'Pichon Alvarez',\n"
+"\t\t\t      NICK => 'Fred',\n"
+"\t\t\t      CHRISTIAN => 'Federico Jesus'\n"
+"\t\t\t    }, 'Fullname' ),\n"
+"\t AGE => 47,\n"
+"\t PEERS => [\n"
+"\t\t    'Frank',\n"
+"\t\t    'Felipe',\n"
+"\t\t    'Faust'\n"
+"\t\t  ]\n"
+"       }, 'Boss' );\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:984
+msgid "Hm.... something's missing there.  What about the salary, start date, and ID fields? Well, we never set them to anything, even undef, so they don't show up in the hash's keys.  The Employee class has no new() method of its own, and the new() method in Person doesn't know about Employees.  (Nor should it: proper OO design dictates that a subclass be allowed to know about its immediate superclass, but never vice-versa.)  So let's fix up Employee::new() this way:"
+msgstr "恩，有个问题，salary、start date 和 ID fields 去哪了？我们从来没有赋予它们任何"
+"值，连 undef 都不是，所以才没有在哈希中输出出来。因此，我们修改 Employee::new() 方法："
+
+#. type: verbatim
+#: perltoot.pod:992
+#, no-wrap
+msgid ""
+"    sub new {\n"
+"        my $class = shift;\n"
+"        my $self  = $class->SUPER::new();\n"
+"        $self->{SALARY}        = undef;\n"
+"        $self->{ID}            = undef;\n"
+"        $self->{START_DATE}    = undef;\n"
+"        bless ($self, $class);          # reconsecrate\n"
+"        return $self;\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub new {\n"
+"        my $class = shift;\n"
+"        my $self  = $class->SUPER::new();\n"
+"        $self->{SALARY}        = undef;\n"
+"        $self->{ID}            = undef;\n"
+"        $self->{START_DATE}    = undef;\n"
+"        bless ($self, $class);          # reconsecrate\n"
+"        return $self;\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:1002
+msgid "Now if you dump out an Employee or Boss object, you'll find that new fields show up there now."
+msgstr "现在你查看 Employee、Boss 对象，你就会发现它们出现了。"
+
+#. type: =head2
+#: perltoot.pod:1005
+msgid "Multiple Inheritance"
+msgstr "多继承"
+
+#. type: textblock
+#: perltoot.pod:1007
+msgid "Ok, at the risk of confusing beginners and annoying OO gurus, it's time to confess that Perl's object system includes that controversial notion known as multiple inheritance, or MI for short.  All this means is that rather than having just one parent class who in turn might itself have a parent class, etc., that you can directly inherit from two or more parents.  It's true that some uses of MI can get you into trouble, although hopefully not quite so much trouble with Perl as with dubiously-OO languages like C++."
+msgstr "尽管下面的知识会让新手们产生困惑，但是是时候该介绍多继承了。"
+
+#. type: textblock
+#: perltoot.pod:1016
+msgid "The way it works is actually pretty simple: just put more than one package name in your @ISA array.  When it comes time for Perl to go finding methods for your object, it looks at each of these packages in order.  Well, kinda.  It's actually a fully recursive, depth-first order by default (see L<mro> for alternate method resolution orders).  Consider a bunch of @ISA arrays like this:"
+msgstr "多继承的工作方式其实也很简单：只是在 @ISA 数组中多了几个元素而已。当 Perl 在 "
+"@ISA 中查找方法时，按照从左到右递归查找的规则进行。"
+
+#. type: verbatim
+#: perltoot.pod:1023
+#, no-wrap
+msgid ""
+"    @First::ISA    = qw( Alpha );\n"
+"    @Second::ISA   = qw( Beta );\n"
+"    @Third::ISA    = qw( First Second );\n"
+"\n"
+msgstr ""
+"    @First::ISA    = qw( Alpha );\n"
+"    @Second::ISA   = qw( Beta );\n"
+"    @Third::ISA    = qw( First Second );\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:1027
+msgid "If you have an object of class Third:"
+msgstr "如果你有一个 Third 类的实例："
+
+#. type: verbatim
+#: perltoot.pod:1029
+#, no-wrap
+msgid ""
+"    my $ob = Third->new();\n"
+"    $ob->spin();\n"
+"\n"
+msgstr ""
+"    my $ob = Third->new();\n"
+"    $ob->spin();\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:1032
+msgid "How do we find a spin() method (or a new() method for that matter)? Because the search is depth-first, classes will be looked up in the following order: Third, First, Alpha, Second, and Beta."
+msgstr "Perl 会如何查找 spin() 方法呢？从左到右逐渐递归，所以查找的顺序为：Third，First，"
+"Alpha，Second，Beta。"
+
+#. type: textblock
+#: perltoot.pod:1036
+msgid "In practice, few class modules have been seen that actually make use of MI.  One nearly always chooses simple containership of one class within another over MI.  That's why our Person object I<contained> a Fullname object.  That doesn't mean it I<was> one."
+msgstr "实际中很少用到多继承，但是并不代表生活中不存在多继承的关系。"
+
+#. type: textblock
+#: perltoot.pod:1042
+msgid "However, there is one particular area where MI in Perl is rampant: borrowing another class's class methods.  This is rather common, especially with some bundled \"objectless\" classes, like Exporter, DynaLoader, AutoLoader, and SelfLoader.  These classes do not provide constructors; they exist only so you may inherit their class methods.  (It's not entirely clear why inheritance was done here rather than traditional module importation.)"
+msgstr ""
+
+#. type: textblock
+#: perltoot.pod:1050
+msgid "For example, here is the POSIX module's @ISA:"
+msgstr "下面的例子为 POSIX 模块："
+
+#. type: verbatim
+#: perltoot.pod:1052
+#, no-wrap
+msgid ""
+"    package POSIX;\n"
+"    @ISA = qw(Exporter DynaLoader);\n"
+"\n"
+msgstr ""
+"    package POSIX;\n"
+"    @ISA = qw(Exporter DynaLoader);\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:1055
+msgid "The POSIX module isn't really an object module, but then, neither are Exporter or DynaLoader.  They're just lending their classes' behaviours to POSIX."
+msgstr "POSIX 模块不是一个类模块，也不是 Exporter、DynaLoader 模块。它只是从它们中借过来"
+"一些方法。"
+
+#. type: textblock
+#: perltoot.pod:1059
+msgid "Why don't people use MI for object methods much? One reason is that it can have complicated side-effects.  For one thing, your inheritance graph (no longer a tree) might converge back to the same base class.  Although Perl guards against recursive inheritance, merely having parents who are related to each other via a common ancestor, incestuous though it sounds, is not forbidden.  What if in our Third class shown above we wanted its new() method to also call both overridden constructors in its two parent classes? The SUPER notation would only find the first one.  Also, what about if the Alpha and Beta classes both had a common ancestor, like Nought? If you kept climbing up the inheritance tree calling overridden methods, you'd end up calling Nought::new() twice, which might well be a bad idea."
+msgstr "为什么人们不经常使用多继承呢？一个原因就是它会增加程序的复杂性。"
+
+#. type: =head2
+#: perltoot.pod:1072
+msgid "UNIVERSAL: The Root of All Objects"
+msgstr "UNIVERSAL：所有类的父类"
+
+#. type: textblock
+#: perltoot.pod:1074
+msgid "Wouldn't it be convenient if all objects were rooted at some ultimate base class? That way you could give every object common methods without having to go and add it to each and every @ISA.  Well, it turns out that you can.  You don't see it, but Perl tacitly and irrevocably assumes that there's an extra element at the end of @ISA: the class UNIVERSAL.  In version 5.003, there were no predefined methods there, but you could put whatever you felt like into it."
+msgstr "所有类都是继承于一个共同的基类会不会使面向对象的编程变得更加容易呢？Perl OO 中所"
+"有的类都继承 UNIVERSAL 类。"
+
+#. type: textblock
+#: perltoot.pod:1082
+msgid "However, as of version 5.004 (or some subversive releases, like 5.003_08), UNIVERSAL has some methods in it already.  These are builtin to your Perl binary, so they don't take any extra time to load.  Predefined methods include isa(), can(), and VERSION().  isa() tells you whether an object or class \"is\" another one without having to traverse the hierarchy yourself:"
+msgstr "从 5.004（有些版本如 5.003_08）开始，UNIVERSAL 类中便包含了一些方法，isa()、"
+"can() 和 VERSION() 方法。isa() 方法可以帮助你判断类或实例是否属于某类："
+
+#. type: verbatim
+#: perltoot.pod:1088
+#, no-wrap
+msgid ""
+"   $has_io = $fd->isa(\"IO::Handle\");\n"
+"   $itza_handle = IO::Socket->isa(\"IO::Handle\");\n"
+"\n"
+msgstr ""
+"   $has_io = $fd->isa(\"IO::Handle\");\n"
+"   $itza_handle = IO::Socket->isa(\"IO::Handle\");\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:1091
+msgid "The can() method, called against that object or class, reports back whether its string argument is a callable method name in that class.  In fact, it gives you back a function reference to that method:"
+msgstr "can() 方法可以判断它的参数是否可以被实例或类所调用。实际上，它会返回该函数的引用。"
+
+#. type: verbatim
+#: perltoot.pod:1095
+#, no-wrap
+msgid ""
+"   $his_print_method = $obj->can('as_string');\n"
+"\n"
+msgstr ""
+"   $his_print_method = $obj->can('as_string');\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:1097
+msgid "Finally, the VERSION method checks whether the class (or the object's class) has a package global called $VERSION that's high enough, as in:"
+msgstr "VERSION 方法会返回该包内的 $VERSION 值。"
+
+#. type: verbatim
+#: perltoot.pod:1100
+#, no-wrap
+msgid ""
+"    Some_Module->VERSION(3.0);\n"
+"    $his_vers = $ob->VERSION();\n"
+"\n"
+msgstr ""
+"    Some_Module->VERSION(3.0);\n"
+"    $his_vers = $ob->VERSION();\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:1103
+msgid "However, we don't usually call VERSION ourselves.  (Remember that an all uppercase function name is a Perl convention that indicates that the function will be automatically used by Perl in some way.)  In this case, it happens when you say"
+msgstr "一般情况下，我们不调用 VERSION 方法。（记得之前说过全部大写字母的方法 Perl 会自动"
+"调用它们吗？）"
+
+#. type: verbatim
+#: perltoot.pod:1108
+#, no-wrap
+msgid ""
+"    use Some_Module 3.0;\n"
+"\n"
+msgstr ""
+"    use Some_Module 3.0;\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:1110
+msgid "If you wanted to add version checking to your Person class explained above, just add this to Person.pm:"
+msgstr "如果你想要为你的模块添加版本检查的话，你只需要在 Person.pm 中加入："
+
+#. type: verbatim
+#: perltoot.pod:1113
+#, no-wrap
+msgid ""
+"    our $VERSION = '1.1';\n"
+"\n"
+msgstr ""
+"    our $VERSION = '1.1';\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:1115
+msgid "and then in Employee.pm you can say"
+msgstr "然后在 Employee.pm 中你可以这样引入："
+
+#. type: verbatim
+#: perltoot.pod:1117
+#, no-wrap
+msgid ""
+"    use Person 1.1;\n"
+"\n"
+msgstr ""
+"    use Person 1.1;\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:1119
+msgid "And it would make sure that you have at least that version number or higher available.  This is not the same as loading in that exact version number.  No mechanism currently exists for concurrent installation of multiple versions of a module.  Lamentably."
+msgstr "上面的代码将保证 Person 模块的版本至少为 1.1，否则无法运行。"
+
+#. type: =head2
+#: perltoot.pod:1124
+msgid "Deeper UNIVERSAL details"
+msgstr "关于 UNIVERSAL 的更多信息"
+
+#. type: textblock
+#: perltoot.pod:1126
+msgid "It is also valid (though perhaps unwise in most cases) to put other packages' names in @UNIVERSAL::ISA.  These packages will also be implicitly inherited by all classes, just as UNIVERSAL itself is.  However, neither UNIVERSAL nor any of its parents from the @ISA tree are explicit base classes of all objects.  To clarify, given the following:"
+msgstr "我们无法向 @UNIVERSAL::ISA 中添加任何类名。"
+
+#. type: verbatim
+#: perltoot.pod:1133
+#, no-wrap
+msgid ""
+"    @UNIVERSAL::ISA = ('REALLYUNIVERSAL');\n"
+"\n"
+msgstr ""
+"    @UNIVERSAL::ISA = ('REALLYUNIVERSAL');\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1135
+#, no-wrap
+msgid ""
+"    package REALLYUNIVERSAL;\n"
+"    sub special_method { return \"123\" }\n"
+"\n"
+msgstr ""
+"    package REALLYUNIVERSAL;\n"
+"    sub special_method { return \"123\" }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1138
+#, no-wrap
+msgid ""
+"    package Foo;\n"
+"    sub normal_method { return \"321\" }\n"
+"\n"
+msgstr ""
+"    package Foo;\n"
+"    sub normal_method { return \"321\" }\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:1141
+msgid "Calling Foo->special_method() will return \"123\", but calling Foo->isa('REALLYUNIVERSAL') or Foo->isa('UNIVERSAL') will return false."
+msgstr "此时调用 Foo->special_method() 会返回 \"123\"，但是调用 "
+"Foo->isa('REALLYUNIVERSAL') 或 Foo->isa('UNIVERSAL') 时会返回 false。"
+
+#. type: textblock
+#: perltoot.pod:1145
+msgid "If your class is using an alternate mro like C3 (see L<mro>), method resolution within UNIVERSAL / @UNIVERSAL::ISA will still occur in the default depth-first left-to-right manner, after the class's C3 mro is exhausted."
+msgstr "下面是关于 L<mro> 的东西，暂时没有看懂，先不翻译了。Mark。"
+
+#. type: textblock
+#: perltoot.pod:1150
+msgid "All of the above is made more intuitive by realizing what really happens during method lookup, which is roughly like this ugly pseudo-code:"
+msgstr ""
+
+#. type: verbatim
+#: perltoot.pod:1154
+#, no-wrap
+msgid ""
+"    get_mro(class) {\n"
+"        # recurses down the @ISA's starting at class,\n"
+"        # builds a single linear array of all\n"
+"        # classes to search in the appropriate order.\n"
+"        # The method resolution order (mro) to use\n"
+"        # for the ordering is whichever mro \"class\"\n"
+"        # has set on it (either default (depth first\n"
+"        # l-to-r) or C3 ordering).\n"
+"        # The first entry in the list is the class\n"
+"        # itself.\n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltoot.pod:1166
+#, no-wrap
+msgid ""
+"    find_method(class, methname) {\n"
+"        foreach $class (get_mro(class)) {\n"
+"            if($class->has_method(methname)) {\n"
+"                return ref_to($class->$methname);\n"
+"            }\n"
+"        }\n"
+"        foreach $class (get_mro(UNIVERSAL)) {\n"
+"            if($class->has_method(methname)) {\n"
+"                return ref_to($class->$methname);\n"
+"            }\n"
+"        }\n"
+"        return undef;\n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perltoot.pod:1180
+msgid "However the code that implements UNIVERSAL::isa does not search in UNIVERSAL itself, only in the package's actual @ISA."
+msgstr ""
+
+#. type: =head1
+#: perltoot.pod:1184
+msgid "Alternate Object Representations"
+msgstr "其他类数据表现"
+
+#. type: textblock
+#: perltoot.pod:1186
+msgid "Nothing requires objects to be implemented as hash references.  An object can be any sort of reference so long as its referent has been suitably blessed.  That means scalar, array, and code references are also fair game."
+msgstr "Perl 并没有强制要求类的数据表现形式为哈希。一个类的数据可以是任何类型的引用，"
+"标量、数组、哈希或者是代码都是可以的。"
+
+#. type: textblock
+#: perltoot.pod:1191
+msgid "A scalar would work if the object has only one datum to hold.  An array would work for most cases, but makes inheritance a bit dodgy because you have to invent new indices for the derived classes."
+msgstr "使用标量作为类数据表现形式的话，那么只能存储一个值。数组的话也可以，但是我们只能"
+"通过下标进行存取操作。"
+
+#. type: =head2
+#: perltoot.pod:1195
+msgid "Arrays as Objects"
+msgstr "数组数据"
+
+#. type: textblock
+#: perltoot.pod:1197
+msgid "If the user of your class honors the contract and sticks to the advertised interface, then you can change its underlying interface if you feel like it.  Here's another implementation that conforms to the same interface specification.  This time we'll use an array reference instead of a hash reference to represent the object."
+msgstr "如果用户想要用数组作为类数据的表现形式，那么可以按照如下方式修改代码："
+
+#. type: verbatim
+#: perltoot.pod:1206
+#, no-wrap
+msgid ""
+"    my($NAME, $AGE, $PEERS) = ( 0 .. 2 );\n"
+"\n"
+msgstr ""
+"    my($NAME, $AGE, $PEERS) = ( 0 .. 2 );\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1208
+#, no-wrap
+msgid ""
+"    ############################################\n"
+"    ## the object constructor (array version) ##\n"
+"    ############################################\n"
+"    sub new {\n"
+"        my $self = [];\n"
+"        $self->[$NAME]   = undef;  # this is unnecessary\n"
+"        $self->[$AGE]    = undef;  # as is this\n"
+"        $self->[$PEERS]  = [];     # but this isn't, really\n"
+"        bless($self);\n"
+"        return $self;\n"
+"    }\n"
+"\n"
+msgstr ""
+"    ############################################\n"
+"    ## the object constructor (array version) ##\n"
+"    ############################################\n"
+"    sub new {\n"
+"        my $self = [];\n"
+"        $self->[$NAME]   = undef;  # this is unnecessary\n"
+"        $self->[$AGE]    = undef;  # as is this\n"
+"        $self->[$PEERS]  = [];     # but this isn't, really\n"
+"        bless($self);\n"
+"        return $self;\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1220
+#, no-wrap
+msgid ""
+"    sub name {\n"
+"        my $self = shift;\n"
+"        if (@_) { $self->[$NAME] = shift }\n"
+"        return $self->[$NAME];\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub name {\n"
+"        my $self = shift;\n"
+"        if (@_) { $self->[$NAME] = shift }\n"
+"        return $self->[$NAME];\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1226
+#, no-wrap
+msgid ""
+"    sub age {\n"
+"        my $self = shift;\n"
+"        if (@_) { $self->[$AGE] = shift }\n"
+"        return $self->[$AGE];\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub age {\n"
+"        my $self = shift;\n"
+"        if (@_) { $self->[$AGE] = shift }\n"
+"        return $self->[$AGE];\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1232
+#, no-wrap
+msgid ""
+"    sub peers {\n"
+"        my $self = shift;\n"
+"        if (@_) { @{ $self->[$PEERS] } = @_ }\n"
+"        return @{ $self->[$PEERS] };\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub peers {\n"
+"        my $self = shift;\n"
+"        if (@_) { @{ $self->[$PEERS] } = @_ }\n"
+"        return @{ $self->[$PEERS] };\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:1240
+msgid "You might guess that the array access would be a lot faster than the hash access, but they're actually comparable.  The array is a I<little> bit faster, but not more than ten or fifteen percent, even when you replace the variables above like $AGE with literal numbers, like 1.  A bigger difference between the two approaches can be found in memory use.  A hash representation takes up more memory than an array representation because you have to allocate memory for the keys as well as for the values.  However, it really isn't that bad, especially since as of version 5.004, memory is only allocated once for a given hash key, no matter how many hashes have that key.  It's expected that sometime in the future, even these differences will fade into obscurity as more efficient underlying representations are devised."
+msgstr "你也许会认为数组的访问速度会比哈希快，但是它们实际上是没有可比性的。数组访问确实"
+"会快一些，但是差别没那么大。"
+
+#. type: textblock
+#: perltoot.pod:1253
+msgid "Still, the tiny edge in speed (and somewhat larger one in memory)  is enough to make some programmers choose an array representation for simple classes.  There's still a little problem with scalability, though, because later in life when you feel like creating subclasses, you'll find that hashes just work out better."
+msgstr "不过仍然会有很多程序员会因为这么细小的差别而选择数组作为类数据表现形式。"
+
+#. type: =head2
+#: perltoot.pod:1260
+msgid "Closures as Objects"
+msgstr "闭包数据"
+
+#. type: textblock
+#: perltoot.pod:1262
+msgid "Using a code reference to represent an object offers some fascinating possibilities.  We can create a new anonymous function (closure) who alone in all the world can see the object's data.  This is because we put the data into an anonymous hash that's lexically visible only to the closure we create, bless, and return as the object.  This object's methods turn around and call the closure as a regular subroutine call, passing it the field we want to affect.  (Yes, the double-function call is slow, but if you wanted fast, you wouldn't be using objects at all, eh? :-)"
+msgstr "我们可以创建一个闭包引用作为实例引用返回。在类中我们我们创建一个匿名函数（闭包）"
+"，通过这种形式来访问匿名哈希中的数据。这些数据对外是不可见的。"
+
+#. type: textblock
+#: perltoot.pod:1272
+msgid "Use would be similar to before:"
+msgstr "使用这种形式的类和以前类似："
+
+#. type: verbatim
+#: perltoot.pod:1274
+#, no-wrap
+msgid ""
+"    use Person;\n"
+"    $him = Person->new();\n"
+"    $him->name(\"Jason\");\n"
+"    $him->age(23);\n"
+"    $him->peers( [ \"Norbert\", \"Rhys\", \"Phineas\" ] );\n"
+"    printf \"%s is %d years old.\\n"
+"\", $him->name, $him->age;\n"
+"    print \"His peers are: \", join(\", \", @{$him->peers}), \"\\n"
+"\";\n"
+"\n"
+msgstr ""
+"    use Person;\n"
+"    $him = Person->new();\n"
+"    $him->name(\"Jason\");\n"
+"    $him->age(23);\n"
+"    $him->peers( [ \"Norbert\", \"Rhys\", \"Phineas\" ] );\n"
+"    printf \"%s is %d years old.\\n"
+"\", $him->name, $him->age;\n"
+"    print \"His peers are: \", join(\", \", @{$him->peers}), \"\\n"
+"\";\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:1282
+msgid "but the implementation would be radically, perhaps even sublimely different:"
+msgstr "但是类的构建却是与之前非常不同的："
+
+#. type: verbatim
+#: perltoot.pod:1285
+#: perltoot.pod:1692
+#, no-wrap
+msgid ""
+"    package Person;\n"
+"\n"
+msgstr ""
+"    package Person;\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1287
+#, no-wrap
+msgid ""
+"    sub new {\n"
+"\t my $class  = shift;\n"
+"\t my $self = {\n"
+"\t    NAME  => undef,\n"
+"\t    AGE   => undef,\n"
+"\t    PEERS => [],\n"
+"\t };\n"
+"\t my $closure = sub {\n"
+"\t    my $field = shift;\n"
+"\t    if (@_) { $self->{$field} = shift }\n"
+"\t    return    $self->{$field};\n"
+"\t};\n"
+"\tbless($closure, $class);\n"
+"\treturn $closure;\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub new {\n"
+"\t my $class  = shift;\n"
+"\t my $self = {\n"
+"\t    NAME  => undef,\n"
+"\t    AGE   => undef,\n"
+"\t    PEERS => [],\n"
+"\t };\n"
+"\t my $closure = sub {\n"
+"\t    my $field = shift;\n"
+"\t    if (@_) { $self->{$field} = shift }\n"
+"\t    return    $self->{$field};\n"
+"\t};\n"
+"\tbless($closure, $class);\n"
+"\treturn $closure;\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1303
+#, no-wrap
+msgid ""
+"    sub name   { &{ $_[0] }(\"NAME\",  @_[ 1 .. $#_ ] ) }\n"
+"    sub age    { &{ $_[0] }(\"AGE\",   @_[ 1 .. $#_ ] ) }\n"
+"    sub peers  { &{ $_[0] }(\"PEERS\", @_[ 1 .. $#_ ] ) }\n"
+"\n"
+msgstr ""
+"    sub name   { &{ $_[0] }(\"NAME\",  @_[ 1 .. $#_ ] ) }\n"
+"    sub age    { &{ $_[0] }(\"AGE\",   @_[ 1 .. $#_ ] ) }\n"
+"    sub peers  { &{ $_[0] }(\"PEERS\", @_[ 1 .. $#_ ] ) }\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:1309
+msgid "Because this object is hidden behind a code reference, it's probably a bit mysterious to those whose background is more firmly rooted in standard procedural or object-based programming languages than in functional programming languages whence closures derive.  The object created and returned by the new() method is itself not a data reference as we've seen before.  It's an anonymous code reference that has within it access to a specific version (lexical binding and instantiation)  of the object's data, which are stored in the private variable $self.  Although this is the same function each time, it contains a different version of $self."
+msgstr "因为这个类隐藏在闭包之后，所以对很多人来说有些神秘。通过该类的构造函数返回的是"
+"一个闭包引用，通过这个闭包我们可以访问到实例数据。"
+
+#. type: textblock
+#: perltoot.pod:1320
+msgid "When a method like C<$him-E<gt>name(\"Jason\")> is called, its implicit zeroth argument is the invoking object--just as it is with all method calls.  But in this case, it's our code reference (something like a function pointer in C++, but with deep binding of lexical variables).  There's not a lot to be done with a code reference beyond calling it, so that's just what we do when we say C<&{$_[0]}>.  This is just a regular function call, not a method call.  The initial argument is the string \"NAME\", and any remaining arguments are whatever had been passed to the method itself."
+msgstr "当 C<$him-E<gt>name(\"Jason\")> 被调用时，将会在 name() 函数中通过闭包引用来存储"
+"相应的值。"
+
+#. type: textblock
+#: perltoot.pod:1330
+msgid "Once we're executing inside the closure that had been created in new(), the $self hash reference suddenly becomes visible.  The closure grabs its first argument (\"NAME\" in this case because that's what the name()  method passed it), and uses that string to subscript into the private hash hidden in its unique version of $self."
+msgstr ""
+
+#. type: textblock
+#: perltoot.pod:1336
+msgid "Nothing under the sun will allow anyone outside the executing method to be able to get at this hidden data.  Well, nearly nothing.  You I<could> single step through the program using the debugger and find out the pieces while you're in the method, but everyone else is out of luck."
+msgstr "闭包之后的数据隐藏起来，其他人无法在闭包之外对数据进行访问。"
+
+#. type: textblock
+#: perltoot.pod:1341
+msgid "There, if that doesn't excite the Scheme folks, then I just don't know what will.  Translation of this technique into C++, Java, or any other braindead-static language is left as a futile exercise for aficionados of those camps."
+msgstr ""
+
+#. type: textblock
+#: perltoot.pod:1346
+msgid "You could even add a bit of nosiness via the caller() function and make the closure refuse to operate unless called via its own package.  This would no doubt satisfy certain fastidious concerns of programming police and related puritans."
+msgstr "你也可以通过 caller() 函数使的这个闭包只能在自己的包内执行。"
+
+#. type: textblock
+#: perltoot.pod:1351
+msgid "If you were wondering when Hubris, the third principle virtue of a programmer, would come into play, here you have it. (More seriously, Hubris is just the pride in craftsmanship that comes from having written a sound bit of well-designed code.)"
+msgstr ""
+
+#. type: =head1
+#: perltoot.pod:1356
+msgid "AUTOLOAD: Proxy Methods"
+msgstr "AUTOLOAD 方法"
+
+#. type: textblock
+#: perltoot.pod:1358
+msgid "Autoloading is a way to intercept calls to undefined methods.  An autoload routine may choose to create a new function on the fly, either loaded from disk or perhaps just eval()ed right there.  This define-on-the-fly strategy is why it's called autoloading."
+msgstr "Autoloading 可以在调用未定义方法时自动执行。"
+
+#. type: textblock
+#: perltoot.pod:1363
+msgid "But that's only one possible approach.  Another one is to just have the autoloaded method itself directly provide the requested service.  When used in this way, you may think of autoloaded methods as \"proxy\" methods."
+msgstr ""
+
+#. type: textblock
+#: perltoot.pod:1368
+msgid "When Perl tries to call an undefined function in a particular package and that function is not defined, it looks for a function in that same package called AUTOLOAD.  If one exists, it's called with the same arguments as the original function would have had.  The fully-qualified name of the function is stored in that package's global variable $AUTOLOAD.  Once called, the function can do anything it would like, including defining a new function by the right name, and then doing a really fancy kind of C<goto> right to it, erasing itself from the call stack."
+msgstr "当调用一个未定义的方法时，Perl 会自动调用 AUTOLOAD 方法，并且传递给它相同的参数。"
+"在 AUTOLOAD 中我们可以做任何事情。"
+
+#. type: textblock
+#: perltoot.pod:1378
+msgid "What does this have to do with objects? After all, we keep talking about functions, not methods.  Well, since a method is just a function with an extra argument and some fancier semantics about where it's found, we can use autoloading for methods, too.  Perl doesn't start looking for an AUTOLOAD method until it has exhausted the recursive hunt up through @ISA, though.  Some programmers have even been known to define a UNIVERSAL::AUTOLOAD method to trap unresolved method calls to any kind of object."
+msgstr "Perl 会先到 @ISA 数组中去查找方法，如果没有找到的话就会调用 AUTOLOAD 方法。有些"
+"程序员会定义 UNIVERSAL::AUTOLOAD 来为每一个类都定义 AUTOLOAD 方法。"
+
+#. type: =head2
+#: perltoot.pod:1387
+msgid "Autoloaded Data Methods"
+msgstr "自动访问器"
+
+#. type: textblock
+#: perltoot.pod:1389
+msgid "You probably began to get a little suspicious about the duplicated code way back earlier when we first showed you the Person class, and then later the Employee class.  Each method used to access the hash fields looked virtually identical.  This should have tickled that great programming virtue, Impatience, but for the time, we let Laziness win out, and so did nothing.  Proxy methods can cure this."
+msgstr "我们之前编写的 Person 类或是 Employee 类，我们为每个类属性分别设置了存取方法，"
+"这是一个相当繁琐的过程。但是我们可以通过 AUTOLOAD 方法来简化操作，自动生成访问器。"
+
+#. type: textblock
+#: perltoot.pod:1397
+msgid "Instead of writing a new function every time we want a new data field, we'll use the autoload mechanism to generate (actually, mimic) methods on the fly.  To verify that we're accessing a valid member, we will check against an C<_permitted> (pronounced \"under-permitted\") field, which is a reference to a file-scoped lexical (like a C file static) hash of permitted fields in this record called %fields.  Why the underscore? For the same reason as the _CENSUS field we once used: as a marker that means \"for internal use only\"."
+msgstr "我们将不会为类的每个属性编写自己的存取方法，我们将通过 AUTOLOAD 的方式来实现。"
+"我们会利用 C<_permitted> 来验证参数的合法性。为什么是下划线开头呢？因为它是一个私有属性。"
+
+#. type: textblock
+#: perltoot.pod:1405
+msgid "Here's what the module initialization code and class constructor will look like when taking this approach:"
+msgstr "下面是实现的代码："
+
+#. type: verbatim
+#: perltoot.pod:1408
+#, no-wrap
+msgid ""
+"    package Person;\n"
+"    use Carp;\n"
+"    our $AUTOLOAD;  # it's a package global\n"
+"\n"
+msgstr ""
+"    package Person;\n"
+"    use Carp;\n"
+"    our $AUTOLOAD;  # it's a package global\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1412
+#, no-wrap
+msgid ""
+"    my %fields = (\n"
+"\tname        => undef,\n"
+"\tage         => undef,\n"
+"\tpeers       => undef,\n"
+"    );\n"
+"\n"
+msgstr ""
+"    my %fields = (\n"
+"\tname        => undef,\n"
+"\tage         => undef,\n"
+"\tpeers       => undef,\n"
+"    );\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1418
+#, no-wrap
+msgid ""
+"    sub new {\n"
+"\tmy $class = shift;\n"
+"\tmy $self  = {\n"
+"\t    _permitted => \\%fields,\n"
+"\t    %fields,\n"
+"\t};\n"
+"\tbless $self, $class;\n"
+"\treturn $self;\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub new {\n"
+"\tmy $class = shift;\n"
+"\tmy $self  = {\n"
+"\t    _permitted => \\%fields,\n"
+"\t    %fields,\n"
+"\t};\n"
+"\tbless $self, $class;\n"
+"\treturn $self;\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:1428
+msgid "If we wanted our record to have default values, we could fill those in where current we have C<undef> in the %fields hash."
+msgstr "如果想赋予它们一个默认值，我们可以写在 %field 哈希中。"
+
+#. type: textblock
+#: perltoot.pod:1431
+msgid "Notice how we saved a reference to our class data on the object itself? Remember that it's important to access class data through the object itself instead of having any method reference %fields directly, or else you won't have a decent inheritance."
+msgstr ""
+
+#. type: textblock
+#: perltoot.pod:1436
+msgid "The real magic, though, is going to reside in our proxy method, which will handle all calls to undefined methods for objects of class Person (or subclasses of Person).  It has to be called AUTOLOAD.  Again, it's all caps because it's called for us implicitly by Perl itself, not by a user directly."
+msgstr "现在我们通过 AUTOLOAD 方法来实现访问器。"
+
+#. type: verbatim
+#: perltoot.pod:1442
+#, no-wrap
+msgid ""
+"    sub AUTOLOAD {\n"
+"\tmy $self = shift;\n"
+"\tmy $type = ref($self)\n"
+"\t\t    or croak \"$self is not an object\";\n"
+"\n"
+msgstr ""
+"    sub AUTOLOAD {\n"
+"\tmy $self = shift;\n"
+"\tmy $type = ref($self)\n"
+"\t\t    or croak \"$self is not an object\";\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1447
+#, no-wrap
+msgid ""
+"\tmy $name = $AUTOLOAD;\n"
+"\t$name =~ s/.*://;   # strip fully-qualified portion\n"
+"\n"
+msgstr ""
+"\tmy $name = $AUTOLOAD;\n"
+"\t$name =~ s/.*://;   # strip fully-qualified portion\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1450
+#, no-wrap
+msgid ""
+"\tunless (exists $self->{_permitted}->{$name} ) {\n"
+"\t    croak \"Can't access `$name' field in class $type\";\n"
+"\t}\n"
+"\n"
+msgstr ""
+"\tunless (exists $self->{_permitted}->{$name} ) {\n"
+"\t    croak \"Can't access `$name' field in class $type\";\n"
+"\t}\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1454
+#, no-wrap
+msgid ""
+"\tif (@_) {\n"
+"\t    return $self->{$name} = shift;\n"
+"\t} else {\n"
+"\t    return $self->{$name};\n"
+"\t}\n"
+"    }\n"
+"\n"
+msgstr ""
+"\tif (@_) {\n"
+"\t    return $self->{$name} = shift;\n"
+"\t} else {\n"
+"\t    return $self->{$name};\n"
+"\t}\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:1461
+msgid "Pretty nifty, eh? All we have to do to add new data fields is modify %fields.  No new functions need be written."
+msgstr "是不是更加漂亮简洁了？我们现在不需要添加额外的方法了。"
+
+#. type: textblock
+#: perltoot.pod:1464
+msgid "I could have avoided the C<_permitted> field entirely, but I wanted to demonstrate how to store a reference to class data on the object so you wouldn't have to access that class data directly from an object method."
+msgstr ""
+
+#. type: =head2
+#: perltoot.pod:1469
+msgid "Inherited Autoloaded Data Methods"
+msgstr "继承自动访问器"
+
+#. type: textblock
+#: perltoot.pod:1471
+msgid "But what about inheritance? Can we define our Employee class similarly? Yes, so long as we're careful enough."
+msgstr "那么我们该如何继承上面的代码呢？"
+
+#. type: textblock
+#: perltoot.pod:1474
+msgid "Here's how to be careful:"
+msgstr ""
+
+#. type: verbatim
+#: perltoot.pod:1476
+#, no-wrap
+msgid ""
+"    package Employee;\n"
+"    use Person;\n"
+"    use strict;\n"
+"    our @ISA = qw(Person);\n"
+"\n"
+msgstr ""
+"    package Employee;\n"
+"    use Person;\n"
+"    use strict;\n"
+"    our @ISA = qw(Person);\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1481
+#, no-wrap
+msgid ""
+"    my %fields = (\n"
+"\tid          => undef,\n"
+"\tsalary      => undef,\n"
+"    );\n"
+"\n"
+msgstr ""
+"    my %fields = (\n"
+"\tid          => undef,\n"
+"\tsalary      => undef,\n"
+"    );\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1486
+#, no-wrap
+msgid ""
+"    sub new {\n"
+"\tmy $class = shift;\n"
+"\tmy $self  = $class->SUPER::new();\n"
+"\tmy($element);\n"
+"\tforeach $element (keys %fields) {\n"
+"\t    $self->{_permitted}->{$element} = $fields{$element};\n"
+"\t}\n"
+"\t@{$self}{keys %fields} = values %fields;\n"
+"\treturn $self;\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub new {\n"
+"\tmy $class = shift;\n"
+"\tmy $self  = $class->SUPER::new();\n"
+"\tmy($element);\n"
+"\tforeach $element (keys %fields) {\n"
+"\t    $self->{_permitted}->{$element} = $fields{$element};\n"
+"\t}\n"
+"\t@{$self}{keys %fields} = values %fields;\n"
+"\treturn $self;\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:1497
+msgid "Once we've done this, we don't even need to have an AUTOLOAD function in the Employee package, because we'll grab Person's version of that via inheritance, and it will all work out just fine."
+msgstr "一旦我们这么做了，我们就不需要再写 AUTOLOAD 方法了。"
+
+#. type: =head1
+#: perltoot.pod:1502
+msgid "Metaclassical Tools"
+msgstr "元类工具"
+
+#. type: textblock
+#: perltoot.pod:1504
+msgid "Even though proxy methods can provide a more convenient approach to making more struct-like classes than tediously coding up data methods as functions, it still leaves a bit to be desired.  For one thing, it means you have to handle bogus calls that you don't mean to trap via your proxy.  It also means you have to be quite careful when dealing with inheritance, as detailed above."
+msgstr "尽管我们前面已经写出了一种很简便的类，但是我们还是希望有更好的方式。"
+
+#. type: textblock
+#: perltoot.pod:1511
+msgid "Perl programmers have responded to this by creating several different class construction classes.  These metaclasses are classes that create other classes.  A couple worth looking at are Class::Struct and Alias.  These and other related metaclasses can be found in the modules directory on CPAN."
+msgstr "CPAN 上有很多模块可以帮助我们构建不同形式的类。"
+
+#. type: =head2
+#: perltoot.pod:1517
+msgid "Class::Struct"
+msgstr "Class::Struct"
+
+#. type: textblock
+#: perltoot.pod:1519
+msgid "One of the older ones is Class::Struct.  In fact, its syntax and interface were sketched out long before perl5 even solidified into a real thing.  What it does is provide you a way to \"declare\" a class as having objects whose fields are of a specific type.  The function that does this is called, not surprisingly enough, struct().  Because structures or records are not base types in Perl, each time you want to create a class to provide a record-like data object, you yourself have to define a new() method, plus separate data-access methods for each of that record's fields.  You'll quickly become bored with this process.  The Class::Struct::struct() function alleviates this tedium."
+msgstr ""
+
+#. type: textblock
+#: perltoot.pod:1530
+msgid "Here's a simple example of using it:"
+msgstr "下面让我们看一个例子："
+
+#. type: verbatim
+#: perltoot.pod:1532
+#, no-wrap
+msgid ""
+"    use Class::Struct qw(struct);\n"
+"    use Jobbie;  # user-defined; see below\n"
+"\n"
+msgstr ""
+"    use Class::Struct qw(struct);\n"
+"    use Jobbie;  # user-defined; see below\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1535
+#, no-wrap
+msgid ""
+"    struct 'Fred' => {\n"
+"        one        => '$',\n"
+"        many       => '@',\n"
+"        profession => 'Jobbie',  # does not call Jobbie->new()\n"
+"    };\n"
+"\n"
+msgstr ""
+"    struct 'Fred' => {\n"
+"        one        => '$',\n"
+"        many       => '@',\n"
+"        profession => 'Jobbie',  # does not call Jobbie->new()\n"
+"    };\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1541
+#, no-wrap
+msgid ""
+"    $ob = Fred->new(profession => Jobbie->new());\n"
+"    $ob->one(\"hmmmm\");\n"
+"\n"
+msgstr ""
+"    $ob = Fred->new(profession => Jobbie->new());\n"
+"    $ob->one(\"hmmmm\");\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1544
+#, no-wrap
+msgid ""
+"    $ob->many(0, \"here\");\n"
+"    $ob->many(1, \"you\");\n"
+"    $ob->many(2, \"go\");\n"
+"    print \"Just set: \", $ob->many(2), \"\\n"
+"\";\n"
+"\n"
+msgstr ""
+"    $ob->many(0, \"here\");\n"
+"    $ob->many(1, \"you\");\n"
+"    $ob->many(2, \"go\");\n"
+"    print \"Just set: \", $ob->many(2), \"\\n"
+"\";\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1549
+#, no-wrap
+msgid ""
+"    $ob->profession->salary(10_000);\n"
+"\n"
+msgstr ""
+"    $ob->profession->salary(10_000);\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:1551
+msgid "You can declare types in the struct to be basic Perl types, or user-defined types (classes).  User types will be initialized by calling that class's new() method."
+msgstr "你可以借用 Perl 标准数据类型或自定义类型来声明结构体。"
+
+#. type: textblock
+#: perltoot.pod:1555
+msgid "Take care that the C<Jobbie> object is not created automatically by the C<Fred> class's new() method, so you should specify a C<Jobbie> object when you create an instance of C<Fred>."
+msgstr "需要注意的是 C<Jobbie> 并不是 Fred 自动调用其 new() 方法生成的，所以你需要手动"
+"完成。"
+
+#. type: textblock
+#: perltoot.pod:1559
+msgid "Here's a real-world example of using struct generation.  Let's say you wanted to override Perl's idea of gethostbyname() and gethostbyaddr() so that they would return objects that acted like C structures.  We don't care about high-falutin' OO gunk.  All we want is for these objects to act like structs in the C sense."
+msgstr "下面是一个使用 struct 的实际例子。gethostbyname() 和 gethostbyaddr() 方法会返回"
+"一个类似 C 语言结构体的结构。"
+
+#. type: verbatim
+#: perltoot.pod:1565
+#, no-wrap
+msgid ""
+"    use Socket;\n"
+"    use Net::hostent;\n"
+"    $h = gethostbyname(\"perl.com\");  # object return\n"
+"    printf \"perl.com's real name is %s, address %s\\n"
+"\",\n"
+"\t$h->name, inet_ntoa($h->addr);\n"
+"\n"
+msgstr ""
+"    use Socket;\n"
+"    use Net::hostent;\n"
+"    $h = gethostbyname(\"perl.com\");  # object return\n"
+"    printf \"perl.com's real name is %s, address %s\\n"
+"\",\n"
+"\t$h->name, inet_ntoa($h->addr);\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:1571
+msgid "Here's how to do this using the Class::Struct module.  The crux is going to be this call:"
+msgstr "下面是我们如何使用 Class::Struct 模块来构建："
+
+#. type: verbatim
+#: perltoot.pod:1574
+#, no-wrap
+msgid ""
+"    struct 'Net::hostent' => [  \t# note bracket\n"
+"\tname       => '$',\n"
+"\taliases    => '@',\n"
+"\taddrtype   => '$',\n"
+"\t'length'   => '$',\n"
+"\taddr_list  => '@',\n"
+"     ];\n"
+"\n"
+msgstr ""
+"    struct 'Net::hostent' => [  \t# note bracket\n"
+"\tname       => '$',\n"
+"\taliases    => '@',\n"
+"\taddrtype   => '$',\n"
+"\t'length'   => '$',\n"
+"\taddr_list  => '@',\n"
+"     ];\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:1582
+msgid "Which creates object methods of those names and types.  It even creates a new() method for us."
+msgstr "上面的代码构建了相应的属性并且声明了相应的类型，甚至创建了 new() 方法。"
+
+#. type: textblock
+#: perltoot.pod:1585
+msgid "We could also have implemented our object this way:"
+msgstr "当然我们也可以按下面这种方式来声明："
+
+#. type: verbatim
+#: perltoot.pod:1587
+#, no-wrap
+msgid ""
+"    struct 'Net::hostent' => {  \t# note brace\n"
+"\tname       => '$',\n"
+"\taliases    => '@',\n"
+"\taddrtype   => '$',\n"
+"\t'length'   => '$',\n"
+"\taddr_list  => '@',\n"
+"     };\n"
+"\n"
+msgstr ""
+"    struct 'Net::hostent' => {  \t# note brace\n"
+"\tname       => '$',\n"
+"\taliases    => '@',\n"
+"\taddrtype   => '$',\n"
+"\t'length'   => '$',\n"
+"\taddr_list  => '@',\n"
+"     };\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:1595
+msgid "and then Class::Struct would have used an anonymous hash as the object type, instead of an anonymous array.  The array is faster and smaller, but the hash works out better if you eventually want to do inheritance.  Since for this struct-like object we aren't planning on inheritance, this time we'll opt for better speed and size over better flexibility."
+msgstr "上面的这种方式会以匿名哈希为基础，而不是匿名数组。数组在操作上更快而且存储上更小,"
+"但是哈希更容易被继承。但是结构体不会被继承，所以这里我们推荐使用匿名数组的方式。"
+
+#. type: textblock
+#: perltoot.pod:1601
+msgid "Here's the whole implementation:"
+msgstr "下面是整个实现过程："
+
+#. type: verbatim
+#: perltoot.pod:1603
+#, no-wrap
+msgid ""
+"    package Net::hostent;\n"
+"    use strict;\n"
+"\n"
+msgstr ""
+"    package Net::hostent;\n"
+"    use strict;\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1606
+#, no-wrap
+msgid ""
+"    BEGIN {\n"
+"\tuse Exporter   ();\n"
+"\tour @EXPORT      = qw(gethostbyname gethostbyaddr gethost);\n"
+"\tour @EXPORT_OK   = qw(\n"
+"\t\t\t       $h_name         @h_aliases\n"
+"\t\t\t       $h_addrtype     $h_length\n"
+"\t\t\t       @h_addr_list    $h_addr\n"
+"\t\t\t   );\n"
+"\tour %EXPORT_TAGS = ( FIELDS => [ @EXPORT_OK, @EXPORT ] );\n"
+"    }\n"
+"    our @EXPORT_OK;\n"
+"\n"
+msgstr ""
+"    BEGIN {\n"
+"\tuse Exporter   ();\n"
+"\tour @EXPORT      = qw(gethostbyname gethostbyaddr gethost);\n"
+"\tour @EXPORT_OK   = qw(\n"
+"\t\t\t       $h_name         @h_aliases\n"
+"\t\t\t       $h_addrtype     $h_length\n"
+"\t\t\t       @h_addr_list    $h_addr\n"
+"\t\t\t   );\n"
+"\tour %EXPORT_TAGS = ( FIELDS => [ @EXPORT_OK, @EXPORT ] );\n"
+"    }\n"
+"    our @EXPORT_OK;\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1618
+#, no-wrap
+msgid ""
+"    # Class::Struct forbids use of @ISA\n"
+"    sub import { goto &Exporter::import }\n"
+"\n"
+msgstr ""
+"    # Class::Struct forbids use of @ISA\n"
+"    sub import { goto &Exporter::import }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1621
+#, no-wrap
+msgid ""
+"    use Class::Struct qw(struct);\n"
+"    struct 'Net::hostent' => [\n"
+"       name        => '$',\n"
+"       aliases     => '@',\n"
+"       addrtype    => '$',\n"
+"       'length'    => '$',\n"
+"       addr_list   => '@',\n"
+"    ];\n"
+"\n"
+msgstr ""
+"    use Class::Struct qw(struct);\n"
+"    struct 'Net::hostent' => [\n"
+"       name        => '$',\n"
+"       aliases     => '@',\n"
+"       addrtype    => '$',\n"
+"       'length'    => '$',\n"
+"       addr_list   => '@',\n"
+"    ];\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1630
+#, no-wrap
+msgid ""
+"    sub addr { shift->addr_list->[0] }\n"
+"\n"
+msgstr ""
+"    sub addr { shift->addr_list->[0] }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1632
+#, no-wrap
+msgid ""
+"    sub populate (@) {\n"
+"\treturn unless @_;\n"
+"\tmy $hob = new();  # Class::Struct made this!\n"
+"\t$h_name     =    $hob->[0]              = $_[0];\n"
+"\t@h_aliases  = @{ $hob->[1] } = split ' ', $_[1];\n"
+"\t$h_addrtype =    $hob->[2]              = $_[2];\n"
+"\t$h_length   =    $hob->[3]              = $_[3];\n"
+"\t$h_addr     =                             $_[4];\n"
+"\t@h_addr_list = @{ $hob->[4] } =         @_[ (4 .. $#_) ];\n"
+"\treturn $hob;\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub populate (@) {\n"
+"\treturn unless @_;\n"
+"\tmy $hob = new();  # Class::Struct made this!\n"
+"\t$h_name     =    $hob->[0]              = $_[0];\n"
+"\t@h_aliases  = @{ $hob->[1] } = split ' ', $_[1];\n"
+"\t$h_addrtype =    $hob->[2]              = $_[2];\n"
+"\t$h_length   =    $hob->[3]              = $_[3];\n"
+"\t$h_addr     =                             $_[4];\n"
+"\t@h_addr_list = @{ $hob->[4] } =         @_[ (4 .. $#_) ];\n"
+"\treturn $hob;\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1644
+#, no-wrap
+msgid ""
+"    sub gethostbyname ($)  { populate(CORE::gethostbyname(shift)) }\n"
+"\n"
+msgstr ""
+"    sub gethostbyname ($)  { populate(CORE::gethostbyname(shift)) }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1646
+#, no-wrap
+msgid ""
+"    sub gethostbyaddr ($;$) {\n"
+"\tmy ($addr, $addrtype);\n"
+"\t$addr = shift;\n"
+"\trequire Socket unless @_;\n"
+"\t$addrtype = @_ ? shift : Socket::AF_INET();\n"
+"\tpopulate(CORE::gethostbyaddr($addr, $addrtype))\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub gethostbyaddr ($;$) {\n"
+"\tmy ($addr, $addrtype);\n"
+"\t$addr = shift;\n"
+"\trequire Socket unless @_;\n"
+"\t$addrtype = @_ ? shift : Socket::AF_INET();\n"
+"\tpopulate(CORE::gethostbyaddr($addr, $addrtype))\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1654
+#, no-wrap
+msgid ""
+"    sub gethost($) {\n"
+"\tif ($_[0] =~ /^\\d+(?:\\.\\d+(?:\\.\\d+(?:\\.\\d+)?)?)?$/) {\n"
+"\t   require Socket;\n"
+"\t   &gethostbyaddr(Socket::inet_aton(shift));\n"
+"\t} else {\n"
+"\t   &gethostbyname;\n"
+"\t}\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub gethost($) {\n"
+"\tif ($_[0] =~ /^\\d+(?:\\.\\d+(?:\\.\\d+(?:\\.\\d+)?)?)?$/) {\n"
+"\t   require Socket;\n"
+"\t   &gethostbyaddr(Socket::inet_aton(shift));\n"
+"\t} else {\n"
+"\t   &gethostbyname;\n"
+"\t}\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:1665
+msgid "We've snuck in quite a fair bit of other concepts besides just dynamic class creation, like overriding core functions, import/export bits, function prototyping, short-cut function call via C<&whatever>, and function replacement with C<goto &whatever>.  These all mostly make sense from the perspective of a traditional module, but as you can see, we can also use them in an object module."
+msgstr ""
+
+#. type: textblock
+#: perltoot.pod:1672
+msgid "You can look at other object-based, struct-like overrides of core functions in the 5.004 release of Perl in File::stat, Net::hostent, Net::netent, Net::protoent, Net::servent, Time::gmtime, Time::localtime, User::grent, and User::pwent.  These modules have a final component that's all lowercase, by convention reserved for compiler pragmas, because they affect the compilation and change a builtin function.  They also have the type names that a C programmer would most expect."
+msgstr ""
+
+#. type: =head2
+#: perltoot.pod:1680
+msgid "Data Members as Variables"
+msgstr "类数据变量化"
+
+#. type: textblock
+#: perltoot.pod:1682
+msgid "If you're used to C++ objects, then you're accustomed to being able to get at an object's data members as simple variables from within a method.  The Alias module provides for this, as well as a good bit more, such as the possibility of private methods that the object can call but folks outside the class cannot."
+msgstr "当使用一个 C++ 的对象时，我们可以通过简单的使用变量来存取类属性，在 Perl OO 中，"
+"我们可以通过 Alias 模块来实现相同的功能。"
+
+#. type: textblock
+#: perltoot.pod:1688
+msgid "Here's an example of creating a Person using the Alias module.  When you update these magical instance variables, you automatically update value fields in the hash.  Convenient, eh?"
+msgstr "下面是一个使用了 Alias 模块的 Person 类。"
+
+#. type: verbatim
+#: perltoot.pod:1694
+#, no-wrap
+msgid ""
+"    # this is the same as before...\n"
+"    sub new {\n"
+"\t my $class = shift;\n"
+"\t my $self = {\n"
+"\t    NAME  => undef,\n"
+"\t    AGE   => undef,\n"
+"\t    PEERS => [],\n"
+"\t};\n"
+"\tbless($self, $class);\n"
+"\treturn $self;\n"
+"    }\n"
+"\n"
+msgstr ""
+"    # this is the same as before...\n"
+"    sub new {\n"
+"\t my $class = shift;\n"
+"\t my $self = {\n"
+"\t    NAME  => undef,\n"
+"\t    AGE   => undef,\n"
+"\t    PEERS => [],\n"
+"\t};\n"
+"\tbless($self, $class);\n"
+"\treturn $self;\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1706
+#, no-wrap
+msgid ""
+"    use Alias qw(attr);\n"
+"    our ($NAME, $AGE, $PEERS);\n"
+"\n"
+msgstr ""
+"    use Alias qw(attr);\n"
+"    our ($NAME, $AGE, $PEERS);\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1709
+#, no-wrap
+msgid ""
+"    sub name {\n"
+"\tmy $self = attr shift;\n"
+"\tif (@_) { $NAME = shift; }\n"
+"\treturn    $NAME;\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub name {\n"
+"\tmy $self = attr shift;\n"
+"\tif (@_) { $NAME = shift; }\n"
+"\treturn    $NAME;\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1715
+#, no-wrap
+msgid ""
+"    sub age {\n"
+"\tmy $self = attr shift;\n"
+"\tif (@_) { $AGE = shift; }\n"
+"\treturn    $AGE;\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub age {\n"
+"\tmy $self = attr shift;\n"
+"\tif (@_) { $AGE = shift; }\n"
+"\treturn    $AGE;\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1721
+#, no-wrap
+msgid ""
+"    sub peers {\n"
+"\tmy $self = attr shift;\n"
+"\tif (@_) { @PEERS = @_; }\n"
+"\treturn    @PEERS;\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub peers {\n"
+"\tmy $self = attr shift;\n"
+"\tif (@_) { @PEERS = @_; }\n"
+"\treturn    @PEERS;\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1727
+#, no-wrap
+msgid ""
+"    sub exclaim {\n"
+"        my $self = attr shift;\n"
+"        return sprintf \"Hi, I'm %s, age %d, working with %s\",\n"
+"            $NAME, $AGE, join(\", \", @PEERS);\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub exclaim {\n"
+"        my $self = attr shift;\n"
+"        return sprintf \"Hi, I'm %s, age %d, working with %s\",\n"
+"            $NAME, $AGE, join(\", \", @PEERS);\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltoot.pod:1733
+#, no-wrap
+msgid ""
+"    sub happy_birthday {\n"
+"        my $self = attr shift;\n"
+"        return ++$AGE;\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub happy_birthday {\n"
+"        my $self = attr shift;\n"
+"        return ++$AGE;\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perltoot.pod:1738
+msgid "The need for the C<our> declaration is because what Alias does is play with package globals with the same name as the fields.  To use globals while C<use strict> is in effect, you have to predeclare them.  These package variables are localized to the block enclosing the attr()  call just as if you'd used a local() on them.  However, that means that they're still considered global variables with temporary values, just as with any other local()."
+msgstr "为了使变量包全局可见，我们需要用 C<our> 来声明。在 <use strict> 模式下，我们需要"
+"预先声明那些变量。"
+
+#. type: textblock
+#: perltoot.pod:1746
+msgid "It would be nice to combine Alias with something like Class::Struct or Class::MethodMaker."
+msgstr "当 Alias 模块与 Class::Struct、Class::MethodMaker 配合使用时，能得到更好的效果。"
+
+#. type: =head1
+#: perltoot.pod:1749
+msgid "NOTES"
+msgstr "笔记"
+
+#. type: =head2
+#: perltoot.pod:1751
+msgid "Object Terminology"
+msgstr "类术语"
+
+#. type: textblock
+#: perltoot.pod:1753
+msgid "In the various OO literature, it seems that a lot of different words are used to describe only a few different concepts.  If you're not already an object programmer, then you don't need to worry about all these fancy words.  But if you are, then you might like to know how to get at the same concepts in Perl."
+msgstr "在不同的介绍面向对象的文献中，有各种各样的词语用来讲述面向对象的概念。如果你还不"
+"是一个面向对象编程的程序员的话，你不必担心你不知道那些各种各样的术语。如果你已经是一名"
+"面向对象编程的程序员，你一定会理解那些概念在 Perl 中如何表示。"
+
+#. type: textblock
+#: perltoot.pod:1759
+msgid "For example, it's common to call an object an I<instance> of a class and to call those objects' methods I<instance methods>.  Data fields peculiar to each object are often called I<instance data> or I<object attributes>, and data fields common to all members of that class are I<class data>, I<class attributes>, or I<static data members>."
+msgstr "比如，很多时候我们把类叫做I<实例>，把其方法叫做I<实例方法>。数据被分为I<实例数据>、"
+"I<类属性>。"
+
+#. type: textblock
+#: perltoot.pod:1765
+msgid "Also, I<base class>, I<generic class>, and I<superclass> all describe the same notion, whereas I<derived class>, I<specific class>, and I<subclass> describe the other related one."
+msgstr "还有，I<基类>、I<泛类>、I<超类> 、I<派生类>、I<特有类>、I<子类> 等等。"
+
+#. type: textblock
+#: perltoot.pod:1769
+msgid "C++ programmers have I<static methods> and I<virtual methods>, but Perl only has I<class methods> and I<object methods>.  Actually, Perl only has methods.  Whether a method gets used as a class or object method is by usage only.  You could accidentally call a class method (one expecting a string argument) on an object (one expecting a reference), or vice versa."
+msgstr "C++ 有I<静态方法>和I<虚拟方法>，但是 Perl 只有 I<类方法>和I<实例方法>。"
+
+#. type: textblock
+#: perltoot.pod:1776
+msgid "From the C++ perspective, all methods in Perl are virtual.  This, by the way, is why they are never checked for function prototypes in the argument list as regular builtin and user-defined functions can be."
+msgstr ""
+
+#. type: textblock
+#: perltoot.pod:1781
+msgid "Because a class is itself something of an object, Perl's classes can be taken as describing both a \"class as meta-object\" (also called I<object factory>) philosophy and the \"class as type definition\" (I<declaring> behaviour, not I<defining> mechanism) idea.  C++ supports the latter notion, but not the former."
+msgstr "因为 Perl 中的类都继承于 UNIVERSAL 类，所以 Perl 中的类既是元类又是普通的类。"
+"而 C++ 中的类不具有元类功能。"
+
+#. type: =head1
+#: perltoot.pod:1787
+msgid "SEE ALSO"
+msgstr "另见"
+
+#. type: textblock
+#: perltoot.pod:1789
+msgid "The following manpages will doubtless provide more background for this one: L<perlmod>, L<perlref>, L<perlobj>, L<perlbot>, L<perltie>, and L<overload>."
+msgstr "L<perlmod>、L<perlref>、L<perlobj>、L<perlbot>、L<perltie>、L<overload>。"
+
+#. type: textblock
+#: perltoot.pod:1799
+msgid "L<perlboot> is a kinder, gentler introduction to object-oriented programming."
+msgstr "L<perlboot> 是一个更加简单易懂的易于初学者学习的文档。"
+
+#. type: textblock
+#: perltoot.pod:1802
+msgid "L<perltooc> provides more detail on class data."
+msgstr "L<perltooc> 提供了更多关于类数据的信息。"
+
+#. type: textblock
+#: perltoot.pod:1804
+msgid "Some modules which might prove interesting are Class::Accessor, Class::Class, Class::Contract, Class::Data::Inheritable, Class::MethodMaker and Tie::SecureHash"
+msgstr "一些模块经常用到 Class::Accessor、Class:Class、Class::Contract、"
+"Class::Data::Inheritable、Class::MethodMaker 和 Tie::SecureHash。"
+
+#. type: =head1
+#: perltoot.pod:1809
+msgid "AUTHOR AND COPYRIGHT"
+msgstr "AUTHOR AND COPYRIGHT"
+
+#. type: textblock
+#: perltoot.pod:1811
+msgid "Copyright (c) 1997, 1998 Tom Christiansen All rights reserved."
+msgstr "Copyright (c) 1997, 1998 Tom Christiansen All rights reserved."
+
+#. type: textblock
+#: perltoot.pod:1814
+msgid "This documentation is free; you can redistribute it and/or modify it under the same terms as Perl itself."
+msgstr "This documentation is free; you can redistribute it and/or modify it under the same terms as Perl itself."
+
+#. type: textblock
+#: perltoot.pod:1817
+msgid "Irrespective of its distribution, all code examples in this file are hereby placed into the public domain.  You are permitted and encouraged to use this code in your own programs for fun or for profit as you see fit.  A simple comment in the code giving credit would be courteous but is not required."
+msgstr "Irrespective of its distribution, all code examples in this file are hereby placed into the public domain.  You are permitted and encouraged to use this code in your own programs for fun or for profit as you see fit.  A simple comment in the code giving credit would be courteous but is not required."
+
+#. type: =head1
+#: perltoot.pod:1823
+msgid "COPYRIGHT"
+msgstr "COPYRIGHT"
+
+#. type: =head2
+#: perltoot.pod:1825
+msgid "Acknowledgments"
+msgstr "鸣谢"
+
+#. type: textblock
+#: perltoot.pod:1827
+msgid "Thanks to Larry Wall, Roderick Schertler, Gurusamy Sarathy, Dean Roehrich, Raphael Manfredi, Brent Halsey, Greg Bacon, Brad Appleton, and many others for their helpful comments."
+msgstr "Thanks to Larry Wall, Roderick Schertler, Gurusamy Sarathy, Dean Roehrich, Raphael Manfredi, Brent Halsey, Greg Bacon, Brad Appleton, and many others for their helpful comments."
+

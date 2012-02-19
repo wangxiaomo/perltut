@@ -1,0 +1,2057 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-01-24 23:04+0800\n"
+"PO-Revision-Date: 2012-01-24 23:04+0800\n"
+"Last-Translator: xiaomo <wxm4ever@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. type: =head1
+#: perltooc.pod:1
+msgid "NAME"
+msgstr "NAME"
+
+#. type: textblock
+#: perltooc.pod:3
+msgid "perltooc - Tom's OO Tutorial for Class Data in Perl"
+msgstr "perltooc - Perl OO 中的数据"
+
+#. type: =head1
+#: perltooc.pod:5
+msgid "DESCRIPTION"
+msgstr "DESCRIPTION"
+
+#. type: textblock
+#: perltooc.pod:7
+msgid "When designing an object class, you are sometimes faced with the situation of wanting common state shared by all objects of that class.  Such I<class attributes> act somewhat like global variables for the entire class, but unlike program-wide globals, class attributes have meaning only to the class itself."
+msgstr "有时候当我们在设计类时，我们需要一些各个实例共享的关于类的数据。I<类属性>就为我"
+"们解决了这个问题。"
+
+#. type: textblock
+#: perltooc.pod:13
+msgid "Here are a few examples where class attributes might come in handy:"
+msgstr "下面是一些类属性的用途："
+
+#. type: =item
+#: perltooc.pod:17
+#: perltooc.pod:22
+#: perltooc.pod:27
+#: perltooc.pod:32
+msgid "*"
+msgstr "*"
+
+#. type: textblock
+#: perltooc.pod:19
+msgid "to keep a count of the objects you've created, or how many are still extant."
+msgstr "存储当前已经建立了几个实例，或者我们还可以建立几个实例。"
+
+#. type: textblock
+#: perltooc.pod:24
+msgid "to extract the name or file descriptor for a logfile used by a debugging method."
+msgstr "获得调试方法生成的日志文件的名字或文件句柄。"
+
+#. type: textblock
+#: perltooc.pod:29
+msgid "to access collective data, like the total amount of cash dispensed by all ATMs in a network in a given day."
+msgstr "获得一些集体的数据，比如 ATM 通过网络获得所有 ATM 在某天的现金流通量。"
+
+#. type: textblock
+#: perltooc.pod:34
+msgid "to access the last object created by a class, or the most accessed object, or to retrieve a list of all objects."
+msgstr "获得最近创建的实例，或者最常被访问的实例，或者获得所有实例构成的列表。"
+
+#. type: textblock
+#: perltooc.pod:39
+msgid "Unlike a true global, class attributes should not be accessed directly.  Instead, their state should be inspected, and perhaps altered, only through the mediated access of I<class methods>.  These class attributes accessor methods are similar in spirit and function to accessors used to manipulate the state of instance attributes on an object.  They provide a clear firewall between interface and implementation."
+msgstr "类属性不应该像全局变量那样能够被直接访问。类属性是可以通过类方法改变的。"
+
+#. type: textblock
+#: perltooc.pod:46
+msgid "You should allow access to class attributes through either the class name or any object of that class.  If we assume that $an_object is of type Some_Class, and the &Some_Class::population_count method accesses class attributes, then these two invocations should both be possible, and almost certainly equivalent."
+msgstr "我们应该允许通过类名或者通过实例来访问类属性。$an_object 是 Some_Class 的一个实例，"
+"下面的代码效果应该是相同的："
+
+#. type: verbatim
+#: perltooc.pod:52
+#, no-wrap
+msgid ""
+"    Some_Class->population_count()\n"
+"    $an_object->population_count()\n"
+"\n"
+msgstr ""
+"    Some_Class->population_count()\n"
+"    $an_object->population_count()\n"
+"\n"
+
+#. type: textblock
+#: perltooc.pod:55
+msgid "The question is, where do you store the state which that method accesses? Unlike more restrictive languages like C++, where these are called static data members, Perl provides no syntactic mechanism to declare class attributes, any more than it provides a syntactic mechanism to declare instance attributes.  Perl provides the developer with a broad set of powerful but flexible features that can be uniquely crafted to the particular demands of the situation."
+msgstr "现在有个问题是，我们该如何存储这些状态值呢？不像 C++ 等语言可以通过静态区来存储。"
+"Perl 不提供任何语法基础来声明类属性，甚至连实例属性都没有任何语法支持。但是我们可以通过"
+"某个特性来实现。"
+
+#. type: textblock
+#: perltooc.pod:63
+msgid "A class in Perl is typically implemented in a module.  A module consists of two complementary feature sets: a package for interfacing with the outside world, and a lexical file scope for privacy.  Either of these two mechanisms can be used to implement class attributes.  That means you get to decide whether to put your class attributes in package variables or to put them in lexical variables."
+msgstr "Perl 中的类与模块类似。一个模块包括两个成对的特性：一个与外面世界交互的包和一个"
+"文件作用域的命名空间。这两种机制都可以用来实现类属性，也就是说你需要考虑把类属性放在"
+"哪里。"
+
+#. type: textblock
+#: perltooc.pod:70
+msgid "And those aren't the only decisions to make.  If you choose to use package variables, you can make your class attribute accessor methods either ignorant of inheritance or sensitive to it.  If you choose lexical variables, you can elect to permit access to them from anywhere in the entire file scope, or you can limit direct data access exclusively to the methods implementing those attributes."
+msgstr "它们都不是唯一的选择。当你选择在包中实现时，你可以使你的类属性访问器忽略继承或者"
+"对继承敏感。如果你选择在文件作用域内实现，你可以控制包对其数据的访问权限。"
+
+#. type: =head1
+#: perltooc.pod:77
+msgid "Class Data in a Can"
+msgstr "类属性"
+
+#. type: textblock
+#: perltooc.pod:79
+msgid "One of the easiest ways to solve a hard problem is to let someone else do it for you! In this case, Class::Data::Inheritable (available on a CPAN near you) offers a canned solution to the class data problem using closures.  So before you wade into this document, consider having a look at that module."
+msgstr "一个最简单的方法就是使用别人已经实现的代码。这里，我们推荐使用 "
+"Class::Data::Inheritable 模块，它通过闭包来实现类属性。所以在看这篇文档前，可以先考虑"
+"查看下那个模块。"
+
+#. type: =head1
+#: perltooc.pod:86
+msgid "Class Data as Package Variables"
+msgstr "包变量实现类属性"
+
+#. type: textblock
+#: perltooc.pod:88
+msgid "Because a class in Perl is really just a package, using package variables to hold class attributes is the most natural choice.  This makes it simple for each class to have its own class attributes.  Let's say you have a class called Some_Class that needs a couple of different attributes that you'd like to be global to the entire class.  The simplest thing to do is to use package variables like $Some_Class::CData1 and $Some_Class::CData2 to hold these attributes.  But we certainly don't want to encourage outsiders to touch those data directly, so we provide methods to mediate access."
+msgstr "Perl 中的类实际上就是一个包，所以用包变量来存储类属性是非常自然的方法。这也方便其"
+"它类有各自的类属性。我们假设你有类 Some_Class，还有两个类属性并且用 $Some_Class::CData1、"
+"$Some_Class::CData2 来存储这些属性。我们不想让外部的代码直接访问数据，所以我们通过方法"
+"来控制其访问权限。"
+
+#. type: textblock
+#: perltooc.pod:98
+msgid "In the accessor methods below, we'll for now just ignore the first argument--that part to the left of the arrow on method invocation, which is either a class name or an object reference."
+msgstr "在下面的存储器方法中，我们将会忽略掉第一个参数，这个参数可能是一个类，也可能是一"
+"个实例引用。"
+
+#. type: verbatim
+#: perltooc.pod:102
+#, no-wrap
+msgid ""
+"    package Some_Class;\n"
+"    sub CData1 {\n"
+"\tshift;\t# XXX: ignore calling class/object\n"
+"\t$Some_Class::CData1 = shift if @_;\n"
+"\treturn $Some_Class::CData1;\n"
+"    } \n"
+"    sub CData2 {\n"
+"\tshift;\t# XXX: ignore calling class/object\n"
+"\t$Some_Class::CData2 = shift if @_;\n"
+"\treturn $Some_Class::CData2;\n"
+"    } \n"
+"\n"
+msgstr ""
+"    package Some_Class;\n"
+"    sub CData1 {\n"
+"\tshift;\t# XXX: ignore calling class/object\n"
+"\t$Some_Class::CData1 = shift if @_;\n"
+"\treturn $Some_Class::CData1;\n"
+"    } \n"
+"    sub CData2 {\n"
+"\tshift;\t# XXX: ignore calling class/object\n"
+"\t$Some_Class::CData2 = shift if @_;\n"
+"\treturn $Some_Class::CData2;\n"
+"    } \n"
+"\n"
+
+#. type: textblock
+#: perltooc.pod:114
+msgid "This technique is highly legible and should be completely straightforward to even the novice Perl programmer.  By fully qualifying the package variables, they stand out clearly when reading the code.  Unfortunately, if you misspell one of these, you've introduced an error that's hard to catch.  It's also somewhat disconcerting to see the class name itself hard-coded in so many places."
+msgstr "这种方法是非常直接而且非常容易被读懂。不幸的是，当你写错它们其中的一个时，你将会"
+"很难发现这个错误。"
+
+#. type: textblock
+#: perltooc.pod:121
+msgid "Both these problems can be easily fixed.  Just add the C<use strict> pragma, then pre-declare your package variables.  (The C<our> operator will be new in 5.6, and will work for package globals just like C<my> works for scoped lexicals.)"
+msgstr "不过我们可以在 C<use strict> 模式下，用 C<our> 操作符来声明这两个类属性。"
+
+#. type: verbatim
+#: perltooc.pod:126
+#, no-wrap
+msgid ""
+"    package Some_Class;\n"
+"    use strict;\n"
+"    our($CData1, $CData2);   \t# our() is new to perl5.6\n"
+"    sub CData1 {\n"
+"\tshift;\t# XXX: ignore calling class/object\n"
+"\t$CData1 = shift if @_;\n"
+"\treturn $CData1;\n"
+"    } \n"
+"    sub CData2 {\n"
+"\tshift;\t# XXX: ignore calling class/object\n"
+"\t$CData2 = shift if @_;\n"
+"\treturn $CData2;\n"
+"    } \n"
+"\n"
+msgstr ""
+"    package Some_Class;\n"
+"    use strict;\n"
+"    our($CData1, $CData2);   \t# our() is new to perl5.6\n"
+"    sub CData1 {\n"
+"\tshift;\t# XXX: ignore calling class/object\n"
+"\t$CData1 = shift if @_;\n"
+"\treturn $CData1;\n"
+"    } \n"
+"    sub CData2 {\n"
+"\tshift;\t# XXX: ignore calling class/object\n"
+"\t$CData2 = shift if @_;\n"
+"\treturn $CData2;\n"
+"    } \n"
+"\n"
+
+#. type: textblock
+#: perltooc.pod:141
+msgid "As with any other global variable, some programmers prefer to start their package variables with capital letters.  This helps clarity somewhat, but by no longer fully qualifying the package variables, their significance can be lost when reading the code.  You can fix this easily enough by choosing better names than were used here."
+msgstr ""
+
+#. type: =head2
+#: perltooc.pod:147
+msgid "Putting All Your Eggs in One Basket"
+msgstr "把所有的蛋放在一个篮子里"
+
+#. type: textblock
+#: perltooc.pod:149
+msgid "Just as the mindless enumeration of accessor methods for instance attributes grows tedious after the first few (see L<perltoot>), so too does the repetition begin to grate when listing out accessor methods for class data.  Repetition runs counter to the primary virtue of a programmer: Laziness, here manifesting as that innate urge every programmer feels to factor out duplicate code whenever possible."
+msgstr "按着上述的方法，太多的类属性出现时，我们需要写大量的存取函数。下面我们通过一种"
+"方法来精简它。"
+
+#. type: textblock
+#: perltooc.pod:156
+msgid "Here's what to do.  First, make just one hash to hold all class attributes."
+msgstr "首先，我们需要一个存储类属性的哈希。"
+
+#. type: verbatim
+#: perltooc.pod:158
+#, no-wrap
+msgid ""
+"    package Some_Class;\n"
+"    use strict;\n"
+"    our %ClassData = (   \t# our() is new to perl5.6\n"
+"\tCData1 => \"\",\n"
+"\tCData2 => \"\",\n"
+"    );\n"
+"\n"
+msgstr ""
+"    package Some_Class;\n"
+"    use strict;\n"
+"    our %ClassData = (   \t# our() is new to perl5.6\n"
+"\tCData1 => \"\",\n"
+"\tCData2 => \"\",\n"
+"    );\n"
+"\n"
+
+#. type: textblock
+#: perltooc.pod:165
+msgid "Using closures (see L<perlref>) and direct access to the package symbol table (see L<perlmod>), now clone an accessor method for each key in the %ClassData hash.  Each of these methods is used to fetch or store values to the specific, named class attribute."
+msgstr "现在我们通过使用闭包来为每个类属性生成相应的存取方法："
+
+#. type: verbatim
+#: perltooc.pod:170
+#, no-wrap
+msgid ""
+"    for my $datum (keys %ClassData) {\n"
+"\tno strict \"refs\";\t# to register new methods in package\n"
+"\t*$datum = sub {\n"
+"\t    shift;\t# XXX: ignore calling class/object\n"
+"\t    $ClassData{$datum} = shift if @_;\n"
+"\t    return $ClassData{$datum};\n"
+"\t} \n"
+"    } \n"
+"\n"
+msgstr ""
+"    for my $datum (keys %ClassData) {\n"
+"\tno strict \"refs\";\t# to register new methods in package\n"
+"\t*$datum = sub {\n"
+"\t    shift;\t# XXX: ignore calling class/object\n"
+"\t    $ClassData{$datum} = shift if @_;\n"
+"\t    return $ClassData{$datum};\n"
+"\t} \n"
+"    } \n"
+"\n"
+
+#. type: textblock
+#: perltooc.pod:179
+msgid "It's true that you could work out a solution employing an &AUTOLOAD method, but this approach is unlikely to prove satisfactory.  Your function would have to distinguish between class attributes and object attributes; it could interfere with inheritance; and it would have to careful about DESTROY.  Such complexity is uncalled for in most cases, and certainly in this one."
+msgstr "当然我们也可以通过定义 AUTOLOAD 方法来实现，但是这种方法并不是很好。你的方法需要"
+"判断是类属性还是实例属性，还需要考虑被继承之后是否会出问题，有时候还需要仔细考虑 "
+"DESTROY 方法。这就变得太复杂了。"
+
+#. type: textblock
+#: perltooc.pod:186
+msgid "You may wonder why we're rescinding strict refs for the loop.  We're manipulating the package's symbol table to introduce new function names using symbolic references (indirect naming), which the strict pragma would otherwise forbid.  Normally, symbolic references are a dodgy notion at best.  This isn't just because they can be used accidentally when you aren't meaning to.  It's also because for most uses to which beginning Perl programmers attempt to put symbolic references, we have much better approaches, like nested hashes or hashes of arrays.  But there's nothing wrong with using symbolic references to manipulate something that is meaningful only from the perspective of the package symbol table, like method names or package variables.  In other words, when you want to refer to the symbol table, use symbol references."
+msgstr "你也许会奇怪为什么我们在循环的开始取消 strict refs。我们对包的符号表进行了操作，"
+"并且添加了一些新的符号进入。"
+
+#. type: textblock
+#: perltooc.pod:199
+msgid "Clustering all the class attributes in one place has several advantages.  They're easy to spot, initialize, and change.  The aggregation also makes them convenient to access externally, such as from a debugger or a persistence package.  The only possible problem is that we don't automatically know the name of each class's class object, should it have one.  This issue is addressed below in L<\"The Eponymous Meta-Object\">."
+msgstr "把所有的类属性聚在一起有几个好处。首先，放在一起方便管理使用。而且，这样利于使用"
+"调试方法来输出内部结构。唯一不好的是我们无法判断某个类属性是否是类所具有的。这个问题"
+"我们会在 L<\"The Eponymous Meta-Object\"> 中解释。"
+
+#. type: =head2
+#: perltooc.pod:206
+msgid "Inheritance Concerns"
+msgstr "继承问题"
+
+#. type: textblock
+#: perltooc.pod:208
+msgid "Suppose you have an instance of a derived class, and you access class data using an inherited method call.  Should that end up referring to the base class's attributes, or to those in the derived class? How would it work in the earlier examples? The derived class inherits all the base class's methods, including those that access class attributes.  But what package are the class attributes stored in?"
+msgstr "假设你有一个类，它访问类属性的方法是从父类中继承过来的。那么通过它能访问到父类的"
+"类属性吗？使用方法和之前的例子相同吗？派生类继承所有父类的属性和方法。但是这些类属性是"
+"存在哪个包里呢？"
+
+#. type: textblock
+#: perltooc.pod:215
+msgid "The answer is that, as written, class attributes are stored in the package into which those methods were compiled.  When you invoke the &CData1 method on the name of the derived class or on one of that class's objects, the version shown above is still run, so you'll access $Some_Class::CData1--or in the method cloning version, C<$Some_Class::ClassData{CData1}>."
+msgstr "类属性存储在相应方法所在包中。当在派生类中调用 &CData1 方法时，实际上就是在调用 "
+"$Some_Class::CData1，也就是 C<$Some_Class::ClassData{CData1}>。"
+
+#. type: textblock
+#: perltooc.pod:221
+msgid "Think of these class methods as executing in the context of their base class, not in that of their derived class.  Sometimes this is exactly what you want.  If Feline subclasses Carnivore, then the population of Carnivores in the world should go up when a new Feline is born.  But what if you wanted to figure out how many Felines you have apart from Carnivores? The current approach doesn't support that."
+msgstr "这些方法是在它们的包中执行，而不是在派生类中。"
+
+#. type: textblock
+#: perltooc.pod:228
+msgid "You'll have to decide on a case-by-case basis whether it makes any sense for class attributes to be package-relative.  If you want it to be so, then stop ignoring the first argument to the function.  Either it will be a package name if the method was invoked directly on a class name, or else it will be an object reference if the method was invoked on an object reference.  In the latter case, the ref() function provides the class of that object."
+msgstr "你需要决定类属性是否是相对于包而言的，如果是的话，你将不能忽略掉传入的第一个参"
+"数。"
+
+#. type: verbatim
+#: perltooc.pod:236
+#, no-wrap
+msgid ""
+"    package Some_Class;\n"
+"    sub CData1 {\n"
+"\tmy $obclass = shift;\t\n"
+"\tmy $class   = ref($obclass) || $obclass;\n"
+"\tmy $varname = $class . \"::CData1\";\n"
+"\tno strict \"refs\"; \t# to access package data symbolically\n"
+"\t$$varname = shift if @_;\n"
+"\treturn $$varname;\n"
+"    } \n"
+"\n"
+msgstr ""
+"    package Some_Class;\n"
+"    sub CData1 {\n"
+"\tmy $obclass = shift;\t\n"
+"\tmy $class   = ref($obclass) || $obclass;\n"
+"\tmy $varname = $class . \"::CData1\";\n"
+"\tno strict \"refs\"; \t# to access package data symbolically\n"
+"\t$$varname = shift if @_;\n"
+"\treturn $$varname;\n"
+"    } \n"
+"\n"
+
+#. type: textblock
+#: perltooc.pod:246
+msgid "And then do likewise for all other class attributes (such as CData2, etc.) that you wish to access as package variables in the invoking package instead of the compiling package as we had previously."
+msgstr "现在我们可以类似的写出其他类属性的访问方法。"
+
+#. type: textblock
+#: perltooc.pod:250
+msgid "Once again we temporarily disable the strict references ban, because otherwise we couldn't use the fully-qualified symbolic name for the package global.  This is perfectly reasonable: since all package variables by definition live in a package, there's nothing wrong with accessing them via that package's symbol table.  That's what it's there for (well, somewhat)."
+msgstr "我们再次的禁用了 strict refs，使得我们可以更好的实现。"
+
+#. type: textblock
+#: perltooc.pod:257
+msgid "What about just using a single hash for everything and then cloning methods? What would that look like? The only difference would be the closure used to produce new method entries for the class's symbol table."
+msgstr "我们使用单独的一个哈希会怎么样呢？看起来会是什么样子？唯一的区别就是用来产生"
+"方法的闭包。"
+
+#. type: verbatim
+#: perltooc.pod:261
+#, no-wrap
+msgid ""
+"    no strict \"refs\";\t\n"
+"    *$datum = sub {\n"
+"\tmy $obclass = shift;\t\n"
+"\tmy $class   = ref($obclass) || $obclass;\n"
+"\tmy $varname = $class . \"::ClassData\";\n"
+"\t$varname->{$datum} = shift if @_;\n"
+"\treturn $varname->{$datum};\n"
+"    }\n"
+"\n"
+msgstr ""
+"    no strict \"refs\";\t\n"
+"    *$datum = sub {\n"
+"\tmy $obclass = shift;\t\n"
+"\tmy $class   = ref($obclass) || $obclass;\n"
+"\tmy $varname = $class . \"::ClassData\";\n"
+"\t$varname->{$datum} = shift if @_;\n"
+"\treturn $varname->{$datum};\n"
+"    }\n"
+"\n"
+
+#. type: =head2
+#: perltooc.pod:270
+msgid "The Eponymous Meta-Object"
+msgstr "The Eponymous Meta-Object"
+
+#. type: textblock
+#: perltooc.pod:272
+msgid "It could be argued that the %ClassData hash in the previous example is neither the most imaginative nor the most intuitive of names.  Is there something else that might make more sense, be more useful, or both?"
+msgstr "你也许会觉得之前用 %ClassData 哈希表来实现是缺乏想象不符合语感的，那么有更好的"
+"方式来实现吗？"
+
+#. type: textblock
+#: perltooc.pod:276
+msgid "As it happens, yes, there is.  For the \"class meta-object\", we'll use a package variable of the same name as the package itself.  Within the scope of a package Some_Class declaration, we'll use the eponymously named hash %Some_Class as that class's meta-object.  (Using an eponymously named hash is somewhat reminiscent of classes that name their constructors eponymously in the Python or C++ fashion.  That is, class Some_Class would use &Some_Class::Some_Class as a constructor, probably even exporting that name as well.  The StrNum class in Recipe 13.14 in I<The Perl Cookbook> does this, if you're looking for an example.)"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:286
+msgid "This predictable approach has many benefits, including having a well-known identifier to aid in debugging, transparent persistence, or checkpointing.  It's also the obvious name for monadic classes and translucent attributes, discussed later."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:291
+msgid "Here's an example of such a class.  Notice how the name of the hash storing the meta-object is the same as the name of the package used to implement the class."
+msgstr "下面是一种比较好的实现方式。"
+
+#. type: verbatim
+#: perltooc.pod:295
+#: perltooc.pod:348
+#, no-wrap
+msgid ""
+"    package Some_Class;\n"
+"    use strict;\n"
+"\n"
+msgstr ""
+"    package Some_Class;\n"
+"    use strict;\n"
+"\n"
+
+#. type: verbatim
+#: perltooc.pod:298
+#, no-wrap
+msgid ""
+"    # create class meta-object using that most perfect of names\n"
+"    our %Some_Class = (   \t# our() is new to perl5.6\n"
+"\tCData1 => \"\",\n"
+"\tCData2 => \"\",\n"
+"    );\n"
+"\n"
+msgstr ""
+"    # create class meta-object using that most perfect of names\n"
+"    our %Some_Class = (   \t# our() is new to perl5.6\n"
+"\tCData1 => \"\",\n"
+"\tCData2 => \"\",\n"
+"    );\n"
+"\n"
+
+#. type: verbatim
+#: perltooc.pod:304
+#, no-wrap
+msgid ""
+"    # this accessor is calling-package-relative\n"
+"    sub CData1 {\n"
+"\tmy $obclass = shift;\t\n"
+"\tmy $class   = ref($obclass) || $obclass;\n"
+"\tno strict \"refs\"; \t# to access eponymous meta-object\n"
+"\t$class->{CData1} = shift if @_;\n"
+"\treturn $class->{CData1};\n"
+"    }\n"
+"\n"
+msgstr ""
+"    # this accessor is calling-package-relative\n"
+"    sub CData1 {\n"
+"\tmy $obclass = shift;\t\n"
+"\tmy $class   = ref($obclass) || $obclass;\n"
+"\tno strict \"refs\"; \t# to access eponymous meta-object\n"
+"\t$class->{CData1} = shift if @_;\n"
+"\treturn $class->{CData1};\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perltooc.pod:313
+#, no-wrap
+msgid ""
+"    # but this accessor is not\n"
+"    sub CData2 {\n"
+"\tshift;\t\t\t# XXX: ignore calling class/object\n"
+"\tno strict \"refs\"; \t# to access eponymous meta-object\n"
+"\t__PACKAGE__ -> {CData2} = shift if @_;\n"
+"\treturn __PACKAGE__ -> {CData2};\n"
+"    } \n"
+"\n"
+msgstr ""
+"    # but this accessor is not\n"
+"    sub CData2 {\n"
+"\tshift;\t\t\t# XXX: ignore calling class/object\n"
+"\tno strict \"refs\"; \t# to access eponymous meta-object\n"
+"\t__PACKAGE__ -> {CData2} = shift if @_;\n"
+"\treturn __PACKAGE__ -> {CData2};\n"
+"    } \n"
+"\n"
+
+#. type: textblock
+#: perltooc.pod:321
+msgid "In the second accessor method, the __PACKAGE__ notation was used for two reasons.  First, to avoid hardcoding the literal package name in the code in case we later want to change that name.  Second, to clarify to the reader that what matters here is the package currently being compiled into, not the package of the invoking object or class.  If the long sequence of non-alphabetic characters bothers you, you can always put the __PACKAGE__ in a variable first."
+msgstr "在第二个访问器方法中，我们使用 __PACKAGE__ 方法有两个原因。它能避免因为继承而带来"
+"的混乱，而且可以使更加清楚的了解代码的结构。"
+
+#. type: verbatim
+#: perltooc.pod:329
+#, no-wrap
+msgid ""
+"    sub CData2 {\n"
+"\tshift;\t\t\t# XXX: ignore calling class/object\n"
+"\tno strict \"refs\"; \t# to access eponymous meta-object\n"
+"\tmy $class = __PACKAGE__;\n"
+"\t$class->{CData2} = shift if @_;\n"
+"\treturn $class->{CData2};\n"
+"    } \n"
+"\n"
+msgstr ""
+"    sub CData2 {\n"
+"\tshift;\t\t\t# XXX: ignore calling class/object\n"
+"\tno strict \"refs\"; \t# to access eponymous meta-object\n"
+"\tmy $class = __PACKAGE__;\n"
+"\t$class->{CData2} = shift if @_;\n"
+"\treturn $class->{CData2};\n"
+"    } \n"
+"\n"
+
+#. type: textblock
+#: perltooc.pod:337
+msgid "Even though we're using symbolic references for good not evil, some folks tend to become unnerved when they see so many places with strict ref checking disabled.  Given a symbolic reference, you can always produce a real reference (the reverse is not true, though).  So we'll create a subroutine that does this conversion for us.  If invoked as a function of no arguments, it returns a reference to the compiling class's eponymous hash.  Invoked as a class method, it returns a reference to the eponymous hash of its caller.  And when invoked as an object method, this function returns a reference to the eponymous hash for whatever class the object belongs to."
+msgstr "尽管我们是为了方便所以才使用了符号链接引用，但是在后面的代码中会因为这个混乱的东"
+"西而带来问题。所以我们最好建立子函数来解决这个问题。"
+
+#. type: verbatim
+#: perltooc.pod:351
+#, no-wrap
+msgid ""
+"    our %Some_Class = (   \t# our() is new to perl5.6\n"
+"\tCData1 => \"\",\n"
+"\tCData2 => \"\",\n"
+"    );\n"
+"\n"
+msgstr ""
+"    our %Some_Class = (   \t# our() is new to perl5.6\n"
+"\tCData1 => \"\",\n"
+"\tCData2 => \"\",\n"
+"    );\n"
+"\n"
+
+#. type: verbatim
+#: perltooc.pod:356
+#, no-wrap
+msgid ""
+"    # tri-natured: function, class method, or object method\n"
+"    sub _classobj {\n"
+"\tmy $obclass = shift || __PACKAGE__;\n"
+"\tmy $class   = ref($obclass) || $obclass;\n"
+"\tno strict \"refs\";   # to convert sym ref to real one\n"
+"\treturn \\%$class;\n"
+"    } \n"
+"\n"
+msgstr ""
+"    # tri-natured: function, class method, or object method\n"
+"    sub _classobj {\n"
+"\tmy $obclass = shift || __PACKAGE__;\n"
+"\tmy $class   = ref($obclass) || $obclass;\n"
+"\tno strict \"refs\";   # to convert sym ref to real one\n"
+"\treturn \\%$class;\n"
+"    } \n"
+"\n"
+
+#. type: verbatim
+#: perltooc.pod:364
+#, no-wrap
+msgid ""
+"    for my $datum (keys %{ _classobj() } ) { \n"
+"\t# turn off strict refs so that we can\n"
+"\t# register a method in the symbol table\n"
+"\tno strict \"refs\";    \t\n"
+"\t*$datum = sub {\n"
+"\t    use strict \"refs\";\n"
+"\t    my $self = shift->_classobj();\n"
+"\t    $self->{$datum} = shift if @_;\n"
+"\t    return $self->{$datum};\n"
+"\t}\n"
+"    }\n"
+"\n"
+msgstr ""
+"    for my $datum (keys %{ _classobj() } ) { \n"
+"\t# turn off strict refs so that we can\n"
+"\t# register a method in the symbol table\n"
+"\tno strict \"refs\";    \t\n"
+"\t*$datum = sub {\n"
+"\t    use strict \"refs\";\n"
+"\t    my $self = shift->_classobj();\n"
+"\t    $self->{$datum} = shift if @_;\n"
+"\t    return $self->{$datum};\n"
+"\t}\n"
+"    }\n"
+"\n"
+
+#. type: =head2
+#: perltooc.pod:376
+msgid "Indirect References to Class Data"
+msgstr "指向类数据的间接引用"
+
+#. type: textblock
+#: perltooc.pod:378
+msgid "A reasonably common strategy for handling class attributes is to store a reference to each package variable on the object itself.  This is a strategy you've probably seen before, such as in L<perltoot> and L<perlbot>, but there may be variations in the example below that you haven't thought of before."
+msgstr "还有另外一种方式就是把类变量存储在类中。"
+
+#. type: verbatim
+#: perltooc.pod:384
+#, no-wrap
+msgid ""
+"    package Some_Class;\n"
+"    our($CData1, $CData2);      \t# our() is new to perl5.6\n"
+"\n"
+msgstr ""
+"    package Some_Class;\n"
+"    our($CData1, $CData2);      \t# our() is new to perl5.6\n"
+"\n"
+
+#. type: verbatim
+#: perltooc.pod:387
+#, no-wrap
+msgid ""
+"    sub new {\n"
+"\tmy $obclass = shift;\n"
+"\treturn bless my $self = {\n"
+"\t    ObData1 => \"\",\n"
+"\t    ObData2 => \"\",\n"
+"\t    CData1  => \\$CData1,\n"
+"\t    CData2  => \\$CData2,\n"
+"\t} => (ref $obclass || $obclass);\n"
+"    } \n"
+"\n"
+msgstr ""
+"    sub new {\n"
+"\tmy $obclass = shift;\n"
+"\treturn bless my $self = {\n"
+"\t    ObData1 => \"\",\n"
+"\t    ObData2 => \"\",\n"
+"\t    CData1  => \\$CData1,\n"
+"\t    CData2  => \\$CData2,\n"
+"\t} => (ref $obclass || $obclass);\n"
+"    } \n"
+"\n"
+
+#. type: verbatim
+#: perltooc.pod:397
+#, no-wrap
+msgid ""
+"    sub ObData1 {\n"
+"\tmy $self = shift;\n"
+"\t$self->{ObData1} = shift if @_;\n"
+"\treturn $self->{ObData1};\n"
+"    } \n"
+"\n"
+msgstr ""
+"    sub ObData1 {\n"
+"\tmy $self = shift;\n"
+"\t$self->{ObData1} = shift if @_;\n"
+"\treturn $self->{ObData1};\n"
+"    } \n"
+"\n"
+
+#. type: verbatim
+#: perltooc.pod:403
+#, no-wrap
+msgid ""
+"    sub ObData2 {\n"
+"\tmy $self = shift;\n"
+"\t$self->{ObData2} = shift if @_;\n"
+"\treturn $self->{ObData2};\n"
+"    } \n"
+"\n"
+msgstr ""
+"    sub ObData2 {\n"
+"\tmy $self = shift;\n"
+"\t$self->{ObData2} = shift if @_;\n"
+"\treturn $self->{ObData2};\n"
+"    } \n"
+"\n"
+
+#. type: verbatim
+#: perltooc.pod:409
+#, no-wrap
+msgid ""
+"    sub CData1 {\n"
+"\tmy $self = shift;\n"
+"\tmy $dataref = ref $self\n"
+"\t\t\t? $self->{CData1}\n"
+"\t\t\t: \\$CData1;\n"
+"\t$$dataref = shift if @_;\n"
+"\treturn $$dataref;\n"
+"    } \n"
+"\n"
+msgstr ""
+"    sub CData1 {\n"
+"\tmy $self = shift;\n"
+"\tmy $dataref = ref $self\n"
+"\t\t\t? $self->{CData1}\n"
+"\t\t\t: \\$CData1;\n"
+"\t$$dataref = shift if @_;\n"
+"\treturn $$dataref;\n"
+"    } \n"
+"\n"
+
+#. type: verbatim
+#: perltooc.pod:418
+#, no-wrap
+msgid ""
+"    sub CData2 {\n"
+"\tmy $self = shift;\n"
+"\tmy $dataref = ref $self\n"
+"\t\t\t? $self->{CData2}\n"
+"\t\t\t: \\$CData2;\n"
+"\t$$dataref = shift if @_;\n"
+"\treturn $$dataref;\n"
+"    } \n"
+"\n"
+msgstr ""
+"    sub CData2 {\n"
+"\tmy $self = shift;\n"
+"\tmy $dataref = ref $self\n"
+"\t\t\t? $self->{CData2}\n"
+"\t\t\t: \\$CData2;\n"
+"\t$$dataref = shift if @_;\n"
+"\treturn $$dataref;\n"
+"    } \n"
+"\n"
+
+#. type: textblock
+#: perltooc.pod:427
+msgid "As written above, a derived class will inherit these methods, which will consequently access package variables in the base class's package.  This is not necessarily expected behavior in all circumstances.  Here's an example that uses a variable meta-object, taking care to access the proper package's data."
+msgstr "正如上面所写的，派生类会继承这些方法来访问父类中的变量。这在某些环境中是不必要"
+"的，下面是一个改进的例子："
+
+#. type: verbatim
+#: perltooc.pod:433
+#, no-wrap
+msgid ""
+"\tpackage Some_Class;\n"
+"\tuse strict;\n"
+"\n"
+msgstr ""
+"\tpackage Some_Class;\n"
+"\tuse strict;\n"
+"\n"
+
+#. type: verbatim
+#: perltooc.pod:436
+#, no-wrap
+msgid ""
+"\tour %Some_Class = (   \t# our() is new to perl5.6\n"
+"\t    CData1 => \"\",\n"
+"\t    CData2 => \"\",\n"
+"\t);\n"
+"\n"
+msgstr ""
+"\tour %Some_Class = (   \t# our() is new to perl5.6\n"
+"\t    CData1 => \"\",\n"
+"\t    CData2 => \"\",\n"
+"\t);\n"
+"\n"
+
+#. type: verbatim
+#: perltooc.pod:441
+#, no-wrap
+msgid ""
+"\tsub _classobj {\n"
+"\t    my $self  = shift;\n"
+"\t    my $class = ref($self) || $self;\n"
+"\t    no strict \"refs\";\n"
+"\t    # get (hard) ref to eponymous meta-object\n"
+"\t    return \\%$class;\n"
+"\t} \n"
+"\n"
+msgstr ""
+"\tsub _classobj {\n"
+"\t    my $self  = shift;\n"
+"\t    my $class = ref($self) || $self;\n"
+"\t    no strict \"refs\";\n"
+"\t    # get (hard) ref to eponymous meta-object\n"
+"\t    return \\%$class;\n"
+"\t} \n"
+"\n"
+
+#. type: verbatim
+#: perltooc.pod:449
+#, no-wrap
+msgid ""
+"\tsub new {\n"
+"\t    my $obclass  = shift;\n"
+"\t    my $classobj = $obclass->_classobj();\n"
+"\t    bless my $self = {\n"
+"\t\tObData1 => \"\",\n"
+"\t\tObData2 => \"\",\n"
+"\t\tCData1  => \\$classobj->{CData1},\n"
+"\t\tCData2  => \\$classobj->{CData2},\n"
+"\t    } => (ref $obclass || $obclass);\n"
+"\t    return $self;\n"
+"\t} \n"
+"\n"
+msgstr ""
+"\tsub new {\n"
+"\t    my $obclass  = shift;\n"
+"\t    my $classobj = $obclass->_classobj();\n"
+"\t    bless my $self = {\n"
+"\t\tObData1 => \"\",\n"
+"\t\tObData2 => \"\",\n"
+"\t\tCData1  => \\$classobj->{CData1},\n"
+"\t\tCData2  => \\$classobj->{CData2},\n"
+"\t    } => (ref $obclass || $obclass);\n"
+"\t    return $self;\n"
+"\t} \n"
+"\n"
+
+#. type: verbatim
+#: perltooc.pod:461
+#, no-wrap
+msgid ""
+"\tsub ObData1 {\n"
+"\t    my $self = shift;\n"
+"\t    $self->{ObData1} = shift if @_;\n"
+"\t    return $self->{ObData1};\n"
+"\t} \n"
+"\n"
+msgstr ""
+"\tsub ObData1 {\n"
+"\t    my $self = shift;\n"
+"\t    $self->{ObData1} = shift if @_;\n"
+"\t    return $self->{ObData1};\n"
+"\t} \n"
+"\n"
+
+#. type: verbatim
+#: perltooc.pod:467
+#, no-wrap
+msgid ""
+"\tsub ObData2 {\n"
+"\t    my $self = shift;\n"
+"\t    $self->{ObData2} = shift if @_;\n"
+"\t    return $self->{ObData2};\n"
+"\t} \n"
+"\n"
+msgstr ""
+"\tsub ObData2 {\n"
+"\t    my $self = shift;\n"
+"\t    $self->{ObData2} = shift if @_;\n"
+"\t    return $self->{ObData2};\n"
+"\t} \n"
+"\n"
+
+#. type: verbatim
+#: perltooc.pod:473
+#, no-wrap
+msgid ""
+"\tsub CData1 {\n"
+"\t    my $self = shift;\n"
+"\t    $self = $self->_classobj() unless ref $self;\n"
+"\t    my $dataref = $self->{CData1};\n"
+"\t    $$dataref = shift if @_;\n"
+"\t    return $$dataref;\n"
+"\t} \n"
+"\n"
+msgstr ""
+"\tsub CData1 {\n"
+"\t    my $self = shift;\n"
+"\t    $self = $self->_classobj() unless ref $self;\n"
+"\t    my $dataref = $self->{CData1};\n"
+"\t    $$dataref = shift if @_;\n"
+"\t    return $$dataref;\n"
+"\t} \n"
+"\n"
+
+#. type: verbatim
+#: perltooc.pod:481
+#, no-wrap
+msgid ""
+"\tsub CData2 {\n"
+"\t    my $self = shift;\n"
+"\t    $self = $self->_classobj() unless ref $self;\n"
+"\t    my $dataref = $self->{CData2};\n"
+"\t    $$dataref = shift if @_;\n"
+"\t    return $$dataref;\n"
+"\t} \n"
+"\n"
+msgstr ""
+"\tsub CData2 {\n"
+"\t    my $self = shift;\n"
+"\t    $self = $self->_classobj() unless ref $self;\n"
+"\t    my $dataref = $self->{CData2};\n"
+"\t    $$dataref = shift if @_;\n"
+"\t    return $$dataref;\n"
+"\t} \n"
+"\n"
+
+#. type: textblock
+#: perltooc.pod:489
+msgid "Not only are we now strict refs clean, using an eponymous meta-object seems to make the code cleaner.  Unlike the previous version, this one does something interesting in the face of inheritance: it accesses the class meta-object in the invoking class instead of the one into which the method was initially compiled."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:495
+msgid "You can easily access data in the class meta-object, making it easy to dump the complete class state using an external mechanism such as when debugging or implementing a persistent class.  This works because the class meta-object is a package variable, has a well-known name, and clusters all its data together.  (Transparent persistence is not always feasible, but it's certainly an appealing idea.)"
+msgstr "你可以很容易的访问类数据，也可以很方便的使用自省方法、调试方法来"
+"查看数据。"
+
+#. type: textblock
+#: perltooc.pod:502
+msgid "There's still no check that object accessor methods have not been invoked on a class name.  If strict ref checking is enabled, you'd blow up.  If not, then you get the eponymous meta-object.  What you do with--or about--this is up to you.  The next two sections demonstrate innovative uses for this powerful feature."
+msgstr ""
+
+#. type: =head2
+#: perltooc.pod:508
+msgid "Monadic Classes"
+msgstr "Monadic Classes"
+
+#. type: textblock
+#: perltooc.pod:510
+msgid "Some of the standard modules shipped with Perl provide class interfaces without any attribute methods whatsoever.  The most commonly used module not numbered amongst the pragmata, the Exporter module, is a class with neither constructors nor attributes.  Its job is simply to provide a standard interface for modules wishing to export part of their namespace into that of their caller.  Modules use the Exporter's &import method by setting their inheritance list in their package's @ISA array to mention \"Exporter\".  But class Exporter provides no constructor, so you can't have several instances of the class.  In fact, you can't have any--it just doesn't make any sense.  All you get is its methods.  Its interface contains no statefulness, so state data is wholly superfluous."
+msgstr "TODO"
+
+#. type: textblock
+#: perltooc.pod:522
+msgid "Another sort of class that pops up from time to time is one that supports a unique instance.  Such classes are called I<monadic classes>, or less formally, I<singletons> or I<highlander classes>."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:526
+msgid "If a class is monadic, where do you store its state, that is, its attributes? How do you make sure that there's never more than one instance? While you could merely use a slew of package variables, it's a lot cleaner to use the eponymously named hash.  Here's a complete example of a monadic class:"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:532
+#, no-wrap
+msgid ""
+"    package Cosmos;\n"
+"    %Cosmos = ();\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:535
+#, no-wrap
+msgid ""
+"    # accessor method for \"name\" attribute\n"
+"    sub name {\n"
+"\tmy $self = shift;\n"
+"\t$self->{name} = shift if @_;\n"
+"\treturn $self->{name};\n"
+"    } \n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:542
+#, no-wrap
+msgid ""
+"    # read-only accessor method for \"birthday\" attribute\n"
+"    sub birthday {\n"
+"\tmy $self = shift;\n"
+"\tdie \"can't reset birthday\" if @_;  # XXX: croak() is better\n"
+"\treturn $self->{birthday};\n"
+"    } \n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:549
+#, no-wrap
+msgid ""
+"    # accessor method for \"stars\" attribute\n"
+"    sub stars {\n"
+"\tmy $self = shift;\n"
+"\t$self->{stars} = shift if @_;\n"
+"\treturn $self->{stars};\n"
+"    } \n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:556
+#, no-wrap
+msgid ""
+"    # oh my - one of our stars just went out!\n"
+"    sub supernova {\n"
+"\tmy $self = shift;\n"
+"\tmy $count = $self->stars();\n"
+"\t$self->stars($count - 1) if $count > 0;\n"
+"    } \n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:563
+#, no-wrap
+msgid ""
+"    # constructor/initializer method - fix by reboot\n"
+"    sub bigbang { \n"
+"\tmy $self = shift;\n"
+"\t%$self = (\n"
+"\t    name  \t => \"the world according to tchrist\",\n"
+"\t    birthday \t => time(),\n"
+"\t    stars \t => 0,\n"
+"\t);\n"
+"\treturn $self;\t    # yes, it's probably a class.  SURPRISE!\n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:574
+#, no-wrap
+msgid ""
+"    # After the class is compiled, but before any use or require \n"
+"    # returns, we start off the universe with a bang.  \n"
+"    __PACKAGE__ -> bigbang();\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:578
+msgid "Hold on, that doesn't look like anything special.  Those attribute accessors look no different than they would if this were a regular class instead of a monadic one.  The crux of the matter is there's nothing that says that $self must hold a reference to a blessed object.  It merely has to be something you can invoke methods on.  Here the package name itself, Cosmos, works as an object.  Look at the &supernova method.  Is that a class method or an object method? The answer is that static analysis cannot reveal the answer.  Perl doesn't care, and neither should you.  In the three attribute methods, C<%$self> is really accessing the %Cosmos package variable."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:589
+msgid "If like Stephen Hawking, you posit the existence of multiple, sequential, and unrelated universes, then you can invoke the &bigbang method yourself at any time to start everything all over again.  You might think of &bigbang as more of an initializer than a constructor, since the function doesn't allocate new memory; it only initializes what's already there.  But like any other constructor, it does return a scalar value to use for later method invocations."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:597
+msgid "Imagine that some day in the future, you decide that one universe just isn't enough.  You could write a new class from scratch, but you already have an existing class that does what you want--except that it's monadic, and you want more than just one cosmos."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:602
+msgid "That's what code reuse via subclassing is all about.  Look how short the new code is:"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:605
+#, no-wrap
+msgid ""
+"    package Multiverse;\n"
+"    use Cosmos;\n"
+"    @ISA = qw(Cosmos);\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:609
+#, no-wrap
+msgid ""
+"    sub new {\n"
+"\tmy $protoverse = shift;\n"
+"\tmy $class      = ref($protoverse) || $protoverse;\n"
+"\tmy $self       = {};\n"
+"\treturn bless($self, $class)->bigbang();\n"
+"    } \n"
+"    1;\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:617
+msgid "Because we were careful to be good little creators when we designed our Cosmos class, we can now reuse it without touching a single line of code when it comes time to write our Multiverse class.  The same code that worked when invoked as a class method continues to work perfectly well when invoked against separate instances of a derived class."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:623
+msgid "The astonishing thing about the Cosmos class above is that the value returned by the &bigbang \"constructor\" is not a reference to a blessed object at all.  It's just the class's own name.  A class name is, for virtually all intents and purposes, a perfectly acceptable object.  It has state, behavior, and identity, the three crucial components of an object system.  It even manifests inheritance, polymorphism, and encapsulation.  And what more can you ask of an object?"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:631
+msgid "To understand object orientation in Perl, it's important to recognize the unification of what other programming languages might think of as class methods and object methods into just plain methods.  \"Class methods\" and \"object methods\" are distinct only in the compartmentalizing mind of the Perl programmer, not in the Perl language itself."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:637
+msgid "Along those same lines, a constructor is nothing special either, which is one reason why Perl has no pre-ordained name for them.  \"Constructor\" is just an informal term loosely used to describe a method that returns a scalar value that you can make further method calls against.  So long as it's either a class name or an object reference, that's good enough.  It doesn't even have to be a reference to a brand new object."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:644
+msgid "You can have as many--or as few--constructors as you want, and you can name them whatever you care to.  Blindly and obediently using new()  for each and every constructor you ever write is to speak Perl with such a severe C++ accent that you do a disservice to both languages.  There's no reason to insist that each class have but one constructor, or that a constructor be named new(), or that a constructor be used solely as a class method and not an object method."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:652
+msgid "The next section shows how useful it can be to further distance ourselves from any formal distinction between class method calls and object method calls, both in constructors and in accessor methods."
+msgstr ""
+
+#. type: =head2
+#: perltooc.pod:656
+msgid "Translucent Attributes"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:658
+msgid "A package's eponymous hash can be used for more than just containing per-class, global state data.  It can also serve as a sort of template containing default settings for object attributes.  These default settings can then be used in constructors for initialization of a particular object.  The class's eponymous hash can also be used to implement I<translucent attributes>.  A translucent attribute is one that has a class-wide default.  Each object can set its own value for the attribute, in which case C<< $object->attribute() >> returns that value.  But if no value has been set, then C<< $object->attribute() >> returns the class-wide default."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:669
+msgid "We'll apply something of a copy-on-write approach to these translucent attributes.  If you're just fetching values from them, you get translucency.  But if you store a new value to them, that new value is set on the current object.  On the other hand, if you use the class as an object and store the attribute value directly on the class, then the meta-object's value changes, and later fetch operations on objects with uninitialized values for those attributes will retrieve the meta-object's new values.  Objects with their own initialized values, however, won't see any change."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:679
+msgid "Let's look at some concrete examples of using these properties before we show how to implement them.  Suppose that a class named Some_Class had a translucent data attribute called \"color\".  First you set the color in the meta-object, then you create three objects using a constructor that happens to be named &spawn."
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:685
+#, no-wrap
+msgid ""
+"    use Vermin;\n"
+"    Vermin->color(\"vermilion\");\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:688
+#, no-wrap
+msgid ""
+"    $ob1 = Vermin->spawn();   \t# so that's where Jedi come from\n"
+"    $ob2 = Vermin->spawn();   \n"
+"    $ob3 = Vermin->spawn();  \n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:692
+#, no-wrap
+msgid ""
+"    print $obj3->color();  \t# prints \"vermilion\"\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:694
+msgid "Each of these objects' colors is now \"vermilion\", because that's the meta-object's value for that attribute, and these objects do not have individual color values set."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:698
+msgid "Changing the attribute on one object has no effect on other objects previously created."
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:701
+#, no-wrap
+msgid ""
+"    $ob3->color(\"chartreuse\");\t\t\n"
+"    print $ob3->color();  \t# prints \"chartreuse\"\n"
+"    print $ob1->color();  \t# prints \"vermilion\", translucently\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:705
+msgid "If you now use $ob3 to spawn off another object, the new object will take the color its parent held, which now happens to be \"chartreuse\".  That's because the constructor uses the invoking object as its template for initializing attributes.  When that invoking object is the class name, the object used as a template is the eponymous meta-object.  When the invoking object is a reference to an instantiated object, the &spawn constructor uses that existing object as a template."
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:713
+#, no-wrap
+msgid ""
+"    $ob4 = $ob3->spawn();\t# $ob3 now template, not %Vermin\n"
+"    print $ob4->color();  \t# prints \"chartreuse\"\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:716
+msgid "Any actual values set on the template object will be copied to the new object.  But attributes undefined in the template object, being translucent, will remain undefined and consequently translucent in the new one as well."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:721
+msgid "Now let's change the color attribute on the entire class:"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:723
+#, no-wrap
+msgid ""
+"    Vermin->color(\"azure\");\t\n"
+"    print $ob1->color();  \t# prints \"azure\"\n"
+"    print $ob2->color();  \t# prints \"azure\"\n"
+"    print $ob3->color();  \t# prints \"chartreuse\"\n"
+"    print $ob4->color();  \t# prints \"chartreuse\"\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:729
+msgid "That color change took effect only in the first pair of objects, which were still translucently accessing the meta-object's values.  The second pair had per-object initialized colors, and so didn't change."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:733
+msgid "One important question remains.  Changes to the meta-object are reflected in translucent attributes in the entire class, but what about changes to discrete objects? If you change the color of $ob3, does the value of $ob4 see that change? Or vice-versa.  If you change the color of $ob4, does then the value of $ob3 shift?"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:739
+#, no-wrap
+msgid ""
+"    $ob3->color(\"amethyst\");\t\t\n"
+"    print $ob3->color();  \t# prints \"amethyst\"\n"
+"    print $ob4->color();  \t# hmm: \"chartreuse\" or \"amethyst\"?\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:743
+msgid "While one could argue that in certain rare cases it should, let's not do that.  Good taste aside, we want the answer to the question posed in the comment above to be \"chartreuse\", not \"amethyst\".  So we'll treat these attributes similar to the way process attributes like environment variables, user and group IDs, or the current working directory are treated across a fork().  You can change only yourself, but you will see those changes reflected in your unspawned children.  Changes to one object will propagate neither up to the parent nor down to any existing child objects.  Those objects made later, however, will see the changes."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:753
+msgid "If you have an object with an actual attribute value, and you want to make that object's attribute value translucent again, what do you do? Let's design the class so that when you invoke an accessor method with C<undef> as its argument, that attribute returns to translucency."
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:758
+#, no-wrap
+msgid ""
+"    $ob4->color(undef);\t\t# back to \"azure\"\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:760
+msgid "Here's a complete implementation of Vermin as described above."
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:762
+#: perltooc.pod:1222
+#, no-wrap
+msgid ""
+"    package Vermin;\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:764
+#, no-wrap
+msgid ""
+"    # here's the class meta-object, eponymously named.\n"
+"    # it holds all class attributes, and also all instance attributes \n"
+"    # so the latter can be used for both initialization \n"
+"    # and translucency.\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:769
+#, no-wrap
+msgid ""
+"    our %Vermin = (   \t\t# our() is new to perl5.6\n"
+"\tPopCount => 0,\t\t# capital for class attributes\n"
+"\tcolor    => \"beige\",    # small for instance attributes\t\t\n"
+"    );\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:774
+#, no-wrap
+msgid ""
+"    # constructor method\n"
+"    # invoked as class method or object method\n"
+"    sub spawn {\n"
+"\tmy $obclass = shift;\n"
+"\tmy $class   = ref($obclass) || $obclass;\n"
+"\tmy $self = {};\n"
+"\tbless($self, $class);\n"
+"\t$class->{PopCount}++;\n"
+"\t# init fields from invoking object, or omit if \n"
+"\t# invoking object is the class to provide translucency\n"
+"\t%$self = %$obclass if ref $obclass;\n"
+"\treturn $self;\n"
+"    } \n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:788
+#, no-wrap
+msgid ""
+"    # translucent accessor for \"color\" attribute\n"
+"    # invoked as class method or object method\n"
+"    sub color {\n"
+"\tmy $self  = shift;\n"
+"\tmy $class = ref($self) || $self;\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:794
+#, no-wrap
+msgid ""
+"\t# handle class invocation\n"
+"\tunless (ref $self) {\n"
+"\t    $class->{color} = shift if @_;\n"
+"\t    return $class->{color}\n"
+"\t}\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:800
+#, no-wrap
+msgid ""
+"\t# handle object invocation\n"
+"\t$self->{color} = shift if @_;\n"
+"\tif (defined $self->{color}) {  # not exists!\n"
+"\t    return $self->{color};\n"
+"\t} else {\n"
+"\t    return $class->{color};\n"
+"\t} \n"
+"    } \n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:809
+#, no-wrap
+msgid ""
+"    # accessor for \"PopCount\" class attribute\n"
+"    # invoked as class method or object method\n"
+"    # but uses object solely to locate meta-object\n"
+"    sub population {\n"
+"\tmy $obclass = shift;\n"
+"\tmy $class   = ref($obclass) || $obclass;\n"
+"\treturn $class->{PopCount};\n"
+"    } \n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:818
+#, no-wrap
+msgid ""
+"    # instance destructor\n"
+"    # invoked only as object method\n"
+"    sub DESTROY {\n"
+"\tmy $self  = shift;\n"
+"\tmy $class = ref $self;\n"
+"\t$class->{PopCount}--;\n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:826
+msgid "Here are a couple of helper methods that might be convenient.  They aren't accessor methods at all.  They're used to detect accessibility of data attributes.  The &is_translucent method determines whether a particular object attribute is coming from the meta-object.  The &has_attribute method detects whether a class implements a particular property at all.  It could also be used to distinguish undefined properties from non-existent ones."
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:834
+#, no-wrap
+msgid ""
+"    # detect whether an object attribute is translucent\n"
+"    # (typically?) invoked only as object method\n"
+"    sub is_translucent {\n"
+"\tmy($self, $attr)  = @_;\n"
+"\treturn !defined $self->{$attr};  \n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:841
+#, no-wrap
+msgid ""
+"    # test for presence of attribute in class\n"
+"    # invoked as class method or object method\n"
+"    sub has_attribute {\n"
+"\tmy($self, $attr)  = @_;\n"
+"\tmy $class = ref($self) || $self;\n"
+"\treturn exists $class->{$attr};  \n"
+"    } \n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:849
+msgid "If you prefer to install your accessors more generically, you can make use of the upper-case versus lower-case convention to register into the package appropriate methods cloned from generic closures."
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:853
+#, no-wrap
+msgid ""
+"    for my $datum (keys %{ +__PACKAGE__ }) {\n"
+"\t*$datum = ($datum =~ /^[A-Z]/)\n"
+"\t    ? sub {  # install class accessor\n"
+"\t\t    my $obclass = shift;\n"
+"\t\t    my $class   = ref($obclass) || $obclass;\n"
+"\t\t    return $class->{$datum};\n"
+"\t\t  }\n"
+"\t    : sub { # install translucent accessor\n"
+"\t\t    my $self  = shift;\n"
+"\t\t    my $class = ref($self) || $self;\n"
+"\t\t    unless (ref $self) {\n"
+"\t\t\t$class->{$datum} = shift if @_;\n"
+"\t\t\treturn $class->{$datum}\n"
+"\t\t    }\n"
+"\t\t    $self->{$datum} = shift if @_;\n"
+"\t\t    return defined $self->{$datum}\n"
+"\t\t\t? $self  -> {$datum}\n"
+"\t\t\t: $class -> {$datum}\n"
+"\t\t  } \n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:874
+msgid "Translations of this closure-based approach into C++, Java, and Python have been left as exercises for the reader.  Be sure to send us mail as soon as you're done."
+msgstr ""
+
+#. type: =head1
+#: perltooc.pod:878
+msgid "Class Data as Lexical Variables"
+msgstr ""
+
+#. type: =head2
+#: perltooc.pod:880
+msgid "Privacy and Responsibility"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:882
+msgid "Unlike conventions used by some Perl programmers, in the previous examples, we didn't prefix the package variables used for class attributes with an underscore, nor did we do so for the names of the hash keys used for instance attributes.  You don't need little markers on data names to suggest nominal privacy on attribute variables or hash keys, because these are B<already> notionally private! Outsiders have no business whatsoever playing with anything within a class save through the mediated access of its documented interface; in other words, through method invocations.  And not even through just any method, either.  Methods that begin with an underscore are traditionally considered off-limits outside the class.  If outsiders skip the documented method interface to poke around the internals of your class and end up breaking something, that's not your fault--it's theirs."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:896
+msgid "Perl believes in individual responsibility rather than mandated control.  Perl respects you enough to let you choose your own preferred level of pain, or of pleasure.  Perl believes that you are creative, intelligent, and capable of making your own decisions--and fully expects you to take complete responsibility for your own actions.  In a perfect world, these admonitions alone would suffice, and everyone would be intelligent, responsible, happy, and creative.  And careful.  One probably shouldn't forget careful, and that's a good bit harder to expect.  Even Einstein would take wrong turns by accident and end up lost in the wrong part of town."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:907
+msgid "Some folks get the heebie-jeebies when they see package variables hanging out there for anyone to reach over and alter them.  Some folks live in constant fear that someone somewhere might do something wicked.  The solution to that problem is simply to fire the wicked, of course.  But unfortunately, it's not as simple as all that.  These cautious types are also afraid that they or others will do something not so much wicked as careless, whether by accident or out of desperation.  If we fire everyone who ever gets careless, pretty soon there won't be anybody left to get any work done."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:917
+msgid "Whether it's needless paranoia or sensible caution, this uneasiness can be a problem for some people.  We can take the edge off their discomfort by providing the option of storing class attributes as lexical variables instead of as package variables.  The my() operator is the source of all privacy in Perl, and it is a powerful form of privacy indeed."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:923
+msgid "It is widely perceived, and indeed has often been written, that Perl provides no data hiding, that it affords the class designer no privacy nor isolation, merely a rag-tag assortment of weak and unenforceable social conventions instead.  This perception is demonstrably false and easily disproven.  In the next section, we show how to implement forms of privacy that are far stronger than those provided in nearly any other object-oriented language."
+msgstr ""
+
+#. type: =head2
+#: perltooc.pod:931
+msgid "File-Scoped Lexicals"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:933
+msgid "A lexical variable is visible only through the end of its static scope.  That means that the only code able to access that variable is code residing textually below the my() operator through the end of its block if it has one, or through the end of the current file if it doesn't."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:938
+msgid "Starting again with our simplest example given at the start of this document, we replace our() variables with my() versions."
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:941
+#, no-wrap
+msgid ""
+"    package Some_Class;\n"
+"    my($CData1, $CData2);   # file scope, not in any package\n"
+"    sub CData1 {\n"
+"\tshift;\t# XXX: ignore calling class/object\n"
+"\t$CData1 = shift if @_;\n"
+"\treturn $CData1;\n"
+"    } \n"
+"    sub CData2 {\n"
+"\tshift;\t# XXX: ignore calling class/object\n"
+"\t$CData2 = shift if @_;\n"
+"\treturn $CData2;\n"
+"    } \n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:954
+msgid "So much for that old $Some_Class::CData1 package variable and its brethren! Those are gone now, replaced with lexicals.  No one outside the scope can reach in and alter the class state without resorting to the documented interface.  Not even subclasses or superclasses of this one have unmediated access to $CData1.  They have to invoke the &CData1 method against Some_Class or an instance thereof, just like anybody else."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:961
+msgid "To be scrupulously honest, that last statement assumes you haven't packed several classes together into the same file scope, nor strewn your class implementation across several different files.  Accessibility of those variables is based uniquely on the static file scope.  It has nothing to do with the package.  That means that code in a different file but the same package (class) could not access those variables, yet code in the same file but a different package (class) could.  There are sound reasons why we usually suggest a one-to-one mapping between files and packages and modules and classes.  You don't have to stick to this suggestion if you really know what you're doing, but you're apt to confuse yourself otherwise, especially at first."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:973
+msgid "If you'd like to aggregate your class attributes into one lexically scoped, composite structure, you're perfectly free to do so."
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:976
+#, no-wrap
+msgid ""
+"    package Some_Class;\n"
+"    my %ClassData = (\n"
+"\tCData1 => \"\",\n"
+"\tCData2 => \"\",\n"
+"    );\n"
+"    sub CData1 {\n"
+"\tshift;\t# XXX: ignore calling class/object\n"
+"\t$ClassData{CData1} = shift if @_;\n"
+"\treturn $ClassData{CData1};\n"
+"    } \n"
+"    sub CData2 {\n"
+"\tshift;\t# XXX: ignore calling class/object\n"
+"\t$ClassData{CData2} = shift if @_;\n"
+"\treturn $ClassData{CData2};\n"
+"    } \n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:992
+msgid "To make this more scalable as other class attributes are added, we can again register closures into the package symbol table to create accessor methods for them."
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:996
+#, no-wrap
+msgid ""
+"    package Some_Class;\n"
+"    my %ClassData = (\n"
+"\tCData1 => \"\",\n"
+"\tCData2 => \"\",\n"
+"    );\n"
+"    for my $datum (keys %ClassData) { \n"
+"\tno strict \"refs\";\n"
+"\t*$datum = sub { \n"
+"\t    shift;\t# XXX: ignore calling class/object\n"
+"\t    $ClassData{$datum} = shift if @_;\n"
+"\t    return $ClassData{$datum};\n"
+"\t};\n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1010
+msgid "Requiring even your own class to use accessor methods like anybody else is probably a good thing.  But demanding and expecting that everyone else, be they subclass or superclass, friend or foe, will all come to your object through mediation is more than just a good idea.  It's absolutely critical to the model.  Let there be in your mind no such thing as \"public\" data, nor even \"protected\" data, which is a seductive but ultimately destructive notion.  Both will come back to bite at you.  That's because as soon as you take that first step out of the solid position in which all state is considered completely private, save from the perspective of its own accessor methods, you have violated the envelope.  And, having pierced that encapsulating envelope, you shall doubtless someday pay the price when future changes in the implementation break unrelated code.  Considering that avoiding this infelicitous outcome was precisely why you consented to suffer the slings and arrows of obsequious abstraction by turning to object orientation in the first place, such breakage seems unfortunate in the extreme."
+msgstr ""
+
+#. type: =head2
+#: perltooc.pod:1027
+msgid "More Inheritance Concerns"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1029
+msgid "Suppose that Some_Class were used as a base class from which to derive Another_Class.  If you invoke a &CData method on the derived class or on an object of that class, what do you get? Would the derived class have its own state, or would it piggyback on its base class's versions of the class attributes?"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1035
+msgid "The answer is that under the scheme outlined above, the derived class would B<not> have its own state data.  As before, whether you consider this a good thing or a bad one depends on the semantics of the classes involved."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1040
+msgid "The cleanest, sanest, simplest way to address per-class state in a lexical is for the derived class to override its base class's version of the method that accesses the class attributes.  Since the actual method called is the one in the object's derived class if this exists, you automatically get per-class state this way.  Any urge to provide an unadvertised method to sneak out a reference to the %ClassData hash should be strenuously resisted."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1048
+msgid "As with any other overridden method, the implementation in the derived class always has the option of invoking its base class's version of the method in addition to its own.  Here's an example:"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:1052
+#, no-wrap
+msgid ""
+"    package Another_Class;\n"
+"    @ISA = qw(Some_Class);\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:1055
+#, no-wrap
+msgid ""
+"    my %ClassData = (\n"
+"\tCData1 => \"\",\n"
+"    );\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:1059
+#, no-wrap
+msgid ""
+"    sub CData1 {\n"
+"\tmy($self, $newvalue) = @_;\n"
+"\tif (@_ > 1) { \n"
+"\t    # set locally first\n"
+"\t    $ClassData{CData1} = $newvalue;  \n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:1065
+#, no-wrap
+msgid ""
+"\t    # then pass the buck up to the first \n"
+"\t    # overridden version, if there is one\n"
+"\t    if ($self->can(\"SUPER::CData1\")) { \n"
+"\t\t$self->SUPER::CData1($newvalue);\n"
+"\t    }\n"
+"\t}\n"
+"\treturn $ClassData{CData1};\n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1074
+msgid "Those dabbling in multiple inheritance might be concerned about there being more than one override."
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:1077
+#, no-wrap
+msgid ""
+"    for my $parent (@ISA) {\n"
+"\tmy $methname = $parent . \"::CData1\";\n"
+"\tif ($self->can($methname)) { \n"
+"\t    $self->$methname($newvalue);\n"
+"\t}\n"
+"    } \n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1084
+msgid "Because the &UNIVERSAL::can method returns a reference to the function directly, you can use this directly for a significant performance improvement:"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:1088
+#, no-wrap
+msgid ""
+"    for my $parent (@ISA) {\n"
+"\tif (my $coderef = $self->can($parent . \"::CData1\")) {\n"
+"\t    $self->$coderef($newvalue);\n"
+"\t}\n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1094
+msgid "If you override C<UNIVERSAL::can> in your own classes, be sure to return the reference appropriately."
+msgstr ""
+
+#. type: =head2
+#: perltooc.pod:1097
+msgid "Locking the Door and Throwing Away the Key"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1099
+msgid "As currently implemented, any code within the same scope as the file-scoped lexical %ClassData can alter that hash directly.  Is that ok? Is it acceptable or even desirable to allow other parts of the implementation of this class to access class attributes directly?"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1104
+msgid "That depends on how careful you want to be.  Think back to the Cosmos class.  If the &supernova method had directly altered $Cosmos::Stars or C<$Cosmos::Cosmos{stars}>, then we wouldn't have been able to reuse the class when it came to inventing a Multiverse.  So letting even the class itself access its own class attributes without the mediating intervention of properly designed accessor methods is probably not a good idea after all."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1111
+msgid "Restricting access to class attributes from the class itself is usually not enforceable even in strongly object-oriented languages.  But in Perl, you can."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1115
+msgid "Here's one way:"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:1117
+#: perltooc.pod:1147
+#, no-wrap
+msgid ""
+"    package Some_Class;\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:1119
+#, no-wrap
+msgid ""
+"    {  # scope for hiding $CData1\n"
+"\tmy $CData1;\n"
+"\tsub CData1 {\n"
+"\t    shift;\t# XXX: unused\n"
+"\t    $CData1 = shift if @_;\n"
+"\t    return $CData1;\n"
+"\t} \n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:1128
+#, no-wrap
+msgid ""
+"    {  # scope for hiding $CData2\n"
+"\tmy $CData2;\n"
+"\tsub CData2 {\n"
+"\t    shift;\t# XXX: unused\n"
+"\t    $CData2 = shift if @_;\n"
+"\t    return $CData2;\n"
+"\t} \n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1137
+msgid "No one--absolutely no one--is allowed to read or write the class attributes without the mediation of the managing accessor method, since only that method has access to the lexical variable it's managing.  This use of mediated access to class attributes is a form of privacy far stronger than most OO languages provide."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1143
+msgid "The repetition of code used to create per-datum accessor methods chafes at our Laziness, so we'll again use closures to create similar methods."
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:1149
+#, no-wrap
+msgid ""
+"    {  # scope for ultra-private meta-object for class attributes\n"
+"\tmy %ClassData = ( \n"
+"\t    CData1 => \"\",\n"
+"\t    CData2 => \"\",\n"
+"\t);\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:1155
+#, no-wrap
+msgid ""
+"\tfor my $datum (keys %ClassData ) { \n"
+"\t    no strict \"refs\";    \n"
+"\t    *$datum = sub {\n"
+"\t\tuse strict \"refs\";    \n"
+"\t\tmy ($self, $newvalue) = @_;\n"
+"\t\t$ClassData{$datum} = $newvalue if @_ > 1;\n"
+"\t\treturn $ClassData{$datum};\n"
+"\t    }\n"
+"\t}\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:1165
+#, no-wrap
+msgid ""
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1167
+msgid "The closure above can be modified to take inheritance into account using the &UNIVERSAL::can method and SUPER as shown previously."
+msgstr ""
+
+#. type: =head2
+#: perltooc.pod:1170
+msgid "Translucency Revisited"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1172
+msgid "The Vermin class demonstrates translucency using a package variable, eponymously named %Vermin, as its meta-object.  If you prefer to use absolutely no package variables beyond those necessary to appease inheritance or possibly the Exporter, this strategy is closed to you.  That's too bad, because translucent attributes are an appealing technique, so it would be valuable to devise an implementation using only lexicals."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1180
+msgid "There's a second reason why you might wish to avoid the eponymous package hash.  If you use class names with double-colons in them, you would end up poking around somewhere you might not have meant to poke."
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:1184
+#, no-wrap
+msgid ""
+"    package Vermin;\n"
+"    $class = \"Vermin\";\n"
+"    $class->{PopCount}++;\t\n"
+"    # accesses $Vermin::Vermin{PopCount}\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:1189
+#, no-wrap
+msgid ""
+"    package Vermin::Noxious;\n"
+"    $class = \"Vermin::Noxious\";\n"
+"    $class->{PopCount}++;\t\n"
+"    # accesses $Vermin::Noxious{PopCount}\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1194
+msgid "In the first case, because the class name had no double-colons, we got the hash in the current package.  But in the second case, instead of getting some hash in the current package, we got the hash %Noxious in the Vermin package.  (The noxious vermin just invaded another package and sprayed their data around it. :-) Perl doesn't support relative packages in its naming conventions, so any double-colons trigger a fully-qualified lookup instead of just looking in the current package."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1202
+msgid "In practice, it is unlikely that the Vermin class had an existing package variable named %Noxious that you just blew away.  If you're still mistrustful, you could always stake out your own territory where you know the rules, such as using Eponymous::Vermin::Noxious or Hieronymus::Vermin::Boschious or Leave_Me_Alone::Vermin::Noxious as class names instead.  Sure, it's in theory possible that someone else has a class named Eponymous::Vermin with its own %Noxious hash, but this kind of thing is always true.  There's no arbiter of package names.  It's always the case that globals like @Cwd::ISA would collide if more than one class uses the same Cwd package."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1213
+msgid "If this still leaves you with an uncomfortable twinge of paranoia, we have another solution for you.  There's nothing that says that you have to have a package variable to hold a class meta-object, either for monadic classes or for translucent attributes.  Just code up the methods so that they access a lexical instead."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1219
+msgid "Here's another implementation of the Vermin class with semantics identical to those given previously, but this time using no package variables."
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:1225
+#, no-wrap
+msgid ""
+"    # Here's the class meta-object, eponymously named.\n"
+"    # It holds all class data, and also all instance data \n"
+"    # so the latter can be used for both initialization \n"
+"    # and translucency.  it's a template.\n"
+"    my %ClassData = (   \t\t\n"
+"\tPopCount => 0,\t\t# capital for class attributes\n"
+"\tcolor    => \"beige\",    # small for instance attributes\t\t\n"
+"    );\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:1234
+#, no-wrap
+msgid ""
+"    # constructor method\n"
+"    # invoked as class method or object method\n"
+"    sub spawn {\n"
+"\tmy $obclass = shift;\n"
+"\tmy $class   = ref($obclass) || $obclass;\n"
+"\tmy $self = {};\n"
+"\tbless($self, $class);\n"
+"\t$ClassData{PopCount}++;\n"
+"\t# init fields from invoking object, or omit if \n"
+"\t# invoking object is the class to provide translucency\n"
+"\t%$self = %$obclass if ref $obclass;\n"
+"\treturn $self;\n"
+"    } \n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:1248
+#, no-wrap
+msgid ""
+"    # translucent accessor for \"color\" attribute\n"
+"    # invoked as class method or object method\n"
+"    sub color {\n"
+"\tmy $self  = shift;\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:1253
+#, no-wrap
+msgid ""
+"\t# handle class invocation\n"
+"\tunless (ref $self) {\n"
+"\t    $ClassData{color} = shift if @_;\n"
+"\t    return $ClassData{color}\n"
+"\t}\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:1259
+#, no-wrap
+msgid ""
+"\t# handle object invocation\n"
+"\t$self->{color} = shift if @_;\n"
+"\tif (defined $self->{color}) {  # not exists!\n"
+"\t    return $self->{color};\n"
+"\t} else {\n"
+"\t    return $ClassData{color};\n"
+"\t} \n"
+"    } \n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:1268
+#, no-wrap
+msgid ""
+"    # class attribute accessor for \"PopCount\" attribute\n"
+"    # invoked as class method or object method\n"
+"    sub population {\n"
+"\treturn $ClassData{PopCount};\n"
+"    } \n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:1274
+#, no-wrap
+msgid ""
+"    # instance destructor; invoked only as object method\n"
+"    sub DESTROY {\n"
+"\t$ClassData{PopCount}--;\n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:1279
+#, no-wrap
+msgid ""
+"    # detect whether an object attribute is translucent\n"
+"    # (typically?) invoked only as object method\n"
+"    sub is_translucent {\n"
+"\tmy($self, $attr)  = @_;\n"
+"\t$self = \\%ClassData if !ref $self;\n"
+"\treturn !defined $self->{$attr};  \n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perltooc.pod:1287
+#, no-wrap
+msgid ""
+"    # test for presence of attribute in class\n"
+"    # invoked as class method or object method\n"
+"    sub has_attribute {\n"
+"\tmy($self, $attr)  = @_;\n"
+"\treturn exists $ClassData{$attr};  \n"
+"    } \n"
+"\n"
+msgstr ""
+
+#. type: =head1
+#: perltooc.pod:1294
+msgid "NOTES"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1296
+msgid "Inheritance is a powerful but subtle device, best used only after careful forethought and design.  Aggregation instead of inheritance is often a better approach."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1300
+msgid "You can't use file-scoped lexicals in conjunction with the SelfLoader or the AutoLoader, because they alter the lexical scope in which the module's methods wind up getting compiled."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1304
+msgid "The usual mealy-mouthed package-munging doubtless applies to setting up names of object attributes.  For example, C<< $self->{ObData1} >> should probably be C<< $self->{ __PACKAGE__ . \"_ObData1\" } >>, but that would just confuse the examples."
+msgstr ""
+
+#. type: =head1
+#: perltooc.pod:1309
+msgid "SEE ALSO"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1311
+msgid "L<perltoot>, L<perlobj>, L<perlmod>, and L<perlbot>."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1313
+msgid "The Tie::SecureHash and Class::Data::Inheritable modules from CPAN are worth checking out."
+msgstr ""
+
+#. type: =head1
+#: perltooc.pod:1316
+msgid "AUTHOR AND COPYRIGHT"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1318
+msgid "Copyright (c) 1999 Tom Christiansen.  All rights reserved."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1321
+msgid "This documentation is free; you can redistribute it and/or modify it under the same terms as Perl itself."
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1324
+msgid "Irrespective of its distribution, all code examples in this file are hereby placed into the public domain.  You are permitted and encouraged to use this code in your own programs for fun or for profit as you see fit.  A simple comment in the code giving credit would be courteous but is not required."
+msgstr ""
+
+#. type: =head1
+#: perltooc.pod:1330
+msgid "ACKNOWLEDGEMENTS"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1332
+msgid "Russ Allbery, Jon Orwant, Randy Ray, Larry Rosler, Nat Torkington, and Stephen Warren all contributed suggestions and corrections to this piece.  Thanks especially to Damian Conway for his ideas and feedback, and without whose indirect prodding I might never have taken the time to show others how much Perl has to offer in the way of objects once you start thinking outside the tiny little box that today's \"popular\" object-oriented languages enforce."
+msgstr ""
+
+#. type: =head1
+#: perltooc.pod:1340
+msgid "HISTORY"
+msgstr ""
+
+#. type: textblock
+#: perltooc.pod:1342
+msgid "Last edit: Sun Feb 4 20:50:28 EST 2001"
+msgstr ""
+

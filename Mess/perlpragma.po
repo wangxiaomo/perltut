@@ -1,0 +1,380 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-01-26 22:36+0800\n"
+"PO-Revision-Date: 2012-01-26 22:36+0800\n"
+"Last-Translator: xiaomo <wxm4ever@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. type: =head1
+#: perlpragma.pod:1
+msgid "NAME"
+msgstr "NAME"
+
+#. type: textblock
+#: perlpragma.pod:3
+msgid "perlpragma - how to write a user pragma"
+msgstr "perlpragma - 自定义编译指令"
+
+#. type: =head1
+#: perlpragma.pod:5
+msgid "DESCRIPTION"
+msgstr "DESCRIPTION"
+
+#. type: textblock
+#: perlpragma.pod:7
+msgid "A pragma is a module which influences some aspect of the compile time or run time behaviour of Perl, such as C<strict> or C<warnings>. With Perl 5.10 you are no longer limited to the built in pragmata; you can now create user pragmata that modify the behaviour of user functions within a lexical scope."
+msgstr "编译指令是会影响编译运行结果的模块，如 C<strict>、C<warnings>。5.10 之后，我们可以"
+"自定义编译指令。"
+
+#. type: =head1
+#: perlpragma.pod:12
+msgid "A basic example"
+msgstr "简单的例子"
+
+#. type: textblock
+#: perlpragma.pod:14
+msgid "For example, say you need to create a class implementing overloaded mathematical operators, and would like to provide your own pragma that functions much like C<use integer;> You'd like this code"
+msgstr "假设我们现在实现类似 C<use integer;> 的编译指令："
+
+#. type: verbatim
+#: perlpragma.pod:18
+#, no-wrap
+msgid ""
+"    use MyMaths;\n"
+"    \n"
+msgstr ""
+"    use MyMaths;\n"
+"    \n"
+
+#. type: verbatim
+#: perlpragma.pod:20
+#, no-wrap
+msgid ""
+"    my $l = MyMaths->new(1.2);\n"
+"    my $r = MyMaths->new(3.4);\n"
+"    \n"
+msgstr ""
+"    my $l = MyMaths->new(1.2);\n"
+"    my $r = MyMaths->new(3.4);\n"
+"    \n"
+
+#. type: verbatim
+#: perlpragma.pod:23
+#, no-wrap
+msgid ""
+"    print \"A: \", $l + $r, \"\\n"
+"\";\n"
+"    \n"
+msgstr ""
+"    print \"A: \", $l + $r, \"\\n"
+"\";\n"
+"    \n"
+
+#. type: verbatim
+#: perlpragma.pod:25
+#, no-wrap
+msgid ""
+"    use myint;\n"
+"    print \"B: \", $l + $r, \"\\n"
+"\";\n"
+"    \n"
+msgstr ""
+"    use myint;\n"
+"    print \"B: \", $l + $r, \"\\n"
+"\";\n"
+"    \n"
+
+#. type: verbatim
+#: perlpragma.pod:28
+#, no-wrap
+msgid ""
+"    {\n"
+"        no myint;\n"
+"        print \"C: \", $l + $r, \"\\n"
+"\";\n"
+"    }\n"
+"    \n"
+msgstr ""
+"    {\n"
+"        no myint;\n"
+"        print \"C: \", $l + $r, \"\\n"
+"\";\n"
+"    }\n"
+"    \n"
+
+#. type: verbatim
+#: perlpragma.pod:33
+#, no-wrap
+msgid ""
+"    print \"D: \", $l + $r, \"\\n"
+"\";\n"
+"    \n"
+msgstr ""
+"    print \"D: \", $l + $r, \"\\n"
+"\";\n"
+"    \n"
+
+#. type: verbatim
+#: perlpragma.pod:35
+#, no-wrap
+msgid ""
+"    no myint;\n"
+"    print \"E: \", $l + $r, \"\\n"
+"\";\n"
+"\n"
+msgstr ""
+"    no myint;\n"
+"    print \"E: \", $l + $r, \"\\n"
+"\";\n"
+"\n"
+
+#. type: textblock
+#: perlpragma.pod:38
+msgid "to give the output"
+msgstr "上面的代码将输出："
+
+#. type: verbatim
+#: perlpragma.pod:40
+#, no-wrap
+msgid ""
+"    A: 4.6\n"
+"    B: 4\n"
+"    C: 4.6\n"
+"    D: 4\n"
+"    E: 4.6\n"
+"\n"
+msgstr ""
+"    A: 4.6\n"
+"    B: 4\n"
+"    C: 4.6\n"
+"    D: 4\n"
+"    E: 4.6\n"
+"\n"
+
+#. type: textblock
+#: perlpragma.pod:46
+msgid "I<i.e.>, where C<use myint;> is in effect, addition operations are forced to integer, whereas by default they are not, with the default behaviour being restored via C<no myint;>"
+msgstr "C<use myint;> 起到了一定的作用，影响了程序运行的结果。"
+
+#. type: textblock
+#: perlpragma.pod:50
+msgid "The minimal implementation of the package C<MyMaths> would be something like this:"
+msgstr "下面给出具体的实现过程。首先是 C<MyMaths> 类："
+
+#. type: verbatim
+#: perlpragma.pod:53
+#, no-wrap
+msgid ""
+"    package MyMaths;\n"
+"    use warnings;\n"
+"    use strict;\n"
+"    use myint();\n"
+"    use overload '+' => sub {\n"
+"        my ($l, $r) = @_;\n"
+"\t# Pass 1 to check up one call level from here\n"
+"        if (myint::in_effect(1)) {\n"
+"            int($$l) + int($$r);\n"
+"        } else {\n"
+"            $$l + $$r;\n"
+"        }\n"
+"    };\n"
+"    \n"
+msgstr ""
+"    package MyMaths;\n"
+"    use warnings;\n"
+"    use strict;\n"
+"    use myint();\n"
+"    use overload '+' => sub {\n"
+"        my ($l, $r) = @_;\n"
+"\t# Pass 1 to check up one call level from here\n"
+"        if (myint::in_effect(1)) {\n"
+"            int($$l) + int($$r);\n"
+"        } else {\n"
+"            $$l + $$r;\n"
+"        }\n"
+"    };\n"
+"    \n"
+
+#. type: verbatim
+#: perlpragma.pod:67
+#, no-wrap
+msgid ""
+"    sub new {\n"
+"        my ($class, $value) = @_;\n"
+"        bless \\$value, $class;\n"
+"    }\n"
+"    \n"
+msgstr ""
+"    sub new {\n"
+"        my ($class, $value) = @_;\n"
+"        bless \\$value, $class;\n"
+"    }\n"
+"    \n"
+
+#. type: verbatim
+#: perlpragma.pod:72
+#: perlpragma.pod:98
+#, no-wrap
+msgid ""
+"    1;\n"
+"\n"
+msgstr ""
+"    1;\n"
+"\n"
+
+#. type: textblock
+#: perlpragma.pod:74
+msgid "Note how we load the user pragma C<myint> with an empty list C<()> to prevent its C<import> being called."
+msgstr "注意我们这里加载 C<myint> 通过传递一个空的列表 C<()> 来防止 C<import> 的运行。"
+
+#. type: textblock
+#: perlpragma.pod:77
+msgid "The interaction with the Perl compilation happens inside package C<myint>:"
+msgstr "C<myint> 的实现如下："
+
+#. type: verbatim
+#: perlpragma.pod:79
+#, no-wrap
+msgid ""
+"    package myint;\n"
+"    \n"
+msgstr ""
+"    package myint;\n"
+"    \n"
+
+#. type: verbatim
+#: perlpragma.pod:81
+#, no-wrap
+msgid ""
+"    use strict;\n"
+"    use warnings;\n"
+"    \n"
+msgstr ""
+"    use strict;\n"
+"    use warnings;\n"
+"    \n"
+
+#. type: verbatim
+#: perlpragma.pod:84
+#, no-wrap
+msgid ""
+"    sub import {\n"
+"        $^H{myint} = 1;\n"
+"    }\n"
+"    \n"
+msgstr ""
+"    sub import {\n"
+"        $^H{myint} = 1;\n"
+"    }\n"
+"    \n"
+
+#. type: verbatim
+#: perlpragma.pod:88
+#, no-wrap
+msgid ""
+"    sub unimport {\n"
+"        $^H{myint} = 0;\n"
+"    }\n"
+"    \n"
+msgstr ""
+"    sub unimport {\n"
+"        $^H{myint} = 0;\n"
+"    }\n"
+"    \n"
+
+#. type: verbatim
+#: perlpragma.pod:92
+#, no-wrap
+msgid ""
+"    sub in_effect {\n"
+"        my $level = shift // 0;\n"
+"        my $hinthash = (caller($level))[10];\n"
+"        return $hinthash->{myint};\n"
+"    }\n"
+"    \n"
+msgstr ""
+"    sub in_effect {\n"
+"        my $level = shift // 0;\n"
+"        my $hinthash = (caller($level))[10];\n"
+"        return $hinthash->{myint};\n"
+"    }\n"
+"    \n"
+
+#. type: textblock
+#: perlpragma.pod:100
+msgid "As pragmata are implemented as modules, like any other module, C<use myint;> becomes"
+msgstr "编译指令也是模块，所以 C<use myint;> 就相当于："
+
+#. type: verbatim
+#: perlpragma.pod:103
+#, no-wrap
+msgid ""
+"    BEGIN {\n"
+"        require myint;\n"
+"        myint->import();\n"
+"    }\n"
+"\n"
+msgstr ""
+"    BEGIN {\n"
+"        require myint;\n"
+"        myint->import();\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perlpragma.pod:108
+msgid "and C<no myint;> is"
+msgstr "C<no myintl> 就是："
+
+#. type: verbatim
+#: perlpragma.pod:110
+#, no-wrap
+msgid ""
+"    BEGIN {\n"
+"        require myint;\n"
+"        myint->unimport();\n"
+"    }\n"
+"\n"
+msgstr ""
+"    BEGIN {\n"
+"        require myint;\n"
+"        myint->unimport();\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perlpragma.pod:115
+msgid "Hence the C<import> and C<unimport> routines are called at B<compile time> for the user's code."
+msgstr "C<import> 和 C<unimport> 方法实在编译时自动执行的。"
+
+#. type: textblock
+#: perlpragma.pod:118
+msgid "User pragmata store their state by writing to the magical hash C<%^H>, hence these two routines manipulate it. The state information in C<%^H> is stored in the optree, and can be retrieved read-only at runtime with C<caller()>, at index 10 of the list of returned results. In the example pragma, retrieval is encapsulated into the routine C<in_effect()>, which takes as parameter the number of call frames to go up to find the value of the pragma in the user's script. This uses C<caller()> to determine the value of C<$^H{myint}> when each line of the user's script was called, and therefore provide the correct semantics in the subroutine implementing the overloaded addition."
+msgstr "编译指令的状态存储在 C<%^H> 哈希中，C<%^H> 哈希只能通过 C<caller()> 在1等级的时候"
+"返回的下标为10的值解引用访问。"
+
+#. type: =head1
+#: perlpragma.pod:129
+msgid "Implementation details"
+msgstr "注意的问题"
+
+#. type: textblock
+#: perlpragma.pod:131
+msgid "The optree is shared between threads.  This means there is a possibility that the optree will outlive the particular thread (and therefore the interpreter instance) that created it, so true Perl scalars cannot be stored in the optree.  Instead a compact form is used, which can only store values that are integers (signed and unsigned), strings or C<undef> - references and floating point values are stringified.  If you need to store multiple values or complex structures, you should serialise them, for example with C<pack>.  The deletion of a hash key from C<%^H> is recorded, and as ever can be distinguished from the existence of a key with value C<undef> with C<exists>."
+msgstr ""
+
+#. type: textblock
+#: perlpragma.pod:142
+msgid "B<Don't> attempt to store references to data structures as integers which are retrieved via C<caller> and converted back, as this will not be threadsafe.  Accesses would be to the structure without locking (which is not safe for Perl's scalars), and either the structure has to leak, or it has to be freed when its creating thread terminates, which may be before the optree referencing it is deleted, if other threads outlive it."
+msgstr "B<不要>试着在 C<%^H> 哈希中存储指向复杂结构的引用，这在线程上是不安全的。"
+

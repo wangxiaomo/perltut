@@ -1,0 +1,972 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-01-18 11:07+0800\n"
+"PO-Revision-Date: 2012-01-18 11:13+0800\n"
+"Last-Translator: xiaomo <wxm4ever@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. type: =head1
+#: perlreftut.pod:1
+msgid "NAME"
+msgstr "NAME"
+
+#. type: textblock
+#: perlreftut.pod:3
+msgid "perlreftut - Mark's very short tutorial about references"
+msgstr "perlreftut - 关于引用"
+
+#. type: =head1
+#: perlreftut.pod:5
+msgid "DESCRIPTION"
+msgstr "DESCRIPTION"
+
+#. type: textblock
+#: perlreftut.pod:7
+msgid "One of the most important new features in Perl 5 was the capability to manage complicated data structures like multidimensional arrays and nested hashes.  To enable these, Perl 5 introduced a feature called `references', and using references is the key to managing complicated, structured data in Perl.  Unfortunately, there's a lot of funny syntax to learn, and the main manual page can be hard to follow.  The manual is quite complete, and sometimes people find that a problem, because it can be hard to tell what is important and what isn't."
+msgstr ""
+"Perl 5 的一个特性就是你能够通过引用来操作复杂的数据结构，如多维数组、嵌套哈希等。"
+"要想熟练的使用引用需要学习大量的语法规则，手册中很详细的介绍了引用，但是我们很难"
+"分辨出哪些是有用的，所以很多人很难掌握这部分知识。"
+
+#. type: textblock
+#: perlreftut.pod:16
+msgid "Fortunately, you only need to know 10% of what's in the main page to get 90% of the benefit.  This page will show you that 10%."
+msgstr "幸运的是，你只需要知道手册 10% 的知识就可以享受到引用 90% 的好处，所以这篇文"
+"档就是来介绍那 10% 部分。"
+
+#. type: =head1
+#: perlreftut.pod:19
+msgid "Who Needs Complicated Data Structures?"
+msgstr "谁需要使用复杂的数据结构？"
+
+#. type: textblock
+#: perlreftut.pod:21
+msgid "One problem that came up all the time in Perl 4 was how to represent a hash whose values were lists.  Perl 4 had hashes, of course, but the values had to be scalars; they couldn't be lists."
+msgstr "在 Perl 4 的相当长的一段时间内，如何让哈希值指向列表是困扰大家的问题。当然，"
+"Perl 4 中也有哈希结构，但是哈希值只能是标量，不能指向列表。"
+
+#. type: textblock
+#: perlreftut.pod:25
+msgid "Why would you want a hash of lists? Let's take a simple example: You have a file of city and country names, like this:"
+msgstr "为什么我们想要哈希值指向列表？下面看一个简单的例子。你有一些国家、城市的名字"
+"，如下："
+
+#. type: verbatim
+#: perlreftut.pod:28
+#, no-wrap
+msgid ""
+"\tChicago, USA\n"
+"\tFrankfurt, Germany\n"
+"\tBerlin, Germany\n"
+"\tWashington, USA\n"
+"\tHelsinki, Finland\n"
+"\tNew York, USA\n"
+"\n"
+msgstr ""
+"\tChicago, USA\n"
+"\tFrankfurt, Germany\n"
+"\tBerlin, Germany\n"
+"\tWashington, USA\n"
+"\tHelsinki, Finland\n"
+"\tNew York, USA\n"
+"\n"
+
+#. type: textblock
+#: perlreftut.pod:35
+msgid "and you want to produce an output like this, with each country mentioned once, and then an alphabetical list of the cities in that country:"
+msgstr "现在你想要如下的输出，每个国家只出现一次，国家后面跟着该国家的城市："
+
+#. type: verbatim
+#: perlreftut.pod:38
+#, no-wrap
+msgid ""
+"\tFinland: Helsinki.\n"
+"\tGermany: Berlin, Frankfurt.\n"
+"\tUSA:  Chicago, New York, Washington.\n"
+"\n"
+msgstr ""
+"\tFinland: Helsinki.\n"
+"\tGermany: Berlin, Frankfurt.\n"
+"\tUSA:  Chicago, New York, Washington.\n"
+"\n"
+
+#. type: textblock
+#: perlreftut.pod:42
+msgid "The natural way to do this is to have a hash whose keys are country names.  Associated with each country name key is a list of the cities in that country.  Each time you read a line of input, split it into a country and a city, look up the list of cities already known to be in that country, and append the new city to the list.  When you're done reading the input, iterate over the hash as usual, sorting each list of cities before you print it out."
+msgstr ""
+"要想得到如上的功能，最自然的做法就是以国家为键存入哈希、对应城市放入列表存入相应键值"
+"中。之后根据对应的国家找到相应的城市列表，然后循环遍历即可。"
+
+#. type: textblock
+#: perlreftut.pod:50
+msgid "If hash values can't be lists, you lose.  In Perl 4, hash values can't be lists; they can only be strings.  You lose.  You'd probably have to combine all the cities into a single string somehow, and then when time came to write the output, you'd have to break the string into a list, sort the list, and turn it back into a string.  This is messy and error-prone.  And it's frustrating, because Perl already has perfectly good lists that would solve the problem if only you could use them."
+msgstr ""
+"如果哈希值不能指向列表的话，你就不能那么做了。此时你只能把所有的城市拼接成一个字符串"
+"，然后使用时需要分割之后再进行循环。这是不必要的，也是很浪费的。"
+
+#. type: =head1
+#: perlreftut.pod:59
+msgid "The Solution"
+msgstr "解决方案"
+
+#. type: textblock
+#: perlreftut.pod:61
+msgid "By the time Perl 5 rolled around, we were already stuck with this design: Hash values must be scalars.  The solution to this is references."
+msgstr "Perl 5 解决了这个困扰多时的问题，哈希值可以是标量，也可以是一个指向复杂结构的"
+"引用。"
+
+#. type: textblock
+#: perlreftut.pod:65
+msgid "A reference is a scalar value that I<refers to> an entire array or an entire hash (or to just about anything else).  Names are one kind of reference that you're already familiar with.  Think of the President of the United States: a messy, inconvenient bag of blood and bones.  But to talk about him, or to represent him in a computer program, all you need is the easy, convenient scalar string \"Barack Obama\"."
+msgstr ""
+"引用本质上也是一个标量，它I<指向>数组、哈希或是其他复杂的数据结构。"
+
+#. type: textblock
+#: perlreftut.pod:72
+msgid "References in Perl are like names for arrays and hashes.  They're Perl's private, internal names, so you can be sure they're unambiguous.  Unlike \"Barack Obama\", a reference only refers to one thing, and you always know what it refers to.  If you have a reference to an array, you can recover the entire array from it.  If you have a reference to a hash, you can recover the entire hash.  But the reference is still an easy, compact scalar value."
+msgstr "引用就像是数组、哈希的名字，通过它们，你可以清楚的指向正确的结构。"
+
+#. type: textblock
+#: perlreftut.pod:80
+msgid "You can't have a hash whose values are arrays; hash values can only be scalars.  We're stuck with that.  But a single reference can refer to an entire array, and references are scalars, so you can have a hash of references to arrays, and it'll act a lot like a hash of arrays, and it'll be just as useful as a hash of arrays."
+msgstr "在 Perl 5 中，哈希值仍然不能是数组，哈希值只能是标量，只不过在 Perl 5 中我们"
+"有了引用。"
+
+#. type: textblock
+#: perlreftut.pod:86
+msgid "We'll come back to this city-country problem later, after we've seen some syntax for managing references."
+msgstr "接下来我们将回到 city-country 问题上，学习一些关于引用的语法。"
+
+#. type: =head1
+#: perlreftut.pod:90
+msgid "Syntax"
+msgstr "语法"
+
+#. type: textblock
+#: perlreftut.pod:92
+msgid "There are just two ways to make a reference, and just two ways to use it once you have it."
+msgstr "我们可以通过两种方式来创建引用，之后我们也可以通过两种方式来使用引用。"
+
+#. type: =head2
+#: perlreftut.pod:95
+msgid "Making References"
+msgstr "创建引用"
+
+#. type: =head3
+#: perlreftut.pod:97
+msgid "B<Make Rule 1>"
+msgstr "B<Make Rule 1>"
+
+#. type: textblock
+#: perlreftut.pod:99
+msgid "If you put a C<\\> in front of a variable, you get a reference to that variable."
+msgstr "在变量前加 C<\\> 你便可以得到指向该变量的引用。"
+
+#. type: verbatim
+#: perlreftut.pod:102
+#, no-wrap
+msgid ""
+"    $aref = \\@array;         # $aref now holds a reference to @array\n"
+"    $href = \\%hash;          # $href now holds a reference to %hash\n"
+"    $sref = \\$scalar;        # $sref now holds a reference to $scalar\n"
+"\n"
+msgstr ""
+"    $aref = \\@array;         # $aref now holds a reference to @array\n"
+"    $href = \\%hash;          # $href now holds a reference to %hash\n"
+"    $sref = \\$scalar;        # $sref now holds a reference to $scalar\n"
+"\n"
+
+#. type: textblock
+#: perlreftut.pod:106
+msgid "Once the reference is stored in a variable like $aref or $href, you can copy it or store it just the same as any other scalar value:"
+msgstr "用来存储引用的变量也可以想普通的标量值一样复制传递。"
+
+#. type: verbatim
+#: perlreftut.pod:109
+#, no-wrap
+msgid ""
+"    $xy = $aref;             # $xy now holds a reference to @array\n"
+"    $p[3] = $href;           # $p[3] now holds a reference to %hash\n"
+"    $z = $p[3];              # $z now holds a reference to %hash\n"
+"\n"
+msgstr ""
+"    $xy = $aref;             # $xy now holds a reference to @array\n"
+"    $p[3] = $href;           # $p[3] now holds a reference to %hash\n"
+"    $z = $p[3];              # $z now holds a reference to %hash\n"
+"\n"
+
+#. type: textblock
+#: perlreftut.pod:114
+msgid ""
+"These examples show how to make references to variables with names.  Sometimes you want to make an array or a hash that doesn't have a name.  This is analogous to the way you like to be able to use the string C<\"\\n"
+"\"> or the number 80 without having to store it in a named variable first."
+msgstr "上面的例子讲解了如何创建引用。有时候我们需要创建匿名变量的引用时，也是类似的"
+"方法。"
+
+#. type: textblock
+#: perlreftut.pod:120
+msgid "B<Make Rule 2>"
+msgstr "B<Make Rule 2>"
+
+#. type: textblock
+#: perlreftut.pod:122
+msgid "C<[ ITEMS ]> makes a new, anonymous array, and returns a reference to that array.  C<{ ITEMS }> makes a new, anonymous hash, and returns a reference to that hash."
+msgstr ""
+"C<[ ITEMS ]> 创建一个匿名数组并返回它的引用。C<{ ITEMS }> 创建一个匿名哈希并返回它"
+"的引用。"
+
+#. type: verbatim
+#: perlreftut.pod:126
+#, no-wrap
+msgid ""
+"    $aref = [ 1, \"foo\", undef, 13 ];\n"
+"    # $aref now holds a reference to an array\n"
+"\n"
+msgstr ""
+"    $aref = [ 1, \"foo\", undef, 13 ];\n"
+"    # $aref now holds a reference to an array\n"
+"\n"
+
+#. type: verbatim
+#: perlreftut.pod:129
+#, no-wrap
+msgid ""
+"    $href = { APR => 4, AUG => 8 };\n"
+"    # $href now holds a reference to a hash\n"
+"\n"
+msgstr ""
+"    $href = { APR => 4, AUG => 8 };\n"
+"    # $href now holds a reference to a hash\n"
+"\n"
+
+#. type: textblock
+#: perlreftut.pod:133
+msgid "The references you get from rule 2 are the same kind of references that you get from rule 1:"
+msgstr "方法二和方法一所创建的引用没有任何区别。"
+
+#. type: verbatim
+#: perlreftut.pod:136
+#, no-wrap
+msgid ""
+"\t# This:\n"
+"\t$aref = [ 1, 2, 3 ];\n"
+"\n"
+msgstr ""
+"\t# This:\n"
+"\t$aref = [ 1, 2, 3 ];\n"
+"\n"
+
+#. type: verbatim
+#: perlreftut.pod:139
+#, no-wrap
+msgid ""
+"\t# Does the same as this:\n"
+"\t@array = (1, 2, 3);\n"
+"\t$aref = \\@array;\n"
+"\n"
+msgstr ""
+"\t# Does the same as this:\n"
+"\t@array = (1, 2, 3);\n"
+"\t$aref = \\@array;\n"
+"\n"
+
+#. type: textblock
+#: perlreftut.pod:144
+msgid "The first line is an abbreviation for the following two lines, except that it doesn't create the superfluous array variable C<@array>."
+msgstr "在不需要给数组命名的情况下，方法二更加简练。"
+
+#. type: textblock
+#: perlreftut.pod:147
+msgid "If you write just C<[]>, you get a new, empty anonymous array.  If you write just C<{}>, you get a new, empty anonymous hash."
+msgstr "C<[]> 会得到一个空匿名数组的引用，同样，C<{}> 会得到一个空匿名哈希的引用。"
+
+#. type: =head2
+#: perlreftut.pod:151
+msgid "Using References"
+msgstr "使用引用"
+
+#. type: textblock
+#: perlreftut.pod:153
+msgid "What can you do with a reference once you have it? It's a scalar value, and we've seen that you can store it as a scalar and get it back again just like any scalar.  There are just two more ways to use it:"
+msgstr "我们可以如何使用引用？引用是一个标量，我们可以像操作其他标量一样对它进行存"
+"取操作。一般的，我们有两种方式来使用引用："
+
+#. type: =head3
+#: perlreftut.pod:157
+msgid "B<Use Rule 1>"
+msgstr "B<Use Rule 1>"
+
+#. type: textblock
+#: perlreftut.pod:159
+msgid "You can always use an array reference, in curly braces, in place of the name of an array.  For example, C<@{$aref}> instead of C<@array>."
+msgstr "你可以在大括号内使用引用来代替引用所指向结构的名字，如 C<@{$aref}> 来表示 "
+"C<@array>。"
+
+#. type: textblock
+#: perlreftut.pod:162
+msgid "Here are some examples of that:"
+msgstr "下面是一些例子："
+
+#. type: textblock
+#: perlreftut.pod:164
+msgid "Arrays:"
+msgstr "数组："
+
+#. type: verbatim
+#: perlreftut.pod:167
+#, no-wrap
+msgid ""
+"\t@a\t\t@{$aref}\t\tAn array\n"
+"\treverse @a\treverse @{$aref}\tReverse the array\n"
+"\t$a[3]\t\t${$aref}[3]\t\tAn element of the array\n"
+"\t$a[3] = 17;\t${$aref}[3] = 17\tAssigning an element\n"
+"\n"
+msgstr ""
+"\t@a\t\t@{$aref}\t\tAn array\n"
+"\treverse @a\treverse @{$aref}\tReverse the array\n"
+"\t$a[3]\t\t${$aref}[3]\t\tAn element of the array\n"
+"\t$a[3] = 17;\t${$aref}[3] = 17\tAssigning an element\n"
+"\n"
+
+#. type: textblock
+#: perlreftut.pod:173
+msgid "On each line are two expressions that do the same thing.  The left-hand versions operate on the array C<@a>.  The right-hand versions operate on the array that is referred to by C<$aref>.  Once they find the array they're operating on, both versions do the same things to the arrays."
+msgstr ""
+"每一行的两个代码都是在做同样的事情。"
+
+#. type: textblock
+#: perlreftut.pod:179
+msgid "Using a hash reference is I<exactly> the same:"
+msgstr "使用指向哈希的引用也是I<基本相同>的："
+
+#. type: verbatim
+#: perlreftut.pod:181
+#, no-wrap
+msgid ""
+"\t%h\t\t%{$href}\t      A hash\n"
+"\tkeys %h\t\tkeys %{$href}\t      Get the keys from the hash\n"
+"\t$h{'red'}\t${$href}{'red'}\t      An element of the hash\n"
+"\t$h{'red'} = 17\t${$href}{'red'} = 17  Assigning an element\n"
+"\n"
+msgstr ""
+"\t%h\t\t%{$href}\t      A hash\n"
+"\tkeys %h\t\tkeys %{$href}\t      Get the keys from the hash\n"
+"\t$h{'red'}\t${$href}{'red'}\t      An element of the hash\n"
+"\t$h{'red'} = 17\t${$href}{'red'} = 17  Assigning an element\n"
+"\n"
+
+#. type: textblock
+#: perlreftut.pod:186
+msgid "Whatever you want to do with a reference, B<Use Rule 1> tells you how to do it.  You just write the Perl code that you would have written for doing the same thing to a regular array or hash, and then replace the array or hash name with C<{$reference}>.  \"How do I loop over an array when all I have is a reference?\" Well, to loop over an array, you would write"
+msgstr "通过方法一你便知道如何使用引用了，你只需要简单的把结构的名字替换为 "
+"C<{$reference}>。下面将介绍如何通过引用来遍历该数据结构。"
+
+#. type: verbatim
+#: perlreftut.pod:193
+#, no-wrap
+msgid ""
+"        for my $element (@array) {\n"
+"           ...\n"
+"        }\n"
+"\n"
+msgstr ""
+"        for my $element (@array) {\n"
+"           ...\n"
+"        }\n"
+"\n"
+
+#. type: textblock
+#: perlreftut.pod:197
+msgid "so replace the array name, C<@array>, with the reference:"
+msgstr "就按方法一所说的替换数组的名字为引用："
+
+#. type: verbatim
+#: perlreftut.pod:199
+#, no-wrap
+msgid ""
+"        for my $element (@{$aref}) {\n"
+"           ...\n"
+"        }\n"
+"\n"
+msgstr ""
+"        for my $element (@{$aref}) {\n"
+"           ...\n"
+"        }\n"
+"\n"
+
+#. type: textblock
+#: perlreftut.pod:203
+msgid "\"How do I print out the contents of a hash when all I have is a reference?\" First write the code for printing out a hash:"
+msgstr "那么我该如何输出引用指向的哈希的值呢？"
+
+#. type: verbatim
+#: perlreftut.pod:206
+#, no-wrap
+msgid ""
+"        for my $key (keys %hash) {\n"
+"          print \"$key => $hash{$key}\\n"
+"\";\n"
+"        }\n"
+"\n"
+msgstr ""
+"        for my $key (keys %hash) {\n"
+"          print \"$key => $hash{$key}\\n"
+"\";\n"
+"        }\n"
+"\n"
+
+#. type: textblock
+#: perlreftut.pod:210
+msgid "And then replace the hash name with the reference:"
+msgstr "同样也是替换哈希名为相应的引用："
+
+#. type: verbatim
+#: perlreftut.pod:212
+#, no-wrap
+msgid ""
+"        for my $key (keys %{$href}) {\n"
+"          print \"$key => ${$href}{$key}\\n"
+"\";\n"
+"        }\n"
+"\n"
+msgstr ""
+"        for my $key (keys %{$href}) {\n"
+"          print \"$key => ${$href}{$key}\\n"
+"\";\n"
+"        }\n"
+"\n"
+
+#. type: =head3
+#: perlreftut.pod:216
+msgid "B<Use Rule 2>"
+msgstr "B<Use Rule 2>"
+
+#. type: textblock
+#: perlreftut.pod:218
+msgid "B<Use Rule 1> is all you really need, because it tells you how to do absolutely everything you ever need to do with references.  But the most common thing to do with an array or a hash is to extract a single element, and the B<Use Rule 1> notation is cumbersome.  So there is an abbreviation."
+msgstr ""
+"我们通过 B<Use Rule 1> 便可以很好的使用引用了。但是很多情况下，我们只是通过引用来"
+"得到某一项的值，这种时候 B<Use Rule 1> 就显得有些笨重了，所以便有了方法二。"
+
+#. type: textblock
+#: perlreftut.pod:224
+msgid "C<${$aref}[3]> is too hard to read, so you can write C<< $aref->[3] >> instead."
+msgstr "C<${$aref}[3]> 太笨重了，不过我们可以使用 C<< $aref->[3] >>。"
+
+#. type: textblock
+#: perlreftut.pod:227
+msgid "C<${$href}{red}> is too hard to read, so you can write C<< $href->{red} >> instead."
+msgstr "C<${$href}{red}> 太笨重了，不过我们可以使用 C<< $href->{red} >>。"
+
+#. type: textblock
+#: perlreftut.pod:230
+msgid "If C<$aref> holds a reference to an array, then C<< $aref->[3] >> is the fourth element of the array.  Don't confuse this with C<$aref[3]>, which is the fourth element of a totally different array, one deceptively named C<@aref>.  C<$aref> and C<@aref> are unrelated the same way that C<$item> and C<@item> are."
+msgstr "注意区别 C<@aref>、C<$aref>，C<$href{'red'}>、C<$href-E<gt>{'red'}>。"
+
+#. type: textblock
+#: perlreftut.pod:236
+msgid "Similarly, C<< $href->{'red'} >> is part of the hash referred to by the scalar variable C<$href>, perhaps even one with no name.  C<$href{'red'}> is part of the deceptively named C<%href> hash.  It's easy to forget to leave out the C<< -> >>, and if you do, you'll get bizarre results when your program gets array and hash elements out of totally unexpected hashes and arrays that weren't the ones you wanted to use."
+msgstr ""
+
+#. type: =head2
+#: perlreftut.pod:245
+msgid "An Example"
+msgstr "示例"
+
+#. type: textblock
+#: perlreftut.pod:247
+msgid "Let's see a quick example of how all this is useful."
+msgstr "让我们看下面这个例子："
+
+#. type: textblock
+#: perlreftut.pod:249
+msgid "First, remember that C<[1, 2, 3]> makes an anonymous array containing C<(1, 2, 3)>, and gives you a reference to that array."
+msgstr "C<[1, 2, 3]> 创建一个匿名数组，包含 C<(1, 2, 3)> 并返回指向它的引用。"
+
+#. type: textblock
+#: perlreftut.pod:252
+msgid "Now think about"
+msgstr "那么如下代码："
+
+#. type: verbatim
+#: perlreftut.pod:254
+#, no-wrap
+msgid ""
+"\t@a = ( [1, 2, 3],\n"
+"               [4, 5, 6],\n"
+"\t       [7, 8, 9]\n"
+"             );\n"
+"\n"
+msgstr ""
+"\t@a = ( [1, 2, 3],\n"
+"               [4, 5, 6],\n"
+"\t       [7, 8, 9]\n"
+"             );\n"
+"\n"
+
+#. type: textblock
+#: perlreftut.pod:259
+msgid "@a is an array with three elements, and each one is a reference to another array."
+msgstr "@a 是一个包含三个元素的数组，每一个元素是一个指向数组的引用。"
+
+#. type: textblock
+#: perlreftut.pod:262
+msgid "C<$a[1]> is one of these references.  It refers to an array, the array containing C<(4, 5, 6)>, and because it is a reference to an array, B<Use Rule 2> says that we can write C<< $a[1]->[2] >> to get the third element from that array.  C<< $a[1]->[2] >> is the 6.  Similarly, C<< $a[0]->[1] >> is the 2.  What we have here is like a two-dimensional array; you can write C<< $a[ROW]->[COLUMN] >> to get or set the element in any row and any column of the array."
+msgstr ""
+"C<$a[1]> 是其中的一个引用。它指向 C<(4, 5, 6)> 数组。根据 B<Use Rule 2> 我们便可以"
+"通过 C<< $a[1]->[2] >> 来得到该数组中的第三个元素，所以 C<< $a[1]->[2] >> 是6。因"
+"此，我们可以通过 C<< $a[ROW]->[COLUMN] >> 来得到相应的元素。"
+
+#. type: textblock
+#: perlreftut.pod:270
+msgid "The notation still looks a little cumbersome, so there's one more abbreviation:"
+msgstr "这样写看起来还是很笨重，不过我们还有另外一种缩写方法。"
+
+#. type: =head2
+#: perlreftut.pod:273
+msgid "Arrow Rule"
+msgstr "Arrow Rule"
+
+#. type: textblock
+#: perlreftut.pod:275
+msgid "In between two B<subscripts>, the arrow is optional."
+msgstr "在 C<< $a[ROW]->[COLUMN] >> 中箭头是可以省略的。"
+
+#. type: textblock
+#: perlreftut.pod:277
+msgid "Instead of C<< $a[1]->[2] >>, we can write C<$a[1][2]>; it means the same thing.  Instead of C<< $a[0]->[1] = 23 >>, we can write C<$a[0][1] = 23>; it means the same thing."
+msgstr "我们可以用 C<$a[1][2]> 来代表 C<< $a[1]->[2] >>，也可以用 C<$a[0][1] = 23> "
+"来代表 C<< $a[0]->[1] = 23 >>。"
+
+#. type: textblock
+#: perlreftut.pod:281
+msgid "Now it really looks like two-dimensional arrays!"
+msgstr "现在它看起来就很像二维数组了。"
+
+#. type: textblock
+#: perlreftut.pod:283
+msgid "You can see why the arrows are important.  Without them, we would have had to write C<${$a[1]}[2]> instead of C<$a[1][2]>.  For three-dimensional arrays, they let us write C<$x[2][3][5]> instead of the unreadable C<${${$x[2]}[3]}[5]>."
+msgstr ""
+"现在你知道箭头有多么重要了吧。如果没有它们，我们便不得不这样写，C<${$a[1]}[2]>，而"
+"不能使用 C<$a[1][2]> 这种形式。对于三维数组来说，我们便不得不这样写，"
+"C<${${$x[2]}[3]}[5]>，而不是C<$x[2][3][5]>。"
+
+#. type: =head1
+#: perlreftut.pod:288
+msgid "Solution"
+msgstr "解决方案"
+
+#. type: textblock
+#: perlreftut.pod:290
+msgid "Here's the answer to the problem I posed earlier, of reformatting a file of city and country names."
+msgstr "下面是之前 city-country 问题的解决方案："
+
+#. type: verbatim
+#: perlreftut.pod:293
+#, no-wrap
+msgid ""
+"    1   my %table;\n"
+"\n"
+msgstr ""
+"    1   my %table;\n"
+"\n"
+
+#. type: verbatim
+#: perlreftut.pod:295
+#: perlreftut.pod:361
+#, no-wrap
+msgid ""
+"    2   while (<>) {\n"
+"    3    chomp;\n"
+"    4     my ($city, $country) = split /, /;\n"
+"    5     $table{$country} = [] unless exists $table{$country};\n"
+"    6     push @{$table{$country}}, $city;\n"
+"    7   }\n"
+"\n"
+msgstr ""
+"    2   while (<>) {\n"
+"    3    chomp;\n"
+"    4     my ($city, $country) = split /, /;\n"
+"    5     $table{$country} = [] unless exists $table{$country};\n"
+"    6     push @{$table{$country}}, $city;\n"
+"    7   }\n"
+"\n"
+
+#. type: verbatim
+#: perlreftut.pod:302
+#: perlreftut.pod:335
+#, no-wrap
+msgid ""
+"    8   foreach $country (sort keys %table) {\n"
+"    9     print \"$country: \";\n"
+"   10     my @cities = @{$table{$country}};\n"
+"   11     print join ', ', sort @cities;\n"
+"   12     print \".\\n"
+"\";\n"
+"   13\t}\n"
+"\n"
+msgstr ""
+"    8   foreach $country (sort keys %table) {\n"
+"    9     print \"$country: \";\n"
+"   10     my @cities = @{$table{$country}};\n"
+"   11     print join ', ', sort @cities;\n"
+"   12     print \".\\n"
+"\";\n"
+"   13\t}\n"
+"\n"
+
+#. type: textblock
+#: perlreftut.pod:310
+msgid "The program has two pieces: Lines 2--7 read the input and build a data structure, and lines 8-13 analyze the data and print out the report.  We're going to have a hash, C<%table>, whose keys are country names, and whose values are references to arrays of city names.  The data structure will look like this:"
+msgstr ""
+"代码包含两部分，2---7 行用来构建结构并存入信息，8---13 行用来输出信息。存储结构"
+"就是下面这个样子："
+
+#. type: verbatim
+#: perlreftut.pod:317
+#, no-wrap
+msgid ""
+"           %table\n"
+"        +-------+---+\n"
+"        |       |   |   +-----------+--------+\n"
+"        |Germany| *---->| Frankfurt | Berlin |\n"
+"        |       |   |   +-----------+--------+\n"
+"        +-------+---+\n"
+"        |       |   |   +----------+\n"
+"        |Finland| *---->| Helsinki |\n"
+"        |       |   |   +----------+\n"
+"        +-------+---+\n"
+"        |       |   |   +---------+------------+----------+\n"
+"        |  USA  | *---->| Chicago | Washington | New York |\n"
+"        |       |   |   +---------+------------+----------+\n"
+"        +-------+---+\n"
+"\n"
+msgstr ""
+"           %table\n"
+"        +-------+---+\n"
+"        |       |   |   +-----------+--------+\n"
+"        |Germany| *---->| Frankfurt | Berlin |\n"
+"        |       |   |   +-----------+--------+\n"
+"        +-------+---+\n"
+"        |       |   |   +----------+\n"
+"        |Finland| *---->| Helsinki |\n"
+"        |       |   |   +----------+\n"
+"        +-------+---+\n"
+"        |       |   |   +---------+------------+----------+\n"
+"        |  USA  | *---->| Chicago | Washington | New York |\n"
+"        |       |   |   +---------+------------+----------+\n"
+"        +-------+---+\n"
+"\n"
+
+#. type: textblock
+#: perlreftut.pod:332
+msgid "We'll look at output first.  Supposing we already have this structure, how do we print it out?"
+msgstr ""
+"接下来我们考虑下如何把这个结构输出。"
+
+#. type: textblock
+#: perlreftut.pod:342
+msgid "C<%table> is an ordinary hash, and we get a list of keys from it, sort the keys, and loop over the keys as usual.  The only use of references is in line 10.  C<$table{$country}> looks up the key C<$country> in the hash and gets the value, which is a reference to an array of cities in that country.  B<Use Rule 1> says that we can recover the array by saying C<@{$table{$country}}>.  Line 10 is just like"
+msgstr ""
+"C<%table> 是一个普通的哈希结构，我们从中取出数组并循环遍历各元素。代码中只有第10行"
+"对引用进行了操作。这里我们是按 B<Use Rule 1> 规则来使用引用，C<@{$table{$country}> "
+"和如下代码功能类似："
+
+#. type: verbatim
+#: perlreftut.pod:351
+#, no-wrap
+msgid ""
+"\t@cities = @array;\n"
+"\n"
+msgstr ""
+"\t@cities = @array;\n"
+"\n"
+
+#. type: textblock
+#: perlreftut.pod:353
+msgid "except that the name C<array> has been replaced by the reference C<{$table{$country}}>.  The C<@> tells Perl to get the entire array.  Having gotten the list of cities, we sort it, join it, and print it out as usual."
+msgstr "通过引用得到该数组后，我们便像操作普通数组一样进行 sort、join、print 操作了。"
+
+#. type: textblock
+#: perlreftut.pod:358
+msgid "Lines 2-7 are responsible for building the structure in the first place.  Here they are again:"
+msgstr "2---7 行代码用来创建结构并存入相应信息："
+
+#. type: textblock
+#: perlreftut.pod:368
+msgid "Lines 2-4 acquire a city and country name.  Line 5 looks to see if the country is already present as a key in the hash.  If it's not, the program uses the C<[]> notation (B<Make Rule 2>) to manufacture a new, empty anonymous array of cities, and installs a reference to it into the hash under the appropriate key."
+msgstr ""
+"2---4 行我们得到国家名称和城市名称。第5行查看该国家是否在哈希键中存在。如果不存在则"
+"将相应的哈希值通过 C<[]> 初始化为空数组引用。"
+
+#. type: textblock
+#: perlreftut.pod:374
+msgid "Line 6 installs the city name into the appropriate array.  C<$table{$country}> now holds a reference to the array of cities seen in that country so far.  Line 6 is exactly like"
+msgstr ""
+"第6行代码把相应的城市名称放入相应的数组中，和下面的代码功能相同："
+
+#. type: verbatim
+#: perlreftut.pod:378
+#, no-wrap
+msgid ""
+"\tpush @array, $city;\n"
+"\n"
+msgstr ""
+"\tpush @array, $city;\n"
+"\n"
+
+#. type: textblock
+#: perlreftut.pod:380
+msgid "except that the name C<array> has been replaced by the reference C<{$table{$country}}>.  The C<push> adds a city name to the end of the referred-to array."
+msgstr ""
+
+#. type: textblock
+#: perlreftut.pod:384
+msgid "There's one fine point I skipped.  Line 5 is unnecessary, and we can get rid of it."
+msgstr "第5行代码其实是不必要的，我们可以注释掉它。"
+
+#. type: verbatim
+#: perlreftut.pod:387
+#, no-wrap
+msgid ""
+"    2   while (<>) {\n"
+"    3    chomp;\n"
+"    4     my ($city, $country) = split /, /;\n"
+"    5   ####  $table{$country} = [] unless exists $table{$country};\n"
+"    6     push @{$table{$country}}, $city;\n"
+"    7   }\n"
+"\n"
+msgstr ""
+"    2   while (<>) {\n"
+"    3    chomp;\n"
+"    4     my ($city, $country) = split /, /;\n"
+"    5   ####  $table{$country} = [] unless exists $table{$country};\n"
+"    6     push @{$table{$country}}, $city;\n"
+"    7   }\n"
+"\n"
+
+#. type: textblock
+#: perlreftut.pod:394
+msgid "If there's already an entry in C<%table> for the current C<$country>, then nothing is different.  Line 6 will locate the value in C<$table{$country}>, which is a reference to an array, and push C<$city> into the array.  But what does it do when C<$country> holds a key, say C<Greece>, that is not yet in C<%table>?"
+msgstr ""
+"如果当前的 C<$country> 在 C<%table> 早已存在，那么注释掉第5行代码不会有什么不同。但"
+"如果有一个 C<$country> 值为 C<Greece>，但是在 C<%table> 并不存在，此时 Perl 会如何"
+"处理呢？"
+
+#. type: textblock
+#: perlreftut.pod:401
+msgid "This is Perl, so it does the exact right thing.  It sees that you want to push C<Athens> onto an array that doesn't exist, so it helpfully makes a new, empty, anonymous array for you, installs it into C<%table>, and then pushes C<Athens> onto it.  This is called `autovivification'--bringing things to life automatically.  Perl saw that they key wasn't in the hash, so it created a new hash entry automatically. Perl saw that you wanted to use the hash value as an array, so it created a new empty array and installed a reference to it in the hash automatically.  And as usual, Perl made the array one element longer to hold the new city name."
+msgstr ""
+"Perl 会自动帮你处理好一切，不存在该键，那么 Perl 会为你创建该键值。对该哈希值进行 "
+"C<push()> 操作，那么 Perl 会为你创建一个空的数组。"
+
+#. type: =head1
+#: perlreftut.pod:412
+msgid "The Rest"
+msgstr "剩余的10%"
+
+#. type: textblock
+#: perlreftut.pod:414
+msgid "I promised to give you 90% of the benefit with 10% of the details, and that means I left out 90% of the details.  Now that you have an overview of the important parts, it should be easier to read the L<perlref> manual page, which discusses 100% of the details."
+msgstr ""
+"我曾经承诺过学习10%的知识来得到90%的好处，这表示还有90%的知识你需要去学习。现在你对"
+"引用有了大概的了解，这时 L<perlref> 对你来说已经没什么太大问题了。"
+
+#. type: textblock
+#: perlreftut.pod:419
+msgid "Some of the highlights of L<perlref>:"
+msgstr "L<perlref> 中的一些重点："
+
+#. type: =item
+#: perlreftut.pod:423
+#: perlreftut.pod:428
+#: perlreftut.pod:436
+#: perlreftut.pod:458
+#: perlreftut.pod:465
+#: perlreftut.pod:478
+msgid "*"
+msgstr "*"
+
+#. type: textblock
+#: perlreftut.pod:425
+msgid "You can make references to anything, including scalars, functions, and other references."
+msgstr "你可以通过引用来指向任何类型的变量，包含标量、函数，甚至是指向引用。"
+
+#. type: textblock
+#: perlreftut.pod:430
+msgid "In B<Use Rule 1>, you can omit the curly brackets whenever the thing inside them is an atomic scalar variable like C<$aref>.  For example, C<@$aref> is the same as C<@{$aref}>, and C<$$aref[1]> is the same as C<${$aref}[1]>.  If you're just starting out, you may want to adopt the habit of always including the curly brackets."
+msgstr "B<Use Rule 1> 中说过在保证不产生歧义的前提下，你可以省略掉大括号，用 "
+"C<@$aref> 来表示 C<@{$aref}>，用 C<$$aref[1]> 来表示 C<${$aref}[1]>。但是如果你想"
+"保持良好的习惯的话，我们建议你不要省略掉大括号。"
+
+#. type: textblock
+#: perlreftut.pod:438
+msgid "This doesn't copy the underlying array:"
+msgstr "引用不是简单的复制。"
+
+#. type: verbatim
+#: perlreftut.pod:440
+#, no-wrap
+msgid ""
+"        $aref2 = $aref1;\n"
+"\n"
+msgstr ""
+"        $aref2 = $aref1;\n"
+"\n"
+
+#. type: textblock
+#: perlreftut.pod:442
+msgid "You get two references to the same array.  If you modify C<< $aref1->[23] >> and then look at C<< $aref2->[23] >> you'll see the change."
+msgstr ""
+"你现在拥有两个指向同一数组的引用。如果你修改 C<< $aref1->[23] >>，C<< $aref2->[23] >> "
+"也会同样因此改变。"
+
+#. type: textblock
+#: perlreftut.pod:446
+msgid "To copy the array, use"
+msgstr "要想复制一个拷贝，使用："
+
+#. type: verbatim
+#: perlreftut.pod:448
+#, no-wrap
+msgid ""
+"        $aref2 = [@{$aref1}];\n"
+"\n"
+msgstr ""
+"        $aref2 = [@{$aref1}];\n"
+"\n"
+
+#. type: textblock
+#: perlreftut.pod:450
+msgid "This uses C<[...]> notation to create a new anonymous array, and C<$aref2> is assigned a reference to the new array.  The new array is initialized with the contents of the array referred to by C<$aref1>."
+msgstr ""
+"这样会通过 C<[...]> 来创建一个匿名数组并返回其引用，该匿名数组通过 C<$aref1> 指向的"
+"数组进行初始化，也就是复制了一份该数组的拷贝。"
+
+#. type: textblock
+#: perlreftut.pod:454
+msgid "Similarly, to copy an anonymous hash, you can use"
+msgstr "同样的，你也可以通过如上方式创建一个匿名哈希："
+
+#. type: verbatim
+#: perlreftut.pod:456
+#, no-wrap
+msgid ""
+"        $href2 = {%{$href1}};\n"
+"\n"
+msgstr ""
+"        $href2 = {%{$href1}};\n"
+"\n"
+
+#. type: textblock
+#: perlreftut.pod:460
+msgid "To see if a variable contains a reference, use the C<ref> function.  It returns true if its argument is a reference.  Actually it's a little better than that: It returns C<HASH> for hash references and C<ARRAY> for array references."
+msgstr ""
+"判断一个变量的值是否为引用，可以通过 C<ref> 函数来实现。是引用时返回 true。准确的"
+"说，当是一个指向哈希的引用时返回 C<HASH>，而当是一个指向数组的引用时返回 C<ARRAY>。"
+
+#. type: textblock
+#: perlreftut.pod:467
+msgid "If you try to use a reference like a string, you get strings like"
+msgstr "如果你像使用字符串那样使用引用的话，你将得到如下的字符串："
+
+#. type: verbatim
+#: perlreftut.pod:469
+#, no-wrap
+msgid ""
+"\tARRAY(0x80f5dec)   or    HASH(0x826afc0)\n"
+"\n"
+msgstr ""
+"\tARRAY(0x80f5dec)   or    HASH(0x826afc0)\n"
+"\n"
+
+#. type: textblock
+#: perlreftut.pod:471
+msgid "If you ever see a string that looks like this, you'll know you printed out a reference by mistake."
+msgstr "如果你曾经见过如上形式的字符串，你现在就应该知道这是由于错误的输出引用而造"
+"成的。"
+
+#. type: textblock
+#: perlreftut.pod:474
+msgid "A side effect of this representation is that you can use C<eq> to see if two references refer to the same thing.  (But you should usually use C<==> instead because it's much faster.)"
+msgstr ""
+"但是我们可以利用这一点，然后通过 C<eq> 操作来判断两个引用是否指向同一个位置。"
+"（C<==> 操作会相对快一些。）"
+
+#. type: textblock
+#: perlreftut.pod:480
+msgid "You can use a string as if it were a reference.  If you use the string C<\"foo\"> as an array reference, it's taken to be a reference to the array C<@foo>.  This is called a I<soft reference> or I<symbolic reference>.  The declaration C<use strict 'refs'> disables this feature, which can cause all sorts of trouble if you use it by accident."
+msgstr ""
+"你可以像使用引用那样使用字符串。这种方式被称为I<软引用>或I<符号引用>。通过 "
+"C<use strict 'refs'> 来禁用此特性。"
+
+#. type: textblock
+#: perlreftut.pod:488
+msgid "You might prefer to go on to L<perllol> instead of L<perlref>; it discusses lists of lists and multidimensional arrays in detail.  After that, you should move on to L<perldsc>; it's a Data Structure Cookbook that shows recipes for using and printing out arrays of hashes, hashes of arrays, and other kinds of data."
+msgstr ""
+"你或许应该阅读 L<perllol> 而不是 L<perlref>，在那里详细的讲解了多维数组等复杂数据"
+"结构。之后，你应该阅读 L<perldsc> 来得到更多关于复杂数据结构的知识。"
+
+#. type: =head1
+#: perlreftut.pod:494
+msgid "Summary"
+msgstr "总结"
+
+#. type: textblock
+#: perlreftut.pod:496
+msgid "Everyone needs compound data structures, and in Perl the way you get them is with references.  There are four important rules for managing references: Two for making references and two for using them.  Once you know these rules you can do most of the important things you need to do with references."
+msgstr ""
+"所有人都会用到复杂的数据结构，在 Perl 中你可以通过引用来方便的实现它们。正确的创建"
+"和使用引用有四个规则：两个用来创建引用、两个用来使用引用。一旦你能熟练使用这四个"
+"原则，你便可以熟练的操作引用。"
+
+#. type: =head1
+#: perlreftut.pod:502
+msgid "Credits"
+msgstr "鸣谢"
+
+#. type: textblock
+#: perlreftut.pod:504
+msgid "Author: Mark Jason Dominus, Plover Systems (C<mjd-perl-ref+@plover.com>)"
+msgstr "Author: Mark Jason Dominus, Plover Systems (C<mjd-perl-ref+@plover.com>)"
+
+#. type: textblock
+#: perlreftut.pod:506
+msgid "This article originally appeared in I<The Perl Journal> ( http://www.tpj.com/ ) volume 3, #2.  Reprinted with permission."
+msgstr "这篇文档最早出现在 I<The Perl Journal> (http://www.tpj.com/) volume 3, #2，"
+"并授权在此使用。"
+
+#. type: textblock
+#: perlreftut.pod:509
+msgid "The original title was I<Understand References Today>."
+msgstr "此文档最初的标题为 I<Understand References Today>。"
+
+#. type: =head2
+#: perlreftut.pod:511
+msgid "Distribution Conditions"
+msgstr "贡献"
+
+#. type: textblock
+#: perlreftut.pod:513
+msgid "Copyright 1998 The Perl Journal."
+msgstr "Copyright 1998 The Perl Journal."
+
+#. type: textblock
+#: perlreftut.pod:515
+msgid "This documentation is free; you can redistribute it and/or modify it under the same terms as Perl itself."
+msgstr "This documentation is free; you can redistribute it and/or modify it under the same terms as Perl itself."
+
+#. type: textblock
+#: perlreftut.pod:518
+msgid "Irrespective of its distribution, all code examples in these files are hereby placed into the public domain.  You are permitted and encouraged to use this code in your own programs for fun or for profit as you see fit.  A simple comment in the code giving credit would be courteous but is not required."
+msgstr "Irrespective of its distribution, all code examples in these files are hereby placed into the public domain.  You are permitted and encouraged to use this code in your own programs for fun or for profit as you see fit.  A simple comment in the code giving credit would be courteous but is not required."

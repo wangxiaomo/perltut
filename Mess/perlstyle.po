@@ -1,0 +1,514 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-01-18 22:43+0800\n"
+"PO-Revision-Date: 2012-01-18 22:49+0800\n"
+"Last-Translator: xiaomo <wxm4ever@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. type: =head1
+#: perlstyle.pod:1
+msgid "NAME"
+msgstr "NAME"
+
+#. type: textblock
+#: perlstyle.pod:3
+msgid "perlstyle - Perl style guide"
+msgstr "perlstyle - perl 代码风格"
+
+#. type: =head1
+#: perlstyle.pod:5
+msgid "DESCRIPTION"
+msgstr "DESCRIPTION"
+
+#. type: textblock
+#: perlstyle.pod:7
+msgid "Each programmer will, of course, have his or her own preferences in regards to formatting, but there are some general guidelines that will make your programs easier to read, understand, and maintain."
+msgstr "每个程序员都有自己的代码风格，但是有一种约束可以使你的代码更加容易阅读、"
+"理解。"
+
+#. type: textblock
+#: perlstyle.pod:11
+msgid "The most important thing is to run your programs under the B<-w> flag at all times.  You may turn it off explicitly for particular portions of code via the C<no warnings> pragma or the C<$^W> variable if you must.  You should also always run under C<use strict> or know the reason why not.  The C<use sigtrap> and even C<use diagnostics> pragmas may also prove useful."
+msgstr "我们建议您在 B<-w> 下运行程序来获得所有关于程序的警告。在不想要"
+"任何警告信息的时候，您可以通过 C<no warnings> 或设置 C<$^W> 变量来实现。当然，"
+"你也应该在 <use strict> 下来运行程序，C<use sigtrap> 甚至是 C<use diagnostics> "
+"也很有用。"
+
+#. type: textblock
+#: perlstyle.pod:18
+msgid "Regarding aesthetics of code lay out, about the only thing Larry cares strongly about is that the closing curly bracket of a multi-line BLOCK should line up with the keyword that started the construct.  Beyond that, he has other preferences that aren't so strong:"
+msgstr ""
+"Larry 推荐将代码块起始的大括号与关键字放在同一行。除此之外，他还有一些其他"
+"的建议："
+
+#. type: =item
+#: perlstyle.pod:25
+#: perlstyle.pod:29
+#: perlstyle.pod:33
+#: perlstyle.pod:37
+#: perlstyle.pod:41
+#: perlstyle.pod:45
+#: perlstyle.pod:49
+#: perlstyle.pod:53
+#: perlstyle.pod:57
+#: perlstyle.pod:61
+#: perlstyle.pod:65
+#: perlstyle.pod:69
+#: perlstyle.pod:73
+#: perlstyle.pod:77
+#: perlstyle.pod:81
+#: perlstyle.pod:85
+#: perlstyle.pod:98
+#: perlstyle.pod:140
+#: perlstyle.pod:154
+#: perlstyle.pod:160
+#: perlstyle.pod:167
+#: perlstyle.pod:176
+#: perlstyle.pod:181
+#: perlstyle.pod:196
+#: perlstyle.pod:211
+#: perlstyle.pod:217
+#: perlstyle.pod:224
+#: perlstyle.pod:228
+#: perlstyle.pod:242
+#: perlstyle.pod:252
+#: perlstyle.pod:259
+#: perlstyle.pod:268
+#: perlstyle.pod:275
+#: perlstyle.pod:282
+#: perlstyle.pod:286
+#: perlstyle.pod:295
+#: perlstyle.pod:299
+msgid "*"
+msgstr "*"
+
+#. type: textblock
+#: perlstyle.pod:27
+msgid "4-column indent."
+msgstr "4-tab 对齐"
+
+#. type: textblock
+#: perlstyle.pod:31
+msgid "Opening curly on same line as keyword, if possible, otherwise line up."
+msgstr "独立代码块的大括号尽量放在单独的行里。"
+
+#. type: textblock
+#: perlstyle.pod:35
+msgid "Space before the opening curly of a multi-line BLOCK."
+msgstr "关键字与大括号之间用空格分隔。"
+
+#. type: textblock
+#: perlstyle.pod:39
+msgid "One-line BLOCK may be put on one line, including curlies."
+msgstr "单行代码块可以和大括号一起放置在一行中。"
+
+#. type: textblock
+#: perlstyle.pod:43
+msgid "No space before the semicolon."
+msgstr "分号前不包含任何空格。"
+
+#. type: textblock
+#: perlstyle.pod:47
+msgid "Semicolon omitted in \"short\" one-line BLOCK."
+msgstr "单行代码块中可以省略末尾的分号。"
+
+#. type: textblock
+#: perlstyle.pod:51
+msgid "Space around most operators."
+msgstr "空格包围大多数操作符。"
+
+#. type: textblock
+#: perlstyle.pod:55
+msgid "Space around a \"complex\" subscript (inside brackets)."
+msgstr "复杂的子代码用空格来控制格式。"
+
+#. type: textblock
+#: perlstyle.pod:59
+msgid "Blank lines between chunks that do different things."
+msgstr "空行分割行为不同的代码块。"
+
+#. type: textblock
+#: perlstyle.pod:63
+msgid "Uncuddled elses."
+msgstr "TODO:"
+
+#. type: textblock
+#: perlstyle.pod:67
+msgid "No space between function name and its opening parenthesis."
+msgstr "函数与参数列表中间不包含空格。"
+
+#. type: textblock
+#: perlstyle.pod:71
+msgid "Space after each comma."
+msgstr "逗号后紧跟一个空格。"
+
+#. type: textblock
+#: perlstyle.pod:75
+msgid "Long lines broken after an operator (except C<and> and C<or>)."
+msgstr "在除 C<and> 和 C<or> 的操作符之后将长代码分隔。"
+
+#. type: textblock
+#: perlstyle.pod:79
+msgid "Space after last parenthesis matching on current line."
+msgstr "通过空格来完成反括号的缩进。"
+
+#. type: textblock
+#: perlstyle.pod:83
+msgid "Line up corresponding items vertically."
+msgstr "使相同类别的东西竖直对齐。"
+
+#. type: textblock
+#: perlstyle.pod:87
+msgid "Omit redundant punctuation as long as clarity doesn't suffer."
+msgstr "在不产生歧义的前提下可以省略多余的符号。"
+
+#. type: textblock
+#: perlstyle.pod:91
+msgid "Larry has his reasons for each of these things, but he doesn't claim that everyone else's mind works the same as his does."
+msgstr ""
+"Larry 推荐这么做是有他的原因的，但是他并不强制每个人都必须这么做。"
+
+#. type: textblock
+#: perlstyle.pod:94
+msgid "Here are some other more substantive style issues to think about:"
+msgstr "下面是另外一些值得推荐的风格："
+
+#. type: textblock
+#: perlstyle.pod:100
+msgid "Just because you I<CAN> do something a particular way doesn't mean that you I<SHOULD> do it that way.  Perl is designed to give you several ways to do anything, so consider picking the most readable one.  For instance"
+msgstr ""
+"正是因为 Perl 的哲学，你可以通过很多方式来实现你的目的，而不是应该通过某种方式来实现"
+"你的目的。所以你可以从多种方式中选取一种你认为比较好的风格，比如："
+
+#. type: verbatim
+#: perlstyle.pod:105
+#, no-wrap
+msgid ""
+"    open(FOO,$foo) || die \"Can't open $foo: $!\";\n"
+"\n"
+msgstr ""
+"    open(FOO,$foo) || die \"Can't open $foo: $!\";\n"
+"\n"
+
+#. type: textblock
+#: perlstyle.pod:107
+#: perlstyle.pod:116
+msgid "is better than"
+msgstr "比下面这段代码的风格要好："
+
+#. type: verbatim
+#: perlstyle.pod:109
+#, no-wrap
+msgid ""
+"    die \"Can't open $foo: $!\" unless open(FOO,$foo);\n"
+"\n"
+msgstr ""
+"    die \"Can't open $foo: $!\" unless open(FOO,$foo);\n"
+"\n"
+
+#. type: textblock
+#: perlstyle.pod:111
+msgid "because the second way hides the main point of the statement in a modifier.  On the other hand"
+msgstr ""
+"因为第二种代码把代码的重点隐藏在修饰符之后而使得代码不那么容易理解。"
+
+#. type: verbatim
+#: perlstyle.pod:114
+#, no-wrap
+msgid ""
+"    print \"Starting analysis\\n"
+"\" if $verbose;\n"
+"\n"
+msgstr ""
+"    print \"Starting analysis\\n"
+"\" if $verbose;\n"
+"\n"
+
+#. type: verbatim
+#: perlstyle.pod:118
+#, no-wrap
+msgid ""
+"    $verbose && print \"Starting analysis\\n"
+"\";\n"
+"\n"
+msgstr ""
+"    $verbose && print \"Starting analysis\\n"
+"\";\n"
+"\n"
+
+#. type: textblock
+#: perlstyle.pod:120
+msgid "because the main point isn't whether the user typed B<-v> or not."
+msgstr "因为这段代码的重点不是 B<-v> 的使用与否。"
+
+#. type: textblock
+#: perlstyle.pod:122
+msgid "Similarly, just because an operator lets you assume default arguments doesn't mean that you have to make use of the defaults.  The defaults are there for lazy systems programmers writing one-shot programs.  If you want your program to be readable, consider supplying the argument."
+msgstr "虽然你可以写出精简的 perl 代码，但如果想让你的代码更加可读，在使用技巧的时候"
+"就需要仔细想想了。"
+
+#. type: textblock
+#: perlstyle.pod:127
+msgid "Along the same lines, just because you I<CAN> omit parentheses in many places doesn't mean that you ought to:"
+msgstr "考虑如下代码，虽然你省略符号仍能得到正确的结果，但是它的可读性明显不如后者好。"
+
+#. type: verbatim
+#: perlstyle.pod:130
+#, no-wrap
+msgid ""
+"    return print reverse sort num values %array;\n"
+"    return print(reverse(sort num (values(%array))));\n"
+"\n"
+msgstr ""
+"    return print reverse sort num values %array;\n"
+"    return print(reverse(sort num (values(%array))));\n"
+"\n"
+
+#. type: textblock
+#: perlstyle.pod:133
+msgid "When in doubt, parenthesize.  At the very least it will let some poor schmuck bounce on the % key in B<vi>."
+msgstr ""
+"后者的代码这至少能让比较笨的程序员通过在 B<vi> 中使用 % 来了解到"
+"代码应有的结构。"
+
+#. type: textblock
+#: perlstyle.pod:136
+msgid "Even if you aren't in doubt, consider the mental welfare of the person who has to maintain the code after you, and who will probably put parentheses in the wrong place."
+msgstr ""
+"如果你仍然坚持把它们省略掉，那么请你为将来维护你代码的人考虑下。"
+
+#. type: textblock
+#: perlstyle.pod:142
+msgid "Don't go through silly contortions to exit a loop at the top or the bottom, when Perl provides the C<last> operator so you can exit in the middle.  Just \"outdent\" it a little to make it more visible:"
+msgstr "灵活的使用 C<last> 来跳出循环，或者通过 Label 配合空格来使你的循环更加清晰："
+
+#. type: verbatim
+#: perlstyle.pod:146
+#, no-wrap
+msgid ""
+"    LINE:\n"
+"\tfor (;;) {\n"
+"\t    statements;\n"
+"\t  last LINE if $foo;\n"
+"\t    next LINE if /^#/;\n"
+"\t    statements;\n"
+"\t}\n"
+"\n"
+msgstr ""
+"    LINE:\n"
+"\tfor (;;) {\n"
+"\t    statements;\n"
+"\t  last LINE if $foo;\n"
+"\t    next LINE if /^#/;\n"
+"\t    statements;\n"
+"\t}\n"
+"\n"
+
+#. type: textblock
+#: perlstyle.pod:156
+msgid "Don't be afraid to use loop labels--they're there to enhance readability as well as to allow multilevel loop breaks.  See the previous example."
+msgstr ""
+"不要过度担心 loop labels 的使用，正如前面的例子，它可以使我们的代码更加清晰。"
+
+#. type: textblock
+#: perlstyle.pod:162
+msgid "Avoid using C<grep()> (or C<map()>) or `backticks` in a void context, that is, when you just throw away their return values.  Those functions all have return values, so use them.  Otherwise use a C<foreach()> loop or the C<system()> function instead."
+msgstr "在不需要接受 C<grep()>、C<map()>、或是 `backticks` 的时候，尽量避免使用它们。"
+"相反，你应该使用 C<foreach()> 或是 C<system()> 来代替它们。"
+
+#. type: textblock
+#: perlstyle.pod:169
+msgid "For portability, when using features that may not be implemented on every machine, test the construct in an eval to see if it fails.  If you know what version or patchlevel a particular feature was implemented, you can test C<$]> (C<$PERL_VERSION> in C<English>) to see if it will be there.  The C<Config> module will also let you interrogate values determined by the B<Configure> program when Perl was installed."
+msgstr ""
+"一些兼容性不好的特性最好包含在 eval 中执行来检测是否失败。如果知道该特性由哪个版本"
+"所支持，你也可以通过 C<$]>（C<$PERL_VERSION>）来判断是否可以正确使用该特性。"
+"C<Config> 模块也可以使你查看安装 Perl 时候的配置信息。"
+
+#. type: textblock
+#: perlstyle.pod:178
+msgid "Choose mnemonic identifiers.  If you can't remember what mnemonic means, you've got a problem."
+msgstr "选择正确的助记符。"
+
+#. type: textblock
+#: perlstyle.pod:183
+msgid "While short identifiers like C<$gotit> are probably ok, use underscores to separate words in longer identifiers.  It is generally easier to read C<$var_names_like_this> than C<$VarNamesLikeThis>, especially for non-native speakers of English. It's also a simple rule that works consistently with C<VAR_NAMES_LIKE_THIS>."
+msgstr ""
+"通过下划线来分割较长的变量明。C<$var_names_like_this> 显然比 C<$VarNamesLikeThis> "
+"更加适合，对于常量来说，该规则也同样适用，如 C<VAR_NAMES_LIKE_THIS>。"
+
+#. type: textblock
+#: perlstyle.pod:189
+msgid "Package names are sometimes an exception to this rule.  Perl informally reserves lowercase module names for \"pragma\" modules like C<integer> and C<strict>.  Other modules should begin with a capital letter and use mixed case, but probably without underscores due to limitations in primitive file systems' representations of module names as files that must fit into a few sparse bytes."
+msgstr ""
+"Package names 是一个特例。一些系统自带的包是用小写单词来命名的，如 \"pragma\" 模块中"
+"的 C<integer> 和 C<strict> 包。然后，用户自定义的包却应该使用首字母大写的混合大小写"
+"的单词作为包名，甚至在有些系统包名中不能包含下划线。"
+
+#. type: textblock
+#: perlstyle.pod:198
+msgid "You may find it helpful to use letter case to indicate the scope or nature of a variable. For example:"
+msgstr "通过变量名的格式来代表不同类型的变量。"
+
+#. type: verbatim
+#: perlstyle.pod:201
+#, no-wrap
+msgid ""
+"    $ALL_CAPS_HERE   constants only (beware clashes with perl vars!)\n"
+"    $Some_Caps_Here  package-wide global/static\n"
+"    $no_caps_here    function scope my() or local() variables\n"
+"\n"
+msgstr ""
+"    $ALL_CAPS_HERE   constants only (beware clashes with perl vars!)\n"
+"    $Some_Caps_Here  package-wide global/static\n"
+"    $no_caps_here    function scope my() or local() variables\n"
+"\n"
+
+#. type: textblock
+#: perlstyle.pod:205
+msgid "Function and method names seem to work best as all lowercase.  E.g., C<$obj-E<gt>as_string()>."
+msgstr "函数或方法名最好全部由小写字母构成，如 C<$obj->E<gt>as_string()>。"
+
+#. type: textblock
+#: perlstyle.pod:208
+msgid "You can use a leading underscore to indicate that a variable or function should not be used outside the package that defined it."
+msgstr "你也可以通过一个下划线前缀来表明某个变量或函数是私有的，在包外是不可见的。"
+
+#. type: textblock
+#: perlstyle.pod:213
+msgid "If you have a really hairy regular expression, use the C</x> modifier and put in some whitespace to make it look a little less like line noise.  Don't use slash as a delimiter when your regexp has slashes or backslashes."
+msgstr ""
+"如果你有一个特别复杂的正则表达式，那么请通过 C</x> 修饰符和一些多余的空白、注释等使"
+"它清晰易懂。另外，当你的正则中有 slash 时，请不要把 slash 作为正则的分隔符。"
+
+#. type: textblock
+#: perlstyle.pod:219
+msgid "Use the new C<and> and C<or> operators to avoid having to parenthesize list operators so much, and to reduce the incidence of punctuation operators like C<&&> and C<||>.  Call your subroutines as if they were functions or list operators to avoid excessive ampersands and parentheses."
+msgstr ""
+"使用 C<and> 和 C<or> 来代替 C<&&> 和 C<||>。另外，像函数那样调用子程序来避免出现过多"
+"的 & 符号。"
+
+#. type: textblock
+#: perlstyle.pod:226
+msgid "Use here documents instead of repeated C<print()> statements."
+msgstr "大段的输出请用 here documents，而不是重复的使用 C<print()> 语句。"
+
+#. type: textblock
+#: perlstyle.pod:230
+msgid "Line up corresponding things vertically, especially if it'd be too long to fit on one line anyway."
+msgstr "同类的语句竖直对齐。"
+
+#. type: verbatim
+#: perlstyle.pod:233
+#, no-wrap
+msgid ""
+"    $IDX = $ST_MTIME;\n"
+"    $IDX = $ST_ATIME \t   if $opt_u;\n"
+"    $IDX = $ST_CTIME \t   if $opt_c;\n"
+"    $IDX = $ST_SIZE  \t   if $opt_s;\n"
+"\n"
+msgstr ""
+"    $IDX = $ST_MTIME;\n"
+"    $IDX = $ST_ATIME \t   if $opt_u;\n"
+"    $IDX = $ST_CTIME \t   if $opt_c;\n"
+"    $IDX = $ST_SIZE  \t   if $opt_s;\n"
+"\n"
+
+#. type: verbatim
+#: perlstyle.pod:238
+#, no-wrap
+msgid ""
+"    mkdir $tmpdir, 0700\tor die \"can't mkdir $tmpdir: $!\";\n"
+"    chdir($tmpdir)      or die \"can't chdir $tmpdir: $!\";\n"
+"    mkdir 'tmp',   0777\tor die \"can't mkdir $tmpdir/tmp: $!\";\n"
+"\n"
+msgstr ""
+"    mkdir $tmpdir, 0700\tor die \"can't mkdir $tmpdir: $!\";\n"
+"    chdir($tmpdir)      or die \"can't chdir $tmpdir: $!\";\n"
+"    mkdir 'tmp',   0700\tor die \"can't mkdir $tmpdir/tmp: $!\";\n"
+"\n"
+
+#. type: textblock
+#: perlstyle.pod:244
+msgid "Always check the return codes of system calls.  Good error messages should go to C<STDERR>, include which program caused the problem, what the failed system call and arguments were, and (VERY IMPORTANT) should contain the standard system error message for what went wrong.  Here's a simple but sufficient example:"
+msgstr ""
+"系统调用之后经常需要检查返回值。好的错误信息应该输出在 C<STDERR> 。"
+
+#. type: verbatim
+#: perlstyle.pod:250
+#, no-wrap
+msgid ""
+"    opendir(D, $dir)\t or die \"can't opendir $dir: $!\";\n"
+"\n"
+msgstr ""
+"    opendir(D, $dir)\t or die \"can't opendir $dir: $!\";\n"
+"\n"
+
+#. type: textblock
+#: perlstyle.pod:254
+msgid "Line up your transliterations when it makes sense:"
+msgstr "通过换行来使你的 transliterations 更加清晰："
+
+#. type: verbatim
+#: perlstyle.pod:256
+#, no-wrap
+msgid ""
+"    tr [abc]\n"
+"       [xyz];\n"
+"\n"
+msgstr ""
+"    tr [abc]\n"
+"       [xyz];\n"
+"\n"
+
+#. type: textblock
+#: perlstyle.pod:261
+msgid "Think about reusability.  Why waste brainpower on a one-shot when you might want to do something like it again? Consider generalizing your code.  Consider writing a module or object class.  Consider making your code run cleanly with C<use strict> and C<use warnings> (or B<-w>) in effect.  Consider giving away your code.  Consider changing your whole world view.  Consider... oh, never mind."
+msgstr ""
+"多多考虑代码的复用。为什么要浪费你的脑力在一次性的代码上而重复开发呢？考虑如何组织"
+"你的代码，考虑通过模块或类的方式来书写你的代码。推荐在 C<use strict> 和 "
+"C<use warnings> 下运行代码，考虑放弃你的代码，考虑你的世界观，考虑很多东西。。。"
+"没关系，别气馁。"
+
+#. type: textblock
+#: perlstyle.pod:270
+msgid "Try to document your code and use Pod formatting in a consistent way. Here are commonly expected conventions:"
+msgstr ""
+"试着书写 pod 来为你的代码书写文档。下面是一些简单的风格规范："
+
+#. type: textblock
+#: perlstyle.pod:277
+msgid "use C<CE<lt>E<gt>> for function, variable and module names (and more generally anything that can be considered part of code, like filehandles or specific values). Note that function names are considered more readable with parentheses after their name, that is C<function()>."
+msgstr ""
+"使用 C<CE<lt>E<gt>> 来包含函数、变量、模块。函数后面需要加括号，如 C<function()>。"
+
+#. type: textblock
+#: perlstyle.pod:284
+msgid "use C<BE<lt>E<gt>> for commands names like B<cat> or B<grep>."
+msgstr "使用 C<BE<lt>E<gt>> 来包含命令，如 B<cat>、B<grep>。"
+
+#. type: textblock
+#: perlstyle.pod:288
+msgid "use C<FE<lt>E<gt>> or C<CE<lt>E<gt>> for file names. C<FE<lt>E<gt>> should be the only Pod code for file names, but as most Pod formatters render it as italic, Unix and Windows paths with their slashes and backslashes may be less readable, and better rendered with C<CE<lt>E<gt>>."
+msgstr ""
+"使用 C<FE<lt>E<gt>> 或 C<CE<lt>E<gt>> 来包含文件。"
+
+#. type: textblock
+#: perlstyle.pod:297
+msgid "Be consistent."
+msgstr "前后风格保持一致。"
+
+#. type: textblock
+#: perlstyle.pod:301
+msgid "Be nice."
+msgstr "书写美丽好看的代码"
+

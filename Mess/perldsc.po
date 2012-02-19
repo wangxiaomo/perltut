@@ -1,0 +1,2094 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-01-20 22:31+0800\n"
+"PO-Revision-Date: 2012-01-20 22:31+0800\n"
+"Last-Translator: xiaomo <wxm4ever@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. type: =head1
+#: perldsc.pod:1
+msgid "NAME X<data structure> X<complex data structure> X<struct>"
+msgstr "NAME X<data structure> X<complex data structure> X<struct>"
+
+#. type: textblock
+#: perldsc.pod:4
+msgid "perldsc - Perl Data Structures Cookbook"
+msgstr "perldsc - Perl 数据结构"
+
+#. type: =head1
+#: perldsc.pod:6
+msgid "DESCRIPTION"
+msgstr "DESCRIPTION"
+
+#. type: textblock
+#: perldsc.pod:8
+msgid "The single feature most sorely lacking in the Perl programming language prior to its 5.0 release was complex data structures.  Even without direct language support, some valiant programmers did manage to emulate them, but it was hard work and not for the faint of heart.  You could occasionally get away with the C<$m{$AoA,$b}> notation borrowed from B<awk> in which the keys are actually more like a single concatenated string C<\"$AoA$b\">, but traversal and sorting were difficult.  More desperate programmers even hacked Perl's internal symbol table directly, a strategy that proved hard to develop and maintain--to put it mildly."
+msgstr ""
+"Perl 5 最大的特性就是使我们可以很容易的操作复杂的数据结构。以前语言没有直接支持的"
+"情况下，很多人编写了大量的代码来实现类似功能，但是都很复杂，而且用起来也不称心如"
+"意。也有的人 hack 了 Perl 内部机制，但是也没有很好的实现对复杂数据结构的操作。"
+
+#. type: textblock
+#: perldsc.pod:18
+msgid "The 5.0 release of Perl let us have complex data structures.  You may now write something like this and all of a sudden, you'd have an array with three dimensions!"
+msgstr "Perl 5.0 的到来使我们能够方便的操作像三维数组等的复杂的数据结构。"
+
+#. type: verbatim
+#: perldsc.pod:22
+#, no-wrap
+msgid ""
+"    for $x (1 .. 10) {\n"
+"\tfor $y (1 .. 10) {\n"
+"\t    for $z (1 .. 10) {\n"
+"\t\t$AoA[$x][$y][$z] =\n"
+"\t\t    $x ** $y + $z;\n"
+"\t    }\n"
+"\t}\n"
+"    }\n"
+"\n"
+msgstr ""
+"    for $x (1 .. 10) {\n"
+"\tfor $y (1 .. 10) {\n"
+"\t    for $z (1 .. 10) {\n"
+"\t\t$AoA[$x][$y][$z] =\n"
+"\t\t    $x ** $y + $z;\n"
+"\t    }\n"
+"\t}\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perldsc.pod:31
+msgid "Alas, however simple this may appear, underneath it's a much more elaborate construct than meets the eye!"
+msgstr "虽然是一个很简单的过程，但是书写起来是多么的麻烦。"
+
+#. type: textblock
+#: perldsc.pod:34
+msgid "How do you print it out? Why can't you say just C<print @AoA>? How do you sort it? How can you pass it to a function or get one of these back from a function? Is it an object? Can you save it to disk to read back later? How do you access whole rows or columns of that matrix? Do all the values have to be numeric?"
+msgstr "我们该如何将其输出？为什么不能简单的通过 C<print @AoA> 来输出？如何将其排"
+"序？如何把它传递给一个函数？它是一个对象吗？如何将其持久化存储？如何得到整行整列"
+"的矩阵？所有的值必须是数字吗？"
+
+#. type: textblock
+#: perldsc.pod:40
+msgid "As you see, it's quite easy to become confused.  While some small portion of the blame for this can be attributed to the reference-based implementation, it's really more due to a lack of existing documentation with examples designed for the beginner."
+msgstr "正如上面所提到的，那些问题会让我们很困惑。虽然现在我们可以通过引用很简单的"
+"操作复杂的数据结构，但是由于缺少好的文档，使得新手学习起来非常困难。"
+
+#. type: textblock
+#: perldsc.pod:45
+msgid "This document is meant to be a detailed but understandable treatment of the many different sorts of data structures you might want to develop.  It should also serve as a cookbook of examples.  That way, when you need to create one of these complex data structures, you can just pinch, pilfer, or purloin a drop-in example from here."
+msgstr ""
+"这个文档就是来介绍一些常用的复杂数据结构如何进行操作。当你创建复杂数据结构遇到问题"
+"时，你也可以参考其中的例子。"
+
+#. type: textblock
+#: perldsc.pod:51
+msgid "Let's look at each of these possible constructs in detail.  There are separate sections on each of the following:"
+msgstr "下面列出本文档将会介绍的结构类型。它们会在分开的章节中被介绍。"
+
+#. type: =item
+#: perldsc.pod:56
+msgid "* arrays of arrays"
+msgstr "* 多维数组"
+
+#. type: =item
+#: perldsc.pod:58
+msgid "* hashes of arrays"
+msgstr "* 哈希值为数组的哈希"
+
+#. type: =item
+#: perldsc.pod:60
+msgid "* arrays of hashes"
+msgstr "* 由哈希构成的数组"
+
+#. type: =item
+#: perldsc.pod:62
+msgid "* hashes of hashes"
+msgstr "* 由哈希构成的哈希"
+
+#. type: =item
+#: perldsc.pod:64
+msgid "* more elaborate constructs"
+msgstr "* 其他复杂的结构"
+
+#. type: textblock
+#: perldsc.pod:68
+msgid "But for now, let's look at general issues common to all these types of data structures."
+msgstr "在开始之前，我们需要对各个类型的结构有所了解。"
+
+#. type: =head1
+#: perldsc.pod:71
+msgid "REFERENCES X<reference> X<dereference> X<dereferencing> X<pointer>"
+msgstr "引用 X<reference> X<dereference> X<dereferencing> X<pointer>"
+
+#. type: textblock
+#: perldsc.pod:74
+msgid "The most important thing to understand about all data structures in Perl--including multidimensional arrays--is that even though they might appear otherwise, Perl C<@ARRAY>s and C<%HASH>es are all internally one-dimensional.  They can hold only scalar values (meaning a string, number, or a reference).  They cannot directly contain other arrays or hashes, but instead contain I<references> to other arrays or hashes.  X<multidimensional array> X<array, multidimensional>"
+msgstr ""
+"首先我们需要明白，尽管 C<@ARRAY> 和 C<%HASH> 看起来不一样，但是它们实际上却都是"
+"一维的。而且它们只能存储标量值（字符串，数字，或引用）。它们的值都不能是数组或"
+"哈希，而只能是指向它们的引用。"
+
+#. type: textblock
+#: perldsc.pod:82
+msgid "You can't use a reference to an array or hash in quite the same way that you would a real array or hash.  For C or C++ programmers unused to distinguishing between arrays and pointers to the same, this can be confusing.  If so, just think of it as the difference between a structure and a pointer to a structure."
+msgstr ""
+"指向不同结构类型的引用有不同的操作方式。对于 C/C++ 程序员来说，不要刻意去寻找数组与"
+"指向数组的引用之间的区别。如果非要这么做的话，可以对比结构体与结构体指针的区别。"
+
+#. type: textblock
+#: perldsc.pod:88
+msgid "You can (and should) read more about references in L<perlref>.  Briefly, references are rather like pointers that know what they point to.  (Objects are also a kind of reference, but we won't be needing them right away--if ever.)  This means that when you have something which looks to you like an access to a two-or-more-dimensional array and/or hash, what's really going on is that the base type is merely a one-dimensional entity that contains references to the next level.  It's just that you can I<use> it as though it were a two-dimensional one.  This is actually the way almost all C multidimensional arrays work as well."
+msgstr ""
+"你可以（你也应该这么做）阅读 L<perlref> 得到更多关于引用的知识。引用就像是指针。"
+"通过引用你可以用多维的思想去理解实际上一维存储的结构。这也是 C 语言中多维数组的"
+"原理。"
+
+#. type: verbatim
+#: perldsc.pod:99
+#, no-wrap
+msgid ""
+"    $array[7][12]\t\t\t# array of arrays\n"
+"    $array[7]{string}\t\t\t# array of hashes\n"
+"    $hash{string}[7]\t\t\t# hash of arrays\n"
+"    $hash{string}{'another string'}\t# hash of hashes\n"
+"\n"
+msgstr ""
+"    $array[7][12]\t\t\t# array of arrays\n"
+"    $array[7]{string}\t\t\t# array of hashes\n"
+"    $hash{string}[7]\t\t\t# hash of arrays\n"
+"    $hash{string}{'another string'}\t# hash of hashes\n"
+"\n"
+
+#. type: textblock
+#: perldsc.pod:104
+msgid "Now, because the top level contains only references, if you try to print out your array in with a simple print() function, you'll get something that doesn't look very nice, like this:"
+msgstr "因此在一开始的例子中，数组中包含的是引用，所以我们不能直接通过 print() 函数"
+"将其输出。"
+
+#. type: verbatim
+#: perldsc.pod:108
+#, no-wrap
+msgid ""
+"    @AoA = ( [2, 3], [4, 5, 7], [0] );\n"
+"    print $AoA[1][2];\n"
+"  7\n"
+"    print @AoA;\n"
+"  ARRAY(0x83c38)ARRAY(0x8b194)ARRAY(0x8b1d0)\n"
+"\n"
+msgstr ""
+"    @AoA = ( [2, 3], [4, 5, 7], [0] );\n"
+"    print $AoA[1][2];\n"
+"  7\n"
+"    print @AoA;\n"
+"  ARRAY(0x83c38)ARRAY(0x8b194)ARRAY(0x8b1d0)\n"
+"\n"
+
+#. type: textblock
+#: perldsc.pod:115
+msgid "That's because Perl doesn't (ever) implicitly dereference your variables.  If you want to get at the thing a reference is referring to, then you have to do this yourself using either prefix typing indicators, like C<${$blah}>, C<@{$blah}>, C<@{$blah[$i]}>, or else postfix pointer arrows, like C<$a-E<gt>[3]>, C<$h-E<gt>{fred}>, or even C<$ob-E<gt>method()-E<gt>[3]>."
+msgstr ""
+"在输出时 Perl 对变量的值不做严格的控制。所以你要想得到引用所指向的具体的值，必须"
+"通过前置符号印记，如 C<${$blah}>，C<@{$blah}>，C<@{$blah[$i]}> 等，或者通过后置"
+"箭头，如 C<$a-E<gt>[3]>，C<$h-E<gt>{fred}>，C<$ob-E<gt>method()-E<gt>[3]> 来得到"
+"引用所指向的值。"
+
+#. type: =head1
+#: perldsc.pod:121
+msgid "COMMON MISTAKES"
+msgstr "常见错误"
+
+#. type: textblock
+#: perldsc.pod:123
+msgid "The two most common mistakes made in constructing something like an array of arrays is either accidentally counting the number of elements or else taking a reference to the same memory location repeatedly.  Here's the case where you just get the count instead of a nested array:"
+msgstr "创建多维数组时最常见的两个错误，要不就是错误的存储数组的长度，要不就是重复的"
+"使用指向同一位置的引用。下面就是一个错误的存储数组长度的例子："
+
+#. type: verbatim
+#: perldsc.pod:129
+#, no-wrap
+msgid ""
+"    for $i (1..10) {\n"
+"\t@array = somefunc($i);\n"
+"\t$AoA[$i] = @array;\t# WRONG!\n"
+"    }\n"
+"\n"
+msgstr ""
+"    for $i (1..10) {\n"
+"\t@array = somefunc($i);\n"
+"\t$AoA[$i] = @array;\t# WRONG!\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perldsc.pod:134
+msgid "That's just the simple case of assigning an array to a scalar and getting its element count.  If that's what you really and truly want, then you might do well to consider being a tad more explicit about it, like this:"
+msgstr "上面的代码就是因为进行标量转化而得到了数组的长度，如果这真的就是你想要做的"
+"事情，那么你应该通过如下方法实现："
+
+#. type: verbatim
+#: perldsc.pod:138
+#, no-wrap
+msgid ""
+"    for $i (1..10) {\n"
+"\t@array = somefunc($i);\n"
+"\t$counts[$i] = scalar @array;\n"
+"    }\n"
+"\n"
+msgstr ""
+"    for $i (1..10) {\n"
+"\t@array = somefunc($i);\n"
+"\t$counts[$i] = scalar @array;\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perldsc.pod:143
+msgid "Here's the case of taking a reference to the same memory location again and again:"
+msgstr "正确的创建多维数组应该存储该数组的引用，如下："
+
+#. type: verbatim
+#: perldsc.pod:146
+#, no-wrap
+msgid ""
+"    for $i (1..10) {\n"
+"\t@array = somefunc($i);\n"
+"\t$AoA[$i] = \\@array;\t# WRONG!\n"
+"    }\n"
+"\n"
+msgstr ""
+"    for $i (1..10) {\n"
+"\t@array = somefunc($i);\n"
+"\t$AoA[$i] = \\@array;\t# WRONG!\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perldsc.pod:151
+msgid "So, what's the big problem with that? It looks right, doesn't it? After all, I just told you that you need an array of references, so by golly, you've made me one!"
+msgstr "现在还有什么问题吗？看起来没什么大问题了。我们需要一个引用，而你也确实给我"
+"提供了一个引用。"
+
+#. type: textblock
+#: perldsc.pod:155
+msgid "Unfortunately, while this is true, it's still broken.  All the references in @AoA refer to the I<very same place>, and they will therefore all hold whatever was last in @array! It's similar to the problem demonstrated in the following C program:"
+msgstr "不幸的是，这段代码仍然是错误的。@AoA 中的元素都指向了I<同一个位置>，而且它"
+"们的值都是最近一次 @array 的值。这和 C 程序里经常犯的错误一样："
+
+#. type: verbatim
+#: perldsc.pod:160
+#, no-wrap
+msgid ""
+"    #include <pwd.h>\n"
+"    main() {\n"
+"\tstruct passwd *getpwnam(), *rp, *dp;\n"
+"\trp = getpwnam(\"root\");\n"
+"\tdp = getpwnam(\"daemon\");\n"
+"\n"
+msgstr ""
+"    #include <pwd.h>\n"
+"    main() {\n"
+"\tstruct passwd *getpwnam(), *rp, *dp;\n"
+"\trp = getpwnam(\"root\");\n"
+"\tdp = getpwnam(\"daemon\");\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:166
+#, no-wrap
+msgid ""
+"\tprintf(\"daemon name is %s\\n"
+"root name is %s\\n"
+"\",\n"
+"\t\tdp->pw_name, rp->pw_name);\n"
+"    }\n"
+"\n"
+msgstr ""
+"\tprintf(\"daemon name is %s\\n"
+"root name is %s\\n"
+"\",\n"
+"\t\tdp->pw_name, rp->pw_name);\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perldsc.pod:170
+msgid "Which will print"
+msgstr "上面的代码将会得到如下输出："
+
+#. type: verbatim
+#: perldsc.pod:172
+#, no-wrap
+msgid ""
+"    daemon name is daemon\n"
+"    root name is daemon\n"
+"\n"
+msgstr ""
+"    daemon name is daemon\n"
+"    root name is daemon\n"
+"\n"
+
+#. type: textblock
+#: perldsc.pod:175
+msgid "The problem is that both C<rp> and C<dp> are pointers to the same location in memory! In C, you'd have to remember to malloc() yourself some new memory.  In Perl, you'll want to use the array constructor C<[]> or the hash constructor C<{}> instead.  Here's the right way to do the preceding broken code fragments: X<[]> X<{}>"
+msgstr ""
+"问题的原因是 C<rp> 和 C<dp> 都指向内存中的同一个位置。在 C 程序中，你需要通过 "
+"malloc(0 函数来得到新的空间。而在 Perl 中，你需要通过 C<[]> 或 C<{}> 来得到。"
+"下面是正确的代码："
+
+#. type: verbatim
+#: perldsc.pod:182
+#, no-wrap
+msgid ""
+"    for $i (1..10) {\n"
+"\t@array = somefunc($i);\n"
+"\t$AoA[$i] = [ @array ];\n"
+"    }\n"
+"\n"
+msgstr ""
+"    for $i (1..10) {\n"
+"\t@array = somefunc($i);\n"
+"\t$AoA[$i] = [ @array ];\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perldsc.pod:187
+msgid "The square brackets make a reference to a new array with a I<copy> of what's in @array at the time of the assignment.  This is what you want."
+msgstr ""
+"现在复制了一份数组拷贝，并通过它初始化一个匿名数组并返回指向它的引用。这就是我们"
+"想要的。"
+
+#. type: textblock
+#: perldsc.pod:191
+msgid "Note that this will produce something similar, but it's much harder to read:"
+msgstr "下面的代码也会得到同样的结果，但是却比较难读懂："
+
+#. type: verbatim
+#: perldsc.pod:194
+#, no-wrap
+msgid ""
+"    for $i (1..10) {\n"
+"\t@array = 0 .. $i;\n"
+"\t@{$AoA[$i]} = @array;\n"
+"    }\n"
+"\n"
+msgstr ""
+"    for $i (1..10) {\n"
+"\t@array = 0 .. $i;\n"
+"\t@{$AoA[$i]} = @array;\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perldsc.pod:199
+msgid "Is it the same? Well, maybe so--and maybe not.  The subtle difference is that when you assign something in square brackets, you know for sure it's always a brand new reference with a new I<copy> of the data.  Something else could be going on in this new case with the C<@{$AoA[$i]}> dereference on the left-hand-side of the assignment.  It all depends on whether C<$AoA[$i]> had been undefined to start with, or whether it already contained a reference.  If you had already populated @AoA with references, as in"
+msgstr ""
+"这两种方式有区别吗？可以说有，也可以说没有。通过 C<[...]> 方式我们确实得到了一份"
+"新的引用。但是 C<@{$AoA[$i]}> 这种方式的结果却是不一定的，它取决于 C<@{$AoA[$i]}> "
+"是否被定义过或是否已经存着一个引用。如果它已经存着一个引用："
+
+#. type: verbatim
+#: perldsc.pod:208
+#, no-wrap
+msgid ""
+"    $AoA[3] = \\@another_array;\n"
+"\n"
+msgstr ""
+"    $AoA[3] = \\@another_array;\n"
+"\n"
+
+#. type: textblock
+#: perldsc.pod:210
+msgid "Then the assignment with the indirection on the left-hand-side would use the existing reference that was already there:"
+msgstr "那么赋值操作后存储的依然是之前的引用。"
+
+#. type: verbatim
+#: perldsc.pod:213
+#, no-wrap
+msgid ""
+"    @{$AoA[3]} = @array;\n"
+"\n"
+msgstr ""
+"    @{$AoA[3]} = @array;\n"
+"\n"
+
+#. type: textblock
+#: perldsc.pod:215
+msgid "Of course, this I<would> have the \"interesting\" effect of clobbering @another_array.  (Have you ever noticed how when a programmer says something is \"interesting\", that rather than meaning \"intriguing\", they're disturbingly more apt to mean that it's \"annoying\", \"difficult\", or both? :-)"
+msgstr "这会对 @another_array 产生一定的影响。"
+
+#. type: textblock
+#: perldsc.pod:221
+msgid "So just remember always to use the array or hash constructors with C<[]> or C<{}>, and you'll be fine, although it's not always optimally efficient."
+msgstr "所以在构造数组或哈希时使用 C<[]> 或 C<{}>。"
+
+#. type: textblock
+#: perldsc.pod:225
+msgid "Surprisingly, the following dangerous-looking construct will actually work out fine:"
+msgstr "下面这段看似危险的代码却也能正确的得到相应的结果："
+
+#. type: verbatim
+#: perldsc.pod:228
+#, no-wrap
+msgid ""
+"    for $i (1..10) {\n"
+"        my @array = somefunc($i);\n"
+"        $AoA[$i] = \\@array;\n"
+"    }\n"
+"\n"
+msgstr ""
+"    for $i (1..10) {\n"
+"        my @array = somefunc($i);\n"
+"        $AoA[$i] = \\@array;\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perldsc.pod:233
+msgid "That's because my() is more of a run-time statement than it is a compile-time declaration I<per se>.  This means that the my() variable is remade afresh each time through the loop.  So even though it I<looks> as though you stored the same variable reference each time, you actually did not! This is a subtle distinction that can produce more efficient code at the risk of misleading all but the most experienced of programmers.  So I usually advise against teaching it to beginners.  In fact, except for passing arguments to functions, I seldom like to see the gimme-a-reference operator (backslash) used much at all in code.  Instead, I advise beginners that they (and most of the rest of us) should try to use the much more easily understood constructors C<[]> and C<{}> instead of relying upon lexical (or dynamic) scoping and hidden reference-counting to do the right thing behind the scenes."
+msgstr ""
+"这是因为 my() 是运行时语句。在每次运行时，都会为数组重新申请空间，所以它的引用每次"
+"是不同的。虽然这样做是可行的，但是我们还是推荐新手使用 C<[]> 或 C<{}> 方式。"
+
+#. type: textblock
+#: perldsc.pod:247
+msgid "In summary:"
+msgstr "总结："
+
+#. type: verbatim
+#: perldsc.pod:249
+#, no-wrap
+msgid ""
+"    $AoA[$i] = [ @array ];\t# usually best\n"
+"    $AoA[$i] = \\@array;\t\t# perilous; just how my() was that array?\n"
+"    @{ $AoA[$i] } = @array;\t# way too tricky for most programmers\n"
+"\n"
+msgstr ""
+"    $AoA[$i] = [ @array ];\t# usually best\n"
+"    $AoA[$i] = \\@array;\t\t# perilous; just how my() was that array?\n"
+"    @{ $AoA[$i] } = @array;\t# way too tricky for most programmers\n"
+"\n"
+
+#. type: =head1
+#: perldsc.pod:254
+msgid "CAVEAT ON PRECEDENCE X<dereference, precedence> X<dereferencing, precedence>"
+msgstr "优先级 X<dereference, precedence> X<dereferencing, precedence>"
+
+#. type: textblock
+#: perldsc.pod:257
+msgid "Speaking of things like C<@{$AoA[$i]}>, the following are actually the same thing: X<< -> >>"
+msgstr "对于 C<@{$AoA[$i]}> 来说，下面两行代码表示的是同样的意思："
+
+#. type: verbatim
+#: perldsc.pod:261
+#, no-wrap
+msgid ""
+"    $aref->[2][2]\t# clear\n"
+"    $$aref[2][2]\t# confusing\n"
+"\n"
+msgstr ""
+"    $aref->[2][2]\t# clear\n"
+"    $$aref[2][2]\t# confusing\n"
+"\n"
+
+#. type: textblock
+#: perldsc.pod:264
+msgid "That's because Perl's precedence rules on its five prefix dereferencers (which look like someone swearing: C<$ @ * % &>) make them bind more tightly than the postfix subscripting brackets or braces! This will no doubt come as a great shock to the C or C++ programmer, who is quite accustomed to using C<*a[i]> to mean what's pointed to by the I<i'th> element of C<a>.  That is, they first take the subscript, and only then dereference the thing at that subscript.  That's fine in C, but this isn't C."
+msgstr ""
+"因为 Perl 的优先级规则使得 C/C++ 程序员可能理解起来比较困难。虽然可以对比着理解，"
+"但 Perl 不是 C。"
+
+#. type: textblock
+#: perldsc.pod:272
+msgid "The seemingly equivalent construct in Perl, C<$$aref[$i]> first does the deref of $aref, making it take $aref as a reference to an array, and then dereference that, and finally tell you the I<i'th> value of the array pointed to by $AoA. If you wanted the C notion, you'd have to write C<${$AoA[$i]}> to force the C<$AoA[$i]> to get evaluated first before the leading C<$> dereferencer."
+msgstr ""
+
+#. type: =head1
+#: perldsc.pod:279
+msgid "WHY YOU SHOULD ALWAYS C<use strict>"
+msgstr "为什么应该时刻使用 C<use strict>？"
+
+#. type: textblock
+#: perldsc.pod:281
+msgid "If this is starting to sound scarier than it's worth, relax.  Perl has some features to help you avoid its most common pitfalls.  The best way to avoid getting confused is to start every program like this:"
+msgstr "这听起来很恐怖，但是这确实会给我们带来很多好处。Perl 有许多特性可以帮助你避"
+"免一些陷阱，所以我们最好用以下代码开始书写程序："
+
+#. type: verbatim
+#: perldsc.pod:285
+#, no-wrap
+msgid ""
+"    #!/usr/bin/perl -w\n"
+"    use strict;\n"
+"\n"
+msgstr ""
+"    #!/usr/bin/perl -w\n"
+"    use strict;\n"
+"\n"
+
+#. type: textblock
+#: perldsc.pod:288
+msgid "This way, you'll be forced to declare all your variables with my() and also disallow accidental \"symbolic dereferencing\".  Therefore if you'd done this:"
+msgstr "之后，你将不得不通过 my() 来声明每一个变量，而且你不能使用 "
+"\"symbolic dereferencing\"。"
+
+#. type: verbatim
+#: perldsc.pod:292
+#, no-wrap
+msgid ""
+"    my $aref = [\n"
+"\t[ \"fred\", \"barney\", \"pebbles\", \"bambam\", \"dino\", ],\n"
+"\t[ \"homer\", \"bart\", \"marge\", \"maggie\", ],\n"
+"\t[ \"george\", \"jane\", \"elroy\", \"judy\", ],\n"
+"    ];\n"
+"\n"
+msgstr ""
+"    my $aref = [\n"
+"\t[ \"fred\", \"barney\", \"pebbles\", \"bambam\", \"dino\", ],\n"
+"\t[ \"homer\", \"bart\", \"marge\", \"maggie\", ],\n"
+"\t[ \"george\", \"jane\", \"elroy\", \"judy\", ],\n"
+"    ];\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:298
+#, no-wrap
+msgid ""
+"    print $aref[2][2];\n"
+"\n"
+msgstr ""
+"    print $aref[2][2];\n"
+"\n"
+
+#. type: textblock
+#: perldsc.pod:300
+msgid "The compiler would immediately flag that as an error I<at compile time>, because you were accidentally accessing C<@aref>, an undeclared variable, and it would thereby remind you to write instead:"
+msgstr "编译器会在I<编译时>产生错误，因为你没有声明 C<@aref> 变量，而且它会提醒你按"
+"如下方式书写："
+
+#. type: verbatim
+#: perldsc.pod:304
+#, no-wrap
+msgid ""
+"    print $aref->[2][2]\n"
+"\n"
+msgstr ""
+"    print $aref->[2][2]\n"
+"\n"
+
+#. type: =head1
+#: perldsc.pod:306
+msgid "DEBUGGING X<data structure, debugging> X<complex data structure, debugging> X<AoA, debugging> X<HoA, debugging> X<AoH, debugging> X<HoH, debugging> X<array of arrays, debugging> X<hash of arrays, debugging> X<array of hashes, debugging> X<hash of hashes, debugging>"
+msgstr "调试 X<data structure, debugging> X<complex data structure, debugging> X<AoA, debugging> X<HoA, debugging> X<AoH, debugging> X<HoH, debugging> X<array of arrays, debugging> X<hash of arrays, debugging> X<array of hashes, debugging> X<hash of hashes, debugging>"
+
+#. type: textblock
+#: perldsc.pod:312
+msgid "Before version 5.002, the standard Perl debugger didn't do a very nice job of printing out complex data structures.  With 5.002 or above, the debugger includes several new features, including command line editing as well as the C<x> command to dump out complex data structures.  For example, given the assignment to $AoA above, here's the debugger output:"
+msgstr "在 5.002 以前，Perl 调试器不能很好的输出复杂的数据结构。5.002 版本以上，调试"
+"器包含的几个新功能可以很方便的查看复杂的数据结构。比如查看 $AoA 结构，我们会在调试"
+"器中得到如下内容："
+
+#. type: verbatim
+#: perldsc.pod:318
+#, no-wrap
+msgid ""
+"    DB<1> x $AoA\n"
+"    $AoA = ARRAY(0x13b5a0)\n"
+"       0  ARRAY(0x1f0a24)\n"
+"\t  0  'fred'\n"
+"\t  1  'barney'\n"
+"\t  2  'pebbles'\n"
+"\t  3  'bambam'\n"
+"\t  4  'dino'\n"
+"       1  ARRAY(0x13b558)\n"
+"\t  0  'homer'\n"
+"\t  1  'bart'\n"
+"\t  2  'marge'\n"
+"\t  3  'maggie'\n"
+"       2  ARRAY(0x13b540)\n"
+"\t  0  'george'\n"
+"\t  1  'jane'\n"
+"\t  2  'elroy'\n"
+"\t  3  'judy'\n"
+"\n"
+msgstr ""
+"    DB<1> x $AoA\n"
+"    $AoA = ARRAY(0x13b5a0)\n"
+"       0  ARRAY(0x1f0a24)\n"
+"\t  0  'fred'\n"
+"\t  1  'barney'\n"
+"\t  2  'pebbles'\n"
+"\t  3  'bambam'\n"
+"\t  4  'dino'\n"
+"       1  ARRAY(0x13b558)\n"
+"\t  0  'homer'\n"
+"\t  1  'bart'\n"
+"\t  2  'marge'\n"
+"\t  3  'maggie'\n"
+"       2  ARRAY(0x13b540)\n"
+"\t  0  'george'\n"
+"\t  1  'jane'\n"
+"\t  2  'elroy'\n"
+"\t  3  'judy'\n"
+"\n"
+
+#. type: =head1
+#: perldsc.pod:337
+msgid "CODE EXAMPLES"
+msgstr "代码示例"
+
+#. type: textblock
+#: perldsc.pod:339
+msgid "Presented with little comment (these will get their own manpages someday)  here are short code examples illustrating access of various types of data structures."
+msgstr "下面是一些常用的复杂数据结构的实现代码。"
+
+#. type: =head1
+#: perldsc.pod:343
+msgid "ARRAYS OF ARRAYS X<array of arrays> X<AoA>"
+msgstr "多维数组 X<array of arrays> X<AoA>"
+
+#. type: =head2
+#: perldsc.pod:346
+msgid "Declaration of an ARRAY OF ARRAYS"
+msgstr "声明"
+
+#. type: verbatim
+#: perldsc.pod:348
+#, no-wrap
+msgid ""
+" @AoA = (\n"
+"        [ \"fred\", \"barney\" ],\n"
+"        [ \"george\", \"jane\", \"elroy\" ],\n"
+"        [ \"homer\", \"marge\", \"bart\" ],\n"
+"      );\n"
+"\n"
+msgstr ""
+" @AoA = (\n"
+"        [ \"fred\", \"barney\" ],\n"
+"        [ \"george\", \"jane\", \"elroy\" ],\n"
+"        [ \"homer\", \"marge\", \"bart\" ],\n"
+"      );\n"
+"\n"
+
+#. type: =head2
+#: perldsc.pod:354
+msgid "Generation of an ARRAY OF ARRAYS"
+msgstr "生成"
+
+#. type: verbatim
+#: perldsc.pod:356
+#, no-wrap
+msgid ""
+" # reading from file\n"
+" while ( <> ) {\n"
+"     push @AoA, [ split ];\n"
+" }\n"
+"\n"
+msgstr ""
+" # reading from file\n"
+" while ( <> ) {\n"
+"     push @AoA, [ split ];\n"
+" }\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:361
+#, no-wrap
+msgid ""
+" # calling a function\n"
+" for $i ( 1 .. 10 ) {\n"
+"     $AoA[$i] = [ somefunc($i) ];\n"
+" }\n"
+"\n"
+msgstr ""
+" # calling a function\n"
+" for $i ( 1 .. 10 ) {\n"
+"     $AoA[$i] = [ somefunc($i) ];\n"
+" }\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:366
+#, no-wrap
+msgid ""
+" # using temp vars\n"
+" for $i ( 1 .. 10 ) {\n"
+"     @tmp = somefunc($i);\n"
+"     $AoA[$i] = [ @tmp ];\n"
+" }\n"
+"\n"
+msgstr ""
+" # using temp vars\n"
+" for $i ( 1 .. 10 ) {\n"
+"     @tmp = somefunc($i);\n"
+"     $AoA[$i] = [ @tmp ];\n"
+" }\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:372
+#, no-wrap
+msgid ""
+" # add to an existing row\n"
+" push @{ $AoA[0] }, \"wilma\", \"betty\";\n"
+"\n"
+msgstr ""
+" # add to an existing row\n"
+" push @{ $AoA[0] }, \"wilma\", \"betty\";\n"
+"\n"
+
+#. type: =head2
+#: perldsc.pod:375
+msgid "Access and Printing of an ARRAY OF ARRAYS"
+msgstr "使用和输出"
+
+#. type: verbatim
+#: perldsc.pod:377
+#, no-wrap
+msgid ""
+" # one element\n"
+" $AoA[0][0] = \"Fred\";\n"
+"\n"
+msgstr ""
+" # one element\n"
+" $AoA[0][0] = \"Fred\";\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:380
+#, no-wrap
+msgid ""
+" # another element\n"
+" $AoA[1][1] =~ s/(\\w)/\\u$1/;\n"
+"\n"
+msgstr ""
+" # another element\n"
+" $AoA[1][1] =~ s/(\\w)/\\u$1/;\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:383
+#, no-wrap
+msgid ""
+" # print the whole thing with refs\n"
+" for $aref ( @AoA ) {\n"
+"     print \"\\t [ @$aref ],\\n"
+"\";\n"
+" }\n"
+"\n"
+msgstr ""
+" # print the whole thing with refs\n"
+" for $aref ( @AoA ) {\n"
+"     print \"\\t [ @$aref ],\\n"
+"\";\n"
+" }\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:388
+#, no-wrap
+msgid ""
+" # print the whole thing with indices\n"
+" for $i ( 0 .. $#AoA ) {\n"
+"     print \"\\t [ @{$AoA[$i]} ],\\n"
+"\";\n"
+" }\n"
+"\n"
+msgstr ""
+" # print the whole thing with indices\n"
+" for $i ( 0 .. $#AoA ) {\n"
+"     print \"\\t [ @{$AoA[$i]} ],\\n"
+"\";\n"
+" }\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:393
+#, no-wrap
+msgid ""
+" # print the whole thing one at a time\n"
+" for $i ( 0 .. $#AoA ) {\n"
+"     for $j ( 0 .. $#{ $AoA[$i] } ) {\n"
+"         print \"elt $i $j is $AoA[$i][$j]\\n"
+"\";\n"
+"     }\n"
+" }\n"
+"\n"
+msgstr ""
+" # print the whole thing one at a time\n"
+" for $i ( 0 .. $#AoA ) {\n"
+"     for $j ( 0 .. $#{ $AoA[$i] } ) {\n"
+"         print \"elt $i $j is $AoA[$i][$j]\\n"
+"\";\n"
+"     }\n"
+" }\n"
+"\n"
+
+#. type: =head1
+#: perldsc.pod:400
+msgid "HASHES OF ARRAYS X<hash of arrays> X<HoA>"
+msgstr "哈希值为数组的哈希 X<hash of arrays> X<HoA>"
+
+#. type: =head2
+#: perldsc.pod:403
+msgid "Declaration of a HASH OF ARRAYS"
+msgstr "声明"
+
+#. type: verbatim
+#: perldsc.pod:405
+#, no-wrap
+msgid ""
+" %HoA = (\n"
+"        flintstones        => [ \"fred\", \"barney\" ],\n"
+"        jetsons            => [ \"george\", \"jane\", \"elroy\" ],\n"
+"        simpsons           => [ \"homer\", \"marge\", \"bart\" ],\n"
+"      );\n"
+"\n"
+msgstr ""
+" %HoA = (\n"
+"        flintstones        => [ \"fred\", \"barney\" ],\n"
+"        jetsons            => [ \"george\", \"jane\", \"elroy\" ],\n"
+"        simpsons           => [ \"homer\", \"marge\", \"bart\" ],\n"
+"      );\n"
+"\n"
+
+#. type: =head2
+#: perldsc.pod:411
+msgid "Generation of a HASH OF ARRAYS"
+msgstr "生成"
+
+#. type: verbatim
+#: perldsc.pod:413
+#, no-wrap
+msgid ""
+" # reading from file\n"
+" # flintstones: fred barney wilma dino\n"
+" while ( <> ) {\n"
+"     next unless s/^(.*?):\\s*//;\n"
+"     $HoA{$1} = [ split ];\n"
+" }\n"
+"\n"
+msgstr ""
+" # reading from file\n"
+" # flintstones: fred barney wilma dino\n"
+" while ( <> ) {\n"
+"     next unless s/^(.*?):\\s*//;\n"
+"     $HoA{$1} = [ split ];\n"
+" }\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:420
+#, no-wrap
+msgid ""
+" # reading from file; more temps\n"
+" # flintstones: fred barney wilma dino\n"
+" while ( $line = <> ) {\n"
+"     ($who, $rest) = split /:\\s*/, $line, 2;\n"
+"     @fields = split ' ', $rest;\n"
+"     $HoA{$who} = [ @fields ];\n"
+" }\n"
+"\n"
+msgstr ""
+" # reading from file; more temps\n"
+" # flintstones: fred barney wilma dino\n"
+" while ( $line = <> ) {\n"
+"     ($who, $rest) = split /:\\s*/, $line, 2;\n"
+"     @fields = split ' ', $rest;\n"
+"     $HoA{$who} = [ @fields ];\n"
+" }\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:428
+#, no-wrap
+msgid ""
+" # calling a function that returns a list\n"
+" for $group ( \"simpsons\", \"jetsons\", \"flintstones\" ) {\n"
+"     $HoA{$group} = [ get_family($group) ];\n"
+" }\n"
+"\n"
+msgstr ""
+" # calling a function that returns a list\n"
+" for $group ( \"simpsons\", \"jetsons\", \"flintstones\" ) {\n"
+"     $HoA{$group} = [ get_family($group) ];\n"
+" }\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:433
+#, no-wrap
+msgid ""
+" # likewise, but using temps\n"
+" for $group ( \"simpsons\", \"jetsons\", \"flintstones\" ) {\n"
+"     @members = get_family($group);\n"
+"     $HoA{$group} = [ @members ];\n"
+" }\n"
+"\n"
+msgstr ""
+" # likewise, but using temps\n"
+" for $group ( \"simpsons\", \"jetsons\", \"flintstones\" ) {\n"
+"     @members = get_family($group);\n"
+"     $HoA{$group} = [ @members ];\n"
+" }\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:439
+#, no-wrap
+msgid ""
+" # append new members to an existing family\n"
+" push @{ $HoA{\"flintstones\"} }, \"wilma\", \"betty\";\n"
+"\n"
+msgstr ""
+" # append new members to an existing family\n"
+" push @{ $HoA{\"flintstones\"} }, \"wilma\", \"betty\";\n"
+"\n"
+
+#. type: =head2
+#: perldsc.pod:442
+msgid "Access and Printing of a HASH OF ARRAYS"
+msgstr "使用和输出"
+
+#. type: verbatim
+#: perldsc.pod:444
+#, no-wrap
+msgid ""
+" # one element\n"
+" $HoA{flintstones}[0] = \"Fred\";\n"
+"\n"
+msgstr ""
+" # one element\n"
+" $HoA{flintstones}[0] = \"Fred\";\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:447
+#, no-wrap
+msgid ""
+" # another element\n"
+" $HoA{simpsons}[1] =~ s/(\\w)/\\u$1/;\n"
+"\n"
+msgstr ""
+" # another element\n"
+" $HoA{simpsons}[1] =~ s/(\\w)/\\u$1/;\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:450
+#, no-wrap
+msgid ""
+" # print the whole thing\n"
+" foreach $family ( keys %HoA ) {\n"
+"     print \"$family: @{ $HoA{$family} }\\n"
+"\"\n"
+" }\n"
+"\n"
+msgstr ""
+" # print the whole thing\n"
+" foreach $family ( keys %HoA ) {\n"
+"     print \"$family: @{ $HoA{$family} }\\n"
+"\"\n"
+" }\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:455
+#, no-wrap
+msgid ""
+" # print the whole thing with indices\n"
+" foreach $family ( keys %HoA ) {\n"
+"     print \"family: \";\n"
+"     foreach $i ( 0 .. $#{ $HoA{$family} } ) {\n"
+"         print \" $i = $HoA{$family}[$i]\";\n"
+"     }\n"
+"     print \"\\n"
+"\";\n"
+" }\n"
+"\n"
+msgstr ""
+" # print the whole thing with indices\n"
+" foreach $family ( keys %HoA ) {\n"
+"     print \"family: \";\n"
+"     foreach $i ( 0 .. $#{ $HoA{$family} } ) {\n"
+"         print \" $i = $HoA{$family}[$i]\";\n"
+"     }\n"
+"     print \"\\n"
+"\";\n"
+" }\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:464
+#, no-wrap
+msgid ""
+" # print the whole thing sorted by number of members\n"
+" foreach $family ( sort { @{$HoA{$b}} <=> @{$HoA{$a}} } keys %HoA ) {\n"
+"     print \"$family: @{ $HoA{$family} }\\n"
+"\"\n"
+" }\n"
+"\n"
+msgstr ""
+" # print the whole thing sorted by number of members\n"
+" foreach $family ( sort { @{$HoA{$b}} <=> @{$HoA{$a}} } keys %HoA ) {\n"
+"     print \"$family: @{ $HoA{$family} }\\n"
+"\"\n"
+" }\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:469
+#, no-wrap
+msgid ""
+" # print the whole thing sorted by number of members and name\n"
+" foreach $family ( sort {\n"
+"\t\t\t    @{$HoA{$b}} <=> @{$HoA{$a}}\n"
+"\t\t\t\t\t||\n"
+"\t\t\t\t    $a cmp $b\n"
+"\t    } keys %HoA )\n"
+" {\n"
+"     print \"$family: \", join(\", \", sort @{ $HoA{$family} }), \"\\n"
+"\";\n"
+" }\n"
+"\n"
+msgstr ""
+" # print the whole thing sorted by number of members and name\n"
+" foreach $family ( sort {\n"
+"\t\t\t    @{$HoA{$b}} <=> @{$HoA{$a}}\n"
+"\t\t\t\t\t||\n"
+"\t\t\t\t    $a cmp $b\n"
+"\t    } keys %HoA )\n"
+" {\n"
+"     print \"$family: \", join(\", \", sort @{ $HoA{$family} }), \"\\n"
+"\";\n"
+" }\n"
+"\n"
+
+#. type: =head1
+#: perldsc.pod:479
+msgid "ARRAYS OF HASHES X<array of hashes> X<AoH>"
+msgstr "由哈希构成的数组 X<array of hashes> X<AoH>"
+
+#. type: =head2
+#: perldsc.pod:482
+msgid "Declaration of an ARRAY OF HASHES"
+msgstr "声明"
+
+#. type: verbatim
+#: perldsc.pod:484
+#, no-wrap
+msgid ""
+" @AoH = (\n"
+"        {\n"
+"            Lead     => \"fred\",\n"
+"            Friend   => \"barney\",\n"
+"        },\n"
+"        {\n"
+"            Lead     => \"george\",\n"
+"            Wife     => \"jane\",\n"
+"            Son      => \"elroy\",\n"
+"        },\n"
+"        {\n"
+"            Lead     => \"homer\",\n"
+"            Wife     => \"marge\",\n"
+"            Son      => \"bart\",\n"
+"        }\n"
+"  );\n"
+"\n"
+msgstr ""
+" @AoH = (\n"
+"        {\n"
+"            Lead     => \"fred\",\n"
+"            Friend   => \"barney\",\n"
+"        },\n"
+"        {\n"
+"            Lead     => \"george\",\n"
+"            Wife     => \"jane\",\n"
+"            Son      => \"elroy\",\n"
+"        },\n"
+"        {\n"
+"            Lead     => \"homer\",\n"
+"            Wife     => \"marge\",\n"
+"            Son      => \"bart\",\n"
+"        }\n"
+"  );\n"
+"\n"
+
+#. type: =head2
+#: perldsc.pod:501
+msgid "Generation of an ARRAY OF HASHES"
+msgstr "生成"
+
+#. type: verbatim
+#: perldsc.pod:503
+#, no-wrap
+msgid ""
+" # reading from file\n"
+" # format: LEAD=fred FRIEND=barney\n"
+" while ( <> ) {\n"
+"     $rec = {};\n"
+"     for $field ( split ) {\n"
+"         ($key, $value) = split /=/, $field;\n"
+"         $rec->{$key} = $value;\n"
+"     }\n"
+"     push @AoH, $rec;\n"
+" }\n"
+"\n"
+msgstr ""
+" # reading from file\n"
+" # format: LEAD=fred FRIEND=barney\n"
+" while ( <> ) {\n"
+"     $rec = {};\n"
+"     for $field ( split ) {\n"
+"         ($key, $value) = split /=/, $field;\n"
+"         $rec->{$key} = $value;\n"
+"     }\n"
+"     push @AoH, $rec;\n"
+" }\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:515
+#, no-wrap
+msgid ""
+" # reading from file\n"
+" # format: LEAD=fred FRIEND=barney\n"
+" # no temp\n"
+" while ( <> ) {\n"
+"     push @AoH, { split /[\\s+=]/ };\n"
+" }\n"
+"\n"
+msgstr ""
+" # reading from file\n"
+" # format: LEAD=fred FRIEND=barney\n"
+" # no temp\n"
+" while ( <> ) {\n"
+"     push @AoH, { split /[\\s+=]/ };\n"
+" }\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:522
+#, no-wrap
+msgid ""
+" # calling a function  that returns a key/value pair list, like\n"
+" # \"lead\",\"fred\",\"daughter\",\"pebbles\"\n"
+" while ( %fields = getnextpairset() ) {\n"
+"     push @AoH, { %fields };\n"
+" }\n"
+"\n"
+msgstr ""
+" # calling a function  that returns a key/value pair list, like\n"
+" # \"lead\",\"fred\",\"daughter\",\"pebbles\"\n"
+" while ( %fields = getnextpairset() ) {\n"
+"     push @AoH, { %fields };\n"
+" }\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:528
+#, no-wrap
+msgid ""
+" # likewise, but using no temp vars\n"
+" while (<>) {\n"
+"     push @AoH, { parsepairs($_) };\n"
+" }\n"
+"\n"
+msgstr ""
+" # likewise, but using no temp vars\n"
+" while (<>) {\n"
+"     push @AoH, { parsepairs($_) };\n"
+" }\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:533
+#, no-wrap
+msgid ""
+" # add key/value to an element\n"
+" $AoH[0]{pet} = \"dino\";\n"
+" $AoH[2]{pet} = \"santa's little helper\";\n"
+"\n"
+msgstr ""
+" # add key/value to an element\n"
+" $AoH[0]{pet} = \"dino\";\n"
+" $AoH[2]{pet} = \"santa's little helper\";\n"
+"\n"
+
+#. type: =head2
+#: perldsc.pod:537
+msgid "Access and Printing of an ARRAY OF HASHES"
+msgstr "使用和输出"
+
+#. type: verbatim
+#: perldsc.pod:539
+#, no-wrap
+msgid ""
+" # one element\n"
+" $AoH[0]{lead} = \"fred\";\n"
+"\n"
+msgstr ""
+" # one element\n"
+" $AoH[0]{lead} = \"fred\";\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:542
+#, no-wrap
+msgid ""
+" # another element\n"
+" $AoH[1]{lead} =~ s/(\\w)/\\u$1/;\n"
+"\n"
+msgstr ""
+" # another element\n"
+" $AoH[1]{lead} =~ s/(\\w)/\\u$1/;\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:545
+#, no-wrap
+msgid ""
+" # print the whole thing with refs\n"
+" for $href ( @AoH ) {\n"
+"     print \"{ \";\n"
+"     for $role ( keys %$href ) {\n"
+"         print \"$role=$href->{$role} \";\n"
+"     }\n"
+"     print \"}\\n"
+"\";\n"
+" }\n"
+"\n"
+msgstr ""
+" # print the whole thing with refs\n"
+" for $href ( @AoH ) {\n"
+"     print \"{ \";\n"
+"     for $role ( keys %$href ) {\n"
+"         print \"$role=$href->{$role} \";\n"
+"     }\n"
+"     print \"}\\n"
+"\";\n"
+" }\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:554
+#, no-wrap
+msgid ""
+" # print the whole thing with indices\n"
+" for $i ( 0 .. $#AoH ) {\n"
+"     print \"$i is { \";\n"
+"     for $role ( keys %{ $AoH[$i] } ) {\n"
+"         print \"$role=$AoH[$i]{$role} \";\n"
+"     }\n"
+"     print \"}\\n"
+"\";\n"
+" }\n"
+"\n"
+msgstr ""
+" # print the whole thing with indices\n"
+" for $i ( 0 .. $#AoH ) {\n"
+"     print \"$i is { \";\n"
+"     for $role ( keys %{ $AoH[$i] } ) {\n"
+"         print \"$role=$AoH[$i]{$role} \";\n"
+"     }\n"
+"     print \"}\\n"
+"\";\n"
+" }\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:563
+#, no-wrap
+msgid ""
+" # print the whole thing one at a time\n"
+" for $i ( 0 .. $#AoH ) {\n"
+"     for $role ( keys %{ $AoH[$i] } ) {\n"
+"         print \"elt $i $role is $AoH[$i]{$role}\\n"
+"\";\n"
+"     }\n"
+" }\n"
+"\n"
+msgstr ""
+" # print the whole thing one at a time\n"
+" for $i ( 0 .. $#AoH ) {\n"
+"     for $role ( keys %{ $AoH[$i] } ) {\n"
+"         print \"elt $i $role is $AoH[$i]{$role}\\n"
+"\";\n"
+"     }\n"
+" }\n"
+"\n"
+
+#. type: =head1
+#: perldsc.pod:570
+msgid "HASHES OF HASHES X<hash of hashes> X<HoH>"
+msgstr "由哈希构成的哈希 X<hash of hashes> X<HoH>"
+
+#. type: =head2
+#: perldsc.pod:573
+msgid "Declaration of a HASH OF HASHES"
+msgstr "声明"
+
+#. type: verbatim
+#: perldsc.pod:575
+#, no-wrap
+msgid ""
+" %HoH = (\n"
+"        flintstones => {\n"
+"\t\tlead      => \"fred\",\n"
+"\t\tpal       => \"barney\",\n"
+"        },\n"
+"        jetsons     => {\n"
+"\t\tlead      => \"george\",\n"
+"\t\twife      => \"jane\",\n"
+"\t\t\"his boy\" => \"elroy\",\n"
+"        },\n"
+"        simpsons    => {\n"
+"\t\tlead      => \"homer\",\n"
+"\t\twife      => \"marge\",\n"
+"\t\tkid       => \"bart\",\n"
+"\t},\n"
+" );\n"
+"\n"
+msgstr ""
+" %HoH = (\n"
+"        flintstones => {\n"
+"\t\tlead      => \"fred\",\n"
+"\t\tpal       => \"barney\",\n"
+"        },\n"
+"        jetsons     => {\n"
+"\t\tlead      => \"george\",\n"
+"\t\twife      => \"jane\",\n"
+"\t\t\"his boy\" => \"elroy\",\n"
+"        },\n"
+"        simpsons    => {\n"
+"\t\tlead      => \"homer\",\n"
+"\t\twife      => \"marge\",\n"
+"\t\tkid       => \"bart\",\n"
+"\t},\n"
+" );\n"
+"\n"
+
+#. type: =head2
+#: perldsc.pod:592
+msgid "Generation of a HASH OF HASHES"
+msgstr "生成"
+
+#. type: verbatim
+#: perldsc.pod:594
+#, no-wrap
+msgid ""
+" # reading from file\n" " # flintstones: lead=fred pal=barney wife=wilma pet=dino\n"
+" while ( <> ) {\n"
+"     next unless s/^(.*?):\\s*//;\n"
+"     $who = $1;\n"
+"     for $field ( split ) {\n"
+"         ($key, $value) = split /=/, $field;\n"
+"         $HoH{$who}{$key} = $value;\n"
+"     }\n"
+"\n"
+msgstr ""
+" # reading from file\n"
+" # flintstones: lead=fred pal=barney wife=wilma pet=dino\n"
+" while ( <> ) {\n"
+"     next unless s/^(.*?):\\s*//;\n"
+"     $who = $1;\n"
+"     for $field ( split ) {\n"
+"         ($key, $value) = split /=/, $field;\n"
+"         $HoH{$who}{$key} = $value;\n"
+"     }\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:605
+#, no-wrap
+msgid ""
+" # reading from file; more temps\n"
+" while ( <> ) {\n"
+"     next unless s/^(.*?):\\s*//;\n"
+"     $who = $1;\n"
+"     $rec = {};\n"
+"     $HoH{$who} = $rec;\n"
+"     for $field ( split ) {\n"
+"         ($key, $value) = split /=/, $field;\n"
+"         $rec->{$key} = $value;\n"
+"     }\n"
+" }\n"
+"\n"
+msgstr ""
+" # reading from file; more temps\n"
+" while ( <> ) {\n"
+"     next unless s/^(.*?):\\s*//;\n"
+"     $who = $1;\n"
+"     $rec = {};\n"
+"     $HoH{$who} = $rec;\n"
+"     for $field ( split ) {\n"
+"         ($key, $value) = split /=/, $field;\n"
+"         $rec->{$key} = $value;\n"
+"     }\n"
+" }\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:617
+#, no-wrap
+msgid ""
+" # calling a function  that returns a key,value hash\n"
+" for $group ( \"simpsons\", \"jetsons\", \"flintstones\" ) {\n"
+"     $HoH{$group} = { get_family($group) };\n"
+" }\n"
+"\n"
+msgstr ""
+" # calling a function  that returns a key,value hash\n"
+" for $group ( \"simpsons\", \"jetsons\", \"flintstones\" ) {\n"
+"     $HoH{$group} = { get_family($group) };\n"
+" }\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:622
+#, no-wrap
+msgid ""
+" # likewise, but using temps\n"
+" for $group ( \"simpsons\", \"jetsons\", \"flintstones\" ) {\n"
+"     %members = get_family($group);\n"
+"     $HoH{$group} = { %members };\n"
+" }\n"
+"\n"
+msgstr ""
+" # likewise, but using temps\n"
+" for $group ( \"simpsons\", \"jetsons\", \"flintstones\" ) {\n"
+"     %members = get_family($group);\n"
+"     $HoH{$group} = { %members };\n"
+" }\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:628
+#, no-wrap
+msgid ""
+" # append new members to an existing family\n"
+" %new_folks = (\n"
+"     wife => \"wilma\",\n"
+"     pet  => \"dino\",\n"
+" );\n"
+"\n"
+msgstr ""
+" # append new members to an existing family\n"
+" %new_folks = (\n"
+"     wife => \"wilma\",\n"
+"     pet  => \"dino\",\n"
+" );\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:634
+#, no-wrap
+msgid ""
+" for $what (keys %new_folks) {\n"
+"     $HoH{flintstones}{$what} = $new_folks{$what};\n"
+" }\n"
+"\n"
+msgstr ""
+" for $what (keys %new_folks) {\n"
+"     $HoH{flintstones}{$what} = $new_folks{$what};\n"
+" }\n"
+"\n"
+
+#. type: =head2
+#: perldsc.pod:638
+msgid "Access and Printing of a HASH OF HASHES"
+msgstr "使用和输出"
+
+#. type: verbatim
+#: perldsc.pod:640
+#, no-wrap
+msgid ""
+" # one element\n"
+" $HoH{flintstones}{wife} = \"wilma\";\n"
+"\n"
+msgstr ""
+" # one element\n"
+" $HoH{flintstones}{wife} = \"wilma\";\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:643
+#, no-wrap
+msgid ""
+" # another element\n"
+" $HoH{simpsons}{lead} =~ s/(\\w)/\\u$1/;\n"
+"\n"
+msgstr ""
+" # another element\n"
+" $HoH{simpsons}{lead} =~ s/(\\w)/\\u$1/;\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:646
+#, no-wrap
+msgid ""
+" # print the whole thing\n"
+" foreach $family ( keys %HoH ) {\n"
+"     print \"$family: { \";\n"
+"     for $role ( keys %{ $HoH{$family} } ) {\n"
+"         print \"$role=$HoH{$family}{$role} \";\n"
+"     }\n"
+"     print \"}\\n"
+"\";\n"
+" }\n"
+"\n"
+msgstr ""
+" # print the whole thing\n"
+" foreach $family ( keys %HoH ) {\n"
+"     print \"$family: { \";\n"
+"     for $role ( keys %{ $HoH{$family} } ) {\n"
+"         print \"$role=$HoH{$family}{$role} \";\n"
+"     }\n"
+"     print \"}\\n"
+"\";\n"
+" }\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:655
+#, no-wrap
+msgid ""
+" # print the whole thing  somewhat sorted\n"
+" foreach $family ( sort keys %HoH ) {\n"
+"     print \"$family: { \";\n"
+"     for $role ( sort keys %{ $HoH{$family} } ) {\n"
+"         print \"$role=$HoH{$family}{$role} \";\n"
+"     }\n"
+"     print \"}\\n"
+"\";\n"
+" }\n"
+"\n"
+msgstr ""
+" # print the whole thing  somewhat sorted\n"
+" foreach $family ( sort keys %HoH ) {\n"
+"     print \"$family: { \";\n"
+"     for $role ( sort keys %{ $HoH{$family} } ) {\n"
+"         print \"$role=$HoH{$family}{$role} \";\n"
+"     }\n"
+"     print \"}\\n"
+"\";\n"
+" }\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:665
+#, no-wrap
+msgid ""
+" # print the whole thing sorted by number of members\n"
+" foreach $family ( sort { keys %{$HoH{$b}} <=> keys %{$HoH{$a}} } keys %HoH ) {\n"
+"     print \"$family: { \";\n"
+"     for $role ( sort keys %{ $HoH{$family} } ) {\n"
+"         print \"$role=$HoH{$family}{$role} \";\n"
+"     }\n"
+"     print \"}\\n"
+"\";\n"
+" }\n"
+"\n"
+msgstr ""
+" # print the whole thing sorted by number of members\n"
+" foreach $family ( sort { keys %{$HoH{$b}} <=> keys %{$HoH{$a}} } keys %HoH ) {\n"
+"     print \"$family: { \";\n"
+"     for $role ( sort keys %{ $HoH{$family} } ) {\n"
+"         print \"$role=$HoH{$family}{$role} \";\n"
+"     }\n"
+"     print \"}\\n"
+"\";\n"
+" }\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:674
+#, no-wrap
+msgid ""
+" # establish a sort order (rank) for each role\n"
+" $i = 0;\n"
+" for ( qw(lead wife son daughter pal pet) ) { $rank{$_} = ++$i }\n"
+"\n"
+msgstr ""
+" # establish a sort order (rank) for each role\n"
+" $i = 0;\n"
+" for ( qw(lead wife son daughter pal pet) ) { $rank{$_} = ++$i }\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:678
+#, no-wrap
+msgid ""
+" # now print the whole thing sorted by number of members\n"
+" foreach $family ( sort { keys %{ $HoH{$b} } <=> keys %{ $HoH{$a} } } keys %HoH ) {\n"
+"     print \"$family: { \";\n"
+"     # and print these according to rank order\n"
+"     for $role ( sort { $rank{$a} <=> $rank{$b} }  keys %{ $HoH{$family} } ) {\n"
+"         print \"$role=$HoH{$family}{$role} \";\n"
+"     }\n"
+"     print \"}\\n"
+"\";\n"
+" }\n"
+"\n"
+msgstr ""
+" # now print the whole thing sorted by number of members\n"
+" foreach $family ( sort { keys %{ $HoH{$b} } <=> keys %{ $HoH{$a} } } keys %HoH ) {\n"
+"     print \"$family: { \";\n"
+"     # and print these according to rank order\n"
+"     for $role ( sort { $rank{$a} <=> $rank{$b} }  keys %{ $HoH{$family} } ) {\n"
+"         print \"$role=$HoH{$family}{$role} \";\n"
+"     }\n"
+"     print \"}\\n"
+"\";\n"
+" }\n"
+"\n"
+
+#. type: =head1
+#: perldsc.pod:689
+msgid "MORE ELABORATE RECORDS X<record> X<structure> X<struct>"
+msgstr "其他复杂的数据结构 X<record> X<structure> X<struct>"
+
+#. type: =head2
+#: perldsc.pod:692
+msgid "Declaration of MORE ELABORATE RECORDS"
+msgstr "声明"
+
+#. type: textblock
+#: perldsc.pod:694
+msgid "Here's a sample showing how to create and use a record whose fields are of many different sorts:"
+msgstr "下面的例子演示了一个包含了各种类型的数据结构："
+
+#. type: verbatim
+#: perldsc.pod:697
+#, no-wrap
+msgid ""
+"     $rec = {\n"
+"\t TEXT      => $string,\n"
+"\t SEQUENCE  => [ @old_values ],\n"
+"\t LOOKUP    => { %some_table },\n"
+"\t THATCODE  => \\&some_function,\n"
+"\t THISCODE  => sub { $_[0] ** $_[1] },\n"
+"\t HANDLE    => \\*STDOUT,\n"
+"     };\n"
+"\n"
+msgstr ""
+"     $rec = {\n"
+"\t TEXT      => $string,\n"
+"\t SEQUENCE  => [ @old_values ],\n"
+"\t LOOKUP    => { %some_table },\n"
+"\t THATCODE  => \\&some_function,\n"
+"\t THISCODE  => sub { $_[0] ** $_[1] },\n"
+"\t HANDLE    => \\*STDOUT,\n"
+"     };\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:706
+#, no-wrap
+msgid ""
+"     print $rec->{TEXT};\n"
+"\n"
+msgstr ""
+"     print $rec->{TEXT};\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:708
+#, no-wrap
+msgid ""
+"     print $rec->{SEQUENCE}[0];\n"
+"     $last = pop @ { $rec->{SEQUENCE} };\n"
+"\n"
+msgstr ""
+"     print $rec->{SEQUENCE}[0];\n"
+"     $last = pop @ { $rec->{SEQUENCE} };\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:711
+#, no-wrap
+msgid ""
+"     print $rec->{LOOKUP}{\"key\"};\n"
+"     ($first_k, $first_v) = each %{ $rec->{LOOKUP} };\n"
+"\n"
+msgstr ""
+"     print $rec->{LOOKUP}{\"key\"};\n"
+"     ($first_k, $first_v) = each %{ $rec->{LOOKUP} };\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:714
+#, no-wrap
+msgid ""
+"     $answer = $rec->{THATCODE}->($arg);\n"
+"     $answer = $rec->{THISCODE}->($arg1, $arg2);\n"
+"\n"
+msgstr ""
+"     $answer = $rec->{THATCODE}->($arg);\n"
+"     $answer = $rec->{THISCODE}->($arg1, $arg2);\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:717
+#, no-wrap
+msgid ""
+"     # careful of extra block braces on fh ref\n"
+"     print { $rec->{HANDLE} } \"a string\\n"
+"\";\n"
+"\n"
+msgstr ""
+"     # careful of extra block braces on fh ref\n"
+"     print { $rec->{HANDLE} } \"a string\\n"
+"\";\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:720
+#, no-wrap
+msgid ""
+"     use FileHandle;\n"
+"     $rec->{HANDLE}->autoflush(1);\n"
+"     $rec->{HANDLE}->print(\" a string\\n"
+"\");\n"
+"\n"
+msgstr ""
+"     use FileHandle;\n"
+"     $rec->{HANDLE}->autoflush(1);\n"
+"     $rec->{HANDLE}->print(\" a string\\n"
+"\");\n"
+"\n"
+
+#. type: =head2
+#: perldsc.pod:724
+msgid "Declaration of a HASH OF COMPLEX RECORDS"
+msgstr "声明一个复杂的哈希结构"
+
+#. type: verbatim
+#: perldsc.pod:726
+#, no-wrap
+msgid ""
+"     %TV = (\n"
+"        flintstones => {\n"
+"            series   => \"flintstones\",\n"
+"            nights   => [ qw(monday thursday friday) ],\n"
+"            members  => [\n"
+"                { name => \"fred\",    role => \"lead\", age  => 36, },\n"
+"                { name => \"wilma\",   role => \"wife\", age  => 31, },\n"
+"                { name => \"pebbles\", role => \"kid\",  age  =>  4, },\n"
+"            ],\n"
+"        },\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perldsc.pod:737
+#, no-wrap
+msgid ""
+"        jetsons     => {\n"
+"            series   => \"jetsons\",\n"
+"            nights   => [ qw(wednesday saturday) ],\n"
+"            members  => [\n"
+"                { name => \"george\",  role => \"lead\", age  => 41, },\n"
+"                { name => \"jane\",    role => \"wife\", age  => 39, },\n"
+"                { name => \"elroy\",   role => \"kid\",  age  =>  9, },\n"
+"            ],\n"
+"         },\n"
+"\n"
+msgstr ""
+"     %TV = (\n"
+"        flintstones => {\n"
+"            series   => \"flintstones\",\n"
+"            nights   => [ qw(monday thursday friday) ],\n"
+"            members  => [\n"
+"                { name => \"fred\",    role => \"lead\", age  => 36, },\n"
+"                { name => \"wilma\",   role => \"wife\", age  => 31, },\n"
+"                { name => \"pebbles\", role => \"kid\",  age  =>  4, },\n"
+"            ],\n"
+"        },\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:747
+#, no-wrap
+msgid ""
+"        simpsons    => {\n"
+"            series   => \"simpsons\",\n"
+"            nights   => [ qw(monday) ],\n"
+"            members  => [\n"
+"                { name => \"homer\", role => \"lead\", age  => 34, },\n"
+"                { name => \"marge\", role => \"wife\", age => 37, },\n"
+"                { name => \"bart\",  role => \"kid\",  age  =>  11, },\n"
+"            ],\n"
+"         },\n"
+"      );\n"
+"\n"
+msgstr ""
+"        simpsons    => {\n"
+"            series   => \"simpsons\",\n"
+"            nights   => [ qw(monday) ],\n"
+"            members  => [\n"
+"                { name => \"homer\", role => \"lead\", age  => 34, },\n"
+"                { name => \"marge\", role => \"wife\", age => 37, },\n"
+"                { name => \"bart\",  role => \"kid\",  age  =>  11, },\n"
+"            ],\n"
+"         },\n"
+"      );\n"
+"\n"
+
+#. type: =head2
+#: perldsc.pod:758
+msgid "Generation of a HASH OF COMPLEX RECORDS"
+msgstr "生成一个复杂的哈希结构"
+
+#. type: verbatim
+#: perldsc.pod:760
+#, no-wrap
+msgid ""
+"     # reading from file\n"
+"     # this is most easily done by having the file itself be\n"
+"     # in the raw data format as shown above.  perl is happy\n"
+"     # to parse complex data structures if declared as data, so\n"
+"     # sometimes it's easiest to do that\n"
+"\n"
+msgstr ""
+"     # reading from file\n"
+"     # this is most easily done by having the file itself be\n"
+"     # in the raw data format as shown above.  perl is happy\n"
+"     # to parse complex data structures if declared as data, so\n"
+"     # sometimes it's easiest to do that\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:766
+#, no-wrap
+msgid ""
+"     # here's a piece by piece build up\n"
+"     $rec = {};\n"
+"     $rec->{series} = \"flintstones\";\n"
+"     $rec->{nights} = [ find_days() ];\n"
+"\n"
+msgstr ""
+"     # here's a piece by piece build up\n"
+"     $rec = {};\n"
+"     $rec->{series} = \"flintstones\";\n"
+"     $rec->{nights} = [ find_days() ];\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:771
+#, no-wrap
+msgid ""
+"     @members = ();\n"
+"     # assume this file in field=value syntax\n"
+"     while (<>) {\n"
+"         %fields = split /[\\s=]+/;\n"
+"         push @members, { %fields };\n"
+"     }\n"
+"     $rec->{members} = [ @members ];\n"
+"\n"
+msgstr ""
+"     @members = ();\n"
+"     # assume this file in field=value syntax\n"
+"     while (<>) {\n"
+"         %fields = split /[\\s=]+/;\n"
+"         push @members, { %fields };\n"
+"     }\n"
+"     $rec->{members} = [ @members ];\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:779
+#, no-wrap
+msgid ""
+"     # now remember the whole thing\n"
+"     $TV{ $rec->{series} } = $rec;\n"
+"\n"
+msgstr ""
+"     # now remember the whole thing\n"
+"     $TV{ $rec->{series} } = $rec;\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:782
+#, no-wrap
+msgid ""
+"     ###########################################################\n"
+"     # now, you might want to make interesting extra fields that\n"
+"     # include pointers back into the same data structure so if\n"
+"     # change one piece, it changes everywhere, like for example\n"
+"     # if you wanted a {kids} field that was a reference\n"
+"     # to an array of the kids' records without having duplicate\n"
+"     # records and thus update problems.\n"
+"     ###########################################################\n"
+"     foreach $family (keys %TV) {\n"
+"         $rec = $TV{$family}; # temp pointer\n"
+"         @kids = ();\n"
+"         for $person ( @{ $rec->{members} } ) {\n"
+"             if ($person->{role} =~ /kid|son|daughter/) {\n"
+"                 push @kids, $person;\n"
+"             }\n"
+"         }\n"
+"         # REMEMBER: $rec and $TV{$family} point to same data!!\n"
+"         $rec->{kids} = [ @kids ];\n"
+"     }\n"
+"\n"
+msgstr ""
+"     ###########################################################\n"
+"     # now, you might want to make interesting extra fields that\n"
+"     # include pointers back into the same data structure so if\n"
+"     # change one piece, it changes everywhere, like for example\n"
+"     # if you wanted a {kids} field that was a reference\n"
+"     # to an array of the kids' records without having duplicate\n"
+"     # records and thus update problems.\n"
+"     ###########################################################\n"
+"     foreach $family (keys %TV) {\n"
+"         $rec = $TV{$family}; # temp pointer\n"
+"         @kids = ();\n"
+"         for $person ( @{ $rec->{members} } ) {\n"
+"             if ($person->{role} =~ /kid|son|daughter/) {\n"
+"                 push @kids, $person;\n"
+"             }\n"
+"         }\n"
+"         # REMEMBER: $rec and $TV{$family} point to same data!!\n"
+"         $rec->{kids} = [ @kids ];\n"
+"     }\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:802
+#, no-wrap
+msgid ""
+"     # you copied the array, but the array itself contains pointers\n"
+"     # to uncopied objects. this means that if you make bart get\n"
+"     # older via\n"
+"\n"
+msgstr ""
+"     # you copied the array, but the array itself contains pointers\n"
+"     # to uncopied objects. this means that if you make bart get\n"
+"     # older via\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:806
+#, no-wrap
+msgid ""
+"     $TV{simpsons}{kids}[0]{age}++;\n"
+"\n"
+msgstr ""
+"     $TV{simpsons}{kids}[0]{age}++;\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:808
+#, no-wrap
+msgid ""
+"     # then this would also change in\n"
+"     print $TV{simpsons}{members}[2]{age};\n"
+"\n"
+msgstr ""
+"     # then this would also change in\n"
+"     print $TV{simpsons}{members}[2]{age};\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:811
+#, no-wrap
+msgid ""
+"     # because $TV{simpsons}{kids}[0] and $TV{simpsons}{members}[2]\n"
+"     # both point to the same underlying anonymous hash table\n"
+"\n"
+msgstr ""
+"     # because $TV{simpsons}{kids}[0] and $TV{simpsons}{members}[2]\n"
+"     # both point to the same underlying anonymous hash table\n"
+"\n"
+
+#. type: verbatim
+#: perldsc.pod:814
+#, no-wrap
+msgid ""
+"     # print the whole thing\n"
+"     foreach $family ( keys %TV ) {\n"
+"         print \"the $family\";\n"
+"         print \" is on during @{ $TV{$family}{nights} }\\n"
+"\";\n"
+"         print \"its members are:\\n"
+"\";\n"
+"         for $who ( @{ $TV{$family}{members} } ) {\n"
+"             print \" $who->{name} ($who->{role}), age $who->{age}\\n"
+"\";\n"
+"         }\n"
+"         print \"it turns out that $TV{$family}{lead} has \";\n"
+"         print scalar ( @{ $TV{$family}{kids} } ), \" kids named \";\n"
+"         print join (\", \", map { $_->{name} } @{ $TV{$family}{kids} } );\n"
+"         print \"\\n"
+"\";\n"
+"     }\n"
+"\n"
+msgstr ""
+"     # print the whole thing\n"
+"     foreach $family ( keys %TV ) {\n"
+"         print \"the $family\";\n"
+"         print \" is on during @{ $TV{$family}{nights} }\\n"
+"\";\n"
+"         print \"its members are:\\n"
+"\";\n"
+"         for $who ( @{ $TV{$family}{members} } ) {\n"
+"             print \" $who->{name} ($who->{role}), age $who->{age}\\n"
+"\";\n"
+"         }\n"
+"         print \"it turns out that $TV{$family}{lead} has \";\n"
+"         print scalar ( @{ $TV{$family}{kids} } ), \" kids named \";\n"
+"         print join (\", \", map { $_->{name} } @{ $TV{$family}{kids} } );\n"
+"         print \"\\n"
+"\";\n"
+"     }\n"
+"\n"
+
+#. type: =head1
+#: perldsc.pod:828
+msgid "Database Ties"
+msgstr "数据绑定"
+
+#. type: textblock
+#: perldsc.pod:830
+msgid "You cannot easily tie a multilevel data structure (such as a hash of hashes) to a dbm file.  The first problem is that all but GDBM and Berkeley DB have size limitations, but beyond that, you also have problems with how references are to be represented on disk.  One experimental module that does partially attempt to address this need is the MLDBM module.  Check your nearest CPAN site as described in L<perlmodlib> for source code to MLDBM."
+msgstr ""
+"你不能把你的数据结构与数据库文件直接绑定。大小限制是一个因素，对于硬盘资源的引用"
+"也是一个重要的问题。MLDBM 模块是一个这方面应用的模块，不过目前还处于实验阶段。"
+
+#. type: =head1
+#: perldsc.pod:838
+msgid "SEE ALSO"
+msgstr "另见"
+
+#. type: textblock
+#: perldsc.pod:840
+msgid "L<perlref>, L<perllol>, L<perldata>, L<perlobj>"
+msgstr "L<perlref>, L<perllol>, L<perldata>, L<perlobj>"
+
+#. type: =head1
+#: perldsc.pod:842
+msgid "AUTHOR"
+msgstr "作者"
+
+#. type: textblock
+#: perldsc.pod:844
+msgid "Tom Christiansen <F<tchrist@perl.com>>"
+msgstr "Tom Christiansen <F<tchrist@perl.com>>"
+
+#. type: textblock
+#: perldsc.pod:846
+msgid "Last update: Wed Oct 23 04:57:50 MET DST 1996"
+msgstr "Last update: Wed Oct 23 04:57:50 MET DST 1996"

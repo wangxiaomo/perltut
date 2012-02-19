@@ -1,0 +1,228 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-01-26 21:39+0800\n"
+"PO-Revision-Date: 2012-01-26 21:41+0800\n"
+"Last-Translator: xiaomo <wxm4ever@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. type: =head1
+#: perlcheat.pod:1
+msgid "NAME"
+msgstr "NAME"
+
+#. type: textblock
+#: perlcheat.pod:3
+msgid "perlcheat - Perl 5 Cheat Sheet"
+msgstr "perlcheat - Perl 5 速查表"
+
+#. type: =head1
+#: perlcheat.pod:5
+msgid "DESCRIPTION"
+msgstr "DESCRIPTION"
+
+#. type: textblock
+#: perlcheat.pod:7
+msgid "This 'cheat sheet' is a handy reference, meant for beginning Perl programmers. Not everything is mentioned, but 195 features may already be overwhelming."
+msgstr "这个知识速查表是为 Perl 新手特别准备的。虽然没有面面俱到，但是也包含了195 个特性。"
+
+#. type: =head2
+#: perlcheat.pod:11
+msgid "The sheet"
+msgstr "速查表"
+
+#. type: verbatim
+#: perlcheat.pod:13
+#, no-wrap
+msgid ""
+"  CONTEXTS  SIGILS             ARRAYS        HASHES\n"
+"  void      $scalar   whole:   @array        %hash\n"
+"  scalar    @array    slice:   @array[0, 2]  @hash{'a', 'b'}\n"
+"  list      %hash     element: $array[0]     $hash{'a'}\n"
+"            &sub\n"
+"            *glob    SCALAR VALUES\n"
+"                     number, string, reference, glob, undef\n"
+"  REFERENCES\n"
+"  \\     references      $$foo[1]       aka $foo->[1]\n"
+"  $@%&* dereference     $$foo{bar}     aka $foo->{bar}\n"
+"  []    anon. arrayref  ${$$foo[1]}[2] aka $foo->[1]->[2]\n"
+"  {}    anon. hashref   ${$$foo[1]}[2] aka $foo->[1][2]\n"
+"  \\()   list of refs\n"
+"                          NUMBERS vs STRINGS  LINKS\n"
+"  OPERATOR PRECEDENCE     =          =        perl.plover.com\n"
+"  ->                      +          .        search.cpan.org\n"
+"  ++ --                   == !=      eq ne         cpan.org\n"
+"  **                      < > <= >=  lt gt le ge   pm.org\n"
+"  ! ~ \\ u+ u-             <=>        cmp           tpj.com\n"
+"  =~ !~                                            perldoc.com\n"
+"  * / % x                 SYNTAX\n"
+"  + - .                   for    (LIST) { }, for (a;b;c) { }\n"
+"  << >>                   while  ( ) { }, until ( ) { }\n"
+"  named uops              if     ( ) { } elsif ( ) { } else { }\n"
+"  < > <= >= lt gt le ge   unless ( ) { } elsif ( ) { } else { }\n"
+"  == != <=> eq ne cmp ~~  for equals foreach (ALWAYS)\n"
+"  &\n"
+"  | ^              REGEX METACHARS            REGEX MODIFIERS\n"
+"  &&               ^     string begin         /i case insens.\n"
+"  || //            $     str. end (before \\n"
+") /m line based ^$\n"
+"  .. ...           +     one or more          /s . includes \\n"
+"\n"
+"  ?:               *     zero or more         /x ign. wh.space\n"
+"  = += -= *= etc.  ?     zero or one          /g global\n"
+"  , =>             {3,7} repeat in range      /o cmpl pat. once\n"
+"  list ops         ()    capture\n"
+"  not              (?:)  no capture       REGEX CHARCLASSES\n"
+"  and              []    character class  .  == [^\\n"
+"]\n"
+"  or xor           |     alternation      \\s == whitespace\n"
+"                   \\b    word boundary    \\w == word characters\n"
+"                   \\z    string end       \\d == digits\n"
+"  DO                                      \\S, \\W and \\D negate\n"
+"  use strict;        DON'T\n"
+"  use warnings;      \"$foo\"           LINKS\n"
+"  my $var;           $$variable_name  perl.com\n"
+"  open() or die $!;  `$userinput`     use.perl.org\n"
+"  use Modules;       /$userinput/     perl.apache.org\n"
+"\n"
+msgstr ""
+"  CONTEXTS  SIGILS             ARRAYS        HASHES\n"
+"  void      $scalar   whole:   @array        %hash\n"
+"  scalar    @array    slice:   @array[0, 2]  @hash{'a', 'b'}\n"
+"  list      %hash     element: $array[0]     $hash{'a'}\n"
+"            &sub\n"
+"            *glob    SCALAR VALUES\n"
+"                     number, string, reference, glob, undef\n"
+"  REFERENCES\n"
+"  \\     references      $$foo[1]       aka $foo->[1]\n"
+"  $@%&* dereference     $$foo{bar}     aka $foo->{bar}\n"
+"  []    anon. arrayref  ${$$foo[1]}[2] aka $foo->[1]->[2]\n"
+"  {}    anon. hashref   ${$$foo[1]}[2] aka $foo->[1][2]\n"
+"  \\()   list of refs\n"
+"                          NUMBERS vs STRINGS  LINKS\n"
+"  OPERATOR PRECEDENCE     =          =        perl.plover.com\n"
+"  ->                      +          .        search.cpan.org\n"
+"  ++ --                   == !=      eq ne         cpan.org\n"
+"  **                      < > <= >=  lt gt le ge   pm.org\n"
+"  ! ~ \\ u+ u-             <=>        cmp           tpj.com\n"
+"  =~ !~                                            perldoc.com\n"
+"  * / % x                 SYNTAX\n"
+"  + - .                   for    (LIST) { }, for (a;b;c) { }\n"
+"  << >>                   while  ( ) { }, until ( ) { }\n"
+"  named uops              if     ( ) { } elsif ( ) { } else { }\n"
+"  < > <= >= lt gt le ge   unless ( ) { } elsif ( ) { } else { }\n"
+"  == != <=> eq ne cmp ~~  for equals foreach (ALWAYS)\n"
+"  &\n"
+"  | ^              REGEX METACHARS            REGEX MODIFIERS\n"
+"  &&               ^     string begin         /i case insens.\n"
+"  || //            $     str. end (before \\n"
+") /m line based ^$\n"
+"  .. ...           +     one or more          /s . includes \\n"
+"\n"
+"  ?:               *     zero or more         /x ign. wh.space\n"
+"  = += -= *= etc.  ?     zero or one          /g global\n"
+"  , =>             {3,7} repeat in range      /o cmpl pat. once\n"
+"  list ops         ()    capture\n"
+"  not              (?:)  no capture       REGEX CHARCLASSES\n"
+"  and              []    character class  .  == [^\\n"
+"]\n"
+"  or xor           |     alternation      \\s == whitespace\n"
+"                   \\b    word boundary    \\w == word characters\n"
+"                   \\z    string end       \\d == digits\n"
+"  DO                                      \\S, \\W and \\D negate\n"
+"  use strict;        DON'T\n"
+"  use warnings;      \"$foo\"           LINKS\n"
+"  my $var;           $$variable_name  perl.com\n"
+"  open() or die $!;  `$userinput`     use.perl.org\n"
+"  use Modules;       /$userinput/     perl.apache.org\n"
+"\n"
+
+#. type: verbatim
+#: perlcheat.pod:60
+#, no-wrap
+msgid ""
+"  FUNCTION RETURN LISTS\n"
+"  stat      localtime    caller         SPECIAL VARIABLES\n"
+"   0 dev    0 second     0 package      $_    default variable\n"
+"   1 ino    1 minute     1 filename     $0    program name\n"
+"   2 mode   2 hour       2 line         $/    input separator\n"
+"   3 nlink  3 day        3 subroutine   $\\    output separator\n"
+"   4 uid    4 month-1    4 hasargs      $|    autoflush\n"
+"   5 gid    5 year-1900  5 wantarray    $!    sys/libcall error\n"
+"   6 rdev   6 weekday    6 evaltext     $@    eval error\n"
+"   7 size   7 yearday    7 is_require   $$    process ID\n"
+"   8 atime  8 is_dst     8 hints        $.    line number\n"
+"   9 mtime               9 bitmask      @ARGV command line args\n"
+"  10 ctime  just use                    @INC  include paths\n"
+"  11 blksz  POSIX::      3..9 only      @_    subroutine args\n"
+"  12 blcks  strftime!    with EXPR      %ENV  environment\n"
+"\n"
+msgstr ""
+"  FUNCTION RETURN LISTS\n"
+"  stat      localtime    caller         SPECIAL VARIABLES\n"
+"   0 dev    0 second     0 package      $_    default variable\n"
+"   1 ino    1 minute     1 filename     $0    program name\n"
+"   2 mode   2 hour       2 line         $/    input separator\n"
+"   3 nlink  3 day        3 subroutine   $\\    output separator\n"
+"   4 uid    4 month-1    4 hasargs      $|    autoflush\n"
+"   5 gid    5 year-1900  5 wantarray    $!    sys/libcall error\n"
+"   6 rdev   6 weekday    6 evaltext     $@    eval error\n"
+"   7 size   7 yearday    7 is_require   $$    process ID\n"
+"   8 atime  8 is_dst     8 hints        $.    line number\n"
+"   9 mtime               9 bitmask      @ARGV command line args\n"
+"  10 ctime  just use                    @INC  include paths\n"
+"  11 blksz  POSIX::      3..9 only      @_    subroutine args\n"
+"  12 blcks  strftime!    with EXPR      %ENV  environment\n"
+"\n"
+
+#. type: =head1
+#: perlcheat.pod:76
+msgid "ACKNOWLEDGEMENTS"
+msgstr "鸣谢"
+
+#. type: textblock
+#: perlcheat.pod:78
+msgid "The first version of this document appeared on Perl Monks, where several people had useful suggestions. Thank you, Perl Monks."
+msgstr "The first version of this document appeared on Perl Monks, where several people had useful suggestions. Thank you, Perl Monks."
+
+#. type: textblock
+#: perlcheat.pod:81
+msgid "A special thanks to Damian Conway, who didn't only suggest important changes, but also took the time to count the number of listed features and make a Perl 6 version to show that Perl will stay Perl."
+msgstr "A special thanks to Damian Conway, who didn't only suggest important changes, but also took the time to count the number of listed features and make a Perl 6 version to show that Perl will stay Perl."
+
+#. type: =head1
+#: perlcheat.pod:85
+msgid "AUTHOR"
+msgstr "AUTHOR"
+
+#. type: textblock
+#: perlcheat.pod:87
+msgid "Juerd Waalboer <#####@juerd.nl>, with the help of many Perl Monks."
+msgstr "Juerd Waalboer <#####@juerd.nl>, with the help of many Perl Monks."
+
+#. type: =head1
+#: perlcheat.pod:89
+msgid "SEE ALSO"
+msgstr "另见"
+
+#. type: verbatim
+#: perlcheat.pod:91
+#, no-wrap
+msgid ""
+" http://perlmonks.org/?node_id=216602      the original PM post\n"
+" http://perlmonks.org/?node_id=238031      Damian Conway's Perl 6 version\n"
+" http://juerd.nl/site.plp/perlcheat        home of the Perl Cheat Sheet\n"
+msgstr ""
+" http://perlmonks.org/?node_id=216602      the original PM post\n"
+" http://perlmonks.org/?node_id=238031      Damian Conway's Perl 6 version\n"
+" http://juerd.nl/site.plp/perlcheat        home of the Perl Cheat Sheet\n"
+

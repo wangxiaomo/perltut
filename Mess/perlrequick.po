@@ -1,0 +1,1202 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-01-21 19:14+0800\n"
+"PO-Revision-Date: 2012-01-21 19:15+0800\n"
+"Last-Translator: xiaomo <wxm4ever@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. type: =head1
+#: perlrequick.pod:1
+msgid "NAME"
+msgstr "NAME"
+
+#. type: textblock
+#: perlrequick.pod:3
+msgid "perlrequick - Perl regular expressions quick start"
+msgstr "perlrequick - Perl 正则表达式快速上手"
+
+#. type: =head1
+#: perlrequick.pod:5
+msgid "DESCRIPTION"
+msgstr "DESCRIPTION"
+
+#. type: textblock
+#: perlrequick.pod:7
+msgid "This page covers the very basics of understanding, creating and using regular expressions ('regexes') in Perl."
+msgstr "这个页面简单易懂的讲述了如何建立、使用 Perl 正则表达式。"
+
+#. type: =head1
+#: perlrequick.pod:11
+msgid "The Guide"
+msgstr "The Guide"
+
+#. type: =head2
+#: perlrequick.pod:13
+msgid "Simple word matching"
+msgstr "简单匹配"
+
+#. type: textblock
+#: perlrequick.pod:15
+msgid "The simplest regex is simply a word, or more generally, a string of characters.  A regex consisting of a word matches any string that contains that word:"
+msgstr "最简单的正则就是由一个字符或一个字符串构成的，它可以成功匹配包含该它的字符串："
+
+#. type: verbatim
+#: perlrequick.pod:19
+#, no-wrap
+msgid ""
+"    \"Hello World\" =~ /World/;  # matches\n"
+"\n"
+msgstr ""
+"    \"Hello World\" =~ /World/;  # matches\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:21
+msgid "In this statement, C<World> is a regex and the C<//> enclosing C</World/> tells perl to search a string for a match.  The operator C<=~> associates the string with the regex match and produces a true value if the regex matched, or false if the regex did not match.  In our case, C<World> matches the second word in C<\"Hello World\">, so the expression is true.  This idea has several variations."
+msgstr "在这行代码中，C<World> 就是一个正则，包围着 C</World/> 的 C<//> 告诉 perl 进行模式"
+"匹配。C<=~> 是锚定操作符，表明正则对其左值进行匹配，并将匹配结果返回，成功返回 true，错"
+"误返回 false。在这个例子中，C<World> 与 C<\"Hello World\"> 匹配成功，所以表达式为真。"
+
+#. type: textblock
+#: perlrequick.pod:28
+msgid "Expressions like this are useful in conditionals:"
+msgstr "该表达式在条件语句中是很有用的："
+
+#. type: verbatim
+#: perlrequick.pod:30
+#, no-wrap
+msgid ""
+"    print \"It matches\\n"
+"\" if \"Hello World\" =~ /World/;\n"
+"\n"
+msgstr ""
+"    print \"It matches\\n"
+"\" if \"Hello World\" =~ /World/;\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:32
+msgid "The sense of the match can be reversed by using C<!~> operator:"
+msgstr "C<!~> 锚定操作符可以使返回的结果与之前相反"
+
+#. type: verbatim
+#: perlrequick.pod:34
+#, no-wrap
+msgid ""
+"    print \"It doesn't match\\n"
+"\" if \"Hello World\" !~ /World/;\n"
+"\n"
+msgstr ""
+"    print \"It doesn't match\\n"
+"\" if \"Hello World\" !~ /World/;\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:36
+msgid "The literal string in the regex can be replaced by a variable:"
+msgstr "正则中的字符串可以由变量代替："
+
+#. type: verbatim
+#: perlrequick.pod:38
+#, no-wrap
+msgid ""
+"    $greeting = \"World\";\n"
+"    print \"It matches\\n"
+"\" if \"Hello World\" =~ /$greeting/;\n"
+"\n"
+msgstr ""
+"    $greeting = \"World\";\n"
+"    print \"It matches\\n"
+"\" if \"Hello World\" =~ /$greeting/;\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:41
+msgid "If you're matching against C<$_>, the C<$_ =~> part can be omitted:"
+msgstr "如果对 C<$_> 进行正则匹配，那么 C<$_ =~> 可以被省略："
+
+#. type: verbatim
+#: perlrequick.pod:43
+#, no-wrap
+msgid ""
+"    $_ = \"Hello World\";\n"
+"    print \"It matches\\n"
+"\" if /World/;\n"
+"\n"
+msgstr ""
+"    $_ = \"Hello World\";\n"
+"    print \"It matches\\n"
+"\" if /World/;\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:46
+msgid "Finally, the C<//> default delimiters for a match can be changed to arbitrary delimiters by putting an C<'m'> out front:"
+msgstr "C<//> 也可以在前置 C<'m'> 的时候由其他符号所代替："
+
+#. type: verbatim
+#: perlrequick.pod:49
+#, no-wrap
+msgid ""
+"    \"Hello World\" =~ m!World!;   # matches, delimited by '!'\n"
+"    \"Hello World\" =~ m{World};   # matches, note the matching '{}'\n"
+"    \"/usr/bin/perl\" =~ m\"/perl\"; # matches after '/usr/bin',\n"
+"                                 # '/' becomes an ordinary char\n"
+"\n"
+msgstr ""
+"    \"Hello World\" =~ m!World!;   # matches, delimited by '!'\n"
+"    \"Hello World\" =~ m{World};   # matches, note the matching '{}'\n"
+"    \"/usr/bin/perl\" =~ m\"/perl\"; # matches after '/usr/bin',\n"
+"                                 # '/' becomes an ordinary char\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:54
+msgid "Regexes must match a part of the string I<exactly> in order for the statement to be true:"
+msgstr "要想模式匹配成功，正则必须I<严格>的包含在要匹配的字符串中："
+
+#. type: verbatim
+#: perlrequick.pod:57
+#, no-wrap
+msgid ""
+"    \"Hello World\" =~ /world/;  # doesn't match, case sensitive\n"
+"    \"Hello World\" =~ /o W/;    # matches, ' ' is an ordinary char\n"
+"    \"Hello World\" =~ /World /; # doesn't match, no ' ' at end\n"
+"\n"
+msgstr ""
+"    \"Hello World\" =~ /world/;  # doesn't match, case sensitive\n"
+"    \"Hello World\" =~ /o W/;    # matches, ' ' is an ordinary char\n"
+"    \"Hello World\" =~ /World /; # doesn't match, no ' ' at end\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:61
+msgid "perl will always match at the earliest possible point in the string:"
+msgstr "perl 会匹配最先能匹配成功的地方："
+
+#. type: verbatim
+#: perlrequick.pod:63
+#, no-wrap
+msgid ""
+"    \"Hello World\" =~ /o/;       # matches 'o' in 'Hello'\n"
+"    \"That hat is red\" =~ /hat/; # matches 'hat' in 'That'\n"
+"\n"
+msgstr ""
+"    \"Hello World\" =~ /o/;       # matches 'o' in 'Hello'\n"
+"    \"That hat is red\" =~ /hat/; # matches 'hat' in 'That'\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:66
+msgid "Not all characters can be used 'as is' in a match.  Some characters, called B<metacharacters>, are reserved for use in regex notation.  The metacharacters are"
+msgstr "并不是所有的字符都可以直接写在正则中。有些称作 B<metacharacters> 的字符有着其他"
+"特殊的含义。B<metacharacters> 有："
+
+#. type: verbatim
+#: perlrequick.pod:70
+#, no-wrap
+msgid ""
+"    {}[]()^$.|*+?\\\n"
+"\n"
+msgstr ""
+"    {}[]()^$.|*+?\\\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:72
+msgid "A metacharacter can be matched by putting a backslash before it:"
+msgstr "metacharacter 需要转义之后才能表达它最原始的意义："
+
+#. type: verbatim
+#: perlrequick.pod:74
+#, no-wrap
+msgid ""
+"    \"2+2=4\" =~ /2+2/;    # doesn't match, + is a metacharacter\n"
+"    \"2+2=4\" =~ /2\\+2/;   # matches, \\+ is treated like an ordinary +\n"
+"    'C:\\WIN32' =~ /C:\\\\WIN/;                       # matches\n"
+"    \"/usr/bin/perl\" =~ /\\/usr\\/bin\\/perl/;  # matches\n"
+"\n"
+msgstr ""
+"    \"2+2=4\" =~ /2+2/;    # doesn't match, + is a metacharacter\n"
+"    \"2+2=4\" =~ /2\\+2/;   # matches, \\+ is treated like an ordinary +\n"
+"    'C:\\WIN32' =~ /C:\\\\WIN/;                       # matches\n"
+"    \"/usr/bin/perl\" =~ /\\/usr\\/bin\\/perl/;  # matches\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:79
+msgid "In the last regex, the forward slash C<'/'> is also backslashed, because it is used to delimit the regex."
+msgstr "在最后一个正则中，C<'/'> 也需要被转义，因为此时它也用于分割正则。"
+
+#. type: textblock
+#: perlrequick.pod:82
+msgid ""
+"Non-printable ASCII characters are represented by B<escape sequences>.  Common examples are C<\\t> for a tab, C<\\n"
+"> for a newline, and C<\\r> for a carriage return.  Arbitrary bytes are represented by octal escape sequences, e.g., C<\\033>, or hexadecimal escape sequences, e.g., C<\\x1B>:"
+msgstr "非打印字符可以用 B<escape sequences> 来表示，最常见的就是 C<\\t>、C<\\n> "
+"以及 C<\\n>。常用的进制数也可以通过 B<escape sequences> 来输出，如 C<\\x1B>、C<\\033>。"
+
+#. type: verbatim
+#: perlrequick.pod:88
+#, no-wrap
+msgid ""
+"    \"1000\\t2000\" =~ m(0\\t2)      # matches\n"
+"    \"cat\"      =~ /\\143\\x61\\x74/ # matches in ASCII, but a weird way to spell cat\n"
+"\n"
+msgstr ""
+"    \"1000\\t2000\" =~ m(0\\t2)      # matches\n"
+"    \"cat\"      =~ /\\143\\x61\\x74/ # matches in ASCII, but a weird way to spell cat\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:91
+msgid "Regexes are treated mostly as double quoted strings, so variable substitution works:"
+msgstr "正则通常被当作双引号字符串来对待，所以变量替换可以正常工作："
+
+#. type: verbatim
+#: perlrequick.pod:94
+#, no-wrap
+msgid ""
+"    $foo = 'house';\n"
+"    'cathouse' =~ /cat$foo/;   # matches\n"
+"    'housecat' =~ /${foo}cat/; # matches\n"
+"\n"
+msgstr ""
+"    $foo = 'house';\n"
+"    'cathouse' =~ /cat$foo/;   # matches\n"
+"    'housecat' =~ /${foo}cat/; # matches\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:98
+msgid "With all of the regexes above, if the regex matched anywhere in the string, it was considered a match.  To specify I<where> it should match, we would use the B<anchor> metacharacters C<^> and C<$>.  The anchor C<^> means match at the beginning of the string and the anchor C<$> means match at the end of the string, or before a newline at the end of the string.  Some examples:"
+msgstr "通过上面的知识我们知道如果正则出现在字符串的某个地方，那么正则就会匹配成功。为了"
+"便于指定正则出现的位置，Perl 为我们提供了I<位置锚定符>，C<^> 和 C<$>。C<^> 表明在字符串"
+"的开头进行匹配，而 C<$> 表明在字符串的结尾进行匹配。"
+
+#. type: verbatim
+#: perlrequick.pod:105
+#, no-wrap
+msgid ""
+"    \"housekeeper\" =~ /keeper/;         # matches\n"
+"    \"housekeeper\" =~ /^keeper/;        # doesn't match\n"
+"    \"housekeeper\" =~ /keeper$/;        # matches\n"
+"    \"housekeeper\\n"
+"\" =~ /keeper$/;      # matches\n"
+"    \"housekeeper\" =~ /^housekeeper$/;  # matches\n"
+"\n"
+msgstr ""
+"    \"housekeeper\" =~ /keeper/;         # matches\n"
+"    \"housekeeper\" =~ /^keeper/;        # doesn't match\n"
+"    \"housekeeper\" =~ /keeper$/;        # matches\n"
+"    \"housekeeper\\n"
+"\" =~ /keeper$/;      # matches\n"
+"    \"housekeeper\" =~ /^housekeeper$/;  # matches\n"
+"\n"
+
+#. type: =head2
+#: perlrequick.pod:111
+msgid "Using character classes"
+msgstr "使用字符集合进行匹配"
+
+#. type: textblock
+#: perlrequick.pod:113
+msgid "A B<character class> allows a set of possible characters, rather than just a single character, to match at a particular point in a regex.  Character classes are denoted by brackets C<[...]>, with the set of characters to be possibly matched inside.  Here are some examples:"
+msgstr "B<字符集合> 是包含着一类字符的集合，字符集合由 C<[...]> 和可能出现的字符构成。"
+"下面是一些例子："
+
+#. type: verbatim
+#: perlrequick.pod:118
+#, no-wrap
+msgid ""
+"    /cat/;            # matches 'cat'\n"
+"    /[bcr]at/;        # matches 'bat', 'cat', or 'rat'\n"
+"    \"abc\" =~ /[cab]/; # matches 'a'\n"
+"\n"
+msgstr ""
+"    /cat/;            # matches 'cat'\n"
+"    /[bcr]at/;        # matches 'bat', 'cat', or 'rat'\n"
+"    \"abc\" =~ /[cab]/; # matches 'a'\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:122
+msgid "In the last statement, even though C<'c'> is the first character in the class, the earliest point at which the regex can match is C<'a'>."
+msgstr "在最后一行代码中，尽管 C<'c'> 是集合中的第一个字符，但是最先成功匹配的字符是 "
+"C<'a'>，所以在该处匹配成功。"
+
+#. type: verbatim
+#: perlrequick.pod:125
+#, no-wrap
+msgid ""
+"    /[yY][eE][sS]/; # match 'yes' in a case-insensitive way\n"
+"                    # 'yes', 'Yes', 'YES', etc.\n"
+"    /yes/i;         # also match 'yes' in a case-insensitive way\n"
+"\n"
+msgstr ""
+"    /[yY][eE][sS]/; # match 'yes' in a case-insensitive way\n"
+"                    # 'yes', 'Yes', 'YES', etc.\n"
+"    /yes/i;         # also match 'yes' in a case-insensitive way\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:129
+msgid "The last example shows a match with an C<'i'> B<modifier>, which makes the match case-insensitive."
+msgstr "在最后一个例子中展示了 C<'i'> B<修饰符>的作用：使正则大小写不敏感。"
+
+#. type: textblock
+#: perlrequick.pod:132
+msgid "Character classes also have ordinary and special characters, but the sets of ordinary and special characters inside a character class are different than those outside a character class.  The special characters for a character class are C<-]\\^$> and are matched using an escape:"
+msgstr "字符集合中可以包含普通字符和特殊字符。字符集合中的特殊字符与外面的特殊字符有些"
+"不同，字符集合中的特殊字符有 C<-]\\^$>。"
+
+#. type: verbatim
+#: perlrequick.pod:138
+#, no-wrap
+msgid ""
+"   /[\\]c]def/; # matches ']def' or 'cdef'\n"
+"   $x = 'bcr';\n"
+"   /[$x]at/;   # matches 'bat, 'cat', or 'rat'\n"
+"   /[\\$x]at/;  # matches '$at' or 'xat'\n"
+"   /[\\\\$x]at/; # matches '\\at', 'bat, 'cat', or 'rat'\n"
+"\n"
+msgstr ""
+"   /[\\]c]def/; # matches ']def' or 'cdef'\n"
+"   $x = 'bcr';\n"
+"   /[$x]at/;   # matches 'bat, 'cat', or 'rat'\n"
+"   /[\\$x]at/;  # matches '$at' or 'xat'\n"
+"   /[\\\\$x]at/; # matches '\\at', 'bat, 'cat', or 'rat'\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:144
+msgid "The special character C<'-'> acts as a range operator within character classes, so that the unwieldy C<[0123456789]> and C<[abc...xyz]> become the svelte C<[0-9]> and C<[a-z]>:"
+msgstr "C<'-'> 表示到的意思，如 C<[0-9]> 表示 C<[0123456789]>、C<[a-z]> 表示 "
+"C<[abc..xyz]>。"
+
+#. type: verbatim
+#: perlrequick.pod:148
+#, no-wrap
+msgid ""
+"    /item[0-9]/;  # matches 'item0' or ... or 'item9'\n"
+"    /[0-9a-fA-F]/;  # matches a hexadecimal digit\n"
+"\n"
+msgstr ""
+"    /item[0-9]/;  # matches 'item0' or ... or 'item9'\n"
+"    /[0-9a-fA-F]/;  # matches a hexadecimal digit\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:151
+msgid "If C<'-'> is the first or last character in a character class, it is treated as an ordinary character."
+msgstr "如果 C<'-'> 在字符集合中是第一个字符或是最后一个字符，则把它当作普通字符对待。"
+
+#. type: textblock
+#: perlrequick.pod:154
+msgid "The special character C<^> in the first position of a character class denotes a B<negated character class>, which matches any character but those in the brackets.  Both C<[...]> and C<[^...]> must match a character, or the match fails.  Then"
+msgstr "C<^> 表示不包含字符集合中的任一字符。"
+
+#. type: verbatim
+#: perlrequick.pod:159
+#, no-wrap
+msgid ""
+"    /[^a]at/;  # doesn't match 'aat' or 'at', but matches\n"
+"               # all other 'bat', 'cat, '0at', '%at', etc.\n"
+"    /[^0-9]/;  # matches a non-numeric character\n"
+"    /[a^]at/;  # matches 'aat' or '^at'; here '^' is ordinary\n"
+"\n"
+msgstr ""
+"    /[^a]at/;  # doesn't match 'aat' or 'at', but matches\n"
+"               # all other 'bat', 'cat, '0at', '%at', etc.\n"
+"    /[^0-9]/;  # matches a non-numeric character\n"
+"    /[a^]at/;  # matches 'aat' or '^at'; here '^' is ordinary\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:164
+msgid "Perl has several abbreviations for common character classes:"
+msgstr "Perl 有一系列的代替常用字符集合的缩写："
+
+#. type: =item
+#: perlrequick.pod:168
+#: perlrequick.pod:174
+#: perlrequick.pod:180
+#: perlrequick.pod:186
+#: perlrequick.pod:192
+#: perlrequick.pod:198
+#: perlrequick.pod:204
+#: perlrequick.pod:319
+#: perlrequick.pod:323
+#: perlrequick.pod:327
+#: perlrequick.pod:331
+#: perlrequick.pod:336
+#: perlrequick.pod:340
+msgid "*"
+msgstr "*"
+
+#. type: textblock
+#: perlrequick.pod:170
+msgid "\\d is a digit and represents"
+msgstr "\\d 表示数字"
+
+#. type: verbatim
+#: perlrequick.pod:172
+#, no-wrap
+msgid ""
+"    [0-9]\n"
+"\n"
+msgstr ""
+"    [0-9]\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:176
+msgid "\\s is a whitespace character and represents"
+msgstr "\\s 表示空白符"
+
+#. type: verbatim
+#: perlrequick.pod:178
+#, no-wrap
+msgid ""
+"    [\\ \\t\\r\\n"
+"\\f]\n"
+"\n"
+msgstr ""
+"    [\\ \\t\\r\\n"
+"\\f]\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:182
+msgid "\\w is a word character (alphanumeric or _) and represents"
+msgstr "\\w 表示数字或字母"
+
+#. type: verbatim
+#: perlrequick.pod:184
+#, no-wrap
+msgid ""
+"    [0-9a-zA-Z_]\n"
+"\n"
+msgstr ""
+"    [0-9a-zA-Z_]\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:188
+msgid "\\D is a negated \\d; it represents any character but a digit"
+msgstr "\\D 是 \\d 的反义，它表示除数字外的任意字符"
+
+#. type: verbatim
+#: perlrequick.pod:190
+#, no-wrap
+msgid ""
+"    [^0-9]\n"
+"\n"
+msgstr ""
+"    [^0-9]\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:194
+msgid "\\S is a negated \\s; it represents any non-whitespace character"
+msgstr "\\S 是 \\s 的反义，它表示除空白符外的任意字符"
+
+#. type: verbatim
+#: perlrequick.pod:196
+#, no-wrap
+msgid ""
+"    [^\\s]\n"
+"\n"
+msgstr ""
+"    [^\\s]\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:200
+msgid "\\W is a negated \\w; it represents any non-word character"
+msgstr "\\W 是 \\w 的反义，它表示除数字、字母外的字符"
+
+#. type: verbatim
+#: perlrequick.pod:202
+#, no-wrap
+msgid ""
+"    [^\\w]\n"
+"\n"
+msgstr ""
+"    [^\\w]\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:206
+msgid ""
+"The period '.' matches any character but \"\\n"
+"\""
+msgstr "'.' 匹配除 \"\\n\" 外的任意字符"
+
+#. type: textblock
+#: perlrequick.pod:210
+msgid "The C<\\d\\s\\w\\D\\S\\W> abbreviations can be used both inside and outside of character classes.  Here are some in use:"
+msgstr "C<\\d\\s\\w\\D\\S\\W> 可以在字符集合内或字符集合外使用。"
+
+#. type: verbatim
+#: perlrequick.pod:213
+#, no-wrap
+msgid ""
+"    /\\d\\d:\\d\\d:\\d\\d/; # matches a hh:mm:ss time format\n"
+"    /[\\d\\s]/;         # matches any digit or whitespace character\n"
+"    /\\w\\W\\w/;         # matches a word char, followed by a\n"
+"                      # non-word char, followed by a word char\n"
+"    /..rt/;           # matches any two chars, followed by 'rt'\n"
+"    /end\\./;          # matches 'end.'\n"
+"    /end[.]/;         # same thing, matches 'end.'\n"
+"\n"
+msgstr ""
+"    /\\d\\d:\\d\\d:\\d\\d/; # matches a hh:mm:ss time format\n"
+"    /[\\d\\s]/;         # matches any digit or whitespace character\n"
+"    /\\w\\W\\w/;         # matches a word char, followed by a\n"
+"                      # non-word char, followed by a word char\n"
+"    /..rt/;           # matches any two chars, followed by 'rt'\n"
+"    /end\\./;          # matches 'end.'\n"
+"    /end[.]/;         # same thing, matches 'end.'\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:221
+msgid "The S<B<word anchor> > C<\\b> matches a boundary between a word character and a non-word character C<\\w\\W> or C<\\W\\w>:"
+msgstr "B<词定界符> C<\\b> 用来作为词的定界，匹配过程为 C<\\w\\W> 或 C<\\W\\w>："
+
+#. type: verbatim
+#: perlrequick.pod:224
+#, no-wrap
+msgid ""
+"    $x = \"Housecat catenates house and cat\";\n"
+"    $x =~ /\\bcat/;  # matches cat in 'catenates'\n"
+"    $x =~ /cat\\b/;  # matches cat in 'housecat'\n"
+"    $x =~ /\\bcat\\b/;  # matches 'cat' at end of string\n"
+"\n"
+msgstr ""
+"    $x = \"Housecat catenates house and cat\";\n"
+"    $x =~ /\\bcat/;  # matches cat in 'catenates'\n"
+"    $x =~ /cat\\b/;  # matches cat in 'housecat'\n"
+"    $x =~ /\\bcat\\b/;  # matches 'cat' at end of string\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:229
+msgid "In the last example, the end of the string is considered a word boundary."
+msgstr "在最后一行代码中，字符串的结尾也被当作词的边界来对待。"
+
+#. type: =head2
+#: perlrequick.pod:232
+msgid "Matching this or that"
+msgstr "匹配这个或那个"
+
+#. type: textblock
+#: perlrequick.pod:234
+msgid "We can match different character strings with the B<alternation> metacharacter C<'|'>.  To match C<dog> or C<cat>, we form the regex C<dog|cat>.  As before, perl will try to match the regex at the earliest possible point in the string.  At each character position, perl will first try to match the first alternative, C<dog>.  If C<dog> doesn't match, perl will then try the next alternative, C<cat>.  If C<cat> doesn't match either, then the match fails and perl moves to the next position in the string.  Some examples:"
+msgstr "我们可以通过 C<'|'> 在一个正则中匹配多个字符串。想要匹配 C<dog> 和 C<cat>，我们"
+"可以这样写，C<dog|cat>。"
+
+#. type: verbatim
+#: perlrequick.pod:243
+#, no-wrap
+msgid ""
+"    \"cats and dogs\" =~ /cat|dog|bird/;  # matches \"cat\"\n"
+"    \"cats and dogs\" =~ /dog|cat|bird/;  # matches \"cat\"\n"
+"\n"
+msgstr ""
+"    \"cats and dogs\" =~ /cat|dog|bird/;  # matches \"cat\"\n"
+"    \"cats and dogs\" =~ /dog|cat|bird/;  # matches \"cat\"\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:246
+msgid "Even though C<dog> is the first alternative in the second regex, C<cat> is able to match earlier in the string."
+msgstr "在第二行代码中，尽管 C<dog> 最先被匹配，但是 C<cat> 匹配的位置更加靠前，所以仍然"
+"在 C<cat> 处匹配成功。"
+
+#. type: verbatim
+#: perlrequick.pod:249
+#, no-wrap
+msgid ""
+"    \"cats\"          =~ /c|ca|cat|cats/; # matches \"c\"\n"
+"    \"cats\"          =~ /cats|cat|ca|c/; # matches \"cats\"\n"
+"\n"
+msgstr ""
+"    \"cats\"          =~ /c|ca|cat|cats/; # matches \"c\"\n"
+"    \"cats\"          =~ /cats|cat|ca|c/; # matches \"cats\"\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:252
+msgid "At a given character position, the first alternative that allows the regex match to succeed will be the one that matches. Here, all the alternatives match at the first string position, so the first matches."
+msgstr "这个例子中 C<c> 和 C<cats> 都能匹配成功，而且匹配出现的位置也相同，所以匹配的结果"
+"受到了正则的影响。"
+
+#. type: =head2
+#: perlrequick.pod:256
+msgid "Grouping things and hierarchical matching"
+msgstr "分组"
+
+#. type: textblock
+#: perlrequick.pod:258
+msgid "The B<grouping> metacharacters C<()> allow a part of a regex to be treated as a single unit.  Parts of a regex are grouped by enclosing them in parentheses.  The regex C<house(cat|keeper)> means match C<house> followed by either C<cat> or C<keeper>.  Some more examples are"
+msgstr "metacharacters C<()> 可以对正则进行分组。正则 C<house(cat|keeper)> 表示匹配"
+"出现在 C<cat> 或 C<keeper> 之前的 C<house>。"
+
+#. type: verbatim
+#: perlrequick.pod:264
+#, no-wrap
+msgid ""
+"    /(a|b)b/;    # matches 'ab' or 'bb'\n"
+"    /(^a|b)c/;   # matches 'ac' at start of string or 'bc' anywhere\n"
+"\n"
+msgstr ""
+"    /(a|b)b/;    # matches 'ab' or 'bb'\n"
+"    /(^a|b)c/;   # matches 'ac' at start of string or 'bc' anywhere\n"
+"\n"
+
+#. type: verbatim
+#: perlrequick.pod:267
+#, no-wrap
+msgid ""
+"    /house(cat|)/;  # matches either 'housecat' or 'house'\n"
+"    /house(cat(s|)|)/;  # matches either 'housecats' or 'housecat' or\n"
+"                        # 'house'.  Note groups can be nested.\n"
+"\n"
+msgstr ""
+"    /house(cat|)/;  # matches either 'housecat' or 'house'\n"
+"    /house(cat(s|)|)/;  # matches either 'housecats' or 'housecat' or\n"
+"                        # 'house'.  Note groups can be nested.\n"
+"\n"
+
+#. type: verbatim
+#: perlrequick.pod:271
+#, no-wrap
+msgid ""
+"    \"20\" =~ /(19|20|)\\d\\d/;  # matches the null alternative '()\\d\\d',\n"
+"                             # because '20\\d\\d' can't match\n"
+"\n"
+msgstr ""
+"    \"20\" =~ /(19|20|)\\d\\d/;  # matches the null alternative '()\\d\\d',\n"
+"                             # because '20\\d\\d' can't match\n"
+"\n"
+
+#. type: =head2
+#: perlrequick.pod:274
+msgid "Extracting matches"
+msgstr "捕获匹配结果"
+
+#. type: textblock
+#: perlrequick.pod:276
+msgid "The grouping metacharacters C<()> also allow the extraction of the parts of a string that matched.  For each grouping, the part that matched inside goes into the special variables C<$1>, C<$2>, etc.  They can be used just as ordinary variables:"
+msgstr "分组 metacharacters C<()> 同时也对各个分组内的内容进行捕获。每一个分组按照出现"
+"先后次序，相应的存入 C<$1>，C<$2> 等变量中。"
+
+#. type: verbatim
+#: perlrequick.pod:281
+#, no-wrap
+msgid ""
+"    # extract hours, minutes, seconds\n"
+"    $time =~ /(\\d\\d):(\\d\\d):(\\d\\d)/;  # match hh:mm:ss format\n"
+"    $hours = $1;\n"
+"    $minutes = $2;\n"
+"    $seconds = $3;\n"
+"\n"
+msgstr ""
+"    # extract hours, minutes, seconds\n"
+"    $time =~ /(\\d\\d):(\\d\\d):(\\d\\d)/;  # match hh:mm:ss format\n"
+"    $hours = $1;\n"
+"    $minutes = $2;\n"
+"    $seconds = $3;\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:287
+msgid "In list context, a match C</regex/> with groupings will return the list of matched values C<($1,$2,...)>.  So we could rewrite it as"
+msgstr "在列表上下文中，我们会得到一个 C<($1,$2,...)> 列表。所以我们可以这样改写："
+
+#. type: verbatim
+#: perlrequick.pod:290
+#, no-wrap
+msgid ""
+"    ($hours, $minutes, $second) = ($time =~ /(\\d\\d):(\\d\\d):(\\d\\d)/);\n"
+"\n"
+msgstr ""
+"    ($hours, $minutes, $second) = ($time =~ /(\\d\\d):(\\d\\d):(\\d\\d)/);\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:292
+msgid "If the groupings in a regex are nested, C<$1> gets the group with the leftmost opening parenthesis, C<$2> the next opening parenthesis, etc.  For example, here is a complex regex and the matching variables indicated below it:"
+msgstr "如果分组存在嵌套，那么按照左括号出现的次序来捕获。"
+
+#. type: verbatim
+#: perlrequick.pod:297
+#, no-wrap
+msgid ""
+"    /(ab(cd|ef)((gi)|j))/;\n"
+"     1  2      34\n"
+"\n"
+msgstr ""
+"    /(ab(cd|ef)((gi)|j))/;\n"
+"     1  2      34\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:300
+msgid "Associated with the matching variables C<$1>, C<$2>, ... are the B<backreferences> C<\\1>, C<\\2>, ...  Backreferences are matching variables that can be used I<inside> a regex:"
+msgstr "和 C<$1>，C<$2> 等类似的，C<\\1>，C<\\2> 也表示相同的意思，这种形式可以用在正则"
+"中。"
+
+#. type: verbatim
+#: perlrequick.pod:304
+#, no-wrap
+msgid ""
+"    /(\\w\\w\\w)\\s\\1/; # find sequences like 'the the' in string\n"
+"\n"
+msgstr ""
+"    /(\\w\\w\\w)\\s\\1/; # find sequences like 'the the' in string\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:306
+msgid "C<$1>, C<$2>, ... should only be used outside of a regex, and C<\\1>, C<\\2>, ... only inside a regex."
+msgstr "C<$1>，C<$2> 等应该用在正则的外部，而 C<\\1>，C<\\2> 等应该用在正则的内部。"
+
+#. type: =head2
+#: perlrequick.pod:309
+msgid "Matching repetitions"
+msgstr "重复匹配"
+
+#. type: textblock
+#: perlrequick.pod:311
+msgid "The B<quantifier> metacharacters C<?>, C<*>, C<+>, and C<{}> allow us to determine the number of repeats of a portion of a regex we consider to be a match.  Quantifiers are put immediately after the character, character class, or grouping that we want to specify.  They have the following meanings:"
+msgstr "C<?>、C<*>、C<+> 和 C<{}> 允许你决定重复匹配的次数。它们紧跟在字符、字符集合或"
+"分组后面。"
+
+#. type: textblock
+#: perlrequick.pod:321
+msgid "C<a?> = match 'a' 1 or 0 times"
+msgstr "C<a?> = 匹配字符 'a' 1次或0次"
+
+#. type: textblock
+#: perlrequick.pod:325
+msgid "C<a*> = match 'a' 0 or more times, i.e., any number of times"
+msgstr "C<a*> = 匹配字符 'a' 0次或0次以上，也就是任意次"
+
+#. type: textblock
+#: perlrequick.pod:329
+msgid "C<a+> = match 'a' 1 or more times, i.e., at least once"
+msgstr "C<a+> = 匹配字符 'a' 1次或1次以上，也就是至少1次"
+
+#. type: textblock
+#: perlrequick.pod:333
+msgid "C<a{n,m}> = match at least C<n> times, but not more than C<m> times."
+msgstr "C<a{n,m}> = 匹配字符 'a' 至少 C<n> 次，但是不超过 C<m> 次"
+
+#. type: textblock
+#: perlrequick.pod:338
+msgid "C<a{n,}> = match at least C<n> or more times"
+msgstr "C<a{n,}> = 匹配字符 'a' 至少 C<n> 次或 C<n> 次以上"
+
+#. type: textblock
+#: perlrequick.pod:342
+msgid "C<a{n}> = match exactly C<n> times"
+msgstr "C<a{n}> = 匹配字符 'a' C<n> 次"
+
+#. type: textblock
+#: perlrequick.pod:346
+msgid "Here are some examples:"
+msgstr "下面是一些例子："
+
+#. type: verbatim
+#: perlrequick.pod:348
+#, no-wrap
+msgid ""
+"    /[a-z]+\\s+\\d*/;  # match a lowercase word, at least some space, and\n"
+"                     # any number of digits\n"
+"    /(\\w+)\\s+\\1/;    # match doubled words of arbitrary length\n"
+"    $year =~ /\\d{2,4}/;  # make sure year is at least 2 but not more\n"
+"                         # than 4 digits\n"
+"    $year =~ /\\d{4}|\\d{2}/;    # better match; throw out 3 digit dates\n"
+"\n"
+msgstr ""
+"    /[a-z]+\\s+\\d*/;  # match a lowercase word, at least some space, and\n"
+"                     # any number of digits\n"
+"    /(\\w+)\\s+\\1/;    # match doubled words of arbitrary length\n"
+"    $year =~ /\\d{2,4}/;  # make sure year is at least 2 but not more\n"
+"                         # than 4 digits\n"
+"    $year =~ /\\d{4}|\\d{2}/;    # better match; throw out 3 digit dates\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:355
+msgid "These quantifiers will try to match as much of the string as possible, while still allowing the regex to match.  So we have"
+msgstr "这些 metacharacters 会尽可能的多匹配，所以"
+
+#. type: verbatim
+#: perlrequick.pod:358
+#, no-wrap
+msgid ""
+"    $x = 'the cat in the hat';\n"
+"    $x =~ /^(.*)(at)(.*)$/; # matches,\n"
+"                            # $1 = 'the cat in the h'\n"
+"                            # $2 = 'at'\n"
+"                            # $3 = ''   (0 matches)\n"
+"\n"
+msgstr ""
+"    $x = 'the cat in the hat';\n"
+"    $x =~ /^(.*)(at)(.*)$/; # matches,\n"
+"                            # $1 = 'the cat in the h'\n"
+"                            # $2 = 'at'\n"
+"                            # $3 = ''   (0 matches)\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:364
+msgid "The first quantifier C<.*> grabs as much of the string as possible while still having the regex match. The second quantifier C<.*> has no string left to it, so it matches 0 times."
+msgstr "第一个 C<.*> 匹配了尽可能多的内容。第二个 C<.*> 匹配时已经没有剩余的内容供匹配，"
+"所以它什么也没匹配到。"
+
+#. type: =head2
+#: perlrequick.pod:368
+msgid "More matching"
+msgstr "关于正则更多的内容"
+
+#. type: textblock
+#: perlrequick.pod:370
+msgid "There are a few more things you might want to know about matching operators.  In the code"
+msgstr "关于正则还有许多其他的东西你会感兴趣知道。在下面代码中"
+
+#. type: verbatim
+#: perlrequick.pod:373
+#, no-wrap
+msgid ""
+"    $pattern = 'Seuss';\n"
+"    while (<>) {\n"
+"        print if /$pattern/;\n"
+"    }\n"
+"\n"
+msgstr ""
+"    $pattern = 'Seuss';\n"
+"    while (<>) {\n"
+"        print if /$pattern/;\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:378
+msgid "perl has to re-evaluate C<$pattern> each time through the loop.  If C<$pattern> won't be changing, use the C<//o> modifier, to only perform variable substitutions once.  If you don't want any substitutions at all, use the special delimiter C<m''>:"
+msgstr "perl 将不得不在每次循环时重新编译正则，这是很消耗时间的。所以如果正则不变的话，"
+"使用 C<//o> 修饰符。如果你不想在正则中使用变量替代，使用 C<m''>："
+
+#. type: verbatim
+#: perlrequick.pod:383
+#, no-wrap
+msgid ""
+"    @pattern = ('Seuss');\n"
+"    m/@pattern/; # matches 'Seuss'\n"
+"    m'@pattern'; # matches the literal string '@pattern'\n"
+"\n"
+msgstr ""
+"    @pattern = ('Seuss');\n"
+"    m/@pattern/; # matches 'Seuss'\n"
+"    m'@pattern'; # matches the literal string '@pattern'\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:387
+msgid "The global modifier C<//g> allows the matching operator to match within a string as many times as possible.  In scalar context, successive matches against a string will have C<//g> jump from match to match, keeping track of position in the string as it goes along.  You can get or set the position with the C<pos()> function.  For example,"
+msgstr "C<//g> 修饰符表明匹配所有的结果。在一个标量环境中，C<//g> 会不断的向后进行匹配，"
+"你可以从 C<pos()> 方法得到匹配的位置。"
+
+#. type: verbatim
+#: perlrequick.pod:394
+#, no-wrap
+msgid ""
+"    $x = \"cat dog house\"; # 3 words\n"
+"    while ($x =~ /(\\w+)/g) {\n"
+"        print \"Word is $1, ends at position \", pos $x, \"\\n"
+"\";\n"
+"    }\n"
+"\n"
+msgstr ""
+"    $x = \"cat dog house\"; # 3 words\n"
+"    while ($x =~ /(\\w+)/g) {\n"
+"        print \"Word is $1, ends at position \", pos $x, \"\\n"
+"\";\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:399
+msgid "prints"
+msgstr "输出"
+
+#. type: verbatim
+#: perlrequick.pod:401
+#, no-wrap
+msgid ""
+"    Word is cat, ends at position 3\n"
+"    Word is dog, ends at position 7\n"
+"    Word is house, ends at position 13\n"
+"\n"
+msgstr ""
+"    Word is cat, ends at position 3\n"
+"    Word is dog, ends at position 7\n"
+"    Word is house, ends at position 13\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:405
+msgid "A failed match or changing the target string resets the position.  If you don't want the position reset after failure to match, add the C<//c>, as in C</regex/gc>."
+msgstr "匹配失败时会重置下次开始匹配的位置。如果你不想这样的话，添加 C<//c> 修饰符，如 "
+"C</regex/gc>。"
+
+#. type: textblock
+#: perlrequick.pod:409
+msgid "In list context, C<//g> returns a list of matched groupings, or if there are no groupings, a list of matches to the whole regex.  So"
+msgstr "在列表上下文环境中，C<//g> 会返回所有匹配的分组，如果没有分组的话，就会返回所有"
+"匹配到的内容。"
+
+#. type: verbatim
+#: perlrequick.pod:412
+#, no-wrap
+msgid ""
+"    @words = ($x =~ /(\\w+)/g);  # matches,\n"
+"                                # $word[0] = 'cat'\n"
+"                                # $word[1] = 'dog'\n"
+"                                # $word[2] = 'house'\n"
+"\n"
+msgstr ""
+"    @words = ($x =~ /(\\w+)/g);  # matches,\n"
+"                                # $word[0] = 'cat'\n"
+"                                # $word[1] = 'dog'\n"
+"                                # $word[2] = 'house'\n"
+"\n"
+
+#. type: =head2
+#: perlrequick.pod:417
+msgid "Search and replace"
+msgstr "查找替换"
+
+#. type: textblock
+#: perlrequick.pod:419
+msgid "Search and replace is performed using C<s/regex/replacement/modifiers>.  The C<replacement> is a Perl double quoted string that replaces in the string whatever is matched with the C<regex>.  The operator C<=~> is also used here to associate a string with C<s///>.  If matching against C<$_>, the S<C<$_ =~> > can be dropped.  If there is a match, C<s///> returns the number of substitutions made, otherwise it returns false.  Here are a few examples:"
+msgstr "查找替换正则形式如 C<s/regex/replacement/modifiers>。C<replacement> 是一个双引号"
+"字符串。C<s///> 返回成功替换的次数，反之，返回 false。"
+
+#. type: verbatim
+#: perlrequick.pod:427
+#, no-wrap
+msgid ""
+"    $x = \"Time to feed the cat!\";\n"
+"    $x =~ s/cat/hacker/;   # $x contains \"Time to feed the hacker!\"\n"
+"    $y = \"'quoted words'\";\n"
+"    $y =~ s/^'(.*)'$/$1/;  # strip single quotes,\n"
+"                           # $y contains \"quoted words\"\n"
+"\n"
+msgstr ""
+"    $x = \"Time to feed the cat!\";\n"
+"    $x =~ s/cat/hacker/;   # $x contains \"Time to feed the hacker!\"\n"
+"    $y = \"'quoted words'\";\n"
+"    $y =~ s/^'(.*)'$/$1/;  # strip single quotes,\n"
+"                           # $y contains \"quoted words\"\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:433
+msgid "With the C<s///> operator, the matched variables C<$1>, C<$2>, etc.  are immediately available for use in the replacement expression. With the global modifier, C<s///g> will search and replace all occurrences of the regex in the string:"
+msgstr "在 C<s///> 中，匹配捕获到的 C<$1>、C<$2> 可以在 C<replacement> 中使用。C<s///g> "
+"会替换所有符合条件的匹配："
+
+#. type: verbatim
+#: perlrequick.pod:438
+#, no-wrap
+msgid ""
+"    $x = \"I batted 4 for 4\";\n"
+"    $x =~ s/4/four/;   # $x contains \"I batted four for 4\"\n"
+"    $x = \"I batted 4 for 4\";\n"
+"    $x =~ s/4/four/g;  # $x contains \"I batted four for four\"\n"
+"\n"
+msgstr ""
+"    $x = \"I batted 4 for 4\";\n"
+"    $x =~ s/4/four/;   # $x contains \"I batted four for 4\"\n"
+"    $x = \"I batted 4 for 4\";\n"
+"    $x =~ s/4/four/g;  # $x contains \"I batted four for four\"\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:443
+msgid "The evaluation modifier C<s///e> wraps an C<eval{...}> around the replacement string and the evaluated result is substituted for the matched substring.  Some examples:"
+msgstr "C<s///e> 封装了 C<eval{...}> 在 replacement 中。"
+
+#. type: verbatim
+#: perlrequick.pod:447
+#, no-wrap
+msgid ""
+"    # reverse all the words in a string\n"
+"    $x = \"the cat in the hat\";\n"
+"    $x =~ s/(\\w+)/reverse $1/ge;   # $x contains \"eht tac ni eht tah\"\n"
+"\n"
+msgstr ""
+"    # reverse all the words in a string\n"
+"    $x = \"the cat in the hat\";\n"
+"    $x =~ s/(\\w+)/reverse $1/ge;   # $x contains \"eht tac ni eht tah\"\n"
+"\n"
+
+#. type: verbatim
+#: perlrequick.pod:451
+#, no-wrap
+msgid ""
+"    # convert percentage to decimal\n"
+"    $x = \"A 39% hit rate\";\n"
+"    $x =~ s!(\\d+)%!$1/100!e;       # $x contains \"A 0.39 hit rate\"\n"
+"\n"
+msgstr ""
+"    # convert percentage to decimal\n"
+"    $x = \"A 39% hit rate\";\n"
+"    $x =~ s!(\\d+)%!$1/100!e;       # $x contains \"A 0.39 hit rate\"\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:455
+msgid "The last example shows that C<s///> can use other delimiters, such as C<s!!!> and C<s{}{}>, and even C<s{}//>.  If single quotes are used C<s'''>, then the regex and replacement are treated as single quoted strings."
+msgstr "最后一行代码中演示了如何使用其他分隔符，如 C<s!!!>、C<s{}{}>。需要注意的是，"
+"如果用 C<s'''> 那么 regex 和 replacement 将被当作单引号字符串来对待。"
+
+#. type: =head2
+#: perlrequick.pod:460
+msgid "The split operator"
+msgstr "分割操作"
+
+#. type: textblock
+#: perlrequick.pod:462
+msgid "C<split /regex/, string> splits C<string> into a list of substrings and returns that list.  The regex determines the character sequence that C<string> is split with respect to.  For example, to split a string into words, use"
+msgstr "C<split /regex/, string> 将 C<string> 分割。"
+
+#. type: verbatim
+#: perlrequick.pod:467
+#, no-wrap
+msgid ""
+"    $x = \"Calvin and Hobbes\";\n"
+"    @word = split /\\s+/, $x;  # $word[0] = 'Calvin'\n"
+"                              # $word[1] = 'and'\n"
+"                              # $word[2] = 'Hobbes'\n"
+"\n"
+msgstr ""
+"    $x = \"Calvin and Hobbes\";\n"
+"    @word = split /\\s+/, $x;  # $word[0] = 'Calvin'\n"
+"                              # $word[1] = 'and'\n"
+"                              # $word[2] = 'Hobbes'\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:472
+msgid "To extract a comma-delimited list of numbers, use"
+msgstr "下面这个例子演示如何分割数字："
+
+#. type: verbatim
+#: perlrequick.pod:474
+#, no-wrap
+msgid ""
+"    $x = \"1.618,2.718,   3.142\";\n"
+"    @const = split /,\\s*/, $x;  # $const[0] = '1.618'\n"
+"                                # $const[1] = '2.718'\n"
+"                                # $const[2] = '3.142'\n"
+"\n"
+msgstr ""
+"    $x = \"1.618,2.718,   3.142\";\n"
+"    @const = split /,\\s*/, $x;  # $const[0] = '1.618'\n"
+"                                # $const[1] = '2.718'\n"
+"                                # $const[2] = '3.142'\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:479
+msgid "If the empty regex C<//> is used, the string is split into individual characters.  If the regex has groupings, then the list produced contains the matched substrings from the groupings as well:"
+msgstr "如果使用 C<//> 的话，字符串会被逐字被分割。如果正则中包含分组，那么返回的列表中也"
+"包含捕获到的内容。"
+
+#. type: verbatim
+#: perlrequick.pod:483
+#, no-wrap
+msgid ""
+"    $x = \"/usr/bin\";\n"
+"    @parts = split m!(/)!, $x;  # $parts[0] = ''\n"
+"                                # $parts[1] = '/'\n"
+"                                # $parts[2] = 'usr'\n"
+"                                # $parts[3] = '/'\n"
+"                                # $parts[4] = 'bin'\n"
+"\n"
+msgstr ""
+"    $x = \"/usr/bin\";\n"
+"    @parts = split m!(/)!, $x;  # $parts[0] = ''\n"
+"                                # $parts[1] = '/'\n"
+"                                # $parts[2] = 'usr'\n"
+"                                # $parts[3] = '/'\n"
+"                                # $parts[4] = 'bin'\n"
+"\n"
+
+#. type: textblock
+#: perlrequick.pod:490
+msgid "Since the first character of $x matched the regex, C<split> prepended an empty initial element to the list."
+msgstr ""
+
+#. type: =head1
+#: perlrequick.pod:493
+msgid "BUGS"
+msgstr "BUGS"
+
+#. type: textblock
+#: perlrequick.pod:495
+msgid "None."
+msgstr "None."
+
+#. type: =head1
+#: perlrequick.pod:497
+msgid "SEE ALSO"
+msgstr "另见"
+
+#. type: textblock
+#: perlrequick.pod:499
+msgid "This is just a quick start guide.  For a more in-depth tutorial on regexes, see L<perlretut> and for the reference page, see L<perlre>."
+msgstr "这个文档是用来快速上手 Perl 正则表达式。想要更深入的了解正则表达式，请查阅 "
+"L<perlretut> 以及 L<perlre>。"
+
+#. type: =head1
+#: perlrequick.pod:502
+msgid "AUTHOR AND COPYRIGHT"
+msgstr "AUTHOR AND COPYRIGHT"
+
+#. type: textblock
+#: perlrequick.pod:504
+msgid "Copyright (c) 2000 Mark Kvale All rights reserved."
+msgstr "Copyright (c) 2000 Mark Kvale All rights reserved."
+
+#. type: textblock
+#: perlrequick.pod:507
+msgid "This document may be distributed under the same terms as Perl itself."
+msgstr "This document may be distributed under the same terms as Perl itself."
+
+#. type: =head2
+#: perlrequick.pod:509
+msgid "Acknowledgments"
+msgstr "Acknowledgments"
+
+#. type: textblock
+#: perlrequick.pod:511
+msgid "The author would like to thank Mark-Jason Dominus, Tom Christiansen, Ilya Zakharevich, Brad Hughes, and Mike Giroux for all their helpful comments."
+msgstr "The author would like to thank Mark-Jason Dominus, Tom Christiansen, Ilya Zakharevich, Brad Hughes, and Mike Giroux for all their helpful comments."
+

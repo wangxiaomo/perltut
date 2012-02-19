@@ -1,0 +1,794 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-01-21 13:36+0800\n"
+"PO-Revision-Date: 2012-01-21 13:36+0800\n"
+"Last-Translator: xiaomo <wxm4ever@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. type: =head1
+#: perllol.pod:1
+msgid "NAME"
+msgstr "NAME"
+
+#. type: textblock
+#: perllol.pod:3
+msgid "perllol - Manipulating Arrays of Arrays in Perl"
+msgstr "perllol - 操作多维数组"
+
+#. type: =head1
+#: perllol.pod:5
+msgid "DESCRIPTION"
+msgstr "DESCRIPTION"
+
+#. type: =head2
+#: perllol.pod:7
+msgid "Declaration and Access of Arrays of Arrays"
+msgstr "声明和使用多维数组"
+
+#. type: textblock
+#: perllol.pod:9
+msgid "The simplest thing to build is an array of arrays (sometimes imprecisely called a list of lists).  It's reasonably easy to understand, and almost everything that applies here will also be applicable later on with the fancier data structures."
+msgstr "创建一个多维数组是非常简单的。后面许多例子都是基于多维数组这个结构的。"
+
+#. type: textblock
+#: perllol.pod:14
+msgid "An array of an array is just a regular old array @AoA that you can get at with two subscripts, like C<$AoA[3][2]>.  Here's a declaration of the array:"
+msgstr "一个简单的多维数组可以是 C<$AoA[3][2]> 这样子。下面是它的声明："
+
+#. type: verbatim
+#: perllol.pod:18
+#, no-wrap
+msgid ""
+"    # assign to our array, an array of array references\n"
+"    @AoA = (\n"
+"\t   [ \"fred\", \"barney\" ],\n"
+"\t   [ \"george\", \"jane\", \"elroy\" ],\n"
+"\t   [ \"homer\", \"marge\", \"bart\" ],\n"
+"    );\n"
+"\n"
+msgstr ""
+"    # assign to our array, an array of array references\n"
+"    @AoA = (\n"
+"\t   [ \"fred\", \"barney\" ],\n"
+"\t   [ \"george\", \"jane\", \"elroy\" ],\n"
+"\t   [ \"homer\", \"marge\", \"bart\" ],\n"
+"    );\n"
+"\n"
+
+#. type: verbatim
+#: perllol.pod:25
+#, no-wrap
+msgid ""
+"    print $AoA[2][2];\n"
+"  bart\n"
+"\n"
+msgstr ""
+"    print $AoA[2][2];\n"
+"  bart\n"
+"\n"
+
+#. type: textblock
+#: perllol.pod:28
+msgid "Now you should be very careful that the outer bracket type is a round one, that is, a parenthesis.  That's because you're assigning to an @array, so you need parentheses.  If you wanted there I<not> to be an @AoA, but rather just a reference to it, you could do something more like this:"
+msgstr "需要注意的是代码最外层的括号。因为你正在对一个数组进行赋值，所以需要括号。如果你"
+"需要的I<不是>数组，而是指向它的引用的话，你可以按下面的方式去做："
+
+#. type: verbatim
+#: perllol.pod:33
+#, no-wrap
+msgid ""
+"    # assign a reference to array of array references\n"
+"    $ref_to_AoA = [\n"
+"\t[ \"fred\", \"barney\", \"pebbles\", \"bambam\", \"dino\", ],\n"
+"\t[ \"homer\", \"bart\", \"marge\", \"maggie\", ],\n"
+"\t[ \"george\", \"jane\", \"elroy\", \"judy\", ],\n"
+"    ];\n"
+"\n"
+msgstr ""
+"    # assign a reference to array of array references\n"
+"    $ref_to_AoA = [\n"
+"\t[ \"fred\", \"barney\", \"pebbles\", \"bambam\", \"dino\", ],\n"
+"\t[ \"homer\", \"bart\", \"marge\", \"maggie\", ],\n"
+"\t[ \"george\", \"jane\", \"elroy\", \"judy\", ],\n"
+"    ];\n"
+"\n"
+
+#. type: verbatim
+#: perllol.pod:40
+#, no-wrap
+msgid ""
+"    print $ref_to_AoA->[2][2];\n"
+"\n"
+msgstr ""
+"    print $ref_to_AoA->[2][2];\n"
+"\n"
+
+#. type: textblock
+#: perllol.pod:42
+msgid "Notice that the outer bracket type has changed, and so our access syntax has also changed.  That's because unlike C, in perl you can't freely interchange arrays and references thereto.  $ref_to_AoA is a reference to an array, whereas @AoA is an array proper.  Likewise, C<$AoA[2]> is not an array, but an array ref.  So how come you can write these:"
+msgstr "代码最外层的符号现在不是括号了。所以现在可以按下面这种方式访问："
+
+#. type: verbatim
+#: perllol.pod:48
+#, no-wrap
+msgid ""
+"    $AoA[2][2]\n"
+"    $ref_to_AoA->[2][2]\n"
+"\n"
+msgstr ""
+"    $AoA[2][2]\n"
+"    $ref_to_AoA->[2][2]\n"
+"\n"
+
+#. type: textblock
+#: perllol.pod:51
+msgid "instead of having to write these:"
+msgstr "上面的方式是下面的缩写："
+
+#. type: verbatim
+#: perllol.pod:53
+#, no-wrap
+msgid ""
+"    $AoA[2]->[2]\n"
+"    $ref_to_AoA->[2]->[2]\n"
+"\n"
+msgstr ""
+"    $AoA[2]->[2]\n"
+"    $ref_to_AoA->[2]->[2]\n"
+"\n"
+
+#. type: textblock
+#: perllol.pod:56
+msgid "Well, that's because the rule is that on adjacent brackets only (whether square or curly), you are free to omit the pointer dereferencing arrow.  But you cannot do so for the very first one if it's a scalar containing a reference, which means that $ref_to_AoA always needs it."
+msgstr "你不能省略 $ref_to_AoA 之后的第一个箭头，因为 $ref_to_AoA 是一个引用。"
+
+#. type: =head2
+#: perllol.pod:61
+msgid "Growing Your Own"
+msgstr "自定义"
+
+#. type: textblock
+#: perllol.pod:63
+msgid "That's all well and good for declaration of a fixed data structure, but what if you wanted to add new elements on the fly, or build it up entirely from scratch?"
+msgstr "上面的章节很好的构建了一个较复杂的数据结构，但是如果我们想要在其中添加一项或者"
+"重新创建一个结构该怎么做呢？"
+
+#. type: textblock
+#: perllol.pod:67
+msgid "First, let's look at reading it in from a file.  This is something like adding a row at a time.  We'll assume that there's a flat file in which each line is a row and each word an element.  If you're trying to develop an @AoA array containing all these, here's the right way to do that:"
+msgstr "假设我们从文件一行一行的读取信息，假设文件的每行是一条信息，每行的每个单词是单独的"
+"一项信息。现在构建 @AoA 包含文件内的信息："
+
+#. type: verbatim
+#: perllol.pod:72
+#, no-wrap
+msgid ""
+"    while (<>) {\n"
+"\t@tmp = split;\n"
+"\tpush @AoA, [ @tmp ];\n"
+"    }\n"
+"\n"
+msgstr ""
+"    while (<>) {\n"
+"\t@tmp = split;\n"
+"\tpush @AoA, [ @tmp ];\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perllol.pod:77
+msgid "You might also have loaded that from a function:"
+msgstr "你或许会通过一个函数处理数据后返回："
+
+#. type: verbatim
+#: perllol.pod:79
+#, no-wrap
+msgid ""
+"    for $i ( 1 .. 10 ) {\n"
+"\t$AoA[$i] = [ somefunc($i) ];\n"
+"    }\n"
+"\n"
+msgstr ""
+"    for $i ( 1 .. 10 ) {\n"
+"\t$AoA[$i] = [ somefunc($i) ];\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perllol.pod:83
+msgid "Or you might have had a temporary variable sitting around with the array in it."
+msgstr "或者你想把函数的返回结果先存储到一个临时变量中："
+
+#. type: verbatim
+#: perllol.pod:86
+#, no-wrap
+msgid ""
+"    for $i ( 1 .. 10 ) {\n"
+"\t@tmp = somefunc($i);\n"
+"\t$AoA[$i] = [ @tmp ];\n"
+"    }\n"
+"\n"
+msgstr ""
+"    for $i ( 1 .. 10 ) {\n"
+"\t@tmp = somefunc($i);\n"
+"\t$AoA[$i] = [ @tmp ];\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perllol.pod:91
+msgid "It's very important that you make sure to use the C<[]> array reference constructor.  That's because this will be very wrong:"
+msgstr "需要注意的是要通过 C<[]> 来得到数据的引用，不这样做而通过简单的赋值是错误的："
+
+#. type: verbatim
+#: perllol.pod:94
+#, no-wrap
+msgid ""
+"    $AoA[$i] = @tmp;\n"
+"\n"
+msgstr ""
+"    $AoA[$i] = @tmp;\n"
+"\n"
+
+#. type: textblock
+#: perllol.pod:96
+msgid "You see, assigning a named array like that to a scalar just counts the number of elements in @tmp, which probably isn't what you want."
+msgstr "这样会因为上下文而将数组 @tmp 的长度存储到变量中。"
+
+#. type: textblock
+#: perllol.pod:99
+msgid "If you are running under C<use strict>, you'll have to add some declarations to make it happy:"
+msgstr "如果你运行在 C<use strict> 下，你需要添加一些额外的代码使它正确运行："
+
+#. type: verbatim
+#: perllol.pod:102
+#, no-wrap
+msgid ""
+"    use strict;\n"
+"    my(@AoA, @tmp);\n"
+"    while (<>) {\n"
+"\t@tmp = split;\n"
+"\tpush @AoA, [ @tmp ];\n"
+"    }\n"
+"\n"
+msgstr ""
+"    use strict;\n"
+"    my(@AoA, @tmp);\n"
+"    while (<>) {\n"
+"\t@tmp = split;\n"
+"\tpush @AoA, [ @tmp ];\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perllol.pod:109
+msgid "Of course, you don't need the temporary array to have a name at all:"
+msgstr "当然，你也可以不用临时变量："
+
+#. type: verbatim
+#: perllol.pod:111
+#, no-wrap
+msgid ""
+"    while (<>) {\n"
+"\tpush @AoA, [ split ];\n"
+"    }\n"
+"\n"
+msgstr ""
+"    while (<>) {\n"
+"\tpush @AoA, [ split ];\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perllol.pod:115
+msgid "You also don't have to use push().  You could just make a direct assignment if you knew where you wanted to put it:"
+msgstr "你也可以不用 push() 方法，而是通过直接进行赋值完成："
+
+#. type: verbatim
+#: perllol.pod:118
+#, no-wrap
+msgid ""
+"    my (@AoA, $i, $line);\n"
+"    for $i ( 0 .. 10 ) {\n"
+"\t$line = <>;\n"
+"\t$AoA[$i] = [ split ' ', $line ];\n"
+"    }\n"
+"\n"
+msgstr ""
+"    my (@AoA, $i, $line);\n"
+"    for $i ( 0 .. 10 ) {\n"
+"\t$line = <>;\n"
+"\t$AoA[$i] = [ split ' ', $line ];\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perllol.pod:124
+msgid "or even just"
+msgstr "或者："
+
+#. type: verbatim
+#: perllol.pod:126
+#, no-wrap
+msgid ""
+"    my (@AoA, $i);\n"
+"    for $i ( 0 .. 10 ) {\n"
+"\t$AoA[$i] = [ split ' ', <> ];\n"
+"    }\n"
+"\n"
+msgstr ""
+"    my (@AoA, $i);\n"
+"    for $i ( 0 .. 10 ) {\n"
+"\t$AoA[$i] = [ split ' ', <> ];\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perllol.pod:131
+msgid "You should in general be leery of using functions that could potentially return lists in scalar context without explicitly stating such.  This would be clearer to the casual reader:"
+msgstr "你也可以将这些处理过程封装到一个函数中。这样的话整个过程会变得更加清晰："
+
+#. type: verbatim
+#: perllol.pod:135
+#, no-wrap
+msgid ""
+"    my (@AoA, $i);\n"
+"    for $i ( 0 .. 10 ) {\n"
+"\t$AoA[$i] = [ split ' ', scalar(<>) ];\n"
+"    }\n"
+"\n"
+msgstr ""
+"    my (@AoA, $i);\n"
+"    for $i ( 0 .. 10 ) {\n"
+"\t$AoA[$i] = [ split ' ', scalar(<>) ];\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perllol.pod:140
+msgid "If you wanted to have a $ref_to_AoA variable as a reference to an array, you'd have to do something like this:"
+msgstr "如果你是通过引用 $ref_to_AoA 来操作数组的话，那么你将不得不这么做："
+
+#. type: verbatim
+#: perllol.pod:143
+#, no-wrap
+msgid ""
+"    while (<>) {\n"
+"\tpush @$ref_to_AoA, [ split ];\n"
+"    }\n"
+"\n"
+msgstr ""
+"    while (<>) {\n"
+"\tpush @$ref_to_AoA, [ split ];\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perllol.pod:147
+msgid "Now you can add new rows.  What about adding new columns? If you're dealing with just matrices, it's often easiest to use simple assignment:"
+msgstr "现在你已完成了像数组中添加行。那么该如何继续添加列呢？当你在操作矩阵时，下面这么做"
+"是很正常的："
+
+#. type: verbatim
+#: perllol.pod:150
+#, no-wrap
+msgid ""
+"    for $x (1 .. 10) {\n"
+"\tfor $y (1 .. 10) {\n"
+"\t    $AoA[$x][$y] = func($x, $y);\n"
+"\t}\n"
+"    }\n"
+"\n"
+msgstr ""
+"    for $x (1 .. 10) {\n"
+"\tfor $y (1 .. 10) {\n"
+"\t    $AoA[$x][$y] = func($x, $y);\n"
+"\t}\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perllol.pod:156
+#, no-wrap
+msgid ""
+"    for $x ( 3, 7, 9 ) {\n"
+"\t$AoA[$x][20] += func2($x);\n"
+"    }\n"
+"\n"
+msgstr ""
+"    for $x ( 3, 7, 9 ) {\n"
+"\t$AoA[$x][20] += func2($x);\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perllol.pod:160
+msgid "It doesn't matter whether those elements are already there or not: it'll gladly create them for you, setting intervening elements to C<undef> as need be."
+msgstr "不管那些元素之前是否存在，Perl 会为你自动处理好一切。"
+
+#. type: textblock
+#: perllol.pod:164
+msgid "If you wanted just to append to a row, you'd have to do something a bit funnier looking:"
+msgstr "如果向一个 undef 元素中添加一行数据，你可以这么做："
+
+#. type: verbatim
+#: perllol.pod:167
+#, no-wrap
+msgid ""
+"    # add new columns to an existing row\n"
+"    push @{ $AoA[0] }, \"wilma\", \"betty\";\n"
+"\n"
+msgstr ""
+"    # add new columns to an existing row\n"
+"    push @{ $AoA[0] }, \"wilma\", \"betty\";\n"
+"\n"
+
+#. type: textblock
+#: perllol.pod:170
+msgid "Notice that I I<couldn't> say just:"
+msgstr "注意I<不可以>这么做："
+
+#. type: verbatim
+#: perllol.pod:172
+#, no-wrap
+msgid ""
+"    push $AoA[0], \"wilma\", \"betty\";  # WRONG!\n"
+"\n"
+msgstr ""
+"    push $AoA[0], \"wilma\", \"betty\";  # WRONG!\n"
+"\n"
+
+#. type: textblock
+#: perllol.pod:174
+msgid "In fact, that wouldn't even compile.  How come? Because the argument to push() must be a real array, not just a reference to such."
+msgstr "按上面的方式进行操作的话，编译都无法通过。为什么呢？因为 push() 操作要求第一个参数"
+"必须是一个数组。"
+
+#. type: =head2
+#: perllol.pod:177
+msgid "Access and Printing"
+msgstr "使用和输出"
+
+#. type: textblock
+#: perllol.pod:179
+msgid "Now it's time to print your data structure out.  How are you going to do that? Well, if you want only one of the elements, it's trivial:"
+msgstr "现在是时候把你的数据输出了。那么该如何做呢？如果你只是需要其中的一项，那么非常简"
+"单："
+
+#. type: verbatim
+#: perllol.pod:183
+#, no-wrap
+msgid ""
+"    print $AoA[0][0];\n"
+"\n"
+msgstr ""
+"    print $AoA[0][0];\n"
+"\n"
+
+#. type: textblock
+#: perllol.pod:185
+msgid "If you want to print the whole thing, though, you can't say"
+msgstr "如果想要全部将它们输出，你却不能这么做："
+
+#. type: verbatim
+#: perllol.pod:188
+#, no-wrap
+msgid ""
+"    print @AoA;\t\t# WRONG\n"
+"\n"
+msgstr ""
+"    print @AoA;\t\t# WRONG\n"
+"\n"
+
+#. type: textblock
+#: perllol.pod:190
+msgid "because you'll get just references listed, and perl will never automatically dereference things for you.  Instead, you have to roll yourself a loop or two.  This prints the whole structure, using the shell-style for() construct to loop across the outer set of subscripts."
+msgstr "这样做你只能得到相应的引用列表，Perl 不会自动到引用所指向的地方为你取得相应的数"
+"据。这个过程你应该自己循环实现。"
+
+#. type: verbatim
+#: perllol.pod:196
+#, no-wrap
+msgid ""
+"    for $aref ( @AoA ) {\n"
+"\tprint \"\\t [ @$aref ],\\n"
+"\";\n"
+"    }\n"
+"\n"
+msgstr ""
+"    for $aref ( @AoA ) {\n"
+"\tprint \"\\t [ @$aref ],\\n"
+"\";\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perllol.pod:200
+msgid "If you wanted to keep track of subscripts, you might do this:"
+msgstr "如果你想要通过索引下标的方式处理，你可以这么做："
+
+#. type: verbatim
+#: perllol.pod:202
+#, no-wrap
+msgid ""
+"    for $i ( 0 .. $#AoA ) {\n"
+"\tprint \"\\t elt $i is [ @{$AoA[$i]} ],\\n"
+"\";\n"
+"    }\n"
+"\n"
+msgstr ""
+"    for $i ( 0 .. $#AoA ) {\n"
+"\tprint \"\\t elt $i is [ @{$AoA[$i]} ],\\n"
+"\";\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perllol.pod:206
+msgid "or maybe even this.  Notice the inner loop."
+msgstr "或者可以这么做（注意内层循环）："
+
+#. type: verbatim
+#: perllol.pod:208
+#, no-wrap
+msgid ""
+"    for $i ( 0 .. $#AoA ) {\n"
+"\tfor $j ( 0 .. $#{$AoA[$i]} ) {\n"
+"\t    print \"elt $i $j is $AoA[$i][$j]\\n"
+"\";\n"
+"\t}\n"
+"    }\n"
+"\n"
+msgstr ""
+"    for $i ( 0 .. $#AoA ) {\n"
+"\tfor $j ( 0 .. $#{$AoA[$i]} ) {\n"
+"\t    print \"elt $i $j is $AoA[$i][$j]\\n"
+"\";\n"
+"\t}\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perllol.pod:214
+msgid "As you can see, it's getting a bit complicated.  That's why sometimes is easier to take a temporary on your way through:"
+msgstr "正如你所看到的，这个过程变得越来越复杂，这就是为什么有时候使用临时变量会变得更加简"
+"单的原因。"
+
+#. type: verbatim
+#: perllol.pod:217
+#, no-wrap
+msgid ""
+"    for $i ( 0 .. $#AoA ) {\n"
+"\t$aref = $AoA[$i];\n"
+"\tfor $j ( 0 .. $#{$aref} ) {\n"
+"\t    print \"elt $i $j is $AoA[$i][$j]\\n"
+"\";\n"
+"\t}\n"
+"    }\n"
+"\n"
+msgstr ""
+"    for $i ( 0 .. $#AoA ) {\n"
+"\t$aref = $AoA[$i];\n"
+"\tfor $j ( 0 .. $#{$aref} ) {\n"
+"\t    print \"elt $i $j is $AoA[$i][$j]\\n"
+"\";\n"
+"\t}\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perllol.pod:224
+msgid "Hmm... that's still a bit ugly.  How about this:"
+msgstr "嗯，还是有些恶心。那么这样呢？"
+
+#. type: verbatim
+#: perllol.pod:226
+#, no-wrap
+msgid ""
+"    for $i ( 0 .. $#AoA ) {\n"
+"\t$aref = $AoA[$i];\n"
+"\t$n = @$aref - 1;\n"
+"\tfor $j ( 0 .. $n ) {\n"
+"\t    print \"elt $i $j is $AoA[$i][$j]\\n"
+"\";\n"
+"\t}\n"
+"    }\n"
+"\n"
+msgstr ""
+"    for $i ( 0 .. $#AoA ) {\n"
+"\t$aref = $AoA[$i];\n"
+"\t$n = @$aref - 1;\n"
+"\tfor $j ( 0 .. $n ) {\n"
+"\t    print \"elt $i $j is $AoA[$i][$j]\\n"
+"\";\n"
+"\t}\n"
+"    }\n"
+"\n"
+
+#. type: =head2
+#: perllol.pod:234
+msgid "Slices"
+msgstr "切片"
+
+#. type: textblock
+#: perllol.pod:236
+msgid "If you want to get at a slice (part of a row) in a multidimensional array, you're going to have to do some fancy subscripting.  That's because while we have a nice synonym for single elements via the pointer arrow for dereferencing, no such convenience exists for slices.  (Remember, of course, that you can always write a loop to do a slice operation.)"
+msgstr "获得一个多维数组的切片，也是非常简单的。"
+
+#. type: textblock
+#: perllol.pod:243
+msgid "Here's how to do one operation using a loop.  We'll assume an @AoA variable as before."
+msgstr "我们将继续使用上面构造好的 @AoA，下面是一个简单的例子。"
+
+#. type: verbatim
+#: perllol.pod:246
+#, no-wrap
+msgid ""
+"    @part = ();\n"
+"    $x = 4;\n"
+"    for ($y = 7; $y < 13; $y++) {\n"
+"\tpush @part, $AoA[$x][$y];\n"
+"    }\n"
+"\n"
+msgstr ""
+"    @part = ();\n"
+"    $x = 4;\n"
+"    for ($y = 7; $y < 13; $y++) {\n"
+"\tpush @part, $AoA[$x][$y];\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perllol.pod:252
+msgid "That same loop could be replaced with a slice operation:"
+msgstr "我们可以通过一个切片操作来代替循环："
+
+#. type: verbatim
+#: perllol.pod:254
+#, no-wrap
+msgid ""
+"    @part = @{ $AoA[4] } [ 7..12 ];\n"
+"\n"
+msgstr ""
+"    @part = @{ $AoA[4] } [ 7..12 ];\n"
+"\n"
+
+#. type: textblock
+#: perllol.pod:256
+msgid "but as you might well imagine, this is pretty rough on the reader."
+msgstr "但正如你所看到的，这行代码读起来并不是那么容易。"
+
+#. type: textblock
+#: perllol.pod:258
+msgid "Ah, but what if you wanted a I<two-dimensional slice>, such as having $x run from 4..8 and $y run from 7 to 12? Hmm... here's the simple way:"
+msgstr "那么，如何可以得到一个 $x 从4到8 $y 从7到12的I<二维切片>："
+
+#. type: verbatim
+#: perllol.pod:261
+#, no-wrap
+msgid ""
+"    @newAoA = ();\n"
+"    for ($startx = $x = 4; $x <= 8; $x++) {\n"
+"\tfor ($starty = $y = 7; $y <= 12; $y++) {\n"
+"\t    $newAoA[$x - $startx][$y - $starty] = $AoA[$x][$y];\n"
+"\t}\n"
+"    }\n"
+"\n"
+msgstr ""
+"    @newAoA = ();\n"
+"    for ($startx = $x = 4; $x <= 8; $x++) {\n"
+"\tfor ($starty = $y = 7; $y <= 12; $y++) {\n"
+"\t    $newAoA[$x - $startx][$y - $starty] = $AoA[$x][$y];\n"
+"\t}\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perllol.pod:268
+msgid "We can reduce some of the looping through slices"
+msgstr "当然我们也可以通过切片操作来缩减代码："
+
+#. type: verbatim
+#: perllol.pod:270
+#, no-wrap
+msgid ""
+"    for ($x = 4; $x <= 8; $x++) {\n"
+"\tpush @newAoA, [ @{ $AoA[$x] } [ 7..12 ] ];\n"
+"    }\n"
+"\n"
+msgstr ""
+"    for ($x = 4; $x <= 8; $x++) {\n"
+"\tpush @newAoA, [ @{ $AoA[$x] } [ 7..12 ] ];\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perllol.pod:274
+msgid "If you were into Schwartzian Transforms, you would probably have selected map for that"
+msgstr "如果你偏向于 Schwartzian Transforms 的话，你也可以通过 map 操作来实现："
+
+#. type: verbatim
+#: perllol.pod:277
+#, no-wrap
+msgid ""
+"    @newAoA = map { [ @{ $AoA[$_] } [ 7..12 ] ] } 4 .. 8;\n"
+"\n"
+msgstr ""
+"    @newAoA = map { [ @{ $AoA[$_] } [ 7..12 ] ] } 4 .. 8;\n"
+"\n"
+
+#. type: textblock
+#: perllol.pod:279
+msgid "Although if your manager accused you of seeking job security (or rapid insecurity) through inscrutable code, it would be hard to argue. :-)  If I were you, I'd put that in a function:"
+msgstr "如果你的老板因为你写的\"高深莫测\"的代码而拿工作威胁你，这确实很麻烦。不过我要是你"
+"的话，我会把它封装到一个函数名清晰的函数中："
+
+#. type: verbatim
+#: perllol.pod:283
+#, no-wrap
+msgid ""
+"    @newAoA = splice_2D( \\@AoA, 4 => 8, 7 => 12 );\n"
+"    sub splice_2D {\n"
+"\tmy $lrr = shift; \t# ref to array of array refs!\n"
+"\tmy ($x_lo, $x_hi,\n"
+"\t    $y_lo, $y_hi) = @_;\n"
+"\n"
+msgstr ""
+"    @newAoA = splice_2D( \\@AoA, 4 => 8, 7 => 12 );\n"
+"    sub splice_2D {\n"
+"\tmy $lrr = shift; \t# ref to array of array refs!\n"
+"\tmy ($x_lo, $x_hi,\n"
+"\t    $y_lo, $y_hi) = @_;\n"
+"\n"
+
+#. type: verbatim
+#: perllol.pod:289
+#, no-wrap
+msgid ""
+"\treturn map {\n"
+"\t    [ @{ $lrr->[$_] } [ $y_lo .. $y_hi ] ]\n"
+"\t} $x_lo .. $x_hi;\n"
+"    }\n"
+"\n"
+msgstr ""
+"\treturn map {\n"
+"\t    [ @{ $lrr->[$_] } [ $y_lo .. $y_hi ] ]\n"
+"\t} $x_lo .. $x_hi;\n"
+"    }\n"
+"\n"
+
+#. type: =head1
+#: perllol.pod:295
+msgid "SEE ALSO"
+msgstr "另见"
+
+#. type: textblock
+#: perllol.pod:297
+msgid "L<perldata>, L<perlref>, L<perldsc>"
+msgstr "L<perldata>，L<perlref>，L<perldsc>"
+
+#. type: =head1
+#: perllol.pod:299
+msgid "AUTHOR"
+msgstr "AUTHOR"
+
+#. type: textblock
+#: perllol.pod:301
+msgid "Tom Christiansen <F<tchrist@perl.com>>"
+msgstr "Tom Christiansen <F<tchrist@perl.com>>"
+
+#. type: textblock
+#: perllol.pod:303
+msgid "Last update: Thu Jun 4 16:16:23 MDT 1998"
+msgstr "Last update: Thu Jun 4 16:16:23 MDT 1998"
+

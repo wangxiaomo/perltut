@@ -1,0 +1,4062 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-01-21 19:16+0800\n"
+"PO-Revision-Date: 2012-01-21 19:17+0800\n"
+"Last-Translator: xiaomo <wxm4ever@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. type: =head1
+#: perlretut.pod:1
+msgid "NAME"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:3
+msgid "perlretut - Perl regular expressions tutorial"
+msgstr ""
+
+#. type: =head1
+#: perlretut.pod:5
+msgid "DESCRIPTION"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:7
+msgid "This page provides a basic tutorial on understanding, creating and using regular expressions in Perl.  It serves as a complement to the reference page on regular expressions L<perlre>.  Regular expressions are an integral part of the C<m//>, C<s///>, C<qr//> and C<split> operators and so this tutorial also overlaps with L<perlop/\"Regexp Quote-Like Operators\"> and L<perlfunc/split>."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:14
+msgid "Perl is widely renowned for excellence in text processing, and regular expressions are one of the big factors behind this fame.  Perl regular expressions display an efficiency and flexibility unknown in most other computer languages.  Mastering even the basics of regular expressions will allow you to manipulate text with surprising ease."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:20
+msgid "What is a regular expression? A regular expression is simply a string that describes a pattern.  Patterns are in common use these days; examples are the patterns typed into a search engine to find web pages and the patterns used to list files in a directory, e.g., C<ls *.txt> or C<dir *.*>.  In Perl, the patterns described by regular expressions are used to search strings, extract desired parts of strings, and to do search and replace operations."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:28
+msgid "Regular expressions have the undeserved reputation of being abstract and difficult to understand.  Regular expressions are constructed using simple concepts like conditionals and loops and are no more difficult to understand than the corresponding C<if> conditionals and C<while> loops in the Perl language itself.  In fact, the main challenge in learning regular expressions is just getting used to the terse notation used to express these concepts."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:36
+msgid "This tutorial flattens the learning curve by discussing regular expression concepts, along with their notation, one at a time and with many examples.  The first part of the tutorial will progress from the simplest word searches to the basic regular expression concepts.  If you master the first part, you will have all the tools needed to solve about 98% of your needs.  The second part of the tutorial is for those comfortable with the basics and hungry for more power tools.  It discusses the more advanced regular expression operators and introduces the latest cutting edge innovations in 5.6.0."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:46
+msgid "A note: to save time, 'regular expression' is often abbreviated as regexp or regex.  Regexp is a more natural abbreviation than regex, but is harder to pronounce.  The Perl pod documentation is evenly split on regexp vs regex; in Perl, there is more than one way to abbreviate it.  We'll use regexp in this tutorial."
+msgstr ""
+
+#. type: =head1
+#: perlretut.pod:52
+msgid "Part 1: The basics"
+msgstr ""
+
+#. type: =head2
+#: perlretut.pod:54
+msgid "Simple word matching"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:56
+msgid "The simplest regexp is simply a word, or more generally, a string of characters.  A regexp consisting of a word matches any string that contains that word:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:60
+#, no-wrap
+msgid ""
+"    \"Hello World\" =~ /World/;  # matches\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:62
+msgid "What is this Perl statement all about? C<\"Hello World\"> is a simple double quoted string.  C<World> is the regular expression and the C<//> enclosing C</World/> tells Perl to search a string for a match.  The operator C<=~> associates the string with the regexp match and produces a true value if the regexp matched, or false if the regexp did not match.  In our case, C<World> matches the second word in C<\"Hello World\">, so the expression is true.  Expressions like this are useful in conditionals:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:71
+#, no-wrap
+msgid ""
+"    if (\"Hello World\" =~ /World/) {\n"
+"        print \"It matches\\n"
+"\";\n"
+"    }\n"
+"    else {\n"
+"        print \"It doesn't match\\n"
+"\";\n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:78
+msgid "There are useful variations on this theme.  The sense of the match can be reversed by using the C<!~> operator:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:81
+#, no-wrap
+msgid ""
+"    if (\"Hello World\" !~ /World/) {\n"
+"        print \"It doesn't match\\n"
+"\";\n"
+"    }\n"
+"    else {\n"
+"        print \"It matches\\n"
+"\";\n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:88
+msgid "The literal string in the regexp can be replaced by a variable:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:90
+#, no-wrap
+msgid ""
+"    $greeting = \"World\";\n"
+"    if (\"Hello World\" =~ /$greeting/) {\n"
+"        print \"It matches\\n"
+"\";\n"
+"    }\n"
+"    else {\n"
+"        print \"It doesn't match\\n"
+"\";\n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:98
+msgid "If you're matching against the special default variable C<$_>, the C<$_ =~> part can be omitted:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:101
+#, no-wrap
+msgid ""
+"    $_ = \"Hello World\";\n"
+"    if (/World/) {\n"
+"        print \"It matches\\n"
+"\";\n"
+"    }\n"
+"    else {\n"
+"        print \"It doesn't match\\n"
+"\";\n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:109
+msgid "And finally, the C<//> default delimiters for a match can be changed to arbitrary delimiters by putting an C<'m'> out front:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:112
+#, no-wrap
+msgid ""
+"    \"Hello World\" =~ m!World!;   # matches, delimited by '!'\n"
+"    \"Hello World\" =~ m{World};   # matches, note the matching '{}'\n"
+"    \"/usr/bin/perl\" =~ m\"/perl\"; # matches after '/usr/bin',\n"
+"                                 # '/' becomes an ordinary char\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:117
+msgid "C</World/>, C<m!World!>, and C<m{World}> all represent the same thing.  When, e.g., the quote (C<\">) is used as a delimiter, the forward slash C<'/'> becomes an ordinary character and can be used in this regexp without trouble."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:122
+msgid "Let's consider how different regexps would match C<\"Hello World\">:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:124
+#, no-wrap
+msgid ""
+"    \"Hello World\" =~ /world/;  # doesn't match\n"
+"    \"Hello World\" =~ /o W/;    # matches\n"
+"    \"Hello World\" =~ /oW/;     # doesn't match\n"
+"    \"Hello World\" =~ /World /; # doesn't match\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:129
+msgid "The first regexp C<world> doesn't match because regexps are case-sensitive.  The second regexp matches because the substring S<C<'o W'>> occurs in the string S<C<\"Hello World\">>.  The space character ' ' is treated like any other character in a regexp and is needed to match in this case.  The lack of a space character is the reason the third regexp C<'oW'> doesn't match.  The fourth regexp C<'World '> doesn't match because there is a space at the end of the regexp, but not at the end of the string.  The lesson here is that regexps must match a part of the string I<exactly> in order for the statement to be true."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:140
+msgid "If a regexp matches in more than one place in the string, Perl will always match at the earliest possible point in the string:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:143
+#, no-wrap
+msgid ""
+"    \"Hello World\" =~ /o/;       # matches 'o' in 'Hello'\n"
+"    \"That hat is red\" =~ /hat/; # matches 'hat' in 'That'\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:146
+msgid "With respect to character matching, there are a few more points you need to know about.  First of all, not all characters can be used 'as is' in a match.  Some characters, called I<metacharacters>, are reserved for use in regexp notation.  The metacharacters are"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:151
+#, no-wrap
+msgid ""
+"    {}[]()^$.|*+?\\\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:153
+msgid "The significance of each of these will be explained in the rest of the tutorial, but for now, it is important only to know that a metacharacter can be matched by putting a backslash before it:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:157
+#, no-wrap
+msgid ""
+"    \"2+2=4\" =~ /2+2/;    # doesn't match, + is a metacharacter\n"
+"    \"2+2=4\" =~ /2\\+2/;   # matches, \\+ is treated like an ordinary +\n"
+"    \"The interval is [0,1).\" =~ /[0,1)./     # is a syntax error!\n"
+"    \"The interval is [0,1).\" =~ /\\[0,1\\)\\./  # matches\n"
+"    \"#!/usr/bin/perl\" =~ /#!\\/usr\\/bin\\/perl/;  # matches\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:163
+msgid "In the last regexp, the forward slash C<'/'> is also backslashed, because it is used to delimit the regexp.  This can lead to LTS (leaning toothpick syndrome), however, and it is often more readable to change delimiters."
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:168
+#, no-wrap
+msgid ""
+"    \"#!/usr/bin/perl\" =~ m!#\\!/usr/bin/perl!;  # easier to read\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:170
+msgid "The backslash character C<'\\'> is a metacharacter itself and needs to be backslashed:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:173
+#, no-wrap
+msgid ""
+"    'C:\\WIN32' =~ /C:\\\\WIN/;   # matches\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:175
+msgid ""
+"In addition to the metacharacters, there are some ASCII characters which don't have printable character equivalents and are instead represented by I<escape sequences>.  Common examples are C<\\t> for a tab, C<\\n"
+"> for a newline, C<\\r> for a carriage return and C<\\a> for a bell.  If your string is better thought of as a sequence of arbitrary bytes, the octal escape sequence, e.g., C<\\033>, or hexadecimal escape sequence, e.g., C<\\x1B> may be a more natural representation for your bytes.  Here are some examples of escapes:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:184
+#, no-wrap
+msgid ""
+"    \"1000\\t2000\" =~ m(0\\t2)   # matches\n"
+"    \"1000\\n"
+"2000\" =~ /0\\n"
+"20/   # matches\n"
+"    \"1000\\t2000\" =~ /\\000\\t2/ # doesn't match, \"0\" ne \"\\000\"\n"
+"    \"cat\"   =~ /\\143\\x61\\x74/ # matches in ASCII, but a weird way to spell cat\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:189
+msgid "If you've been around Perl a while, all this talk of escape sequences may seem familiar.  Similar escape sequences are used in double-quoted strings and in fact the regexps in Perl are mostly treated as double-quoted strings.  This means that variables can be used in regexps as well.  Just like double-quoted strings, the values of the variables in the regexp will be substituted in before the regexp is evaluated for matching purposes.  So we have:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:197
+#, no-wrap
+msgid ""
+"    $foo = 'house';\n"
+"    'housecat' =~ /$foo/;      # matches\n"
+"    'cathouse' =~ /cat$foo/;   # matches\n"
+"    'housecat' =~ /${foo}cat/; # matches\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:202
+msgid "So far, so good.  With the knowledge above you can already perform searches with just about any literal string regexp you can dream up.  Here is a I<very simple> emulation of the Unix grep program:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:206
+#, no-wrap
+msgid ""
+"    % cat > simple_grep\n"
+"    #!/usr/bin/perl\n"
+"    $regexp = shift;\n"
+"    while (<>) {\n"
+"        print if /$regexp/;\n"
+"    }\n"
+"    ^D\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:214
+#, no-wrap
+msgid ""
+"    % chmod +x simple_grep\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:216
+#, no-wrap
+msgid ""
+"    % simple_grep abba /usr/dict/words\n"
+"    Babbage\n"
+"    cabbage\n"
+"    cabbages\n"
+"    sabbath\n"
+"    Sabbathize\n"
+"    Sabbathizes\n"
+"    sabbatical\n"
+"    scabbard\n"
+"    scabbards\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:227
+msgid "This program is easy to understand.  C<#!/usr/bin/perl> is the standard way to invoke a perl program from the shell.  S<C<$regexp = shift;>> saves the first command line argument as the regexp to be used, leaving the rest of the command line arguments to be treated as files.  S<C<< while (<>) >>> loops over all the lines in all the files.  For each line, S<C<print if /$regexp/;>> prints the line if the regexp matches the line.  In this line, both C<print> and C</$regexp/> use the default variable C<$_> implicitly."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:236
+msgid "With all of the regexps above, if the regexp matched anywhere in the string, it was considered a match.  Sometimes, however, we'd like to specify I<where> in the string the regexp should try to match.  To do this, we would use the I<anchor> metacharacters C<^> and C<$>.  The anchor C<^> means match at the beginning of the string and the anchor C<$> means match at the end of the string, or before a newline at the end of the string.  Here is how they are used:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:244
+#, no-wrap
+msgid ""
+"    \"housekeeper\" =~ /keeper/;    # matches\n"
+"    \"housekeeper\" =~ /^keeper/;   # doesn't match\n"
+"    \"housekeeper\" =~ /keeper$/;   # matches\n"
+"    \"housekeeper\\n"
+"\" =~ /keeper$/; # matches\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:249
+msgid "The second regexp doesn't match because C<^> constrains C<keeper> to match only at the beginning of the string, but C<\"housekeeper\"> has keeper starting in the middle.  The third regexp does match, since the C<$> constrains C<keeper> to match only at the end of the string."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:254
+msgid "When both C<^> and C<$> are used at the same time, the regexp has to match both the beginning and the end of the string, i.e., the regexp matches the whole string.  Consider"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:258
+#, no-wrap
+msgid ""
+"    \"keeper\" =~ /^keep$/;      # doesn't match\n"
+"    \"keeper\" =~ /^keeper$/;    # matches\n"
+"    \"\"       =~ /^$/;          # ^$ matches an empty string\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:262
+msgid "The first regexp doesn't match because the string has more to it than C<keep>.  Since the second regexp is exactly the string, it matches.  Using both C<^> and C<$> in a regexp forces the complete string to match, so it gives you complete control over which strings match and which don't.  Suppose you are looking for a fellow named bert, off in a string by himself:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:269
+#, no-wrap
+msgid ""
+"    \"dogbert\" =~ /bert/;   # matches, but not what you want\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:271
+#, no-wrap
+msgid ""
+"    \"dilbert\" =~ /^bert/;  # doesn't match, but ..\n"
+"    \"bertram\" =~ /^bert/;  # matches, so still not good enough\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:274
+#, no-wrap
+msgid ""
+"    \"bertram\" =~ /^bert$/; # doesn't match, good\n"
+"    \"dilbert\" =~ /^bert$/; # doesn't match, good\n"
+"    \"bert\"    =~ /^bert$/; # matches, perfect\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:278
+msgid "Of course, in the case of a literal string, one could just as easily use the string comparison S<C<$string eq 'bert'>> and it would be more efficient.  The C<^...$> regexp really becomes useful when we add in the more powerful regexp tools below."
+msgstr ""
+
+#. type: =head2
+#: perlretut.pod:283
+msgid "Using character classes"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:285
+msgid "Although one can already do quite a lot with the literal string regexps above, we've only scratched the surface of regular expression technology.  In this and subsequent sections we will introduce regexp concepts (and associated metacharacter notations) that will allow a regexp to not just represent a single character sequence, but a I<whole class> of them."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:292
+msgid "One such concept is that of a I<character class>.  A character class allows a set of possible characters, rather than just a single character, to match at a particular point in a regexp.  Character classes are denoted by brackets C<[...]>, with the set of characters to be possibly matched inside.  Here are some examples:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:298
+#, no-wrap
+msgid ""
+"    /cat/;       # matches 'cat'\n"
+"    /[bcr]at/;   # matches 'bat, 'cat', or 'rat'\n"
+"    /item[0123456789]/;  # matches 'item0' or ... or 'item9'\n"
+"    \"abc\" =~ /[cab]/;    # matches 'a'\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:303
+msgid "In the last statement, even though C<'c'> is the first character in the class, C<'a'> matches because the first character position in the string is the earliest point at which the regexp can match."
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:307
+#, no-wrap
+msgid ""
+"    /[yY][eE][sS]/;      # match 'yes' in a case-insensitive way\n"
+"                         # 'yes', 'Yes', 'YES', etc.\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:310
+msgid "This regexp displays a common task: perform a case-insensitive match.  Perl provides a way of avoiding all those brackets by simply appending an C<'i'> to the end of the match.  Then C</[yY][eE][sS]/;> can be rewritten as C</yes/i;>.  The C<'i'> stands for case-insensitive and is an example of a I<modifier> of the matching operation.  We will meet other modifiers later in the tutorial."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:317
+msgid "We saw in the section above that there were ordinary characters, which represented themselves, and special characters, which needed a backslash C<\\> to represent themselves.  The same is true in a character class, but the sets of ordinary and special characters inside a character class are different than those outside a character class.  The special characters for a character class are C<-]\\^$> (and the pattern delimiter, whatever it is).  C<]> is special because it denotes the end of a character class.  C<$> is special because it denotes a scalar variable.  C<\\> is special because it is used in escape sequences, just like above.  Here is how the special characters C<]$\\> are handled:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:329
+#, no-wrap
+msgid ""
+"   /[\\]c]def/; # matches ']def' or 'cdef'\n"
+"   $x = 'bcr';\n"
+"   /[$x]at/;   # matches 'bat', 'cat', or 'rat'\n"
+"   /[\\$x]at/;  # matches '$at' or 'xat'\n"
+"   /[\\\\$x]at/; # matches '\\at', 'bat, 'cat', or 'rat'\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:335
+msgid "The last two are a little tricky.  In C<[\\$x]>, the backslash protects the dollar sign, so the character class has two members C<$> and C<x>.  In C<[\\\\$x]>, the backslash is protected, so C<$x> is treated as a variable and substituted in double quote fashion."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:340
+msgid "The special character C<'-'> acts as a range operator within character classes, so that a contiguous set of characters can be written as a range.  With ranges, the unwieldy C<[0123456789]> and C<[abc...xyz]> become the svelte C<[0-9]> and C<[a-z]>.  Some examples are"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:345
+#, no-wrap
+msgid ""
+"    /item[0-9]/;  # matches 'item0' or ... or 'item9'\n"
+"    /[0-9bx-z]aa/;  # matches '0aa', ..., '9aa',\n"
+"                    # 'baa', 'xaa', 'yaa', or 'zaa'\n"
+"    /[0-9a-fA-F]/;  # matches a hexadecimal digit\n"
+"    /[0-9a-zA-Z_]/; # matches a \"word\" character,\n"
+"                    # like those in a Perl variable name\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:352
+msgid "If C<'-'> is the first or last character in a character class, it is treated as an ordinary character; C<[-ab]>, C<[ab-]> and C<[a\\-b]> are all equivalent."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:356
+msgid "The special character C<^> in the first position of a character class denotes a I<negated character class>, which matches any character but those in the brackets.  Both C<[...]> and C<[^...]> must match a character, or the match fails.  Then"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:361
+#, no-wrap
+msgid ""
+"    /[^a]at/;  # doesn't match 'aat' or 'at', but matches\n"
+"               # all other 'bat', 'cat, '0at', '%at', etc.\n"
+"    /[^0-9]/;  # matches a non-numeric character\n"
+"    /[a^]at/;  # matches 'aat' or '^at'; here '^' is ordinary\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:366
+msgid "Now, even C<[0-9]> can be a bother to write multiple times, so in the interest of saving keystrokes and making regexps more readable, Perl has several abbreviations for common character classes, as shown below.  Since the introduction of Unicode, these character classes match more than just a few characters in the ISO 8859-1 range."
+msgstr ""
+
+#. type: =item
+#: perlretut.pod:374
+#: perlretut.pod:378
+#: perlretut.pod:382
+#: perlretut.pod:387
+#: perlretut.pod:391
+#: perlretut.pod:395
+#: perlretut.pod:399
+#: perlretut.pod:466
+#: perlretut.pod:472
+#: perlretut.pod:479
+#: perlretut.pod:485
+#: perlretut.pod:948
+#: perlretut.pod:952
+#: perlretut.pod:956
+#: perlretut.pod:960
+#: perlretut.pod:965
+#: perlretut.pod:969
+#: perlretut.pod:1034
+#: perlretut.pod:1039
+#: perlretut.pod:1044
+#: perlretut.pod:1050
+#: perlretut.pod:1119
+#: perlretut.pod:1123
+#: perlretut.pod:1128
+#: perlretut.pod:1133
+#: perlretut.pod:1138
+#: perlretut.pod:1143
+#: perlretut.pod:1203
+#: perlretut.pod:1304
+#: perlretut.pod:1310
+#: perlretut.pod:1316
+#: perlretut.pod:1459
+#: perlretut.pod:1463
+#: perlretut.pod:1467
+#: perlretut.pod:1471
+#: perlretut.pod:1475
+msgid "*"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:376
+msgid "\\d matches a digit, not just [0-9] but also digits from non-roman scripts"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:380
+msgid ""
+"\\s matches a whitespace character, the set [\\ \\t\\r\\n"
+"\\f] and others"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:384
+msgid "\\w matches a word character (alphanumeric or _), not just [0-9a-zA-Z_] but also digits and characters from non-roman scripts"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:389
+msgid "\\D is a negated \\d; it represents any other character than a digit, or [^\\d]"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:393
+msgid "\\S is a negated \\s; it represents any non-whitespace character [^\\s]"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:397
+msgid "\\W is a negated \\w; it represents any non-word character [^\\w]"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:401
+msgid ""
+"The period '.' matches any character but \"\\n"
+"\" (unless the modifier C<//s> is in effect, as explained below)."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:406
+msgid "The C<\\d\\s\\w\\D\\S\\W> abbreviations can be used both inside and outside of character classes.  Here are some in use:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:409
+#, no-wrap
+msgid ""
+"    /\\d\\d:\\d\\d:\\d\\d/; # matches a hh:mm:ss time format\n"
+"    /[\\d\\s]/;         # matches any digit or whitespace character\n"
+"    /\\w\\W\\w/;         # matches a word char, followed by a\n"
+"                      # non-word char, followed by a word char\n"
+"    /..rt/;           # matches any two chars, followed by 'rt'\n"
+"    /end\\./;          # matches 'end.'\n"
+"    /end[.]/;         # same thing, matches 'end.'\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:417
+msgid "Because a period is a metacharacter, it needs to be escaped to match as an ordinary period. Because, for example, C<\\d> and C<\\w> are sets of characters, it is incorrect to think of C<[^\\d\\w]> as C<[\\D\\W]>; in fact C<[^\\d\\w]> is the same as C<[^\\w]>, which is the same as C<[\\W]>. Think DeMorgan's laws."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:423
+msgid "An anchor useful in basic regexps is the I<word anchor> C<\\b>.  This matches a boundary between a word character and a non-word character C<\\w\\W> or C<\\W\\w>:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:427
+#, no-wrap
+msgid ""
+"    $x = \"Housecat catenates house and cat\";\n"
+"    $x =~ /cat/;    # matches cat in 'housecat'\n"
+"    $x =~ /\\bcat/;  # matches cat in 'catenates'\n"
+"    $x =~ /cat\\b/;  # matches cat in 'housecat'\n"
+"    $x =~ /\\bcat\\b/;  # matches 'cat' at end of string\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:433
+msgid "Note in the last example, the end of the string is considered a word boundary."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:436
+msgid ""
+"You might wonder why C<'.'> matches everything but C<\"\\n"
+"\"> - why not every character? The reason is that often one is matching against lines and would like to ignore the newline characters.  For instance, while the string C<\"\\n"
+"\"> represents one line, we would like to think of it as empty.  Then"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:442
+#, no-wrap
+msgid ""
+"    \"\"   =~ /^$/;    # matches\n"
+"    \"\\n"
+"\" =~ /^$/;    # matches, $ anchors before \"\\n"
+"\"\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:445
+#, no-wrap
+msgid ""
+"    \"\"   =~ /./;      # doesn't match; it needs a char\n"
+"    \"\"   =~ /^.$/;    # doesn't match; it needs a char\n"
+"    \"\\n"
+"\" =~ /^.$/;    # doesn't match; it needs a char other than \"\\n"
+"\"\n"
+"    \"a\"  =~ /^.$/;    # matches\n"
+"    \"a\\n"
+"\"  =~ /^.$/;  # matches, $ anchors before \"\\n"
+"\"\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:451
+msgid "This behavior is convenient, because we usually want to ignore newlines when we count and match characters in a line.  Sometimes, however, we want to keep track of newlines.  We might even want C<^> and C<$> to anchor at the beginning and end of lines within the string, rather than just the beginning and end of the string.  Perl allows us to choose between ignoring and paying attention to newlines by using the C<//s> and C<//m> modifiers.  C<//s> and C<//m> stand for single line and multi-line and they determine whether a string is to be treated as one continuous string, or as a set of lines.  The two modifiers affect two aspects of how the regexp is interpreted: 1) how the C<'.'> character class is defined, and 2) where the anchors C<^> and C<$> are able to match.  Here are the four possible combinations:"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:468
+msgid ""
+"no modifiers (//): Default behavior.  C<'.'> matches any character except C<\"\\n"
+"\">.  C<^> matches only at the beginning of the string and C<$> matches only at the end or before a newline at the end."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:474
+msgid ""
+"s modifier (//s): Treat string as a single long line.  C<'.'> matches any character, even C<\"\\n"
+"\">.  C<^> matches only at the beginning of the string and C<$> matches only at the end or before a newline at the end."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:481
+msgid ""
+"m modifier (//m): Treat string as a set of multiple lines.  C<'.'> matches any character except C<\"\\n"
+"\">.  C<^> and C<$> are able to match at the start or end of I<any> line within the string."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:487
+msgid ""
+"both s and m modifiers (//sm): Treat string as a single long line, but detect multiple lines.  C<'.'> matches any character, even C<\"\\n"
+"\">.  C<^> and C<$>, however, are able to match at the start or end of I<any> line within the string."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:494
+msgid "Here are examples of C<//s> and C<//m> in action:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:496
+#, no-wrap
+msgid ""
+"    $x = \"There once was a girl\\n"
+"Who programmed in Perl\\n"
+"\";\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:498
+#, no-wrap
+msgid ""
+"    $x =~ /^Who/;   # doesn't match, \"Who\" not at start of string\n"
+"    $x =~ /^Who/s;  # doesn't match, \"Who\" not at start of string\n"
+"    $x =~ /^Who/m;  # matches, \"Who\" at start of second line\n"
+"    $x =~ /^Who/sm; # matches, \"Who\" at start of second line\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:503
+#, no-wrap
+msgid ""
+"    $x =~ /girl.Who/;   # doesn't match, \".\" doesn't match \"\\n"
+"\"\n"
+"    $x =~ /girl.Who/s;  # matches, \".\" matches \"\\n"
+"\"\n"
+"    $x =~ /girl.Who/m;  # doesn't match, \".\" doesn't match \"\\n"
+"\"\n"
+"    $x =~ /girl.Who/sm; # matches, \".\" matches \"\\n"
+"\"\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:508
+msgid "Most of the time, the default behavior is what is wanted, but C<//s> and C<//m> are occasionally very useful.  If C<//m> is being used, the start of the string can still be matched with C<\\A> and the end of the string can still be matched with the anchors C<\\Z> (matches both the end and the newline before, like C<$>), and C<\\z> (matches only the end):"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:514
+#, no-wrap
+msgid ""
+"    $x =~ /^Who/m;   # matches, \"Who\" at start of second line\n"
+"    $x =~ /\\AWho/m;  # doesn't match, \"Who\" is not at start of string\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:517
+#, no-wrap
+msgid ""
+"    $x =~ /girl$/m;  # matches, \"girl\" at end of first line\n"
+"    $x =~ /girl\\Z/m; # doesn't match, \"girl\" is not at end of string\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:520
+#, no-wrap
+msgid ""
+"    $x =~ /Perl\\Z/m; # matches, \"Perl\" is at newline before end\n"
+"    $x =~ /Perl\\z/m; # doesn't match, \"Perl\" is not at end of string\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:523
+msgid "We now know how to create choices among classes of characters in a regexp.  What about choices among words or character strings? Such choices are described in the next section."
+msgstr ""
+
+#. type: =head2
+#: perlretut.pod:527
+msgid "Matching this or that"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:529
+msgid "Sometimes we would like our regexp to be able to match different possible words or character strings.  This is accomplished by using the I<alternation> metacharacter C<|>.  To match C<dog> or C<cat>, we form the regexp C<dog|cat>.  As before, Perl will try to match the regexp at the earliest possible point in the string.  At each character position, Perl will first try to match the first alternative, C<dog>.  If C<dog> doesn't match, Perl will then try the next alternative, C<cat>.  If C<cat> doesn't match either, then the match fails and Perl moves to the next position in the string.  Some examples:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:540
+#, no-wrap
+msgid ""
+"    \"cats and dogs\" =~ /cat|dog|bird/;  # matches \"cat\"\n"
+"    \"cats and dogs\" =~ /dog|cat|bird/;  # matches \"cat\"\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:543
+msgid "Even though C<dog> is the first alternative in the second regexp, C<cat> is able to match earlier in the string."
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:546
+#, no-wrap
+msgid ""
+"    \"cats\"          =~ /c|ca|cat|cats/; # matches \"c\"\n"
+"    \"cats\"          =~ /cats|cat|ca|c/; # matches \"cats\"\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:549
+msgid "Here, all the alternatives match at the first string position, so the first alternative is the one that matches.  If some of the alternatives are truncations of the others, put the longest ones first to give them a chance to match."
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:554
+#, no-wrap
+msgid ""
+"    \"cab\" =~ /a|b|c/ # matches \"c\"\n"
+"                     # /a|b|c/ == /[abc]/\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:557
+msgid "The last example points out that character classes are like alternations of characters.  At a given character position, the first alternative that allows the regexp match to succeed will be the one that matches."
+msgstr ""
+
+#. type: =head2
+#: perlretut.pod:562
+msgid "Grouping things and hierarchical matching"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:564
+msgid "Alternation allows a regexp to choose among alternatives, but by itself it is unsatisfying.  The reason is that each alternative is a whole regexp, but sometime we want alternatives for just part of a regexp.  For instance, suppose we want to search for housecats or housekeepers.  The regexp C<housecat|housekeeper> fits the bill, but is inefficient because we had to type C<house> twice.  It would be nice to have parts of the regexp be constant, like C<house>, and some parts have alternatives, like C<cat|keeper>."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:573
+msgid "The I<grouping> metacharacters C<()> solve this problem.  Grouping allows parts of a regexp to be treated as a single unit.  Parts of a regexp are grouped by enclosing them in parentheses.  Thus we could solve the C<housecat|housekeeper> by forming the regexp as C<house(cat|keeper)>.  The regexp C<house(cat|keeper)> means match C<house> followed by either C<cat> or C<keeper>.  Some more examples are"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:581
+#, no-wrap
+msgid ""
+"    /(a|b)b/;    # matches 'ab' or 'bb'\n"
+"    /(ac|b)b/;   # matches 'acb' or 'bb'\n"
+"    /(^a|b)c/;   # matches 'ac' at start of string or 'bc' anywhere\n"
+"    /(a|[bc])d/; # matches 'ad', 'bd', or 'cd'\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:586
+#, no-wrap
+msgid ""
+"    /house(cat|)/;  # matches either 'housecat' or 'house'\n"
+"    /house(cat(s|)|)/;  # matches either 'housecats' or 'housecat' or\n"
+"                        # 'house'.  Note groups can be nested.\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:590
+#, no-wrap
+msgid ""
+"    /(19|20|)\\d\\d/;  # match years 19xx, 20xx, or the Y2K problem, xx\n"
+"    \"20\" =~ /(19|20|)\\d\\d/;  # matches the null alternative '()\\d\\d',\n"
+"                             # because '20\\d\\d' can't match\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:594
+msgid "Alternations behave the same way in groups as out of them: at a given string position, the leftmost alternative that allows the regexp to match is taken.  So in the last example at the first string position, C<\"20\"> matches the second alternative, but there is nothing left over to match the next two digits C<\\d\\d>.  So Perl moves on to the next alternative, which is the null alternative and that works, since C<\"20\"> is two digits."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:602
+msgid "The process of trying one alternative, seeing if it matches, and moving on to the next alternative, while going back in the string from where the previous alternative was tried, if it doesn't, is called I<backtracking>.  The term 'backtracking' comes from the idea that matching a regexp is like a walk in the woods.  Successfully matching a regexp is like arriving at a destination.  There are many possible trailheads, one for each string position, and each one is tried in order, left to right.  From each trailhead there may be many paths, some of which get you there, and some which are dead ends.  When you walk along a trail and hit a dead end, you have to backtrack along the trail to an earlier point to try another trail.  If you hit your destination, you stop immediately and forget about trying all the other trails.  You are persistent, and only if you have tried all the trails from all the trailheads and not arrived at your destination, do you declare failure.  To be concrete, here is a step-by-step analysis of what Perl does when it tries to match the regexp"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:619
+#, no-wrap
+msgid ""
+"    \"abcde\" =~ /(abd|abc)(df|d|de)/;\n"
+"\n"
+msgstr ""
+
+#. type: =item
+#: perlretut.pod:623
+#: perlretut.pod:1226
+msgid "0"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:625
+msgid "Start with the first letter in the string 'a'."
+msgstr ""
+
+#. type: =item
+#: perlretut.pod:627
+#: perlretut.pod:1230
+msgid "1"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:629
+msgid "Try the first alternative in the first group 'abd'."
+msgstr ""
+
+#. type: =item
+#: perlretut.pod:631
+#: perlretut.pod:1235
+msgid "2"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:633
+msgid "Match 'a' followed by 'b'. So far so good."
+msgstr ""
+
+#. type: =item
+#: perlretut.pod:635
+#: perlretut.pod:1240
+msgid "3"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:637
+msgid "'d' in the regexp doesn't match 'c' in the string - a dead end.  So backtrack two characters and pick the second alternative in the first group 'abc'."
+msgstr ""
+
+#. type: =item
+#: perlretut.pod:641
+#: perlretut.pod:1245
+msgid "4"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:643
+msgid "Match 'a' followed by 'b' followed by 'c'.  We are on a roll and have satisfied the first group. Set $1 to 'abc'."
+msgstr ""
+
+#. type: =item
+#: perlretut.pod:646
+#: perlretut.pod:1249
+msgid "5"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:648
+msgid "Move on to the second group and pick the first alternative 'df'."
+msgstr ""
+
+#. type: =item
+#: perlretut.pod:651
+#: perlretut.pod:1254
+msgid "6"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:653
+msgid "Match the 'd'."
+msgstr ""
+
+#. type: =item
+#: perlretut.pod:655
+msgid "7"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:657
+msgid "'f' in the regexp doesn't match 'e' in the string, so a dead end.  Backtrack one character and pick the second alternative in the second group 'd'."
+msgstr ""
+
+#. type: =item
+#: perlretut.pod:661
+msgid "8"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:663
+msgid "'d' matches. The second grouping is satisfied, so set $2 to 'd'."
+msgstr ""
+
+#. type: =item
+#: perlretut.pod:666
+msgid "9"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:668
+msgid "We are at the end of the regexp, so we are done! We have matched 'abcd' out of the string \"abcde\"."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:673
+msgid "There are a couple of things to note about this analysis.  First, the third alternative in the second group 'de' also allows a match, but we stopped before we got to it - at a given character position, leftmost wins.  Second, we were able to get a match at the first character position of the string 'a'.  If there were no matches at the first position, Perl would move to the second character position 'b' and attempt the match all over again.  Only when all possible paths at all possible character positions have been exhausted does Perl give up and declare S<C<$string =~ /(abd|abc)(df|d|de)/;>> to be false."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:683
+msgid "Even with all this work, regexp matching happens remarkably fast.  To speed things up, Perl compiles the regexp into a compact sequence of opcodes that can often fit inside a processor cache.  When the code is executed, these opcodes can then run at full throttle and search very quickly."
+msgstr ""
+
+#. type: =head2
+#: perlretut.pod:689
+msgid "Extracting matches"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:691
+msgid "The grouping metacharacters C<()> also serve another completely different function: they allow the extraction of the parts of a string that matched.  This is very useful to find out what matched and for text processing in general.  For each grouping, the part that matched inside goes into the special variables C<$1>, C<$2>, etc.  They can be used just as ordinary variables:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:698
+#, no-wrap
+msgid ""
+"    # extract hours, minutes, seconds\n"
+"    if ($time =~ /(\\d\\d):(\\d\\d):(\\d\\d)/) {    # match hh:mm:ss format\n"
+"\t$hours = $1;\n"
+"\t$minutes = $2;\n"
+"\t$seconds = $3;\n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:705
+msgid "Now, we know that in scalar context, S<C<$time =~ /(\\d\\d):(\\d\\d):(\\d\\d)/>> returns a true or false value.  In list context, however, it returns the list of matched values C<($1,$2,$3)>.  So we could write the code more compactly as"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:710
+#, no-wrap
+msgid ""
+"    # extract hours, minutes, seconds\n"
+"    ($hours, $minutes, $second) = ($time =~ /(\\d\\d):(\\d\\d):(\\d\\d)/);\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:713
+msgid "If the groupings in a regexp are nested, C<$1> gets the group with the leftmost opening parenthesis, C<$2> the next opening parenthesis, etc.  Here is a regexp with nested groups:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:717
+#, no-wrap
+msgid ""
+"    /(ab(cd|ef)((gi)|j))/;\n"
+"     1  2      34\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:720
+msgid "If this regexp matches, C<$1> contains a string starting with C<'ab'>, C<$2> is either set to C<'cd'> or C<'ef'>, C<$3> equals either C<'gi'> or C<'j'>, and C<$4> is either set to C<'gi'>, just like C<$3>, or it remains undefined."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:725
+msgid "For convenience, Perl sets C<$+> to the string held by the highest numbered C<$1>, C<$2>,... that got assigned (and, somewhat related, C<$^N> to the value of the C<$1>, C<$2>,... most-recently assigned; i.e. the C<$1>, C<$2>,... associated with the rightmost closing parenthesis used in the match)."
+msgstr ""
+
+#. type: =head2
+#: perlretut.pod:732
+msgid "Backreferences"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:734
+msgid "Closely associated with the matching variables C<$1>, C<$2>, ... are the I<backreferences> C<\\1>, C<\\2>,...  Backreferences are simply matching variables that can be used I<inside> a regexp.  This is a really nice feature; what matches later in a regexp is made to depend on what matched earlier in the regexp.  Suppose we wanted to look for doubled words in a text, like 'the the'.  The following regexp finds all 3-letter doubles with a space in between:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:742
+#, no-wrap
+msgid ""
+"    /\\b(\\w\\w\\w)\\s\\1\\b/;\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:744
+msgid "The grouping assigns a value to \\1, so that the same 3 letter sequence is used for both parts."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:747
+msgid "A similar task is to find words consisting of two identical parts:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:749
+#, no-wrap
+msgid ""
+"    % simple_grep '^(\\w\\w\\w\\w|\\w\\w\\w|\\w\\w|\\w)\\1$' /usr/dict/words\n"
+"    beriberi\n"
+"    booboo\n"
+"    coco\n"
+"    mama\n"
+"    murmur\n"
+"    papa\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:757
+msgid "The regexp has a single grouping which considers 4-letter combinations, then 3-letter combinations, etc., and uses C<\\1> to look for a repeat.  Although C<$1> and C<\\1> represent the same thing, care should be taken to use matched variables C<$1>, C<$2>,... only I<outside> a regexp and backreferences C<\\1>, C<\\2>,... only I<inside> a regexp; not doing so may lead to surprising and unsatisfactory results."
+msgstr ""
+
+#. type: =head2
+#: perlretut.pod:765
+msgid "Relative backreferences"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:767
+msgid "Counting the opening parentheses to get the correct number for a backreference is errorprone as soon as there is more than one capturing group.  A more convenient technique became available with Perl 5.10: relative backreferences. To refer to the immediately preceding capture group one now may write C<\\g{-1}>, the next but last is available via C<\\g{-2}>, and so on."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:774
+msgid "Another good reason in addition to readability and maintainability for using relative backreferences is illustrated by the following example, where a simple pattern for matching peculiar strings is used:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:778
+#, no-wrap
+msgid ""
+"    $a99a = '([a-z])(\\d)\\2\\1';   # matches a11a, g22g, x33x, etc.\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:780
+msgid "Now that we have this pattern stored as a handy string, we might feel tempted to use it as a part of some other pattern:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:783
+#, no-wrap
+msgid ""
+"    $line = \"code=e99e\";\n"
+"    if ($line =~ /^(\\w+)=$a99a$/){   # unexpected behavior!\n"
+"        print \"$1 is valid\\n"
+"\";\n"
+"    } else {\n"
+"        print \"bad line: '$line'\\n"
+"\";\n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:790
+msgid "But this doesn't match, at least not the way one might expect. Only after inserting the interpolated C<$a99a> and looking at the resulting full text of the regexp is it obvious that the backreferences have backfired. The subexpression C<(\\w+)> has snatched number 1 and demoted the groups in C<$a99a> by one rank. This can be avoided by using relative backreferences:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:797
+#, no-wrap
+msgid ""
+"    $a99a = '([a-z])(\\d)\\g{-1}\\g{-2}';  # safe for being interpolated\n"
+"\n"
+msgstr ""
+
+#. type: =head2
+#: perlretut.pod:800
+msgid "Named backreferences"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:802
+msgid "Perl 5.10 also introduced named capture buffers and named backreferences.  To attach a name to a capturing group, you write either C<< (?<name>...) >> or C<< (?'name'...) >>.  The backreference may then be written as C<\\g{name}>.  It is permissible to attach the same name to more than one group, but then only the leftmost one of the eponymous set can be referenced.  Outside of the pattern a named capture buffer is accessible through the C<%+> hash."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:810
+msgid "Assuming that we have to match calendar dates which may be given in one of the three formats yyyy-mm-dd, mm/dd/yyyy or dd.mm.yyyy, we can write three suitable patterns where we use 'd', 'm' and 'y' respectively as the names of the buffers capturing the pertaining components of a date. The matching operation combines the three patterns as alternatives:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:816
+#, no-wrap
+msgid ""
+"    $fmt1 = '(?<y>\\d\\d\\d\\d)-(?<m>\\d\\d)-(?<d>\\d\\d)';\n"
+"    $fmt2 = '(?<m>\\d\\d)/(?<d>\\d\\d)/(?<y>\\d\\d\\d\\d)';\n"
+"    $fmt3 = '(?<d>\\d\\d)\\.(?<m>\\d\\d)\\.(?<y>\\d\\d\\d\\d)';\n"
+"    for my $d qw( 2006-10-21 15.01.2007 10/31/2005 ){\n"
+"        if ( $d =~ m{$fmt1|$fmt2|$fmt3} ){\n"
+"            print \"day=$+{d} month=$+{m} year=$+{y}\\n"
+"\";\n"
+"        }\n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:825
+msgid "If any of the alternatives matches, the hash C<%+> is bound to contain the three key-value pairs."
+msgstr ""
+
+#. type: =head2
+#: perlretut.pod:829
+msgid "Alternative capture group numbering"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:831
+msgid "Yet another capturing group numbering technique (also as from Perl 5.10)  deals with the problem of referring to groups within a set of alternatives.  Consider a pattern for matching a time of the day, civil or military style:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:835
+#, no-wrap
+msgid ""
+"    if ( $time =~ /(\\d\\d|\\d):(\\d\\d)|(\\d\\d)(\\d\\d)/ ){\n"
+"        # process hour and minute\n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:839
+msgid "Processing the results requires an additional if statement to determine whether C<$1> and C<$2> or C<$3> and C<$4> contain the goodies. It would be easier if we could use buffer numbers 1 and 2 in second alternative as well, and this is exactly what the parenthesized construct C<(?|...)>, set around an alternative achieves. Here is an extended version of the previous pattern:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:846
+#, no-wrap
+msgid ""
+"    if ( $time =~ /(?|(\\d\\d|\\d):(\\d\\d)|(\\d\\d)(\\d\\d))\\s+([A-Z][A-Z][A-Z])/ ){\n"
+"\tprint \"hour=$1 minute=$2 zone=$3\\n"
+"\";\n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:850
+msgid "Within the alternative numbering group, buffer numbers start at the same position for each alternative. After the group, numbering continues with one higher than the maximum reached across all the alternatives."
+msgstr ""
+
+#. type: =head2
+#: perlretut.pod:854
+msgid "Position information"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:856
+msgid "In addition to what was matched, Perl (since 5.6.0) also provides the positions of what was matched as contents of the C<@-> and C<@+> arrays. C<$-[0]> is the position of the start of the entire match and C<$+[0]> is the position of the end. Similarly, C<$-[n]> is the position of the start of the C<$n> match and C<$+[n]> is the position of the end. If C<$n> is undefined, so are C<$-[n]> and C<$+[n]>. Then this code"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:864
+#, no-wrap
+msgid ""
+"    $x = \"Mmm...donut, thought Homer\";\n"
+"    $x =~ /^(Mmm|Yech)\\.\\.\\.(donut|peas)/; # matches\n"
+"    foreach $expr (1..$#-) {\n"
+"        print \"Match $expr: '${$expr}' at position ($-[$expr],$+[$expr])\\n"
+"\";\n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:870
+#: perlretut.pod:1572
+#: perlretut.pod:2833
+msgid "prints"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:872
+#, no-wrap
+msgid ""
+"    Match 1: 'Mmm' at position (0,3)\n"
+"    Match 2: 'donut' at position (6,11)\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:875
+msgid "Even if there are no groupings in a regexp, it is still possible to find out what exactly matched in a string.  If you use them, Perl will set C<$`> to the part of the string before the match, will set C<$&> to the part of the string that matched, and will set C<$'> to the part of the string after the match.  An example:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:881
+#, no-wrap
+msgid ""
+"    $x = \"the cat caught the mouse\";\n"
+"    $x =~ /cat/;  # $` = 'the ', $& = 'cat', $' = ' caught the mouse'\n"
+"    $x =~ /the/;  # $` = '', $& = 'the', $' = ' cat caught the mouse'\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:885
+msgid "In the second match, C<$`> equals C<''> because the regexp matched at the first character position in the string and stopped; it never saw the second 'the'.  It is important to note that using C<$`> and C<$'> slows down regexp matching quite a bit, while C<$&> slows it down to a lesser extent, because if they are used in one regexp in a program, they are generated for I<all> regexps in the program.  So if raw performance is a goal of your application, they should be avoided.  If you need to extract the corresponding substrings, use C<@-> and C<@+> instead:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:895
+#, no-wrap
+msgid ""
+"    $` is the same as substr( $x, 0, $-[0] )\n"
+"    $& is the same as substr( $x, $-[0], $+[0]-$-[0] )\n"
+"    $' is the same as substr( $x, $+[0] )\n"
+"\n"
+msgstr ""
+
+#. type: =head2
+#: perlretut.pod:900
+msgid "Non-capturing groupings"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:902
+msgid "A group that is required to bundle a set of alternatives may or may not be useful as a capturing group.  If it isn't, it just creates a superfluous addition to the set of available capture buffer values, inside as well as outside the regexp.  Non-capturing groupings, denoted by C<(?:regexp)>, still allow the regexp to be treated as a single unit, but don't establish a capturing buffer at the same time.  Both capturing and non-capturing groupings are allowed to co-exist in the same regexp.  Because there is no extraction, non-capturing groupings are faster than capturing groupings.  Non-capturing groupings are also handy for choosing exactly which parts of a regexp are to be extracted to matching variables:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:913
+#, no-wrap
+msgid ""
+"    # match a number, $1-$4 are set, but we only want $1\n"
+"    /([+-]?\\ *(\\d+(\\.\\d*)?|\\.\\d+)([eE][+-]?\\d+)?)/;\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:916
+#, no-wrap
+msgid ""
+"    # match a number faster , only $1 is set\n"
+"    /([+-]?\\ *(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?)/;\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:919
+#, no-wrap
+msgid ""
+"    # match a number, get $1 = whole number, $2 = exponent\n"
+"    /([+-]?\\ *(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE]([+-]?\\d+))?)/;\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:922
+msgid "Non-capturing groupings are also useful for removing nuisance elements gathered from a split operation where parentheses are required for some reason:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:926
+#, no-wrap
+msgid ""
+"    $x = '12aba34ba5';\n"
+"    @num = split /(a|b)+/, $x;    # @num = ('12','a','34','b','5')\n"
+"    @num = split /(?:a|b)+/, $x;  # @num = ('12','34','5')\n"
+"\n"
+msgstr ""
+
+#. type: =head2
+#: perlretut.pod:931
+msgid "Matching repetitions"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:933
+msgid "The examples in the previous section display an annoying weakness.  We were only matching 3-letter words, or chunks of words of 4 letters or less.  We'd like to be able to match words or, more generally, strings of any length, without writing out tedious alternatives like C<\\w\\w\\w\\w|\\w\\w\\w|\\w\\w|\\w>."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:939
+msgid "This is exactly the problem the I<quantifier> metacharacters C<?>, C<*>, C<+>, and C<{}> were created for.  They allow us to delimit the number of repeats for a portion of a regexp we consider to be a match.  Quantifiers are put immediately after the character, character class, or grouping that we want to specify.  They have the following meanings:"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:950
+msgid "C<a?> means: match 'a' 1 or 0 times"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:954
+msgid "C<a*> means: match 'a' 0 or more times, i.e., any number of times"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:958
+msgid "C<a+> means: match 'a' 1 or more times, i.e., at least once"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:962
+msgid "C<a{n,m}> means: match at least C<n> times, but not more than C<m> times."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:967
+msgid "C<a{n,}> means: match at least C<n> or more times"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:971
+msgid "C<a{n}> means: match exactly C<n> times"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:975
+msgid "Here are some examples:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:977
+#, no-wrap
+msgid ""
+"    /[a-z]+\\s+\\d*/;  # match a lowercase word, at least one space, and\n"
+"                     # any number of digits\n"
+"    /(\\w+)\\s+\\1/;    # match doubled words of arbitrary length\n"
+"    /y(es)?/i;       # matches 'y', 'Y', or a case-insensitive 'yes'\n"
+"    $year =~ /\\d{2,4}/;  # make sure year is at least 2 but not more\n"
+"                         # than 4 digits\n"
+"    $year =~ /\\d{4}|\\d{2}/;    # better match; throw out 3 digit dates\n"
+"    $year =~ /\\d{2}(\\d{2})?/;  # same thing written differently. However,\n"
+"                               # this produces $1 and the other does not.\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:987
+#, no-wrap
+msgid ""
+"    % simple_grep '^(\\w+)\\1$' /usr/dict/words   # isn't this easier?\n"
+"    beriberi\n"
+"    booboo\n"
+"    coco\n"
+"    mama\n"
+"    murmur\n"
+"    papa\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:995
+msgid "For all of these quantifiers, Perl will try to match as much of the string as possible, while still allowing the regexp to succeed.  Thus with C</a?.../>, Perl will first try to match the regexp with the C<a> present; if that fails, Perl will try to match the regexp without the C<a> present.  For the quantifier C<*>, we get the following:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1001
+#, no-wrap
+msgid ""
+"    $x = \"the cat in the hat\";\n"
+"    $x =~ /^(.*)(cat)(.*)$/; # matches,\n"
+"                             # $1 = 'the '\n"
+"                             # $2 = 'cat'\n"
+"                             # $3 = ' in the hat'\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1007
+msgid "Which is what we might expect, the match finds the only C<cat> in the string and locks onto it.  Consider, however, this regexp:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1010
+#, no-wrap
+msgid ""
+"    $x =~ /^(.*)(at)(.*)$/; # matches,\n"
+"                            # $1 = 'the cat in the h'\n"
+"                            # $2 = 'at'\n"
+"                            # $3 = ''   (0 characters match)\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1015
+msgid "One might initially guess that Perl would find the C<at> in C<cat> and stop there, but that wouldn't give the longest possible string to the first quantifier C<.*>.  Instead, the first quantifier C<.*> grabs as much of the string as possible while still having the regexp match.  In this example, that means having the C<at> sequence with the final C<at> in the string.  The other important principle illustrated here is that when there are two or more elements in a regexp, the I<leftmost> quantifier, if there is one, gets to grab as much the string as possible, leaving the rest of the regexp to fight over scraps.  Thus in our example, the first quantifier C<.*> grabs most of the string, while the second quantifier C<.*> gets the empty string.  Quantifiers that grab as much of the string as possible are called I<maximal match> or I<greedy> quantifiers."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1029
+msgid "When a regexp can match a string in several different ways, we can use the principles above to predict which way the regexp will match:"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1036
+msgid "Principle 0: Taken as a whole, any regexp will be matched at the earliest possible position in the string."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1041
+msgid "Principle 1: In an alternation C<a|b|c...>, the leftmost alternative that allows a match for the whole regexp will be the one used."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1046
+msgid "Principle 2: The maximal matching quantifiers C<?>, C<*>, C<+> and C<{n,m}> will in general match as much of the string as possible while still allowing the whole regexp to match."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1052
+msgid "Principle 3: If there are two or more elements in a regexp, the leftmost greedy quantifier, if any, will match as much of the string as possible while still allowing the whole regexp to match.  The next leftmost greedy quantifier, if any, will try to match as much of the string remaining available to it as possible, while still allowing the whole regexp to match.  And so on, until all the regexp elements are satisfied."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1062
+msgid "As we have seen above, Principle 0 overrides the others. The regexp will be matched as early as possible, with the other principles determining how the regexp matches at that earliest character position."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1067
+msgid "Here is an example of these principles in action:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1069
+#, no-wrap
+msgid ""
+"    $x = \"The programming republic of Perl\";\n"
+"    $x =~ /^(.+)(e|r)(.*)$/;  # matches,\n"
+"                              # $1 = 'The programming republic of Pe'\n"
+"                              # $2 = 'r'\n"
+"                              # $3 = 'l'\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1075
+msgid "This regexp matches at the earliest string position, C<'T'>.  One might think that C<e>, being leftmost in the alternation, would be matched, but C<r> produces the longest string in the first quantifier."
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1079
+#, no-wrap
+msgid ""
+"    $x =~ /(m{1,2})(.*)$/;  # matches,\n"
+"                            # $1 = 'mm'\n"
+"                            # $2 = 'ing republic of Perl'\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1083
+msgid "Here, The earliest possible match is at the first C<'m'> in C<programming>. C<m{1,2}> is the first quantifier, so it gets to match a maximal C<mm>."
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1087
+#, no-wrap
+msgid ""
+"    $x =~ /.*(m{1,2})(.*)$/;  # matches,\n"
+"                              # $1 = 'm'\n"
+"                              # $2 = 'ing republic of Perl'\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1091
+msgid "Here, the regexp matches at the start of the string. The first quantifier C<.*> grabs as much as possible, leaving just a single C<'m'> for the second quantifier C<m{1,2}>."
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1095
+#, no-wrap
+msgid ""
+"    $x =~ /(.?)(m{1,2})(.*)$/;  # matches,\n"
+"                                # $1 = 'a'\n"
+"                                # $2 = 'mm'\n"
+"                                # $3 = 'ing republic of Perl'\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1100
+msgid "Here, C<.?> eats its maximal one character at the earliest possible position in the string, C<'a'> in C<programming>, leaving C<m{1,2}> the opportunity to match both C<m>'s. Finally,"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1104
+#, no-wrap
+msgid ""
+"    \"aXXXb\" =~ /(X*)/; # matches with $1 = ''\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1106
+msgid "because it can match zero copies of C<'X'> at the beginning of the string.  If you definitely want to match at least one C<'X'>, use C<X+>, not C<X*>."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1110
+msgid "Sometimes greed is not good.  At times, we would like quantifiers to match a I<minimal> piece of string, rather than a maximal piece.  For this purpose, Larry Wall created the I<minimal match> or I<non-greedy> quantifiers C<??>, C<*?>, C<+?>, and C<{}?>.  These are the usual quantifiers with a C<?> appended to them.  They have the following meanings:"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1121
+msgid "C<a??> means: match 'a' 0 or 1 times. Try 0 first, then 1."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1125
+msgid "C<a*?> means: match 'a' 0 or more times, i.e., any number of times, but as few times as possible"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1130
+msgid "C<a+?> means: match 'a' 1 or more times, i.e., at least once, but as few times as possible"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1135
+msgid "C<a{n,m}?> means: match at least C<n> times, not more than C<m> times, as few times as possible"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1140
+msgid "C<a{n,}?> means: match at least C<n> times, but as few times as possible"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1145
+msgid "C<a{n}?> means: match exactly C<n> times.  Because we match exactly C<n> times, C<a{n}?> is equivalent to C<a{n}> and is just there for notational consistency."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1151
+msgid "Let's look at the example above, but with minimal quantifiers:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1153
+#, no-wrap
+msgid ""
+"    $x = \"The programming republic of Perl\";\n"
+"    $x =~ /^(.+?)(e|r)(.*)$/; # matches,\n"
+"                              # $1 = 'Th'\n"
+"                              # $2 = 'e'\n"
+"                              # $3 = ' programming republic of Perl'\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1159
+msgid "The minimal string that will allow both the start of the string C<^> and the alternation to match is C<Th>, with the alternation C<e|r> matching C<e>.  The second quantifier C<.*> is free to gobble up the rest of the string."
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1164
+#, no-wrap
+msgid ""
+"    $x =~ /(m{1,2}?)(.*?)$/;  # matches,\n"
+"                              # $1 = 'm'\n"
+"                              # $2 = 'ming republic of Perl'\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1168
+msgid "The first string position that this regexp can match is at the first C<'m'> in C<programming>. At this position, the minimal C<m{1,2}?> matches just one C<'m'>.  Although the second quantifier C<.*?> would prefer to match no characters, it is constrained by the end-of-string anchor C<$> to match the rest of the string."
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1174
+#, no-wrap
+msgid ""
+"    $x =~ /(.*?)(m{1,2}?)(.*)$/;  # matches,\n"
+"                                  # $1 = 'The progra'\n"
+"                                  # $2 = 'm'\n"
+"                                  # $3 = 'ming republic of Perl'\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1179
+msgid "In this regexp, you might expect the first minimal quantifier C<.*?> to match the empty string, because it is not constrained by a C<^> anchor to match the beginning of the word.  Principle 0 applies here, however.  Because it is possible for the whole regexp to match at the start of the string, it I<will> match at the start of the string.  Thus the first quantifier has to match everything up to the first C<m>.  The second minimal quantifier matches just one C<m> and the third quantifier matches the rest of the string."
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1188
+#, no-wrap
+msgid ""
+"    $x =~ /(.??)(m{1,2})(.*)$/;  # matches,\n"
+"                                 # $1 = 'a'\n"
+"                                 # $2 = 'mm'\n"
+"                                 # $3 = 'ing republic of Perl'\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1193
+msgid "Just as in the previous regexp, the first quantifier C<.??> can match earliest at position C<'a'>, so it does.  The second quantifier is greedy, so it matches C<mm>, and the third matches the rest of the string."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1198
+msgid "We can modify principle 3 above to take into account non-greedy quantifiers:"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1205
+msgid "Principle 3: If there are two or more elements in a regexp, the leftmost greedy (non-greedy) quantifier, if any, will match as much (little) of the string as possible while still allowing the whole regexp to match.  The next leftmost greedy (non-greedy) quantifier, if any, will try to match as much (little) of the string remaining available to it as possible, while still allowing the whole regexp to match.  And so on, until all the regexp elements are satisfied."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1215
+msgid "Just like alternation, quantifiers are also susceptible to backtracking.  Here is a step-by-step analysis of the example"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1218
+#, no-wrap
+msgid ""
+"    $x = \"the cat in the hat\";\n"
+"    $x =~ /^(.*)(at)(.*)$/; # matches,\n"
+"                            # $1 = 'the cat in the h'\n"
+"                            # $2 = 'at'\n"
+"                            # $3 = ''   (0 matches)\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1228
+msgid "Start with the first letter in the string 't'."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1232
+msgid "The first quantifier '.*' starts out by matching the whole string 'the cat in the hat'."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1237
+msgid "'a' in the regexp element 'at' doesn't match the end of the string.  Backtrack one character."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1242
+msgid "'a' in the regexp element 'at' still doesn't match the last letter of the string 't', so backtrack one more character."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1247
+msgid "Now we can match the 'a' and the 't'."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1251
+msgid "Move on to the third element '.*'.  Since we are at the end of the string and '.*' can match 0 times, assign it the empty string."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1256
+msgid "We are done!"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1260
+msgid "Most of the time, all this moving forward and backtracking happens quickly and searching is fast. There are some pathological regexps, however, whose execution time exponentially grows with the size of the string.  A typical structure that blows up in your face is of the form"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1265
+#, no-wrap
+msgid ""
+"    /(a|b+)*/;\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1267
+msgid "The problem is the nested indeterminate quantifiers.  There are many different ways of partitioning a string of length n between the C<+> and C<*>: one repetition with C<b+> of length n, two repetitions with the first C<b+> length k and the second with length n-k, m repetitions whose bits add up to length n, etc.  In fact there are an exponential number of ways to partition a string as a function of its length.  A regexp may get lucky and match early in the process, but if there is no match, Perl will try I<every> possibility before giving up.  So be careful with nested C<*>'s, C<{n,m}>'s, and C<+>'s.  The book I<Mastering Regular Expressions> by Jeffrey Friedl gives a wonderful discussion of this and other efficiency issues."
+msgstr ""
+
+#. type: =head2
+#: perlretut.pod:1280
+msgid "Possessive quantifiers"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1282
+msgid "Backtracking during the relentless search for a match may be a waste of time, particularly when the match is bound to fail.  Consider the simple pattern"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1286
+#, no-wrap
+msgid ""
+"    /^\\w+\\s+\\w+$/; # a word, spaces, a word\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1288
+msgid "Whenever this is applied to a string which doesn't quite meet the pattern's expectations such as S<C<\"abc \">> or S<C<\"abc def \">>, the regex engine will backtrack, approximately once for each character in the string.  But we know that there is no way around taking I<all> of the initial word characters to match the first repetition, that I<all> spaces must be eaten by the middle part, and the same goes for the second word."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1296
+msgid "With the introduction of the I<possessive quantifiers> in Perl 5.10, we have a way of instructing the regex engine not to backtrack, with the usual quantifiers with a C<+> appended to them.  This makes them greedy as well as stingy; once they succeed they won't give anything back to permit another solution. They have the following meanings:"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1306
+msgid "C<a{n,m}+> means: match at least C<n> times, not more than C<m> times, as many times as possible, and don't give anything up. C<a?+> is short for C<a{0,1}+>"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1312
+msgid "C<a{n,}+> means: match at least C<n> times, but as many times as possible, and don't give anything up. C<a*+> is short for C<a{0,}+> and C<a++> is short for C<a{1,}+>."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1318
+msgid "C<a{n}+> means: match exactly C<n> times.  It is just there for notational consistency."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1323
+msgid "These possessive quantifiers represent a special case of a more general concept, the I<independent subexpression>, see below."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1326
+msgid "As an example where a possessive quantifier is suitable we consider matching a quoted string, as it appears in several programming languages.  The backslash is used as an escape character that indicates that the next character is to be taken literally, as another character for the string.  Therefore, after the opening quote, we expect a (possibly empty) sequence of alternatives: either some character except an unescaped quote or backslash or an escaped character."
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1334
+#, no-wrap
+msgid ""
+"    /\"(?:[^\"\\\\]++|\\\\.)*+\"/;\n"
+"\n"
+msgstr ""
+
+#. type: =head2
+#: perlretut.pod:1337
+msgid "Building a regexp"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1339
+msgid "At this point, we have all the basic regexp concepts covered, so let's give a more involved example of a regular expression.  We will build a regexp that matches numbers."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1343
+msgid "The first task in building a regexp is to decide what we want to match and what we want to exclude.  In our case, we want to match both integers and floating point numbers and we want to reject any string that isn't a number."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1348
+msgid "The next task is to break the problem down into smaller problems that are easily converted into a regexp."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1351
+msgid "The simplest case is integers.  These consist of a sequence of digits, with an optional sign in front.  The digits we can represent with C<\\d+> and the sign can be matched with C<[+-]>.  Thus the integer regexp is"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1356
+#, no-wrap
+msgid ""
+"    /[+-]?\\d+/;  # matches integers\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1358
+msgid "A floating point number potentially has a sign, an integral part, a decimal point, a fractional part, and an exponent.  One or more of these parts is optional, so we need to check out the different possibilities.  Floating point numbers which are in proper form include 123., 0.345, .34, -1e6, and 25.4E-72.  As with integers, the sign out front is completely optional and can be matched by C<[+-]?>.  We can see that if there is no exponent, floating point numbers must have a decimal point, otherwise they are integers.  We might be tempted to model these with C<\\d*\\.\\d*>, but this would also match just a single decimal point, which is not a number.  So the three cases of floating point number without exponent are"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1370
+#, no-wrap
+msgid ""
+"   /[+-]?\\d+\\./;  # 1., 321., etc.\n"
+"   /[+-]?\\.\\d+/;  # .1, .234, etc.\n"
+"   /[+-]?\\d+\\.\\d+/;  # 1.0, 30.56, etc.\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1374
+msgid "These can be combined into a single regexp with a three-way alternation:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1376
+#, no-wrap
+msgid ""
+"   /[+-]?(\\d+\\.\\d+|\\d+\\.|\\.\\d+)/;  # floating point, no exponent\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1378
+msgid "In this alternation, it is important to put C<'\\d+\\.\\d+'> before C<'\\d+\\.'>.  If C<'\\d+\\.'> were first, the regexp would happily match that and ignore the fractional part of the number."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1382
+msgid "Now consider floating point numbers with exponents.  The key observation here is that I<both> integers and numbers with decimal points are allowed in front of an exponent.  Then exponents, like the overall sign, are independent of whether we are matching numbers with or without decimal points, and can be 'decoupled' from the mantissa.  The overall form of the regexp now becomes clear:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1389
+#, no-wrap
+msgid ""
+"    /^(optional sign)(integer | f.p. mantissa)(optional exponent)$/;\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1391
+msgid "The exponent is an C<e> or C<E>, followed by an integer.  So the exponent regexp is"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1394
+#, no-wrap
+msgid ""
+"   /[eE][+-]?\\d+/;  # exponent\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1396
+msgid "Putting all the parts together, we get a regexp that matches numbers:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1398
+#, no-wrap
+msgid ""
+"   /^[+-]?(\\d+\\.\\d+|\\d+\\.|\\.\\d+|\\d+)([eE][+-]?\\d+)?$/;  # Ta da!\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1400
+msgid "Long regexps like this may impress your friends, but can be hard to decipher.  In complex situations like this, the C<//x> modifier for a match is invaluable.  It allows one to put nearly arbitrary whitespace and comments into a regexp without affecting their meaning.  Using it, we can rewrite our 'extended' regexp in the more pleasing form"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1406
+#, no-wrap
+msgid ""
+"   /^\n"
+"      [+-]?         # first, match an optional sign\n"
+"      (             # then match integers or f.p. mantissas:\n"
+"          \\d+\\.\\d+  # mantissa of the form a.b\n"
+"         |\\d+\\.     # mantissa of the form a.\n"
+"         |\\.\\d+     # mantissa of the form .b\n"
+"         |\\d+       # integer of the form a\n"
+"      )\n"
+"      ([eE][+-]?\\d+)?  # finally, optionally match an exponent\n"
+"   $/x;\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1417
+msgid "If whitespace is mostly irrelevant, how does one include space characters in an extended regexp? The answer is to backslash it S<C<'\\ '>> or put it in a character class S<C<[ ]>>.  The same thing goes for pound signs, use C<\\#> or C<[#]>.  For instance, Perl allows a space between the sign and the mantissa or integer, and we could add this to our regexp as follows:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1424
+#, no-wrap
+msgid ""
+"   /^\n"
+"      [+-]?\\ *      # first, match an optional sign *and space*\n"
+"      (             # then match integers or f.p. mantissas:\n"
+"          \\d+\\.\\d+  # mantissa of the form a.b\n"
+"         |\\d+\\.     # mantissa of the form a.\n"
+"         |\\.\\d+     # mantissa of the form .b\n"
+"         |\\d+       # integer of the form a\n"
+"      )\n"
+"      ([eE][+-]?\\d+)?  # finally, optionally match an exponent\n"
+"   $/x;\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1435
+msgid "In this form, it is easier to see a way to simplify the alternation.  Alternatives 1, 2, and 4 all start with C<\\d+>, so it could be factored out:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1439
+#, no-wrap
+msgid ""
+"   /^\n"
+"      [+-]?\\ *      # first, match an optional sign\n"
+"      (             # then match integers or f.p. mantissas:\n"
+"          \\d+       # start out with a ...\n"
+"          (\n"
+"              \\.\\d* # mantissa of the form a.b or a.\n"
+"          )?        # ? takes care of integers of the form a\n"
+"         |\\.\\d+     # mantissa of the form .b\n"
+"      )\n"
+"      ([eE][+-]?\\d+)?  # finally, optionally match an exponent\n"
+"   $/x;\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1451
+msgid "or written in the compact form,"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1453
+#, no-wrap
+msgid ""
+"    /^[+-]?\\ *(\\d+(\\.\\d*)?|\\.\\d+)([eE][+-]?\\d+)?$/;\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1455
+msgid "This is our final regexp.  To recap, we built a regexp by"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1461
+msgid "specifying the task in detail,"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1465
+msgid "breaking down the problem into smaller parts,"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1469
+msgid "translating the small parts into regexps,"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1473
+msgid "combining the regexps,"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1477
+msgid "and optimizing the final combined regexp."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1481
+msgid "These are also the typical steps involved in writing a computer program.  This makes perfect sense, because regular expressions are essentially programs written in a little computer language that specifies patterns."
+msgstr ""
+
+#. type: =head2
+#: perlretut.pod:1486
+msgid "Using regular expressions in Perl"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1488
+msgid "The last topic of Part 1 briefly covers how regexps are used in Perl programs.  Where do they fit into Perl syntax?"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1491
+msgid "We have already introduced the matching operator in its default C</regexp/> and arbitrary delimiter C<m!regexp!> forms.  We have used the binding operator C<=~> and its negation C<!~> to test for string matches.  Associated with the matching operator, we have discussed the single line C<//s>, multi-line C<//m>, case-insensitive C<//i> and extended C<//x> modifiers.  There are a few more things you might want to know about matching operators."
+msgstr ""
+
+#. type: =head3
+#: perlretut.pod:1499
+msgid "Optimizing pattern evaluation"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1501
+msgid "We pointed out earlier that variables in regexps are substituted before the regexp is evaluated:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1504
+#, no-wrap
+msgid ""
+"    $pattern = 'Seuss';\n"
+"    while (<>) {\n"
+"        print if /$pattern/;\n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1509
+msgid "This will print any lines containing the word C<Seuss>.  It is not as efficient as it could be, however, because Perl has to re-evaluate (or compile) C<$pattern> each time through the loop.  If C<$pattern> won't be changing over the lifetime of the script, we can add the C<//o> modifier, which directs Perl to only perform variable substitutions once:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1516
+#, no-wrap
+msgid ""
+"    #!/usr/bin/perl\n"
+"    #    Improved simple_grep\n"
+"    $regexp = shift;\n"
+"    while (<>) {\n"
+"        print if /$regexp/o;  # a good deal faster\n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: =head3
+#: perlretut.pod:1524
+msgid "Prohibiting substitution"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1526
+msgid "If you change C<$pattern> after the first substitution happens, Perl will ignore it.  If you don't want any substitutions at all, use the special delimiter C<m''>:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1530
+#, no-wrap
+msgid ""
+"    @pattern = ('Seuss');\n"
+"    while (<>) {\n"
+"        print if m'@pattern';  # matches literal '@pattern', not 'Seuss'\n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1535
+msgid "Similar to strings, C<m''> acts like apostrophes on a regexp; all other C<m> delimiters act like quotes.  If the regexp evaluates to the empty string, the regexp in the I<last successful match> is used instead.  So we have"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1539
+#, no-wrap
+msgid ""
+"    \"dog\" =~ /d/;  # 'd' matches\n"
+"    \"dogbert =~ //;  # this matches the 'd' regexp used before\n"
+"\n"
+msgstr ""
+
+#. type: =head3
+#: perlretut.pod:1543
+msgid "Global matching"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1545
+msgid "The final two modifiers C<//g> and C<//c> concern multiple matches.  The modifier C<//g> stands for global matching and allows the matching operator to match within a string as many times as possible.  In scalar context, successive invocations against a string will have `C<//g> jump from match to match, keeping track of position in the string as it goes along.  You can get or set the position with the C<pos()> function."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1553
+msgid "The use of C<//g> is shown in the following example.  Suppose we have a string that consists of words separated by spaces.  If we know how many words there are in advance, we could extract the words using groupings:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1558
+#, no-wrap
+msgid ""
+"    $x = \"cat dog house\"; # 3 words\n"
+"    $x =~ /^\\s*(\\w+)\\s+(\\w+)\\s+(\\w+)\\s*$/; # matches,\n"
+"                                           # $1 = 'cat'\n"
+"                                           # $2 = 'dog'\n"
+"                                           # $3 = 'house'\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1564
+msgid "But what if we had an indeterminate number of words? This is the sort of task C<//g> was made for.  To extract all words, form the simple regexp C<(\\w+)> and loop over all matches with C</(\\w+)/g>:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1568
+#, no-wrap
+msgid ""
+"    while ($x =~ /(\\w+)/g) {\n"
+"        print \"Word is $1, ends at position \", pos $x, \"\\n"
+"\";\n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1574
+#, no-wrap
+msgid ""
+"    Word is cat, ends at position 3\n"
+"    Word is dog, ends at position 7\n"
+"    Word is house, ends at position 13\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1578
+msgid "A failed match or changing the target string resets the position.  If you don't want the position reset after failure to match, add the C<//c>, as in C</regexp/gc>.  The current position in the string is associated with the string, not the regexp.  This means that different strings have different positions and their respective positions can be set or read independently."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1585
+msgid "In list context, C<//g> returns a list of matched groupings, or if there are no groupings, a list of matches to the whole regexp.  So if we wanted just the words, we could use"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1589
+#, no-wrap
+msgid ""
+"    @words = ($x =~ /(\\w+)/g);  # matches,\n"
+"                                # $word[0] = 'cat'\n"
+"                                # $word[1] = 'dog'\n"
+"                                # $word[2] = 'house'\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1594
+msgid "Closely associated with the C<//g> modifier is the C<\\G> anchor.  The C<\\G> anchor matches at the point where the previous C<//g> match left off.  C<\\G> allows us to easily do context-sensitive matching:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1598
+#, no-wrap
+msgid ""
+"    $metric = 1;  # use metric units\n"
+"    ...\n"
+"    $x = <FILE>;  # read in measurement\n"
+"    $x =~ /^([+-]?\\d+)\\s*/g;  # get magnitude\n"
+"    $weight = $1;\n"
+"    if ($metric) { # error checking\n"
+"        print \"Units error!\" unless $x =~ /\\Gkg\\./g;\n"
+"    }\n"
+"    else {\n"
+"        print \"Units error!\" unless $x =~ /\\Glbs\\./g;\n"
+"    }\n"
+"    $x =~ /\\G\\s+(widget|sprocket)/g;  # continue processing\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1611
+msgid "The combination of C<//g> and C<\\G> allows us to process the string a bit at a time and use arbitrary Perl logic to decide what to do next.  Currently, the C<\\G> anchor is only fully supported when used to anchor to the start of the pattern."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1616
+msgid "C<\\G> is also invaluable in processing fixed length records with regexps.  Suppose we have a snippet of coding region DNA, encoded as base pair letters C<ATCGTTGAAT...> and we want to find all the stop codons C<TGA>.  In a coding region, codons are 3-letter sequences, so we can think of the DNA snippet as a sequence of 3-letter records.  The naive regexp"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1623
+#, no-wrap
+msgid ""
+"    # expanded, this is \"ATC GTT GAA TGC AAA TGA CAT GAC\"\n"
+"    $dna = \"ATCGTTGAATGCAAATGACATGAC\";\n"
+"    $dna =~ /TGA/;\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1627
+msgid "doesn't work; it may match a C<TGA>, but there is no guarantee that the match is aligned with codon boundaries, e.g., the substring S<C<GTT GAA>> gives a match.  A better solution is"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1631
+#, no-wrap
+msgid ""
+"    while ($dna =~ /(\\w\\w\\w)*?TGA/g) {  # note the minimal *?\n"
+"        print \"Got a TGA stop codon at position \", pos $dna, \"\\n"
+"\";\n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1635
+msgid "which prints"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1637
+#, no-wrap
+msgid ""
+"    Got a TGA stop codon at position 18\n"
+"    Got a TGA stop codon at position 23\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1640
+msgid "Position 18 is good, but position 23 is bogus.  What happened?"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1642
+msgid "The answer is that our regexp works well until we get past the last real match.  Then the regexp will fail to match a synchronized C<TGA> and start stepping ahead one character position at a time, not what we want.  The solution is to use C<\\G> to anchor the match to the codon alignment:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1648
+#, no-wrap
+msgid ""
+"    while ($dna =~ /\\G(\\w\\w\\w)*?TGA/g) {\n"
+"        print \"Got a TGA stop codon at position \", pos $dna, \"\\n"
+"\";\n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1652
+#: perlretut.pod:1729
+#: perlretut.pod:2536
+msgid "This prints"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1654
+#, no-wrap
+msgid ""
+"    Got a TGA stop codon at position 18\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1656
+msgid "which is the correct answer.  This example illustrates that it is important not only to match what is desired, but to reject what is not desired."
+msgstr ""
+
+#. type: =head3
+#: perlretut.pod:1660
+msgid "Search and replace"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1662
+msgid "Regular expressions also play a big role in I<search and replace> operations in Perl.  Search and replace is accomplished with the C<s///> operator.  The general form is C<s/regexp/replacement/modifiers>, with everything we know about regexps and modifiers applying in this case as well.  The C<replacement> is a Perl double quoted string that replaces in the string whatever is matched with the C<regexp>.  The operator C<=~> is also used here to associate a string with C<s///>.  If matching against C<$_>, the S<C<$_ =~>> can be dropped.  If there is a match, C<s///> returns the number of substitutions made, otherwise it returns false.  Here are a few examples:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1674
+#, no-wrap
+msgid ""
+"    $x = \"Time to feed the cat!\";\n"
+"    $x =~ s/cat/hacker/;   # $x contains \"Time to feed the hacker!\"\n"
+"    if ($x =~ s/^(Time.*hacker)!$/$1 now!/) {\n"
+"        $more_insistent = 1;\n"
+"    }\n"
+"    $y = \"'quoted words'\";\n"
+"    $y =~ s/^'(.*)'$/$1/;  # strip single quotes,\n"
+"                           # $y contains \"quoted words\"\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1683
+msgid "In the last example, the whole string was matched, but only the part inside the single quotes was grouped.  With the C<s///> operator, the matched variables C<$1>, C<$2>, etc.  are immediately available for use in the replacement expression, so we use C<$1> to replace the quoted string with just what was quoted.  With the global modifier, C<s///g> will search and replace all occurrences of the regexp in the string:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1690
+#, no-wrap
+msgid ""
+"    $x = \"I batted 4 for 4\";\n"
+"    $x =~ s/4/four/;   # doesn't do it all:\n"
+"                       # $x contains \"I batted four for 4\"\n"
+"    $x = \"I batted 4 for 4\";\n"
+"    $x =~ s/4/four/g;  # does it all:\n"
+"                       # $x contains \"I batted four for four\"\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1697
+msgid "If you prefer 'regex' over 'regexp' in this tutorial, you could use the following program to replace it:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1700
+#, no-wrap
+msgid ""
+"    % cat > simple_replace\n"
+"    #!/usr/bin/perl\n"
+"    $regexp = shift;\n"
+"    $replacement = shift;\n"
+"    while (<>) {\n"
+"        s/$regexp/$replacement/go;\n"
+"        print;\n"
+"    }\n"
+"    ^D\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1710
+#, no-wrap
+msgid ""
+"    % simple_replace regexp regex perlretut.pod\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1712
+msgid "In C<simple_replace> we used the C<s///g> modifier to replace all occurrences of the regexp on each line and the C<s///o> modifier to compile the regexp only once.  As with C<simple_grep>, both the C<print> and the C<s/$regexp/$replacement/go> use C<$_> implicitly."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1717
+msgid "A modifier available specifically to search and replace is the C<s///e> evaluation modifier.  C<s///e> wraps an C<eval{...}> around the replacement string and the evaluated result is substituted for the matched substring.  C<s///e> is useful if you need to do a bit of computation in the process of replacing text.  This example counts character frequencies in a line:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1724
+#, no-wrap
+msgid ""
+"    $x = \"Bill the cat\";\n"
+"    $x =~ s/(.)/$chars{$1}++;$1/eg;  # final $1 replaces char with itself\n"
+"    print \"frequency of '$_' is $chars{$_}\\n"
+"\"\n"
+"        foreach (sort {$chars{$b} <=> $chars{$a}} keys %chars);\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1731
+#, no-wrap
+msgid ""
+"    frequency of ' ' is 2\n"
+"    frequency of 't' is 2\n"
+"    frequency of 'l' is 2\n"
+"    frequency of 'B' is 1\n"
+"    frequency of 'c' is 1\n"
+"    frequency of 'e' is 1\n"
+"    frequency of 'h' is 1\n"
+"    frequency of 'i' is 1\n"
+"    frequency of 'a' is 1\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1741
+msgid "As with the match C<m//> operator, C<s///> can use other delimiters, such as C<s!!!> and C<s{}{}>, and even C<s{}//>.  If single quotes are used C<s'''>, then the regexp and replacement are treated as single quoted strings and there are no substitutions.  C<s///> in list context returns the same thing as in scalar context, i.e., the number of matches."
+msgstr ""
+
+#. type: =head3
+#: perlretut.pod:1748
+msgid "The split function"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1750
+msgid "The C<split()> function is another place where a regexp is used.  C<split /regexp/, string, limit> separates the C<string> operand into a list of substrings and returns that list.  The regexp must be designed to match whatever constitutes the separators for the desired substrings.  The C<limit>, if present, constrains splitting into no more than C<limit> number of strings.  For example, to split a string into words, use"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1757
+#, no-wrap
+msgid ""
+"    $x = \"Calvin and Hobbes\";\n"
+"    @words = split /\\s+/, $x;  # $word[0] = 'Calvin'\n"
+"                               # $word[1] = 'and'\n"
+"                               # $word[2] = 'Hobbes'\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1762
+msgid "If the empty regexp C<//> is used, the regexp always matches and the string is split into individual characters.  If the regexp has groupings, then the resulting list contains the matched substrings from the groupings as well.  For instance,"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1767
+#, no-wrap
+msgid ""
+"    $x = \"/usr/bin/perl\";\n"
+"    @dirs = split m!/!, $x;  # $dirs[0] = ''\n"
+"                             # $dirs[1] = 'usr'\n"
+"                             # $dirs[2] = 'bin'\n"
+"                             # $dirs[3] = 'perl'\n"
+"    @parts = split m!(/)!, $x;  # $parts[0] = ''\n"
+"                                # $parts[1] = '/'\n"
+"                                # $parts[2] = 'usr'\n"
+"                                # $parts[3] = '/'\n"
+"                                # $parts[4] = 'bin'\n"
+"                                # $parts[5] = '/'\n"
+"                                # $parts[6] = 'perl'\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1780
+msgid "Since the first character of $x matched the regexp, C<split> prepended an empty initial element to the list."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1783
+msgid "If you have read this far, congratulations! You now have all the basic tools needed to use regular expressions to solve a wide range of text processing problems.  If this is your first time through the tutorial, why not stop here and play around with regexps a while...  S<Part 2> concerns the more esoteric aspects of regular expressions and those concepts certainly aren't needed right at the start."
+msgstr ""
+
+#. type: =head1
+#: perlretut.pod:1790
+msgid "Part 2: Power tools"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1792
+msgid "OK, you know the basics of regexps and you want to know more.  If matching regular expressions is analogous to a walk in the woods, then the tools discussed in Part 1 are analogous to topo maps and a compass, basic tools we use all the time.  Most of the tools in part 2 are analogous to flare guns and satellite phones.  They aren't used too often on a hike, but when we are stuck, they can be invaluable."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1799
+msgid "What follows are the more advanced, less used, or sometimes esoteric capabilities of Perl regexps.  In Part 2, we will assume you are comfortable with the basics and concentrate on the new features."
+msgstr ""
+
+#. type: =head2
+#: perlretut.pod:1803
+msgid "More on characters, strings, and character classes"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1805
+msgid "There are a number of escape sequences and character classes that we haven't covered yet."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1808
+msgid "There are several escape sequences that convert characters or strings between upper and lower case, and they are also available within patterns.  C<\\l> and C<\\u> convert the next character to lower or upper case, respectively:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1813
+#, no-wrap
+msgid ""
+"    $x = \"perl\";\n"
+"    $string =~ /\\u$x/;  # matches 'Perl' in $string\n"
+"    $x = \"M(rs?|s)\\\\.\"; # note the double backslash\n"
+"    $string =~ /\\l$x/;  # matches 'mr.', 'mrs.', and 'ms.',\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1818
+msgid "A C<\\L> or C<\\U> indicates a lasting conversion of case, until terminated by C<\\E> or thrown over by another C<\\U> or C<\\L>:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1821
+#, no-wrap
+msgid ""
+"    $x = \"This word is in lower case:\\L SHOUT\\E\";\n"
+"    $x =~ /shout/;       # matches\n"
+"    $x = \"I STILL KEYPUNCH CARDS FOR MY 360\"\n"
+"    $x =~ /\\Ukeypunch/;  # matches punch card string\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1826
+msgid "If there is no C<\\E>, case is converted until the end of the string. The regexps C<\\L\\u$word> or C<\\u\\L$word> convert the first character of C<$word> to uppercase and the rest of the characters to lowercase."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1831
+msgid "Control characters can be escaped with C<\\c>, so that a control-Z character would be matched with C<\\cZ>.  The escape sequence C<\\Q>...C<\\E> quotes, or protects most non-alphabetic characters.  For instance,"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1836
+#, no-wrap
+msgid ""
+"    $x = \"\\QThat !^*&%~& cat!\";\n"
+"    $x =~ /\\Q!^*&%~&\\E/;  # check for rough language\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1839
+msgid "It does not protect C<$> or C<@>, so that variables can still be substituted."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1842
+msgid "With the advent of 5.6.0, Perl regexps can handle more than just the standard ASCII character set.  Perl now supports I<Unicode>, a standard for representing the alphabets from virtually all of the world's written languages, and a host of symbols.  Perl's text strings are Unicode strings, so they can contain characters with a value (codepoint or character number) higher than 255"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1849
+msgid "What does this mean for regexps? Well, regexp users don't need to know much about Perl's internal representation of strings.  But they do need to know 1) how to represent Unicode characters in a regexp and 2) that a matching operation will treat the string to be searched as a sequence of characters, not bytes.  The answer to 1) is that Unicode characters greater than C<chr(255)> are represented using the C<\\x{hex}> notation, because the \\0 octal and \\x hex (without curly braces) don't go further than 255."
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1858
+#, no-wrap
+msgid ""
+"    /\\x{263a}/;  # match a Unicode smiley face :)\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1860
+msgid "B<NOTE>: In Perl 5.6.0 it used to be that one needed to say C<use utf8> to use any Unicode features.  This is no more the case: for almost all Unicode processing, the explicit C<utf8> pragma is not needed.  (The only case where it matters is if your Perl script is in Unicode and encoded in UTF-8, then an explicit C<use utf8> is needed.)"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1866
+msgid "Figuring out the hexadecimal sequence of a Unicode character you want or deciphering someone else's hexadecimal Unicode regexp is about as much fun as programming in machine code.  So another way to specify Unicode characters is to use the I<named character> escape sequence C<\\N{I<name>}>.  I<name> is a name for the Unicode character, as specified in the Unicode standard.  For instance, if we wanted to represent or match the astrological sign for the planet Mercury, we could use"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1875
+#, no-wrap
+msgid ""
+"    use charnames \":full\"; # use named chars with Unicode full names\n"
+"    $x = \"abc\\N{MERCURY}def\";\n"
+"    $x =~ /\\N{MERCURY}/;   # matches\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1879
+msgid "One can also use short names or restrict names to a certain alphabet:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1881
+#, no-wrap
+msgid ""
+"    use charnames ':full';\n"
+"    print \"\\N{GREEK SMALL LETTER SIGMA} is called sigma.\\n"
+"\";\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1884
+#, no-wrap
+msgid ""
+"    use charnames \":short\";\n"
+"    print \"\\N{greek:Sigma} is an upper-case sigma.\\n"
+"\";\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1887
+#, no-wrap
+msgid ""
+"    use charnames qw(greek);\n"
+"    print \"\\N{sigma} is Greek sigma\\n"
+"\";\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1890
+msgid "A list of full names is found in the file NamesList.txt in the lib/perl5/X.X.X/unicore directory (where X.X.X is the perl version number as it is installed on your system)."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1894
+msgid "The answer to requirement 2), as of 5.6.0, is that a regexp uses Unicode characters. Internally, this is encoded to bytes using either UTF-8 or a native 8 bit encoding, depending on the history of the string, but conceptually it is a sequence of characters, not bytes. See L<perlunitut> for a tutorial about that."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1900
+msgid "Let us now discuss Unicode character classes.  Just as with Unicode characters, there are named Unicode character classes represented by the C<\\p{name}> escape sequence.  Closely associated is the C<\\P{name}> character class, which is the negation of the C<\\p{name}> class.  For example, to match lower and uppercase characters,"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1906
+#, no-wrap
+msgid ""
+"    use charnames \":full\"; # use named chars with Unicode full names\n"
+"    $x = \"BOB\";\n"
+"    $x =~ /^\\p{IsUpper}/;   # matches, uppercase char class\n"
+"    $x =~ /^\\P{IsUpper}/;   # doesn't match, char class sans uppercase\n"
+"    $x =~ /^\\p{IsLower}/;   # doesn't match, lowercase char class\n"
+"    $x =~ /^\\P{IsLower}/;   # matches, char class sans lowercase\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1913
+msgid "Here is the association between some Perl named classes and the traditional Unicode classes:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1916
+#, no-wrap
+msgid ""
+"    Perl class name  Unicode class name or regular expression\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1918
+#, no-wrap
+msgid ""
+"    IsAlpha          /^[LM]/\n"
+"    IsAlnum          /^[LMN]/\n"
+"    IsASCII          $code <= 127\n"
+"    IsCntrl          /^C/\n"
+"    IsBlank          $code =~ /^(0020|0009)$/ || /^Z[^lp]/\n"
+"    IsDigit          Nd\n"
+"    IsGraph          /^([LMNPS]|Co)/\n"
+"    IsLower          Ll\n"
+"    IsPrint          /^([LMNPS]|Co|Zs)/\n"
+"    IsPunct          /^P/\n"
+"    IsSpace          /^Z/ || ($code =~ /^(0009|000A|000B|000C|000D)$/\n"
+"    IsSpacePerl      /^Z/ || ($code =~ /^(0009|000A|000C|000D|0085|2028|2029)$/\n"
+"    IsUpper          /^L[ut]/\n"
+"    IsWord           /^[LMN]/ || $code eq \"005F\"\n"
+"    IsXDigit         $code =~ /^00(3[0-9]|[46][1-6])$/\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1934
+msgid "You can also use the official Unicode class names with the C<\\p> and C<\\P>, like C<\\p{L}> for Unicode 'letters', or C<\\p{Lu}> for uppercase letters, or C<\\P{Nd}> for non-digits.  If a C<name> is just one letter, the braces can be dropped.  For instance, C<\\pM> is the character class of Unicode 'marks', for example accent marks.  For the full list see L<perlunicode>."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1941
+msgid "The Unicode has also been separated into various sets of characters which you can test with C<\\p{...}> (in) and C<\\P{...}> (not in).  To test whether a character is (or is not) an element of a script you would use the script name, for example C<\\p{Latin}>, C<\\p{Greek}>, or C<\\P{Katakana}>. Other sets are the Unicode blocks, the names of which begin with \"In\". One such block is dedicated to mathematical operators, and its pattern formula is <C\\p{InMathematicalOperators>}>.  For the full list see L<perluniprops>."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1950
+msgid "What we have described so far is the single form of the C<\\p{...}> character classes.  There is also a compound form which you may run into.  These look like C<\\p{name=value}> or C<\\p{name:value}> (the equals sign and colon can be used interchangeably).  These are more general than the single form, and in fact most of the single forms are just Perl-defined shortcuts for common compound forms.  For example, the script examples in the previous paragraph could be written equivalently as C<\\p{Script=Latin}>, C<\\p{Script:Greek}>, and C<\\P{script=katakana}> (case is irrelevant between the C<{}> braces).  You may never have to use the compound forms, but sometimes it is necessary, and their use can make your code easier to understand."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1961
+msgid "C<\\X> is an abbreviation for a character class that comprises a Unicode I<extended grapheme cluster>.  This represents a \"logical character\", what appears to be a single character, but may be represented internally by more than one.  As an example, using the Unicode full names, e.g., S<C<A + COMBINING RING>> is a grapheme cluster with base character C<A> and combining character S<C<COMBINING RING>>, which translates in Danish to A with the circle atop it, as in the word Angstrom."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1969
+msgid "For the full and latest information about Unicode see the latest Unicode standard, or the Unicode Consortium's website L<http://www.unicode.org>"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1972
+msgid "As if all those classes weren't enough, Perl also defines POSIX style character classes.  These have the form C<[:name:]>, with C<name> the name of the POSIX class.  The POSIX classes are C<alpha>, C<alnum>, C<ascii>, C<cntrl>, C<digit>, C<graph>, C<lower>, C<print>, C<punct>, C<space>, C<upper>, and C<xdigit>, and two extensions, C<word> (a Perl extension to match C<\\w>), and C<blank> (a GNU extension).  If C<utf8> is being used, then these classes are defined the same as their corresponding Perl Unicode classes: C<[:upper:]> is the same as C<\\p{IsUpper}>, etc.  The POSIX character classes, however, don't require using C<utf8>.  The C<[:digit:]>, C<[:word:]>, and C<[:space:]> correspond to the familiar C<\\d>, C<\\w>, and C<\\s> character classes.  To negate a POSIX class, put a C<^> in front of the name, so that, e.g., C<[:^digit:]> corresponds to C<\\D> and under C<utf8>, C<\\P{IsDigit}>.  The Unicode and POSIX character classes can be used just like C<\\d>, with the exception that POSIX character classes can only be used inside of a character class:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:1989
+#, no-wrap
+msgid ""
+"    /\\s+[abc[:digit:]xyz]\\s*/;  # match a,b,c,x,y,z, or a digit\n"
+"    /^=item\\s[[:digit:]]/;      # match '=item',\n"
+"                                # followed by a space and a digit\n"
+"    use charnames \":full\";\n"
+"    /\\s+[abc\\p{IsDigit}xyz]\\s+/;  # match a,b,c,x,y,z, or a digit\n"
+"    /^=item\\s\\p{IsDigit}/;        # match '=item',\n"
+"                                  # followed by a space and a digit\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:1997
+msgid "Whew! That is all the rest of the characters and character classes."
+msgstr ""
+
+#. type: =head2
+#: perlretut.pod:1999
+msgid "Compiling and saving regular expressions"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2001
+msgid "In Part 1 we discussed the C<//o> modifier, which compiles a regexp just once.  This suggests that a compiled regexp is some data structure that can be stored once and used again and again.  The regexp quote C<qr//> does exactly that: C<qr/string/> compiles the C<string> as a regexp and transforms the result into a form that can be assigned to a variable:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2008
+#, no-wrap
+msgid ""
+"    $reg = qr/foo+bar?/;  # reg contains a compiled regexp\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2010
+msgid "Then C<$reg> can be used as a regexp:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2012
+#, no-wrap
+msgid ""
+"    $x = \"fooooba\";\n"
+"    $x =~ $reg;     # matches, just like /foo+bar?/\n"
+"    $x =~ /$reg/;   # same thing, alternate form\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2016
+msgid "C<$reg> can also be interpolated into a larger regexp:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2018
+#, no-wrap
+msgid ""
+"    $x =~ /(abc)?$reg/;  # still matches\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2020
+msgid "As with the matching operator, the regexp quote can use different delimiters, e.g., C<qr!!>, C<qr{}> or C<qr~~>.  Apostrophes as delimiters (C<qr''>) inhibit any interpolation."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2024
+msgid "Pre-compiled regexps are useful for creating dynamic matches that don't need to be recompiled each time they are encountered.  Using pre-compiled regexps, we write a C<grep_step> program which greps for a sequence of patterns, advancing to the next pattern as soon as one has been satisfied."
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2030
+#, no-wrap
+msgid ""
+"    % cat > grep_step\n"
+"    #!/usr/bin/perl\n"
+"    # grep_step - match <number> regexps, one after the other\n"
+"    # usage: multi_grep <number> regexp1 regexp2 ... file1 file2 ...\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2035
+#, no-wrap
+msgid ""
+"    $number = shift;\n"
+"    $regexp[$_] = shift foreach (0..$number-1);\n"
+"    @compiled = map qr/$_/, @regexp;\n"
+"    while ($line = <>) {\n"
+"        if ($line =~ /$compiled[0]/) {\n"
+"            print $line;\n"
+"            shift @compiled;\n"
+"            last unless @compiled;\n"
+"        }\n"
+"    }\n"
+"    ^D\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2047
+#, no-wrap
+msgid ""
+"    % grep_step 3 shift print last grep_step\n"
+"    $number = shift;\n"
+"            print $line;\n"
+"            last unless @compiled;\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2052
+msgid "Storing pre-compiled regexps in an array C<@compiled> allows us to simply loop through the regexps without any recompilation, thus gaining flexibility without sacrificing speed."
+msgstr ""
+
+#. type: =head2
+#: perlretut.pod:2057
+msgid "Composing regular expressions at runtime"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2059
+msgid "Backtracking is more efficient than repeated tries with different regular expressions.  If there are several regular expressions and a match with any of them is acceptable, then it is possible to combine them into a set of alternatives.  If the individual expressions are input data, this can be done by programming a join operation.  We'll exploit this idea in an improved version of the C<simple_grep> program: a program that matches multiple patterns:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2067
+#, no-wrap
+msgid ""
+"    % cat > multi_grep\n"
+"    #!/usr/bin/perl\n"
+"    # multi_grep - match any of <number> regexps\n"
+"    # usage: multi_grep <number> regexp1 regexp2 ... file1 file2 ...\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2072
+#, no-wrap
+msgid ""
+"    $number = shift;\n"
+"    $regexp[$_] = shift foreach (0..$number-1);\n"
+"    $pattern = join '|', @regexp;\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2076
+#, no-wrap
+msgid ""
+"    while ($line = <>) {\n"
+"        print $line if $line =~ /$pattern/o;\n"
+"    }\n"
+"    ^D\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2081
+#, no-wrap
+msgid ""
+"    % multi_grep 2 shift for multi_grep\n"
+"    $number = shift;\n"
+"    $regexp[$_] = shift foreach (0..$number-1);\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2085
+msgid "Sometimes it is advantageous to construct a pattern from the I<input> that is to be analyzed and use the permissible values on the left hand side of the matching operations.  As an example for this somewhat paradoxical situation, let's assume that our input contains a command verb which should match one out of a set of available command verbs, with the additional twist that commands may be abbreviated as long as the given string is unique. The program below demonstrates the basic algorithm."
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2094
+#, no-wrap
+msgid ""
+"    % cat > keymatch\n"
+"    #!/usr/bin/perl\n"
+"    $kwds = 'copy compare list print';\n"
+"    while( $command = <> ){\n"
+"        $command =~ s/^\\s+|\\s+$//g;  # trim leading and trailing spaces\n"
+"        if( ( @matches = $kwds =~ /\\b$command\\w*/g ) == 1 ){\n"
+"            print \"command: '@matches'\\n"
+"\";\n"
+"        } elsif( @matches == 0 ){\n"
+"            print \"no such command: '$command'\\n"
+"\";\n"
+"        } else {\n"
+"            print \"not unique: '$command' (could be one of: @matches)\\n"
+"\";\n"
+"        }\n"
+"    }\n"
+"    ^D\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2109
+#, no-wrap
+msgid ""
+"    % keymatch\n"
+"    li\n"
+"    command: 'list'\n"
+"    co\n"
+"    not unique: 'co' (could be one of: copy compare)\n"
+"    printer\n"
+"    no such command: 'printer'\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2117
+msgid "Rather than trying to match the input against the keywords, we match the combined set of keywords against the input.  The pattern matching operation S<C<$kwds =~ /\\b($command\\w*)/g>> does several things at the same time. It makes sure that the given command begins where a keyword begins (C<\\b>). It tolerates abbreviations due to the added C<\\w*>. It tells us the number of matches (C<scalar @matches>) and all the keywords that were actually matched.  You could hardly ask for more."
+msgstr ""
+
+#. type: =head2
+#: perlretut.pod:2125
+msgid "Embedding comments and modifiers in a regular expression"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2127
+msgid "Starting with this section, we will be discussing Perl's set of I<extended patterns>.  These are extensions to the traditional regular expression syntax that provide powerful new tools for pattern matching.  We have already seen extensions in the form of the minimal matching constructs C<??>, C<*?>, C<+?>, C<{n,m}?>, and C<{n,}?>.  The rest of the extensions below have the form C<(?char...)>, where the C<char> is a character that determines the type of extension."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2135
+msgid "The first extension is an embedded comment C<(?#text)>.  This embeds a comment into the regular expression without affecting its meaning.  The comment should not have any closing parentheses in the text.  An example is"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2140
+#, no-wrap
+msgid ""
+"    /(?# Match an integer:)[+-]?\\d+/;\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2142
+msgid "This style of commenting has been largely superseded by the raw, freeform commenting that is allowed with the C<//x> modifier."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2145
+msgid "The modifiers C<//i>, C<//m>, C<//s> and C<//x> (or any combination thereof) can also be embedded in a regexp using C<(?i)>, C<(?m)>, C<(?s)>, and C<(?x)>.  For instance,"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2149
+#, no-wrap
+msgid ""
+"    /(?i)yes/;  # match 'yes' case insensitively\n"
+"    /yes/i;     # same thing\n"
+"    /(?x)(          # freeform version of an integer regexp\n"
+"             [+-]?  # match an optional sign\n"
+"             \\d+    # match a sequence of digits\n"
+"         )\n"
+"    /x;\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2157
+msgid "Embedded modifiers can have two important advantages over the usual modifiers.  Embedded modifiers allow a custom set of modifiers to I<each> regexp pattern.  This is great for matching an array of regexps that must have different modifiers:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2162
+#, no-wrap
+msgid ""
+"    $pattern[0] = '(?i)doctor';\n"
+"    $pattern[1] = 'Johnson';\n"
+"    ...\n"
+"    while (<>) {\n"
+"        foreach $patt (@pattern) {\n"
+"            print if /$patt/;\n"
+"        }\n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2171
+msgid "The second advantage is that embedded modifiers (except C<//p>, which modifies the entire regexp) only affect the regexp inside the group the embedded modifier is contained in.  So grouping can be used to localize the modifier's effects:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2176
+#, no-wrap
+msgid ""
+"    /Answer: ((?i)yes)/;  # matches 'Answer: yes', 'Answer: YES', etc.\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2178
+msgid "Embedded modifiers can also turn off any modifiers already present by using, e.g., C<(?-i)>.  Modifiers can also be combined into a single expression, e.g., C<(?s-i)> turns on single line mode and turns off case insensitivity."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2183
+msgid "Embedded modifiers may also be added to a non-capturing grouping.  C<(?i-m:regexp)> is a non-capturing grouping that matches C<regexp> case insensitively and turns off multi-line mode."
+msgstr ""
+
+#. type: =head2
+#: perlretut.pod:2188
+msgid "Looking ahead and looking behind"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2190
+msgid "This section concerns the lookahead and lookbehind assertions.  First, a little background."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2193
+msgid "In Perl regular expressions, most regexp elements 'eat up' a certain amount of string when they match.  For instance, the regexp element C<[abc}]> eats up one character of the string when it matches, in the sense that Perl moves to the next character position in the string after the match.  There are some elements, however, that don't eat up characters (advance the character position) if they match.  The examples we have seen so far are the anchors.  The anchor C<^> matches the beginning of the line, but doesn't eat any characters.  Similarly, the word boundary anchor C<\\b> matches wherever a character matching C<\\w> is next to a character that doesn't, but it doesn't eat up any characters itself.  Anchors are examples of I<zero-width assertions>.  Zero-width, because they consume no characters, and assertions, because they test some property of the string.  In the context of our walk in the woods analogy to regexp matching, most regexp elements move us along a trail, but anchors have us stop a moment and check our surroundings.  If the local environment checks out, we can proceed forward.  But if the local environment doesn't satisfy us, we must backtrack."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2212
+msgid "Checking the environment entails either looking ahead on the trail, looking behind, or both.  C<^> looks behind, to see that there are no characters before.  C<$> looks ahead, to see that there are no characters after.  C<\\b> looks both ahead and behind, to see if the characters on either side differ in their \"word-ness\"."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2218
+msgid "The lookahead and lookbehind assertions are generalizations of the anchor concept.  Lookahead and lookbehind are zero-width assertions that let us specify which characters we want to test for.  The lookahead assertion is denoted by C<(?=regexp)> and the lookbehind assertion is denoted by C<< (?<=fixed-regexp) >>.  Some examples are"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2224
+#, no-wrap
+msgid ""
+"    $x = \"I catch the housecat 'Tom-cat' with catnip\";\n"
+"    $x =~ /cat(?=\\s)/;   # matches 'cat' in 'housecat'\n"
+"    @catwords = ($x =~ /(?<=\\s)cat\\w+/g);  # matches,\n"
+"                                           # $catwords[0] = 'catch'\n"
+"                                           # $catwords[1] = 'catnip'\n"
+"    $x =~ /\\bcat\\b/;  # matches 'cat' in 'Tom-cat'\n"
+"    $x =~ /(?<=\\s)cat(?=\\s)/; # doesn't match; no isolated 'cat' in\n"
+"                              # middle of $x\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2233
+msgid "Note that the parentheses in C<(?=regexp)> and C<< (?<=regexp) >> are non-capturing, since these are zero-width assertions.  Thus in the second regexp, the substrings captured are those of the whole regexp itself.  Lookahead C<(?=regexp)> can match arbitrary regexps, but lookbehind C<< (?<=fixed-regexp) >> only works for regexps of fixed width, i.e., a fixed number of characters long.  Thus C<< (?<=(ab|bc)) >> is fine, but C<< (?<=(ab)*) >> is not.  The negated versions of the lookahead and lookbehind assertions are denoted by C<(?!regexp)> and C<< (?<!fixed-regexp) >> respectively.  They evaluate true if the regexps do I<not> match:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2244
+#, no-wrap
+msgid ""
+"    $x = \"foobar\";\n"
+"    $x =~ /foo(?!bar)/;  # doesn't match, 'bar' follows 'foo'\n"
+"    $x =~ /foo(?!baz)/;  # matches, 'baz' doesn't follow 'foo'\n"
+"    $x =~ /(?<!\\s)foo/;  # matches, there is no \\s before 'foo'\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2249
+msgid "The C<\\C> is unsupported in lookbehind, because the already treacherous definition of C<\\C> would become even more so when going backwards."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2253
+msgid "Here is an example where a string containing blank-separated words, numbers and single dashes is to be split into its components.  Using C</\\s+/> alone won't work, because spaces are not required between dashes, or a word or a dash. Additional places for a split are established by looking ahead and behind:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2259
+#, no-wrap
+msgid ""
+"    $str = \"one two - --6-8\";\n"
+"    @toks = split / \\s+              # a run of spaces\n"
+"                  | (?<=\\S) (?=-)    # any non-space followed by '-'\n"
+"                  | (?<=-)  (?=\\S)   # a '-' followed by any non-space\n"
+"                  /x, $str;          # @toks = qw(one two - - - 6 - 8)\n"
+"\n"
+msgstr ""
+
+#. type: =head2
+#: perlretut.pod:2266
+msgid "Using independent subexpressions to prevent backtracking"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2268
+msgid "I<Independent subexpressions> are regular expressions, in the context of a larger regular expression, that function independently of the larger regular expression.  That is, they consume as much or as little of the string as they wish without regard for the ability of the larger regexp to match.  Independent subexpressions are represented by C<< (?>regexp) >>.  We can illustrate their behavior by first considering an ordinary regexp:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2276
+#, no-wrap
+msgid ""
+"    $x = \"ab\";\n"
+"    $x =~ /a*ab/;  # matches\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2279
+msgid "This obviously matches, but in the process of matching, the subexpression C<a*> first grabbed the C<a>.  Doing so, however, wouldn't allow the whole regexp to match, so after backtracking, C<a*> eventually gave back the C<a> and matched the empty string.  Here, what C<a*> matched was I<dependent> on what the rest of the regexp matched."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2285
+msgid "Contrast that with an independent subexpression:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2287
+#, no-wrap
+msgid ""
+"    $x =~ /(?>a*)ab/;  # doesn't match!\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2289
+msgid "The independent subexpression C<< (?>a*) >> doesn't care about the rest of the regexp, so it sees an C<a> and grabs it.  Then the rest of the regexp C<ab> cannot match.  Because C<< (?>a*) >> is independent, there is no backtracking and the independent subexpression does not give up its C<a>.  Thus the match of the regexp as a whole fails.  A similar behavior occurs with completely independent regexps:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2296
+#, no-wrap
+msgid ""
+"    $x = \"ab\";\n"
+"    $x =~ /a*/g;   # matches, eats an 'a'\n"
+"    $x =~ /\\Gab/g; # doesn't match, no 'a' available\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2300
+msgid "Here C<//g> and C<\\G> create a 'tag team' handoff of the string from one regexp to the other.  Regexps with an independent subexpression are much like this, with a handoff of the string to the independent subexpression, and a handoff of the string back to the enclosing regexp."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2306
+msgid "The ability of an independent subexpression to prevent backtracking can be quite useful.  Suppose we want to match a non-empty string enclosed in parentheses up to two levels deep.  Then the following regexp matches:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2311
+#, no-wrap
+msgid ""
+"    $x = \"abc(de(fg)h\";  # unbalanced parentheses\n"
+"    $x =~ /\\( ( [^()]+ | \\([^()]*\\) )+ \\)/x;\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2314
+msgid "The regexp matches an open parenthesis, one or more copies of an alternation, and a close parenthesis.  The alternation is two-way, with the first alternative C<[^()]+> matching a substring with no parentheses and the second alternative C<\\([^()]*\\)> matching a substring delimited by parentheses.  The problem with this regexp is that it is pathological: it has nested indeterminate quantifiers of the form C<(a+|b)+>.  We discussed in Part 1 how nested quantifiers like this could take an exponentially long time to execute if there was no match possible.  To prevent the exponential blowup, we need to prevent useless backtracking at some point.  This can be done by enclosing the inner quantifier as an independent subexpression:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2326
+#, no-wrap
+msgid ""
+"    $x =~ /\\( ( (?>[^()]+) | \\([^()]*\\) )+ \\)/x;\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2328
+msgid "Here, C<< (?>[^()]+) >> breaks the degeneracy of string partitioning by gobbling up as much of the string as possible and keeping it.  Then match failures fail much more quickly."
+msgstr ""
+
+#. type: =head2
+#: perlretut.pod:2333
+msgid "Conditional expressions"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2335
+msgid "A I<conditional expression> is a form of if-then-else statement that allows one to choose which patterns are to be matched, based on some condition.  There are two types of conditional expression: C<(?(condition)yes-regexp)> and C<(?(condition)yes-regexp|no-regexp)>.  C<(?(condition)yes-regexp)> is like an S<C<'if () {}'>> statement in Perl.  If the C<condition> is true, the C<yes-regexp> will be matched.  If the C<condition> is false, the C<yes-regexp> will be skipped and Perl will move onto the next regexp element.  The second form is like an S<C<'if () {} else {}'>> statement in Perl.  If the C<condition> is true, the C<yes-regexp> will be matched, otherwise the C<no-regexp> will be matched."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2347
+msgid "The C<condition> can have several forms.  The first form is simply an integer in parentheses C<(integer)>.  It is true if the corresponding backreference C<\\integer> matched earlier in the regexp.  The same thing can be done with a name associated with a capture buffer, written as C<< (<name>) >> or C<< ('name') >>.  The second form is a bare zero width assertion C<(?...)>, either a lookahead, a lookbehind, or a code assertion (discussed in the next section).  The third set of forms provides tests that return true if the expression is executed within a recursion (C<(R)>) or is being called from some capturing group, referenced either by number (C<(R1)>, C<(R2)>,...) or by name (C<(R&name)>)."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2359
+msgid "The integer or name form of the C<condition> allows us to choose, with more flexibility, what to match based on what matched earlier in the regexp. This searches for words of the form C<\"$x$x\"> or C<\"$x$y$y$x\">:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2363
+#, no-wrap
+msgid ""
+"    % simple_grep '^(\\w+)(\\w+)?(?(2)\\2\\1|\\1)$' /usr/dict/words\n"
+"    beriberi\n"
+"    coco\n"
+"    couscous\n"
+"    deed\n"
+"    ...\n"
+"    toot\n"
+"    toto\n"
+"    tutu\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2373
+msgid "The lookbehind C<condition> allows, along with backreferences, an earlier part of the match to influence a later part of the match.  For instance,"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2377
+#, no-wrap
+msgid ""
+"    /[ATGC]+(?(?<=AA)G|C)$/;\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2379
+msgid "matches a DNA sequence such that it either ends in C<AAG>, or some other base pair combination and C<C>.  Note that the form is C<< (?(?<=AA)G|C) >> and not C<< (?((?<=AA))G|C) >>; for the lookahead, lookbehind or code assertions, the parentheses around the conditional are not needed."
+msgstr ""
+
+#. type: =head2
+#: perlretut.pod:2386
+msgid "Defining named patterns"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2388
+msgid "Some regular expressions use identical subpatterns in several places.  Starting with Perl 5.10, it is possible to define named subpatterns in a section of the pattern so that they can be called up by name anywhere in the pattern.  This syntactic pattern for this definition group is C<< (?(DEFINE)(?<name>pattern)...) >>.  An insertion of a named pattern is written as C<(?&name)>."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2395
+msgid "The example below illustrates this feature using the pattern for floating point numbers that was presented earlier on.  The three subpatterns that are used more than once are the optional sign, the digit sequence for an integer and the decimal fraction.  The DEFINE group at the end of the pattern contains their definition.  Notice that the decimal fraction pattern is the first place where we can reuse the integer pattern."
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2403
+#, no-wrap
+msgid ""
+"   /^ (?&osg)\\ * ( (?&int)(?&dec)? | (?&dec) )\n"
+"      (?: [eE](?&osg)(?&int) )?\n"
+"    $\n"
+"    (?(DEFINE)\n"
+"      (?<osg>[-+]?)         # optional sign\n"
+"      (?<int>\\d++)          # integer\n"
+"      (?<dec>\\.(?&int))     # decimal fraction\n"
+"    )/x\n"
+"\n"
+msgstr ""
+
+#. type: =head2
+#: perlretut.pod:2413
+msgid "Recursive patterns"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2415
+msgid "This feature (introduced in Perl 5.10) significantly extends the power of Perl's pattern matching.  By referring to some other capture group anywhere in the pattern with the construct C<(?group-ref)>, the I<pattern> within the referenced group is used as an independent subpattern in place of the group reference itself.  Because the group reference may be contained I<within> the group it refers to, it is now possible to apply pattern matching to tasks that hitherto required a recursive parser."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2424
+msgid "To illustrate this feature, we'll design a pattern that matches if a string contains a palindrome. (This is a word or a sentence that, while ignoring spaces, interpunctuation and case, reads the same backwards as forwards. We begin by observing that the empty string or a string containing just one word character is a palindrome. Otherwise it must have a word character up front and the same at its end, with another palindrome in between."
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2432
+#, no-wrap
+msgid ""
+"    /(?: (\\w) (?...Here be a palindrome...) \\g{-1} | \\w? )/x\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2434
+msgid "Adding C<\\W*> at either end to eliminate what is to be ignored, we already have the full pattern:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2437
+#, no-wrap
+msgid ""
+"    my $pp = qr/^(\\W* (?: (\\w) (?1) \\g{-1} | \\w? ) \\W*)$/ix;\n"
+"    for $s ( \"saippuakauppias\", \"A man, a plan, a canal: Panama!\" ){\n"
+"        print \"'$s' is a palindrome\\n"
+"\" if $s =~ /$pp/;\n"
+"    }\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2442
+msgid "In C<(?...)> both absolute and relative backreferences may be used.  The entire pattern can be reinserted with C<(?R)> or C<(?0)>.  If you prefer to name your buffers, you can use C<(?&name)> to recurse into that buffer."
+msgstr ""
+
+#. type: =head2
+#: perlretut.pod:2448
+msgid "A bit of magic: executing Perl code in a regular expression"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2450
+msgid "Normally, regexps are a part of Perl expressions.  I<Code evaluation> expressions turn that around by allowing arbitrary Perl code to be a part of a regexp.  A code evaluation expression is denoted C<(?{code})>, with I<code> a string of Perl statements."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2456
+msgid "Be warned that this feature is considered experimental, and may be changed without notice."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2459
+msgid "Code expressions are zero-width assertions, and the value they return depends on their environment.  There are two possibilities: either the code expression is used as a conditional in a conditional expression C<(?(condition)...)>, or it is not.  If the code expression is a conditional, the code is evaluated and the result (i.e., the result of the last statement) is used to determine truth or falsehood.  If the code expression is not used as a conditional, the assertion always evaluates true and the result is put into the special variable C<$^R>.  The variable C<$^R> can then be used in code expressions later in the regexp.  Here are some silly examples:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2470
+#, no-wrap
+msgid ""
+"    $x = \"abcdef\";\n"
+"    $x =~ /abc(?{print \"Hi Mom!\";})def/; # matches,\n"
+"                                         # prints 'Hi Mom!'\n"
+"    $x =~ /aaa(?{print \"Hi Mom!\";})def/; # doesn't match,\n"
+"                                         # no 'Hi Mom!'\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2476
+msgid "Pay careful attention to the next example:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2478
+#, no-wrap
+msgid ""
+"    $x =~ /abc(?{print \"Hi Mom!\";})ddd/; # doesn't match,\n"
+"                                         # no 'Hi Mom!'\n"
+"                                         # but why not?\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2482
+msgid "At first glance, you'd think that it shouldn't print, because obviously the C<ddd> isn't going to match the target string. But look at this example:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2486
+#, no-wrap
+msgid ""
+"    $x =~ /abc(?{print \"Hi Mom!\";})[dD]dd/; # doesn't match,\n"
+"                                            # but _does_ print\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2489
+msgid "Hmm. What happened here? If you've been following along, you know that the above pattern should be effectively (almost) the same as the last one; enclosing the C<d> in a character class isn't going to change what it matches. So why does the first not print while the second one does?"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2494
+msgid "The answer lies in the optimizations the regex engine makes. In the first case, all the engine sees are plain old characters (aside from the C<?{}> construct). It's smart enough to realize that the string 'ddd' doesn't occur in our target string before actually running the pattern through. But in the second case, we've tricked it into thinking that our pattern is more complicated. It takes a look, sees our character class, and decides that it will have to actually run the pattern to determine whether or not it matches, and in the process of running it hits the print statement before it discovers that we don't have a match."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2505
+msgid "To take a closer look at how the engine does optimizations, see the section L<\"Pragmas and debugging\"> below."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2508
+msgid "More fun with C<?{}>:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2510
+#, no-wrap
+msgid ""
+"    $x =~ /(?{print \"Hi Mom!\";})/;       # matches,\n"
+"                                         # prints 'Hi Mom!'\n"
+"    $x =~ /(?{$c = 1;})(?{print \"$c\";})/;  # matches,\n"
+"                                           # prints '1'\n"
+"    $x =~ /(?{$c = 1;})(?{print \"$^R\";})/; # matches,\n"
+"                                           # prints '1'\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2517
+msgid "The bit of magic mentioned in the section title occurs when the regexp backtracks in the process of searching for a match.  If the regexp backtracks over a code expression and if the variables used within are localized using C<local>, the changes in the variables produced by the code expression are undone! Thus, if we wanted to count how many times a character got matched inside a group, we could use, e.g.,"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2524
+#, no-wrap
+msgid ""
+"    $x = \"aaaa\";\n"
+"    $count = 0;  # initialize 'a' count\n"
+"    $c = \"bob\";  # test if $c gets clobbered\n"
+"    $x =~ /(?{local $c = 0;})         # initialize count\n"
+"           ( a                        # match 'a'\n"
+"             (?{local $c = $c + 1;})  # increment count\n"
+"           )*                         # do this any number of times,\n"
+"           aa                         # but match 'aa' at the end\n"
+"           (?{$count = $c;})          # copy local $c var into $count\n"
+"          /x;\n"
+"    print \"'a' count is $count, \\$c variable is '$c'\\n"
+"\";\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2538
+#, no-wrap
+msgid ""
+"    'a' count is 2, $c variable is 'bob'\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2540
+msgid "If we replace the S<C< (?{local $c = $c + 1;})>> with S<C< (?{$c = $c + 1;})>>, the variable changes are I<not> undone during backtracking, and we get"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2544
+#, no-wrap
+msgid ""
+"    'a' count is 4, $c variable is 'bob'\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2546
+msgid "Note that only localized variable changes are undone.  Other side effects of code expression execution are permanent.  Thus"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2549
+#, no-wrap
+msgid ""
+"    $x = \"aaaa\";\n"
+"    $x =~ /(a(?{print \"Yow\\n"
+"\";}))*aa/;\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2552
+msgid "produces"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2554
+#, no-wrap
+msgid ""
+"   Yow\n"
+"   Yow\n"
+"   Yow\n"
+"   Yow\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2559
+msgid "The result C<$^R> is automatically localized, so that it will behave properly in the presence of backtracking."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2562
+msgid "This example uses a code expression in a conditional to match a definite article, either 'the' in English or 'der|die|das' in German:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2565
+#, no-wrap
+msgid ""
+"    $lang = 'DE';  # use German\n"
+"    ...\n"
+"    $text = \"das\";\n"
+"    print \"matched\\n"
+"\"\n"
+"        if $text =~ /(?(?{\n"
+"                          $lang eq 'EN'; # is the language English?\n"
+"                         })\n"
+"                       the |             # if so, then match 'the'\n"
+"                       (der|die|das)     # else, match 'der|die|das'\n"
+"                     )\n"
+"                    /xi;\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2577
+msgid "Note that the syntax here is C<(?(?{...})yes-regexp|no-regexp)>, not C<(?((?{...}))yes-regexp|no-regexp)>.  In other words, in the case of a code expression, we don't need the extra parentheses around the conditional."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2582
+msgid "If you try to use code expressions with interpolating variables, Perl may surprise you:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2585
+#, no-wrap
+msgid ""
+"    $bar = 5;\n"
+"    $pat = '(?{ 1 })';\n"
+"    /foo(?{ $bar })bar/; # compiles ok, $bar not interpolated\n"
+"    /foo(?{ 1 })$bar/;   # compile error!\n"
+"    /foo${pat}bar/;      # compile error!\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2591
+#, no-wrap
+msgid ""
+"    $pat = qr/(?{ $foo = 1 })/;  # precompile code regexp\n"
+"    /foo${pat}bar/;      # compiles ok\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2594
+msgid "If a regexp has (1) code expressions and interpolating variables, or (2) a variable that interpolates a code expression, Perl treats the regexp as an error. If the code expression is precompiled into a variable, however, interpolating is ok. The question is, why is this an error?"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2600
+msgid "The reason is that variable interpolation and code expressions together pose a security risk.  The combination is dangerous because many programmers who write search engines often take user input and plug it directly into a regexp:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2605
+#, no-wrap
+msgid ""
+"    $regexp = <>;       # read user-supplied regexp\n"
+"    $chomp $regexp;     # get rid of possible newline\n"
+"    $text =~ /$regexp/; # search $text for the $regexp\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2609
+msgid "If the C<$regexp> variable contains a code expression, the user could then execute arbitrary Perl code.  For instance, some joker could search for S<C<system('rm -rf *');>> to erase your files.  In this sense, the combination of interpolation and code expressions I<taints> your regexp.  So by default, using both interpolation and code expressions in the same regexp is not allowed.  If you're not concerned about malicious users, it is possible to bypass this security check by invoking S<C<use re 'eval'>>:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2618
+#, no-wrap
+msgid ""
+"    use re 'eval';       # throw caution out the door\n"
+"    $bar = 5;\n"
+"    $pat = '(?{ 1 })';\n"
+"    /foo(?{ 1 })$bar/;   # compiles ok\n"
+"    /foo${pat}bar/;      # compiles ok\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2624
+msgid "Another form of code expression is the I<pattern code expression>.  The pattern code expression is like a regular code expression, except that the result of the code evaluation is treated as a regular expression and matched immediately.  A simple example is"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2629
+#, no-wrap
+msgid ""
+"    $length = 5;\n"
+"    $char = 'a';\n"
+"    $x = 'aaaaabb';\n"
+"    $x =~ /(??{$char x $length})/x; # matches, there are 5 of 'a'\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2635
+msgid "This final example contains both ordinary and pattern code expressions.  It detects whether a binary string C<1101010010001...> has a Fibonacci spacing 0,1,1,2,3,5,...  of the C<1>'s:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2639
+#, no-wrap
+msgid ""
+"    $x = \"1101010010001000001\";\n"
+"    $z0 = ''; $z1 = '0';   # initial conditions\n"
+"    print \"It is a Fibonacci sequence\\n"
+"\"\n"
+"        if $x =~ /^1         # match an initial '1'\n"
+"                    (?:\n"
+"                       ((??{ $z0 })) # match some '0'\n"
+"                       1             # and then a '1'\n"
+"\t\t       (?{ $z0 = $z1; $z1 .= $^N; })\n"
+"                    )+   # repeat as needed\n"
+"                  $      # that is all there is\n"
+"                 /x;\n"
+"    printf \"Largest sequence matched was %d\\n"
+"\", length($z1)-length($z0);\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2652
+msgid "Remember that C<$^N> is set to whatever was matched by the last completed capture group. This prints"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2655
+#, no-wrap
+msgid ""
+"    It is a Fibonacci sequence\n"
+"    Largest sequence matched was 5\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2658
+msgid "Ha! Try that with your garden variety regexp package..."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2660
+msgid "Note that the variables C<$z0> and C<$z1> are not substituted when the regexp is compiled, as happens for ordinary variables outside a code expression.  Rather, the code expressions are evaluated when Perl encounters them during the search for a match."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2665
+msgid "The regexp without the C<//x> modifier is"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2667
+#, no-wrap
+msgid ""
+"    /^1(?:((??{ $z0 }))1(?{ $z0 = $z1; $z1 .= $^N; }))+$/\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2669
+msgid "which shows that spaces are still possible in the code parts. Nevertheless, when working with code and conditional expressions, the extended form of regexps is almost necessary in creating and debugging regexps."
+msgstr ""
+
+#. type: =head2
+#: perlretut.pod:2674
+msgid "Backtracking control verbs"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2676
+msgid "Perl 5.10 introduced a number of control verbs intended to provide detailed control over the backtracking process, by directly influencing the regexp engine and by providing monitoring techniques.  As all the features in this group are experimental and subject to change or removal in a future version of Perl, the interested reader is referred to L<perlre/\"Special Backtracking Control Verbs\"> for a detailed description."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2684
+msgid "Below is just one example, illustrating the control verb C<(*FAIL)>, which may be abbreviated as C<(*F)>. If this is inserted in a regexp it will cause to fail, just like at some mismatch between the pattern and the string. Processing of the regexp continues like after any \"normal\" failure, so that, for instance, the next position in the string or another alternative will be tried. As failing to match doesn't preserve capture buffers or produce results, it may be necessary to use this in combination with embedded code."
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2693
+#, no-wrap
+msgid ""
+"   %count = ();\n"
+"   \"supercalifragilisticexpialidoceous\" =~\n"
+"       /([aeiou])(?{ $count{$1}++; })(*FAIL)/oi;\n"
+"   printf \"%3d '%s'\\n"
+"\", $count{$_}, $_ for (sort keys %count);\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2698
+msgid "The pattern begins with a class matching a subset of letters.  Whenever this matches, a statement like C<$count{'a'}++;> is executed, incrementing the letter's counter. Then C<(*FAIL)> does what it says, and the regexp engine proceeds according to the book: as long as the end of the string hasn't been reached, the position is advanced before looking for another vowel. Thus, match or no match makes no difference, and the regexp engine proceeds until the entire string has been inspected.  (It's remarkable that an alternative solution using something like"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2707
+#, no-wrap
+msgid ""
+"   $count{lc($_)}++ for split('', \"supercalifragilisticexpialidoceous\");\n"
+"   printf \"%3d '%s'\\n"
+"\", $count2{$_}, $_ for ( qw{ a e i o u } );\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2710
+msgid "is considerably slower.)"
+msgstr ""
+
+#. type: =head2
+#: perlretut.pod:2713
+msgid "Pragmas and debugging"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2715
+msgid "Speaking of debugging, there are several pragmas available to control and debug regexps in Perl.  We have already encountered one pragma in the previous section, S<C<use re 'eval';>>, that allows variable interpolation and code expressions to coexist in a regexp.  The other pragmas are"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2721
+#, no-wrap
+msgid ""
+"    use re 'taint';\n"
+"    $tainted = <>;\n"
+"    @parts = ($tainted =~ /(\\w+)\\s+(\\w+)/; # @parts is now tainted\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2725
+msgid "The C<taint> pragma causes any substrings from a match with a tainted variable to be tainted as well.  This is not normally the case, as regexps are often used to extract the safe bits from a tainted variable.  Use C<taint> when you are not extracting safe bits, but are performing some other processing.  Both C<taint> and C<eval> pragmas are lexically scoped, which means they are in effect only until the end of the block enclosing the pragmas."
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2733
+#, no-wrap
+msgid ""
+"    use re 'debug';\n"
+"    /^(.*)$/s;       # output debugging info\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2736
+#, no-wrap
+msgid ""
+"    use re 'debugcolor';\n"
+"    /^(.*)$/s;       # output debugging info in living color\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2739
+msgid "The global C<debug> and C<debugcolor> pragmas allow one to get detailed debugging info about regexp compilation and execution.  C<debugcolor> is the same as debug, except the debugging information is displayed in color on terminals that can display termcap color sequences.  Here is example output:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2745
+#, no-wrap
+msgid ""
+"    % perl -e 'use re \"debug\"; \"abc\" =~ /a*b+c/;'\n"
+"    Compiling REx `a*b+c'\n"
+"    size 9 first at 1\n"
+"       1: STAR(4)\n"
+"       2:   EXACT <a>(0)\n"
+"       4: PLUS(7)\n"
+"       5:   EXACT <b>(0)\n"
+"       7: EXACT <c>(9)\n"
+"       9: END(0)\n"
+"    floating `bc' at 0..2147483647 (checking floating) minlen 2\n"
+"    Guessing start of match, REx `a*b+c' against `abc'...\n"
+"    Found floating substr `bc' at offset 1...\n"
+"    Guessed: match at offset 0\n"
+"    Matching REx `a*b+c' against `abc'\n"
+"      Setting an EVAL scope, savestack=3\n"
+"       0 <> <abc>             |  1:  STAR\n"
+"                               EXACT <a> can match 1 times out of 32767...\n"
+"      Setting an EVAL scope, savestack=3\n"
+"       1 <a> <bc>             |  4:    PLUS\n"
+"                               EXACT <b> can match 1 times out of 32767...\n"
+"      Setting an EVAL scope, savestack=3\n"
+"       2 <ab> <c>             |  7:      EXACT <c>\n"
+"       3 <abc> <>             |  9:      END\n"
+"    Match successful!\n"
+"    Freeing REx: `a*b+c'\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2771
+msgid "If you have gotten this far into the tutorial, you can probably guess what the different parts of the debugging output tell you.  The first part"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2775
+#, no-wrap
+msgid ""
+"    Compiling REx `a*b+c'\n"
+"    size 9 first at 1\n"
+"       1: STAR(4)\n"
+"       2:   EXACT <a>(0)\n"
+"       4: PLUS(7)\n"
+"       5:   EXACT <b>(0)\n"
+"       7: EXACT <c>(9)\n"
+"       9: END(0)\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2784
+msgid "describes the compilation stage.  C<STAR(4)> means that there is a starred object, in this case C<'a'>, and if it matches, goto line 4, i.e., C<PLUS(7)>.  The middle lines describe some heuristics and optimizations performed before a match:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2789
+#, no-wrap
+msgid ""
+"    floating `bc' at 0..2147483647 (checking floating) minlen 2\n"
+"    Guessing start of match, REx `a*b+c' against `abc'...\n"
+"    Found floating substr `bc' at offset 1...\n"
+"    Guessed: match at offset 0\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2794
+msgid "Then the match is executed and the remaining lines describe the process:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2797
+#, no-wrap
+msgid ""
+"    Matching REx `a*b+c' against `abc'\n"
+"      Setting an EVAL scope, savestack=3\n"
+"       0 <> <abc>             |  1:  STAR\n"
+"                               EXACT <a> can match 1 times out of 32767...\n"
+"      Setting an EVAL scope, savestack=3\n"
+"       1 <a> <bc>             |  4:    PLUS\n"
+"                               EXACT <b> can match 1 times out of 32767...\n"
+"      Setting an EVAL scope, savestack=3\n"
+"       2 <ab> <c>             |  7:      EXACT <c>\n"
+"       3 <abc> <>             |  9:      END\n"
+"    Match successful!\n"
+"    Freeing REx: `a*b+c'\n"
+"\n"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2810
+msgid "Each step is of the form S<C<< n <x> <y> >>>, with C<< <x> >> the part of the string matched and C<< <y> >> the part not yet matched.  The S<C<< | 1: STAR >>> says that Perl is at line number 1 n the compilation list above.  See L<perldebguts/\"Debugging regular expressions\"> for much more detail."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2816
+msgid "An alternative method of debugging regexps is to embed C<print> statements within the regexp.  This provides a blow-by-blow account of the backtracking in an alternation:"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2820
+#, no-wrap
+msgid ""
+"    \"that this\" =~ m@(?{print \"Start at position \", pos, \"\\n"
+"\";})\n"
+"                     t(?{print \"t1\\n"
+"\";})\n"
+"                     h(?{print \"h1\\n"
+"\";})\n"
+"                     i(?{print \"i1\\n"
+"\";})\n"
+"                     s(?{print \"s1\\n"
+"\";})\n"
+"                         |\n"
+"                     t(?{print \"t2\\n"
+"\";})\n"
+"                     h(?{print \"h2\\n"
+"\";})\n"
+"                     a(?{print \"a2\\n"
+"\";})\n"
+"                     t(?{print \"t2\\n"
+"\";})\n"
+"                     (?{print \"Done at position \", pos, \"\\n"
+"\";})\n"
+"                    @x;\n"
+"\n"
+msgstr ""
+
+#. type: verbatim
+#: perlretut.pod:2835
+#, no-wrap
+msgid ""
+"    Start at position 0\n"
+"    t1\n"
+"    h1\n"
+"    t2\n"
+"    h2\n"
+"    a2\n"
+"    t2\n"
+"    Done at position 4\n"
+"\n"
+msgstr ""
+
+#. type: =head1
+#: perlretut.pod:2844
+msgid "BUGS"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2846
+msgid "Code expressions, conditional expressions, and independent expressions are I<experimental>.  Don't use them in production code.  Yet."
+msgstr ""
+
+#. type: =head1
+#: perlretut.pod:2849
+msgid "SEE ALSO"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2851
+msgid "This is just a tutorial.  For the full story on Perl regular expressions, see the L<perlre> regular expressions reference page."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2854
+msgid "For more information on the matching C<m//> and substitution C<s///> operators, see L<perlop/\"Regexp Quote-Like Operators\">.  For information on the C<split> operation, see L<perlfunc/split>."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2858
+msgid "For an excellent all-around resource on the care and feeding of regular expressions, see the book I<Mastering Regular Expressions> by Jeffrey Friedl (published by O'Reilly, ISBN 1556592-257-3)."
+msgstr ""
+
+#. type: =head1
+#: perlretut.pod:2862
+msgid "AUTHOR AND COPYRIGHT"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2864
+msgid "Copyright (c) 2000 Mark Kvale All rights reserved."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2867
+msgid "This document may be distributed under the same terms as Perl itself."
+msgstr ""
+
+#. type: =head2
+#: perlretut.pod:2869
+msgid "Acknowledgments"
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2871
+msgid "The inspiration for the stop codon DNA example came from the ZIP code example in chapter 7 of I<Mastering Regular Expressions>."
+msgstr ""
+
+#. type: textblock
+#: perlretut.pod:2874
+msgid "The author would like to thank Jeff Pinyan, Andrew Johnson, Peter Haworth, Ronald J Kimball, and Joe Smith for all their helpful comments."
+msgstr ""
+

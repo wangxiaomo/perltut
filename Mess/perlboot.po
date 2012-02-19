@@ -1,0 +1,1934 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-01-22 10:11+0800\n"
+"PO-Revision-Date: 2012-01-22 10:11+0800\n"
+"Last-Translator: xiaomo <wxm4ever@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. type: =head1
+#: perlboot.pod:1
+msgid "NAME"
+msgstr "NAME"
+
+#. type: textblock
+#: perlboot.pod:3
+msgid "perlboot - Beginner's Object-Oriented Tutorial"
+msgstr "perlboot - Perl 新手 OO 手册"
+
+#. type: =head1
+#: perlboot.pod:5
+msgid "DESCRIPTION"
+msgstr "DESCRIPTION"
+
+#. type: textblock
+#: perlboot.pod:7
+msgid "If you're not familiar with objects from other languages, some of the other Perl object documentation may be a little daunting, such as L<perlobj>, a basic reference in using objects, and L<perltoot>, which introduces readers to the peculiarities of Perl's object system in a tutorial way."
+msgstr "如果你对面向对象编程不是很熟悉的话，L<perlobj>、L<perltoot> 等文档对你来说阅读"
+"起来可能会有些难度。"
+
+#. type: textblock
+#: perlboot.pod:13
+msgid "So, let's take a different approach, presuming no prior object experience. It helps if you know about subroutines (L<perlsub>), references (L<perlref> et. seq.), and packages (L<perlmod>), so become familiar with those first if you haven't already."
+msgstr "所以本文档用另外一种方式来讲述 Perl OO。在开始之前，你需要初步掌握 L<perlsub>、"
+"L<perlref>、L<perlmod> 等知识。"
+
+#. type: =head2
+#: perlboot.pod:18
+msgid "If we could talk to the animals..."
+msgstr "假设我们能听懂动物说的话..."
+
+#. type: textblock
+#: perlboot.pod:20
+msgid "Let's let the animals talk for a moment:"
+msgstr "首先让动物开口说话："
+
+#. type: verbatim
+#: perlboot.pod:22
+#: perlboot.pod:102
+#, no-wrap
+msgid ""
+"    sub Cow::speak {\n"
+"      print \"a Cow goes moooo!\\n"
+"\";\n"
+"    }\n"
+"    sub Horse::speak {\n"
+"      print \"a Horse goes neigh!\\n"
+"\";\n"
+"    }\n"
+"    sub Sheep::speak {\n"
+"      print \"a Sheep goes baaaah!\\n"
+"\";\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub Cow::speak {\n"
+"      print \"a Cow goes moooo!\\n"
+"\";\n"
+"    }\n"
+"    sub Horse::speak {\n"
+"      print \"a Horse goes neigh!\\n"
+"\";\n"
+"    }\n"
+"    sub Sheep::speak {\n"
+"      print \"a Sheep goes baaaah!\\n"
+"\";\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perlboot.pod:32
+#, no-wrap
+msgid ""
+"    Cow::speak;\n"
+"    Horse::speak;\n"
+"    Sheep::speak;\n"
+"\n"
+msgstr ""
+"    Cow::speak;\n"
+"    Horse::speak;\n"
+"    Sheep::speak;\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:36
+#: perlboot.pod:52
+msgid "This results in:"
+msgstr "上面代码的结果是："
+
+#. type: verbatim
+#: perlboot.pod:38
+#: perlboot.pod:83
+#, no-wrap
+msgid ""
+"    a Cow goes moooo!\n"
+"    a Horse goes neigh!\n"
+"    a Sheep goes baaaah!\n"
+"\n"
+msgstr ""
+"    a Cow goes moooo!\n"
+"    a Horse goes neigh!\n"
+"    a Sheep goes baaaah!\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:42
+msgid "Nothing spectacular here.  Simple subroutines, albeit from separate packages, and called using the full package name.  So let's create an entire pasture:"
+msgstr "上面的代码没什么复杂的，就是一些指明包名的 subroutines。所以我们改写下上面的代码："
+
+#. type: verbatim
+#: perlboot.pod:46
+#, no-wrap
+msgid ""
+"    # Cow::speak, Horse::speak, Sheep::speak as before\n"
+"    @pasture = qw(Cow Cow Horse Sheep Sheep);\n"
+"    foreach $animal (@pasture) {\n"
+"      &{$animal.\"::speak\"};\n"
+"    }\n"
+"\n"
+msgstr ""
+"    # Cow::speak, Horse::speak, Sheep::speak as before\n"
+"    @pasture = qw(Cow Cow Horse Sheep Sheep);\n"
+"    foreach $animal (@pasture) {\n"
+"      &{$animal.\"::speak\"};\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perlboot.pod:54
+#, no-wrap
+msgid ""
+"    a Cow goes moooo!\n"
+"    a Cow goes moooo!\n"
+"    a Horse goes neigh!\n"
+"    a Sheep goes baaaah!\n"
+"    a Sheep goes baaaah!\n"
+"\n"
+msgstr ""
+"    a Cow goes moooo!\n"
+"    a Cow goes moooo!\n"
+"    a Horse goes neigh!\n"
+"    a Sheep goes baaaah!\n"
+"    a Sheep goes baaaah!\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:60
+msgid "Wow.  That symbolic coderef de-referencing there is pretty nasty.  We're counting on C<no strict refs> mode, certainly not recommended for larger programs.  And why was that necessary? Because the name of the package seems to be inseparable from the name of the subroutine we want to invoke within that package."
+msgstr "哇，那些复杂的符号看起来太复杂了。我们是在 C<no strict refs> 模式下运行的，所以"
+"它们是不推荐在大型程序中出现的。"
+
+#. type: textblock
+#: perlboot.pod:66
+msgid "Or is it?"
+msgstr ""
+
+#. type: =head2
+#: perlboot.pod:68
+msgid "Introducing the method invocation arrow"
+msgstr "方法访问符"
+
+#. type: textblock
+#: perlboot.pod:70
+msgid "For now, let's say that C<< Class->method >> invokes subroutine C<method> in package C<Class>.  (Here, \"Class\" is used in its \"category\" meaning, not its \"scholastic\" meaning.) That's not completely accurate, but we'll do this one step at a time.  Now let's use it like so:"
+msgstr "现在，我们通过 C<< Class->method >> 这种方式来调用 C<Class> 包里的 C<method> "
+"方法。"
+
+#. type: verbatim
+#: perlboot.pod:76
+#, no-wrap
+msgid ""
+"    # Cow::speak, Horse::speak, Sheep::speak as before\n"
+"    Cow->speak;\n"
+"    Horse->speak;\n"
+"    Sheep->speak;\n"
+"\n"
+msgstr ""
+"    # Cow::speak, Horse::speak, Sheep::speak as before\n"
+"    Cow->speak;\n"
+"    Horse->speak;\n"
+"    Sheep->speak;\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:81
+msgid "And once again, this results in:"
+msgstr "上面的代码将输出："
+
+#. type: textblock
+#: perlboot.pod:87
+msgid "That's not fun yet.  Same number of characters, all constant, no variables.  But yet, the parts are separable now.  Watch:"
+msgstr "上面的代码全是常量，不包含变量。请看下面的代码："
+
+#. type: verbatim
+#: perlboot.pod:90
+#, no-wrap
+msgid ""
+"    $a = \"Cow\";\n"
+"    $a->speak; # invokes Cow->speak\n"
+"\n"
+msgstr ""
+"    $a = \"Cow\";\n"
+"    $a->speak; # invokes Cow->speak\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:93
+msgid "Ahh! Now that the package name has been parted from the subroutine name, we can use a variable package name.  And this time, we've got something that works even when C<use strict refs> is enabled."
+msgstr "现在便把包名和方法分开了，而且这次我们可以在 C<use strict refs> 下运行了。"
+
+#. type: =head2
+#: perlboot.pod:97
+msgid "Invoking a barnyard"
+msgstr "使用方法访问符"
+
+#. type: textblock
+#: perlboot.pod:99
+msgid "Let's take that new arrow invocation and put it back in the barnyard example:"
+msgstr "让我们之前学到的方法修饰符与一开始的代码合并在一起："
+
+#. type: verbatim
+#: perlboot.pod:112
+#, no-wrap
+msgid ""
+"    @pasture = qw(Cow Cow Horse Sheep Sheep);\n"
+"    foreach $animal (@pasture) {\n"
+"      $animal->speak;\n"
+"    }\n"
+"\n"
+msgstr ""
+"    @pasture = qw(Cow Cow Horse Sheep Sheep);\n"
+"    foreach $animal (@pasture) {\n"
+"      $animal->speak;\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:117
+msgid "There! Now we have the animals all talking, and safely at that, without the use of symbolic coderefs."
+msgstr "现在我们能使所有的动物说话，而且使用的是安全的符号链接。"
+
+#. type: textblock
+#: perlboot.pod:120
+msgid "But look at all that common code.  Each of the C<speak> routines has a similar structure: a C<print> operator and a string that contains common text, except for two of the words.  It'd be nice if we could factor out the commonality, in case we decide later to change it all to C<says> instead of C<goes>."
+msgstr "仔细看看我们的代码，我们在每个 C<speak> 方法中都包含 C<print> 方法和要输出的只有"
+"细微差别的字符串。如果我们能动态的决定动物们说什么该有多好啊。"
+
+#. type: textblock
+#: perlboot.pod:126
+msgid "And we actually have a way of doing that without much fuss, but we have to hear a bit more about what the method invocation arrow is actually doing for us."
+msgstr "当然我们可以通过传递参数来实现。"
+
+#. type: =head2
+#: perlboot.pod:130
+msgid "The extra parameter of method invocation"
+msgstr "方法参数"
+
+#. type: textblock
+#: perlboot.pod:132
+msgid "The invocation of:"
+msgstr "调用方式为："
+
+#. type: verbatim
+#: perlboot.pod:134
+#, no-wrap
+msgid ""
+"    Class->method(@args)\n"
+"\n"
+msgstr ""
+"    Class->method(@args)\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:136
+msgid "attempts to invoke subroutine C<Class::method> as:"
+msgstr "实际上的调用过程如下："
+
+#. type: verbatim
+#: perlboot.pod:138
+#, no-wrap
+msgid ""
+"    Class::method(\"Class\", @args);\n"
+"\n"
+msgstr ""
+"    Class::method(\"Class\", @args);\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:140
+msgid "(If the subroutine can't be found, \"inheritance\" kicks in, but we'll get to that later.)  This means that we get the class name as the first parameter (the only parameter, if no arguments are given).  So we can rewrite the C<Sheep> speaking subroutine as:"
+msgstr "所以我们可以改写 C<Sheep> speak 方法："
+
+#. type: verbatim
+#: perlboot.pod:145
+#, no-wrap
+msgid ""
+"    sub Sheep::speak {\n"
+"      my $class = shift;\n"
+"      print \"a $class goes baaaah!\\n"
+"\";\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub Sheep::speak {\n"
+"      my $class = shift;\n"
+"      print \"a $class goes baaaah!\\n"
+"\";\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:150
+msgid "And the other two animals come out similarly:"
+msgstr "另外两只动物的方法也相应的改写为："
+
+#. type: verbatim
+#: perlboot.pod:152
+#, no-wrap
+msgid ""
+"    sub Cow::speak {\n"
+"      my $class = shift;\n"
+"      print \"a $class goes moooo!\\n"
+"\";\n"
+"    }\n"
+"    sub Horse::speak {\n"
+"      my $class = shift;\n"
+"      print \"a $class goes neigh!\\n"
+"\";\n"
+"    }\n"
+"\n"
+msgstr ""
+"    sub Cow::speak {\n"
+"      my $class = shift;\n"
+"      print \"a $class goes moooo!\\n"
+"\";\n"
+"    }\n"
+"    sub Horse::speak {\n"
+"      my $class = shift;\n"
+"      print \"a $class goes neigh!\\n"
+"\";\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:161
+msgid "In each case, C<$class> will get the value appropriate for that subroutine.  But once again, we have a lot of similar structure.  Can we factor that out even further? Yes, by calling another method in the same class."
+msgstr "C<$class> 会根据不同的调用有着不同的值。但是我们可以更进一步的控制它吗？当然，我"
+"们可以在函数中调用其他方法。"
+
+#. type: =head2
+#: perlboot.pod:166
+msgid "Calling a second method to simplify things"
+msgstr "调用另一个方法来简化过程"
+
+#. type: textblock
+#: perlboot.pod:168
+msgid "Let's call out from C<speak> to a helper method called C<sound>.  This method provides the constant text for the sound itself."
+msgstr "让我们在 C<speak> 方法中调用另一个 helper 方法 C<sound>。这个方法给出动物发出的"
+"声音。"
+
+#. type: verbatim
+#: perlboot.pod:171
+#, no-wrap
+msgid ""
+"    { package Cow;\n"
+"      sub sound { \"moooo\" }\n"
+"      sub speak {\n"
+"        my $class = shift;\n"
+"        print \"a $class goes \", $class->sound, \"!\\n"
+"\";\n"
+"      }\n"
+"    }\n"
+"\n"
+msgstr ""
+"    { package Cow;\n"
+"      sub sound { \"moooo\" }\n"
+"      sub speak {\n"
+"        my $class = shift;\n"
+"        print \"a $class goes \", $class->sound, \"!\\n"
+"\";\n"
+"      }\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:179
+msgid "Now, when we call C<< Cow->speak >>, we get a C<$class> of C<Cow> in C<speak>.  This in turn selects the C<< Cow->sound >> method, which returns C<moooo>.  But how different would this be for the C<Horse>?"
+msgstr "现在我们调用 C<< Cow->speak >>，将会首先调用 C<Cow> 类中的 C<speak> 方法，而在"
+"C<speak> 方法中会调用 C<< Cow->sound >> 方法，该方法会返回 Cow 的叫声 C<mooo>。那么 "
+"C<Horse> 类该怎么写呢？"
+
+#. type: verbatim
+#: perlboot.pod:183
+#, no-wrap
+msgid ""
+"    { package Horse;\n"
+"      sub sound { \"neigh\" }\n"
+"      sub speak {\n"
+"        my $class = shift;\n"
+"        print \"a $class goes \", $class->sound, \"!\\n"
+"\";\n"
+"      }\n"
+"    }\n"
+"\n"
+msgstr ""
+"    { package Horse;\n"
+"      sub sound { \"neigh\" }\n"
+"      sub speak {\n"
+"        my $class = shift;\n"
+"        print \"a $class goes \", $class->sound, \"!\\n"
+"\";\n"
+"      }\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:191
+msgid "Only the name of the package and the specific sound change.  So can we somehow share the definition for C<speak> between the Cow and the Horse? Yes, with inheritance!"
+msgstr "现在动物之间只有包名和 sound 方法不同。那么我们如何能让它们使用同一个 C<speak> "
+"方法呢？是的，使用继承。"
+
+#. type: =head2
+#: perlboot.pod:195
+msgid "Inheriting the windpipes"
+msgstr "继承"
+
+#. type: textblock
+#: perlboot.pod:197
+msgid "We'll define a common subroutine package called C<Animal>, with the definition for C<speak>:"
+msgstr "我们将会定义一个包含共享方法 C<speak> 的类 C<Animal>："
+
+#. type: verbatim
+#: perlboot.pod:200
+#, no-wrap
+msgid ""
+"    { package Animal;\n"
+"      sub speak {\n"
+"      my $class = shift;\n"
+"      print \"a $class goes \", $class->sound, \"!\\n"
+"\";\n"
+"      }\n"
+"    }\n"
+"\n"
+msgstr ""
+"    { package Animal;\n"
+"      sub speak {\n"
+"      my $class = shift;\n"
+"      print \"a $class goes \", $class->sound, \"!\\n"
+"\";\n"
+"      }\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:207
+msgid "Then, for each animal, we say it \"inherits\" from C<Animal>, along with the animal-specific sound:"
+msgstr "接下来每个动物便可以继承 C<Animal> 类，同时指定属于自己的声音："
+
+#. type: verbatim
+#: perlboot.pod:210
+#, no-wrap
+msgid ""
+"    { package Cow;\n"
+"      @ISA = qw(Animal);\n"
+"      sub sound { \"moooo\" }\n"
+"    }\n"
+"\n"
+msgstr ""
+"    { package Cow;\n"
+"      @ISA = qw(Animal);\n"
+"      sub sound { \"moooo\" }\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:215
+msgid "Note the added C<@ISA> array (pronounced \"is a\").  We'll get to that in a minute."
+msgstr "我们将会在下一个章节介绍 C<@ISA> (pronounced \"is a\")。"
+
+#. type: textblock
+#: perlboot.pod:217
+msgid "But what happens when we invoke C<< Cow->speak >> now?"
+msgstr "在调用 C<< Cow->speak >> 的时候发生了什么呢？"
+
+#. type: textblock
+#: perlboot.pod:219
+msgid "First, Perl constructs the argument list.  In this case, it's just C<Cow>.  Then Perl looks for C<Cow::speak>.  But that's not there, so Perl checks for the inheritance array C<@Cow::ISA>.  It's there, and contains the single name C<Animal>."
+msgstr "首先，Perl 调用 C<Cow::Speak>，但是在 C<Cow> 中找不到 speak 方法，所以 Perl 会"
+"检查在 C<@Cow::ISA> 中寻找，并且最终在 C<Animal> 类中找到。"
+
+#. type: textblock
+#: perlboot.pod:224
+msgid "Perl next checks for C<speak> inside C<Animal> instead, as in C<Animal::speak>.  And that's found, so Perl invokes that subroutine with the already frozen argument list."
+msgstr "于是，Perl 调用 C<Animal::speak> 方法。"
+
+#. type: textblock
+#: perlboot.pod:228
+msgid "Inside the C<Animal::speak> subroutine, C<$class> becomes C<Cow> (the first argument).  So when we get to the step of invoking C<< $class->sound >>, it'll be looking for C<< Cow->sound >>, which gets it on the first try without looking at C<@ISA>.  Success!"
+msgstr "在 C<Animal::speak> 方法中， C<$class> 为 C<Cow>，所以在调用 C<< $class->sound >>"
+" 的时候会调用 C<< Cow->sound >> 方法。"
+
+#. type: =head2
+#: perlboot.pod:233
+msgid "A few notes about @ISA"
+msgstr "关于 @ISA"
+
+#. type: textblock
+#: perlboot.pod:235
+msgid "This magical C<@ISA> variable has declared that C<Cow> \"is a\" C<Animal>.  Note that it's an array, not a simple single value, because on rare occasions, it makes sense to have more than one parent class searched for the missing methods."
+msgstr "在 C<Cow> 中的 C<@ISA> 声明为 C<Animal>。C<@ISA> 是一个数组，不是单独的一个值，"
+"这表明我们可以在 Perl OO 中使用多继承。"
+
+#. type: textblock
+#: perlboot.pod:240
+msgid "If C<Animal> also had an C<@ISA>, then we'd check there too.  The search is recursive, depth-first, left-to-right in each C<@ISA> by default (see L<mro> for alternatives).  Typically, each C<@ISA> has only one element (multiple elements means multiple inheritance and multiple headaches), so we get a nice tree of inheritance."
+msgstr "如果 C<Animal> 中也有 C<@ISA>，那么 Perl 也会继续检查它的父类。这个检查过程是"
+"从左到右递归完成的。所以单继承类中的 C<@ISA> 包含一个元素，而多继承类中的 C<@ISA> 包含"
+"多个元素，通过 C<@ISA> 我们便构造出了完整的继承状态。"
+
+#. type: textblock
+#: perlboot.pod:246
+msgid "When we turn on C<use strict>, we'll get complaints on C<@ISA>, since it's not a variable containing an explicit package name, nor is it a lexical (\"my\") variable.  We can't make it a lexical variable though (it has to belong to the package to be found by the inheritance mechanism), so there's a couple of straightforward ways to handle that."
+msgstr "当我们在 C<use strict> 状态下运行时，我们会得到关于 C<@ISA> 的错误。我们可以通过"
+"如下方法解决："
+
+#. type: textblock
+#: perlboot.pod:252
+msgid "The easiest is to just spell the package name out:"
+msgstr "最简单的就是连通包名一起指明："
+
+#. type: verbatim
+#: perlboot.pod:254
+#, no-wrap
+msgid ""
+"    @Cow::ISA = qw(Animal);\n"
+"\n"
+msgstr ""
+"    @Cow::ISA = qw(Animal);\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:256
+msgid "Or declare it as package global variable:"
+msgstr "或把它当作全局变量来声明："
+
+#. type: verbatim
+#: perlboot.pod:258
+#, no-wrap
+msgid ""
+"    package Cow;\n"
+"    our @ISA = qw(Animal);\n"
+"\n"
+msgstr ""
+"    package Cow;\n"
+"    our @ISA = qw(Animal);\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:261
+msgid "Or allow it as an implicitly named package variable:"
+msgstr "或者我们允许检查时跳过它："
+
+#. type: verbatim
+#: perlboot.pod:263
+#, no-wrap
+msgid ""
+"    package Cow;\n"
+"    use vars qw(@ISA);\n"
+"    @ISA = qw(Animal);\n"
+"\n"
+msgstr ""
+"    package Cow;\n"
+"    use vars qw(@ISA);\n"
+"    @ISA = qw(Animal);\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:267
+msgid "If the C<Animal> class comes from another (object-oriented) module, then just employ C<use base> to specify that C<Animal> should serve as the basis for the C<Cow> class:"
+msgstr "当然我们也可以用 C<use base> 来指定 C<Cow> 类的父类："
+
+#. type: verbatim
+#: perlboot.pod:271
+#, no-wrap
+msgid ""
+"    package Cow;\n"
+"    use base qw(Animal);\n"
+"\n"
+msgstr ""
+"    package Cow;\n"
+"    use base qw(Animal);\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:274
+msgid "Now that's pretty darn simple!"
+msgstr "就是这么简单。"
+
+#. type: =head2
+#: perlboot.pod:276
+msgid "Overriding the methods"
+msgstr "重载方法"
+
+#. type: textblock
+#: perlboot.pod:278
+msgid "Let's add a mouse, which can barely be heard:"
+msgstr "现在我们添加 mouse 进来，它的声音很难被听到："
+
+#. type: verbatim
+#: perlboot.pod:280
+#, no-wrap
+msgid ""
+"    # Animal package from before\n"
+"    { package Mouse;\n"
+"      @ISA = qw(Animal);\n"
+"      sub sound { \"squeak\" }\n"
+"      sub speak {\n"
+"        my $class = shift;\n"
+"        print \"a $class goes \", $class->sound, \"!\\n"
+"\";\n"
+"        print \"[but you can barely hear it!]\\n"
+"\";\n"
+"      }\n"
+"    }\n"
+"\n"
+msgstr ""
+"    # Animal package from before\n"
+"    { package Mouse;\n"
+"      @ISA = qw(Animal);\n"
+"      sub sound { \"squeak\" }\n"
+"      sub speak {\n"
+"        my $class = shift;\n"
+"        print \"a $class goes \", $class->sound, \"!\\n"
+"\";\n"
+"        print \"[but you can barely hear it!]\\n"
+"\";\n"
+"      }\n"
+"    }\n"
+"\n"
+
+#. type: verbatim
+#: perlboot.pod:291
+#, no-wrap
+msgid ""
+"    Mouse->speak;\n"
+"\n"
+msgstr ""
+"    Mouse->speak;\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:293
+#: perlboot.pod:840
+msgid "which results in:"
+msgstr "上面的代码结果是："
+
+#. type: verbatim
+#: perlboot.pod:295
+#, no-wrap
+msgid ""
+"    a Mouse goes squeak!\n"
+"    [but you can barely hear it!]\n"
+"\n"
+msgstr ""
+"    a Mouse goes squeak!\n"
+"    [but you can barely hear it!]\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:298
+msgid "Here, C<Mouse> has its own speaking routine, so C<< Mouse->speak >> doesn't immediately invoke C<< Animal->speak >>. This is known as \"overriding\". In fact, we don't even need to say that a C<Mouse> is an C<Animal> at all, because all of the methods needed for C<speak> are completely defined for C<Mouse>; this is known as \"duck typing\": \"If it walks like a duck and quacks like a duck, I would call it a duck\" (James Whitcomb). However, it would probably be beneficial to allow a closer examination to conclude that a C<Mouse> is indeed an C<Animal>, so it is actually better to define C<Mouse> with C<Animal> as its base (that is, it is better to \"derive C<Mouse> from C<Animal>\")."
+msgstr "此时，C<Mouse> 有属于它自己的 speak 方法，所以调用 C<< Mouse->speak >> 方法不会直"
+"接调用 C<< Animal->speak >> 方法，而是调用属于自己的该方法。这就是我们所熟知的\"重载\"。"
+
+#. type: textblock
+#: perlboot.pod:309
+msgid "Moreover, this duplication of code could become a maintenance headache (though code-reuse is not actually a good reason for inheritance; good design practices dictate that a derived class should be usable wherever its base class is usable, which might not be the outcome if code-reuse is the sole criterion for inheritance. Just remember that a C<Mouse> should always act like an C<Animal>)."
+msgstr "虽然 C<Mouse> 可以完全不依赖于 C<Animal> 类。但是因为填鸭思想，我们还是让 "
+"C<Mouse> 类继承于 C<Animal> 类。"
+
+#. type: textblock
+#: perlboot.pod:316
+msgid "So, let's make C<Mouse> an C<Animal>!"
+msgstr ""
+
+#. type: textblock
+#: perlboot.pod:318
+msgid "The obvious solution is to invoke C<Animal::speak> directly:"
+msgstr "但在 speak 方法中依然调用父类的 speak 方法 C<Animal::speak>："
+
+#. type: verbatim
+#: perlboot.pod:320
+#, no-wrap
+msgid ""
+"    # Animal package from before\n"
+"    { package Mouse;\n"
+"      @ISA = qw(Animal);\n"
+"      sub sound { \"squeak\" }\n"
+"      sub speak {\n"
+"        my $class = shift;\n"
+"        Animal::speak($class);\n"
+"        print \"[but you can barely hear it!]\\n"
+"\";\n"
+"      }\n"
+"    }\n"
+"\n"
+msgstr ""
+"    # Animal package from before\n"
+"    { package Mouse;\n"
+"      @ISA = qw(Animal);\n"
+"      sub sound { \"squeak\" }\n"
+"      sub speak {\n"
+"        my $class = shift;\n"
+"        Animal::speak($class);\n"
+"        print \"[but you can barely hear it!]\\n"
+"\";\n"
+"      }\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:331
+msgid "Note that we're using C<Animal::speak>. If we were to invoke C<< Animal->speak >> instead, the first parameter to C<Animal::speak> would automatically be C<\"Animal\"> rather than C<\"Mouse\">, so that the call to C<< $class->sound >> in C<Animal::speak> would become C<< Animal->sound >> rather than C<< Mouse->sound >>."
+msgstr "如果直接调用 C<Animal::speak> 方法而不传递任何参数的话，C<$class> 将为 "
+"\"animal\" 而不是 \"mouse\"，所以会发出 animal 的声音而不是 mouse 的声音。"
+
+#. type: textblock
+#: perlboot.pod:337
+msgid "Also, without the method arrow C<< -> >>, it becomes necessary to specify the first parameter to C<Animal::speak> ourselves, which is why C<$class> is explicitly passed: C<Animal::speak($class)>."
+msgstr "所以我们把 C<$class> 做为参数传递给 C<Animal::speak>。"
+
+#. type: textblock
+#: perlboot.pod:341
+msgid "However, invoking C<Animal::speak> directly is a mess: Firstly, it assumes that the C<speak> method is a member of the C<Animal> class; what if C<Animal> actually inherits C<speak> from its own base? Because we are no longer using C<< -> >> to access C<speak>, the special method look up mechanism wouldn't be used, so C<speak> wouldn't even be found!"
+msgstr "现在 C<Animal::speak> 和 C<Mouse::speak> 方法有些混乱。"
+
+#. type: textblock
+#: perlboot.pod:347
+msgid "The second problem is more subtle: C<Animal> is now hardwired into the subroutine selection. Let's assume that C<Animal::speak> does exist. What happens when, at a later time, someone expands the class hierarchy by having C<Mouse> inherit from C<Mus> instead of C<Animal>. Unless the invocation of C<Animal::speak> is also changed to an invocation of C<Mus::speak>, centuries worth of taxonomical classification could be obliterated!"
+msgstr ""
+
+#. type: textblock
+#: perlboot.pod:354
+msgid "What we have here is a fragile or leaky abstraction; it is the beginning of a maintenance nightmare. What we need is the ability to search for the right method wih as few assumptions as possible."
+msgstr "那么有什么解决方法吗？"
+
+#. type: =head2
+#: perlboot.pod:358
+msgid "Starting the search from a different place"
+msgstr "从另外的地方开始查找"
+
+#. type: textblock
+#: perlboot.pod:360
+msgid "A I<better> solution is to tell Perl where in the inheritance chain to begin searching for C<speak>. This can be achieved with a modified version of the method arrow C<< -> >>:"
+msgstr "一个I<更好>的解决方案是告诉 Perl 去哪里查找 C<speak> 方法。"
+
+#. type: verbatim
+#: perlboot.pod:363
+#, no-wrap
+msgid ""
+"    ClassName->FirstPlaceToLook::method\n"
+"\n"
+msgstr ""
+"    ClassName->FirstPlaceToLook::method\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:365
+msgid "So, the improved C<Mouse> class is:"
+msgstr "所以我们可以这样改进 C<Mouse> 类："
+
+#. type: verbatim
+#: perlboot.pod:367
+#, no-wrap
+msgid ""
+"    # same Animal as before\n"
+"    { package Mouse;\n"
+"      # same @ISA, &sound as before\n"
+"      sub speak {\n"
+"        my $class = shift;\n"
+"        $class->Animal::speak;\n"
+"        print \"[but you can barely hear it!]\\n"
+"\";\n"
+"      }\n"
+"    }\n"
+"\n"
+msgstr ""
+"    # same Animal as before\n"
+"    { package Mouse;\n"
+"      # same @ISA, &sound as before\n"
+"      sub speak {\n"
+"        my $class = shift;\n"
+"        $class->Animal::speak;\n"
+"        print \"[but you can barely hear it!]\\n"
+"\";\n"
+"      }\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:377
+msgid "Using this syntax, we start with C<Animal> to find C<speak>, and then use all of C<Animal>'s inheritance chain if it is not found immediately.  As usual, the first parameter to C<speak> would be C<$class>, so we no longer need to pass C<$class> explicitly to C<speak>."
+msgstr "这时，我们告诉 Perl 在 C<Animal> 中找到 C<speak> 方法。"
+
+#. type: textblock
+#: perlboot.pod:382
+msgid "But what about the second problem? We're still hardwiring C<Animal> into the method lookup."
+msgstr "但是我们仍然需要手写出 C<Animal> 来，还有更好的方法吗？"
+
+#. type: =head2
+#: perlboot.pod:385
+msgid "The SUPER way of doing things"
+msgstr "通过 SUPER 方法来实现"
+
+#. type: textblock
+#: perlboot.pod:387
+msgid "If C<Animal> is replaced with the special placeholder C<SUPER> in that invocation, then the contents of C<Mouse>'s C<@ISA> are used for the search, beginning with C<$ISA[0]>. So, all of the problems can be fixed as follows:"
+msgstr "如果由 C<SUPER> 来代替 C<Animal> 的话，Perl 就会在 C<@ISA> 中从 C<$ISA[0]> 开始"
+"查找 C<speak> 方法。"
+
+#. type: verbatim
+#: perlboot.pod:392
+#, no-wrap
+msgid ""
+"    # same Animal as before\n"
+"    { package Mouse;\n"
+"      # same @ISA, &sound as before\n"
+"      sub speak {\n"
+"        my $class = shift;\n"
+"        $class->SUPER::speak;\n"
+"        print \"[but you can barely hear it!]\\n"
+"\";\n"
+"      }\n"
+"    }\n"
+"\n"
+msgstr ""
+"    # same Animal as before\n"
+"    { package Mouse;\n"
+"      # same @ISA, &sound as before\n"
+"      sub speak {\n"
+"        my $class = shift;\n"
+"        $class->SUPER::speak;\n"
+"        print \"[but you can barely hear it!]\\n"
+"\";\n"
+"      }\n"
+"    }\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:402
+msgid "In general, C<SUPER::speak> means look in the current package's C<@ISA> for a class that implements C<speak>, and invoke the first one found.  The placeholder is called C<SUPER>, because many other languages refer to base classes as \"I<super>classes\", and Perl likes to be eclectic."
+msgstr "C<SUPER::speak> 表示在 C<@ISA> 中查找 C<speak> 方法，它会使用第一个找到的该方法。"
+"因为许多语言都把父类加 \"I<super>classes\"，所以 Perl 就保持了这种习惯。"
+
+#. type: textblock
+#: perlboot.pod:407
+msgid "Note that a call such as"
+msgstr "调用的形式为："
+
+#. type: verbatim
+#: perlboot.pod:409
+#, no-wrap
+msgid ""
+"    $class->SUPER::method;\n"
+"\n"
+msgstr ""
+"    $class->SUPER::method;\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:411
+msgid "does I<not> look in the C<@ISA> of C<$class> unless C<$class> happens to be the current package."
+msgstr ""
+
+#. type: =head2
+#: perlboot.pod:414
+msgid "Let's review..."
+msgstr "回顾一下"
+
+#. type: textblock
+#: perlboot.pod:416
+msgid "So far, we've seen the method arrow syntax:"
+msgstr "目前为止，我们见过以下语法："
+
+#. type: verbatim
+#: perlboot.pod:418
+#, no-wrap
+msgid ""
+"  Class->method(@args);\n"
+"\n"
+msgstr ""
+"  Class->method(@args);\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:420
+msgid "or the equivalent:"
+msgstr "上面的的代码和下面的代码意义相同："
+
+#. type: verbatim
+#: perlboot.pod:422
+#, no-wrap
+msgid ""
+"  $a = \"Class\";\n"
+"  $a->method(@args);\n"
+"\n"
+msgstr ""
+"  $a = \"Class\";\n"
+"  $a->method(@args);\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:425
+msgid "which constructs an argument list of:"
+msgstr "调用时传递的参数为："
+
+#. type: verbatim
+#: perlboot.pod:427
+#, no-wrap
+msgid ""
+"  (\"Class\", @args)\n"
+"\n"
+msgstr ""
+"  (\"Class\", @args)\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:429
+msgid "and attempts to invoke:"
+msgstr "调用实质上为："
+
+#. type: verbatim
+#: perlboot.pod:431
+#, no-wrap
+msgid ""
+"  Class::method(\"Class\", @args);\n"
+"\n"
+msgstr ""
+"  Class::method(\"Class\", @args);\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:433
+msgid "However, if C<Class::method> is not found, then C<@Class::ISA> is examined (recursively) to locate a class (a package) that does indeed contain C<method>, and that subroutine is invoked instead."
+msgstr "如果 C<Class::method> 没有在当前类中找到，Perl 便会在 C<@Class::ISA> 中去递归"
+"查找。"
+
+#. type: textblock
+#: perlboot.pod:437
+msgid "Using this simple syntax, we have class methods, (multiple) inheritance, overriding, and extending. Using just what we've seen so far, we've been able to factor out common code (though that's never a good reason for inheritance!), and provide a nice way to reuse implementations with variations."
+msgstr "有了上面的知识，我们学会了如果去定义类方法、实现继承和多继承、重载方法等。现在"
+"我们已经写出了功能初步完全的代码。"
+
+#. type: textblock
+#: perlboot.pod:443
+msgid "Now, what about data?"
+msgstr "但是，对象的数据该怎么处理呢？"
+
+#. type: =head2
+#: perlboot.pod:445
+msgid "A horse is a horse, of course of course, or is it?"
+msgstr "数据绑定"
+
+#. type: textblock
+#: perlboot.pod:447
+msgid "Let's start with the code for the C<Animal> class and the C<Horse> class:"
+msgstr "我们先给出 C<Animal> 类和 C<Horse> 类："
+
+#. type: verbatim
+#: perlboot.pod:450
+#, no-wrap
+msgid ""
+"  { package Animal;\n"
+"    sub speak {\n"
+"      my $class = shift;\n"
+"      print \"a $class goes \", $class->sound, \"!\\n"
+"\";\n"
+"    }\n"
+"  }\n"
+"  { package Horse;\n"
+"    @ISA = qw(Animal);\n"
+"    sub sound { \"neigh\" }\n"
+"  }\n"
+"\n"
+msgstr ""
+"  { package Animal;\n"
+"    sub speak {\n"
+"      my $class = shift;\n"
+"      print \"a $class goes \", $class->sound, \"!\\n"
+"\";\n"
+"    }\n"
+"  }\n"
+"  { package Horse;\n"
+"    @ISA = qw(Animal);\n"
+"    sub sound { \"neigh\" }\n"
+"  }\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:461
+msgid "This lets us invoke C<< Horse->speak >> to ripple upward to C<Animal::speak>, calling back to C<Horse::sound> to get the specific sound, and the output of:"
+msgstr "此时会调用 C<< Horse->speak >> ，然后是 C<Animal::speak>，然后通过 "
+"C<Horse::sound> 得到动物的声音，然后将其输出："
+
+#. type: verbatim
+#: perlboot.pod:465
+#, no-wrap
+msgid ""
+"  a Horse goes neigh!\n"
+"\n"
+msgstr ""
+"  a Horse goes neigh!\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:467
+msgid "But all of our Horse objects would have to be absolutely identical.  If we add a subroutine, all horses automatically share it. That's great for making horses the same, but how do we capture the distinctions of an individual horse? For example, suppose we want to give our first horse a name. There's got to be a way to keep its name separate from the other horses."
+msgstr "现在我们添加一个新的方法进去，所有的 C<Horse> 都会共享该方法。但是我们该如何为"
+"每匹马添加它们的特征呢？比如为每匹马起一个名字，用来区分它们。"
+
+#. type: textblock
+#: perlboot.pod:474
+msgid "That is to say, we want particular instances of C<Horse> to have different names."
+msgstr "也就是说，我们想要给每个 C<Horse> 的实例起一个不同的名字。"
+
+#. type: textblock
+#: perlboot.pod:477
+msgid "In Perl, any reference can be an \"instance\", so let's start with the simplest reference that can hold a horse's name: a scalar reference."
+msgstr "在 Perl 中，引用可以指向任何\"实例\"，所以最简单的方式就是让一个引用指向每一个"
+"实例。"
+
+#. type: verbatim
+#: perlboot.pod:480
+#, no-wrap
+msgid ""
+"  my $name = \"Mr. Ed\";\n"
+"  my $horse = \\$name;\n"
+"\n"
+msgstr ""
+"  my $name = \"Mr. Ed\";\n"
+"  my $horse = \\$name;\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:483
+msgid "So, now C<$horse> is a reference to what will be the instance-specific data (the name). The final step is to turn this reference into a real instance of a C<Horse> by using the special operator C<bless>:"
+msgstr "现在 C<$horse> 是一个指向实例数据的引用。所以现在我们可以把这种方式引入过来，"
+"让实例数据与 C<Horse> 通过 C<bless> 操作绑定起来。"
+
+#. type: verbatim
+#: perlboot.pod:487
+#, no-wrap
+msgid ""
+"  bless $horse, Horse;\n"
+"\n"
+msgstr ""
+"  bless $horse, Horse;\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:489
+msgid "This operator stores information about the package named C<Horse> into the thing pointed at by the reference.  At this point, we say C<$horse> is an instance of C<Horse>.  That is, it's a specific horse.  The reference is otherwise unchanged, and can still be used with traditional dereferencing operators."
+msgstr "现在我们便得到了一个 C<Horse> 类的实例引用，通过它我们便可以访问相应的数据。"
+
+#. type: =head2
+#: perlboot.pod:495
+msgid "Invoking an instance method"
+msgstr "通过实例来调用方法"
+
+#. type: textblock
+#: perlboot.pod:497
+msgid "The method arrow can be used on instances, as well as classes (the names of packages). So, let's get the sound that C<$horse> makes:"
+msgstr "方法访问符也可以用在实例上，所以我们也可以通过实例来调用方法。"
+
+#. type: verbatim
+#: perlboot.pod:500
+#, no-wrap
+msgid ""
+"  my $noise = $horse->sound(\"some\", \"unnecessary\", \"args\");\n"
+"\n"
+msgstr ""
+"  my $noise = $horse->sound(\"some\", \"unnecessary\", \"args\");\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:502
+msgid "To invoke C<sound>, Perl first notes that C<$horse> is a blessed reference (and thus an instance).  It then constructs an argument list, as per usual."
+msgstr "这里通过实例 C<$horse> 来调用 C<sound> 方法。"
+
+#. type: textblock
+#: perlboot.pod:506
+msgid "Now for the fun part: Perl takes the class in which the instance was blessed, in this case C<Horse>, and uses that class to locate the subroutine. In this case, C<Horse::sound> is found directly (without using inheritance). In the end, it is as though our initial line were written as follows:"
+msgstr "这个过程实际上是在调用："
+
+#. type: verbatim
+#: perlboot.pod:512
+#, no-wrap
+msgid ""
+"  my $noise = Horse::sound($horse, \"some\", \"unnecessary\", \"args\");\n"
+"\n"
+msgstr ""
+"  my $noise = Horse::sound($horse, \"some\", \"unnecessary\", \"args\");\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:514
+msgid "Note that the first parameter here is still the instance, not the name of the class as before.  We'll get C<neigh> as the return value, and that'll end up as the C<$noise> variable above."
+msgstr "这里第一个参数仍然是类的实例，而不是类的名称。我们会得到 C<neigh> 叫声作为 "
+"C<sound> 的返回值，并且最终存储在 C<$noise> 变量中。"
+
+#. type: textblock
+#: perlboot.pod:518
+msgid "If Horse::sound had not been found, we'd be wandering up the C<@Horse::ISA> array, trying to find the method in one of the superclasses. The only difference between a class method and an instance method is whether the first parameter is an instance (a blessed reference) or a class name (a string)."
+msgstr "如果 Horse::sound 没有被找到，Perl 便会在 C<@Horse::ISA> 数组中去查找。实例调用与"
+"类调用唯一的区别就是传入的第一个参数是实例还是类名称。"
+
+#. type: =head2
+#: perlboot.pod:524
+msgid "Accessing the instance data"
+msgstr "获得实例数据"
+
+#. type: textblock
+#: perlboot.pod:526
+msgid "Because we get the instance as the first parameter, we can now access the instance-specific data.  In this case, let's add a way to get at the name:"
+msgstr "因为得到了实例引用，我们现在可以相应的获得实例数据。这里，我们添加了一个方法来"
+"获得名字："
+
+#. type: verbatim
+#: perlboot.pod:530
+#, no-wrap
+msgid ""
+"  { package Horse;\n"
+"    @ISA = qw(Animal);\n"
+"    sub sound { \"neigh\" }\n"
+"    sub name {\n"
+"      my $self = shift;\n"
+"      $$self;\n"
+"    }\n"
+"  }\n"
+"\n"
+msgstr ""
+"  { package Horse;\n"
+"    @ISA = qw(Animal);\n"
+"    sub sound { \"neigh\" }\n"
+"    sub name {\n"
+"      my $self = shift;\n"
+"      $$self;\n"
+"    }\n"
+"  }\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:539
+msgid "Inside C<Horse::name>, the C<@_> array contains:"
+msgstr "在 C<Horse::name> 中，C<@_> 数组包含："
+
+#. type: verbatim
+#: perlboot.pod:541
+#, no-wrap
+msgid ""
+"    ($horse, \"some\", \"unnecessary\", \"args\")\n"
+"\n"
+msgstr ""
+"    ($horse, \"some\", \"unnecessary\", \"args\")\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:543
+msgid "so the C<shift> stores C<$horse> into C<$self>. Then, C<$self> gets de-referenced with C<$$self> as normal, yielding C<\"Mr. Ed\">."
+msgstr "所以 C<shift> 会将 C<$horse> 存储到 C<$self> 中。然后通过解引用得到 C<$self> 指向"
+"的数据 C<\"Mr. Ed\">。"
+
+#. type: textblock
+#: perlboot.pod:546
+msgid "It's traditional to C<shift> the first parameter into a variable named C<$self> for instance methods and into a variable named C<$class> for class methods."
+msgstr "一般我们先通过 C<shift> 把实例变量存储到 C<$self> 中。"
+
+#. type: textblock
+#: perlboot.pod:550
+msgid "Then, the following line:"
+msgstr "然后："
+
+#. type: verbatim
+#: perlboot.pod:552
+#, no-wrap
+msgid ""
+"  print $horse->name, \" says \", $horse->sound, \"\\n"
+"\";\n"
+"\n"
+msgstr ""
+"  print $horse->name, \" says \", $horse->sound, \"\\n"
+"\";\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:554
+#: perlboot.pod:792
+msgid "outputs:"
+msgstr "输出："
+
+#. type: verbatim
+#: perlboot.pod:556
+#, no-wrap
+msgid ""
+"  Mr. Ed says neigh.\n"
+"\n"
+msgstr ""
+"  Mr. Ed says neigh.\n"
+"\n"
+
+#. type: =head2
+#: perlboot.pod:558
+msgid "How to build a horse"
+msgstr "创建 horse 实例"
+
+#. type: textblock
+#: perlboot.pod:560
+msgid "Of course, if we constructed all of our horses by hand, we'd most likely make mistakes from time to time.  We're also violating one of the properties of object-oriented programming, in that the \"inside guts\" of a Horse are visible.  That's good if you're a veterinarian, but not if you just like to own horses.  So, let's have the Horse class handle the details inside a class method:"
+msgstr "如果我们手动创建所有的实例，我们肯定会犯很多的错误。幸好我们能通过构建构造方法来"
+"方便的构造实例。"
+
+#. type: verbatim
+#: perlboot.pod:567
+#, no-wrap
+msgid ""
+"  { package Horse;\n"
+"    @ISA = qw(Animal);\n"
+"    sub sound { \"neigh\" }\n"
+"    sub name {\n"
+"      my $self = shift;     # instance method, so use $self\n"
+"      $$self;\n"
+"    }\n"
+"    sub named {\n"
+"      my $class = shift;    # class method, so use $class\n"
+"      my $name = shift;\n"
+"      bless \\$name, $class;\n"
+"    }\n"
+"  }\n"
+"\n"
+msgstr ""
+"  { package Horse;\n"
+"    @ISA = qw(Animal);\n"
+"    sub sound { \"neigh\" }\n"
+"    sub name {\n"
+"      my $self = shift;     # instance method, so use $self\n"
+"      $$self;\n"
+"    }\n"
+"    sub named {\n"
+"      my $class = shift;    # class method, so use $class\n"
+"      my $name = shift;\n"
+"      bless \\$name, $class;\n"
+"    }\n"
+"  }\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:581
+msgid "Now with the new C<named> method, we can build a horse as follows:"
+msgstr "现在我们可以通过 C<names> 方法来方便的构造 horse 实例："
+
+#. type: verbatim
+#: perlboot.pod:583
+#, no-wrap
+msgid ""
+"  my $horse = Horse->named(\"Mr. Ed\");\n"
+"\n"
+msgstr ""
+"  my $horse = Horse->named(\"Mr. Ed\");\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:585
+msgid "Notice we're back to a class method, so the two arguments to C<Horse::named> are C<Horse> and C<Mr. Ed>.  The C<bless> operator not only blesses C<\\$name>, it also returns that reference."
+msgstr "是的，这里我们又用回了类方法，并且通过 C<bless> 操作把 C<\\$name> 与类绑定在"
+"在一起。"
+
+#. type: textblock
+#: perlboot.pod:589
+msgid "This C<Horse::named> method is called a \"constructor\"."
+msgstr "C<Horse::named> 方法被称作\"构造方法\"。"
+
+#. type: textblock
+#: perlboot.pod:591
+msgid "We've called the constructor C<named> here, so that it quickly denotes the constructor's argument as the name for this particular C<Horse>.  You can use different constructors with different names for different ways of \"giving birth\" to the object (like maybe recording its pedigree or date of birth).  However, you'll find that most people coming to Perl from more limited languages use a single constructor named C<new>, with various ways of interpreting the arguments to C<new>.  Either style is fine, as long as you document your particular way of giving birth to an object.  (And you I<were> going to do that, right?)"
+msgstr "我们调用 C<named> 构造方法构建了一个拥有自己名字的 horse 实例。你也可以通过它来"
+"构建更多的具有不同名字的 horse 实例。逐渐你会发现很多习惯于把构造方法命名为 C<new>。"
+
+#. type: =head2
+#: perlboot.pod:602
+msgid "Inheriting the constructor"
+msgstr "继承构造方法"
+
+#. type: textblock
+#: perlboot.pod:604
+msgid "But was there anything specific to C<Horse> in that method? No.  Therefore, it's also the same recipe for building anything else that inherited from C<Animal>, so let's put C<name> and C<named> there:"
+msgstr "我们更应该把 C<named> 方法放在 C<Animal> 类中。"
+
+#. type: verbatim
+#: perlboot.pod:608
+#, no-wrap
+msgid ""
+"  { package Animal;\n"
+"    sub speak {\n"
+"      my $class = shift;\n"
+"      print \"a $class goes \", $class->sound, \"!\\n"
+"\";\n"
+"    }\n"
+"    sub name {\n"
+"      my $self = shift;\n"
+"      $$self;\n"
+"    }\n"
+"    sub named {\n"
+"      my $class = shift;\n"
+"      my $name = shift;\n"
+"      bless \\$name, $class;\n"
+"    }\n"
+"  }\n"
+"  { package Horse;\n"
+"    @ISA = qw(Animal);\n"
+"    sub sound { \"neigh\" }\n"
+"  }\n"
+"\n"
+msgstr ""
+"  { package Animal;\n"
+"    sub speak {\n"
+"      my $class = shift;\n"
+"      print \"a $class goes \", $class->sound, \"!\\n"
+"\";\n"
+"    }\n"
+"    sub name {\n"
+"      my $self = shift;\n"
+"      $$self;\n"
+"    }\n"
+"    sub named {\n"
+"      my $class = shift;\n"
+"      my $name = shift;\n"
+"      bless \\$name, $class;\n"
+"    }\n"
+"  }\n"
+"  { package Horse;\n"
+"    @ISA = qw(Animal);\n"
+"    sub sound { \"neigh\" }\n"
+"  }\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:628
+msgid "Ahh, but what happens if we invoke C<speak> on an instance?"
+msgstr "现在我们调用 C<speak> 方法时会发生什么？"
+
+#. type: verbatim
+#: perlboot.pod:630
+#, no-wrap
+msgid ""
+"  my $horse = Horse->named(\"Mr. Ed\");\n"
+"  $horse->speak;\n"
+"\n"
+msgstr ""
+"  my $horse = Horse->named(\"Mr. Ed\");\n"
+"  $horse->speak;\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:633
+msgid "We get a debugging value:"
+msgstr "我们得到了一个奇怪的输出："
+
+#. type: verbatim
+#: perlboot.pod:635
+#, no-wrap
+msgid ""
+"  a Horse=SCALAR(0xaca42ac) goes neigh!\n"
+"\n"
+msgstr ""
+"  a Horse=SCALAR(0xaca42ac) goes neigh!\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:637
+msgid "Why? Because the C<Animal::speak> routine is expecting a classname as its first parameter, not an instance.  When the instance is passed in, we'll end up using a blessed scalar reference as a string, and that shows up as we saw it just now."
+msgstr "为什么呢？因为在 C<Animal::speak> 方法中的 $class 为一个引用，所以才会得到如此"
+"输出结果。"
+
+#. type: =head2
+#: perlboot.pod:642
+msgid "Making a method work with either classes or instances"
+msgstr "使方法在类调用或实例调用时都正确执行"
+
+#. type: textblock
+#: perlboot.pod:644
+msgid "All we need is for a method to detect if it is being called on a class or called on an instance.  The most straightforward way is with the C<ref> operator.  This returns a string (the classname) when used on a blessed reference, and an empty string when used on a string (like a classname).  Let's modify the C<name> method first to notice the change:"
+msgstr "我们所需要的就是对传入的第一个参数做出检测。最常用的就是通过 C<ref> 操作符。如果"
+"是实例调用的话，C<ref> 会返回真。反之，则为假。"
+
+#. type: verbatim
+#: perlboot.pod:650
+#, no-wrap
+msgid ""
+"  sub name {\n"
+"    my $either = shift;\n"
+"    ref $either ? $$either : \"Any $either\";\n"
+"  }\n"
+"\n"
+msgstr ""
+"  sub name {\n"
+"    my $either = shift;\n"
+"    ref $either ? $$either : \"Any $either\";\n"
+"  }\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:655
+msgid "Here, the C<?:> operator comes in handy to select either the dereference or a derived string.  Now we can use this with either an instance or a class.  Note that I've changed the first parameter holder to C<$either> to show that this is intended:"
+msgstr "这里我们用到了 C<?:?> 操作符来判断是实例调用还是类调用。"
+
+#. type: verbatim
+#: perlboot.pod:660
+#, no-wrap
+msgid ""
+"  my $horse = Horse->named(\"Mr. Ed\");\n"
+"  print Horse->name, \"\\n"
+"\"; # prints \"Any Horse\\n"
+"\"\n"
+"  print $horse->name, \"\\n"
+"\"; # prints \"Mr Ed.\\n"
+"\"\n"
+"\n"
+msgstr ""
+"  my $horse = Horse->named(\"Mr. Ed\");\n"
+"  print Horse->name, \"\\n"
+"\"; # prints \"Any Horse\\n"
+"\"\n"
+"  print $horse->name, \"\\n"
+"\"; # prints \"Mr Ed.\\n"
+"\"\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:664
+msgid "and now we'll fix C<speak> to use this:"
+msgstr "现在我们来进一步修改 C<speak> 方法："
+
+#. type: verbatim
+#: perlboot.pod:666
+#, no-wrap
+msgid ""
+"  sub speak {\n"
+"    my $either = shift;\n"
+"    print $either->name, \" goes \", $either->sound, \"\\n"
+"\";\n"
+"  }\n"
+"\n"
+msgstr ""
+"  sub speak {\n"
+"    my $either = shift;\n"
+"    print $either->name, \" goes \", $either->sound, \"\\n"
+"\";\n"
+"  }\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:671
+msgid "And since C<sound> already worked with either a class or an instance, we're done!"
+msgstr "因为 C<sound> 方法在实例调用或类调用时都能正确执行，所以现在一切都没有问题了。"
+
+#. type: =head2
+#: perlboot.pod:674
+msgid "Adding parameters to a method"
+msgstr "为方法传递参数"
+
+#. type: textblock
+#: perlboot.pod:676
+msgid "Let's train our animals to eat:"
+msgstr "让我们开始喂养我们的动物："
+
+#. type: verbatim
+#: perlboot.pod:678
+#, no-wrap
+msgid ""
+"  { package Animal;\n"
+"    sub named {\n"
+"      my $class = shift;\n"
+"      my $name = shift;\n"
+"      bless \\$name, $class;\n"
+"    }\n"
+"    sub name {\n"
+"      my $either = shift;\n"
+"      ref $either ? $$either : \"Any $either\";\n"
+"    }\n"
+"    sub speak {\n"
+"      my $either = shift;\n"
+"      print $either->name, \" goes \", $either->sound, \"\\n"
+"\";\n"
+"    }\n"
+"    sub eat {\n"
+"      my $either = shift;\n"
+"      my $food = shift;\n"
+"      print $either->name, \" eats $food.\\n"
+"\";\n"
+"    }\n"
+"  }\n"
+"  { package Horse;\n"
+"    @ISA = qw(Animal);\n"
+"    sub sound { \"neigh\" }\n"
+"  }\n"
+"  { package Sheep;\n"
+"    @ISA = qw(Animal);\n"
+"    sub sound { \"baaaah\" }\n"
+"  }\n"
+"\n"
+msgstr ""
+"  { package Animal;\n"
+"    sub named {\n"
+"      my $class = shift;\n"
+"      my $name = shift;\n"
+"      bless \\$name, $class;\n"
+"    }\n"
+"    sub name {\n"
+"      my $either = shift;\n"
+"      ref $either ? $$either : \"Any $either\";\n"
+"    }\n"
+"    sub speak {\n"
+"      my $either = shift;\n"
+"      print $either->name, \" goes \", $either->sound, \"\\n"
+"\";\n"
+"    }\n"
+"    sub eat {\n"
+"      my $either = shift;\n"
+"      my $food = shift;\n"
+"      print $either->name, \" eats $food.\\n"
+"\";\n"
+"    }\n"
+"  }\n"
+"  { package Horse;\n"
+"    @ISA = qw(Animal);\n"
+"    sub sound { \"neigh\" }\n"
+"  }\n"
+"  { package Sheep;\n"
+"    @ISA = qw(Animal);\n"
+"    sub sound { \"baaaah\" }\n"
+"  }\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:707
+msgid "And now try it out:"
+msgstr "在上面代码的基础上试着写如下代码："
+
+#. type: verbatim
+#: perlboot.pod:709
+#, no-wrap
+msgid ""
+"  my $horse = Horse->named(\"Mr. Ed\");\n"
+"  $horse->eat(\"hay\");\n"
+"  Sheep->eat(\"grass\");\n"
+"\n"
+msgstr ""
+"  my $horse = Horse->named(\"Mr. Ed\");\n"
+"  $horse->eat(\"hay\");\n"
+"  Sheep->eat(\"grass\");\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:713
+msgid "which prints:"
+msgstr "它将输出："
+
+#. type: verbatim
+#: perlboot.pod:715
+#, no-wrap
+msgid ""
+"  Mr. Ed eats hay.\n"
+"  Any Sheep eats grass.\n"
+"\n"
+msgstr ""
+"  Mr. Ed eats hay.\n"
+"  Any Sheep eats grass.\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:718
+msgid "An instance method with parameters gets invoked with the instance, and then the list of parameters.  So that first invocation is like:"
+msgstr "类方法成功的接收了参数并且得到了正确的运行。整个调用过程实际上是："
+
+#. type: verbatim
+#: perlboot.pod:721
+#, no-wrap
+msgid ""
+"  Animal::eat($horse, \"hay\");\n"
+"\n"
+msgstr ""
+"  Animal::eat($horse, \"hay\");\n"
+"\n"
+
+#. type: =head2
+#: perlboot.pod:723
+msgid "More interesting instances"
+msgstr "更多有趣的实例"
+
+#. type: textblock
+#: perlboot.pod:725
+msgid "What if an instance needs more data? Most interesting instances are made of many items, each of which can in turn be a reference or even another object.  The easiest way to store these is often in a hash.  The keys of the hash serve as the names of parts of the object (often called \"instance variables\" or \"member variables\"), and the corresponding values are, well, the values."
+msgstr "如果一个实例拥有很多的数据，我们该怎么办呢？很多时候我们会把数据存在指向哈希的"
+"引用中。"
+
+#. type: textblock
+#: perlboot.pod:732
+msgid "But how do we turn the horse into a hash? Recall that an object was any blessed reference.  We can just as easily make it a blessed hash reference as a blessed scalar reference, as long as everything that looks at the reference is changed accordingly."
+msgstr "但是我们该如何把我们的 horse 数据存在哈希中呢？"
+
+#. type: textblock
+#: perlboot.pod:737
+msgid "Let's make a sheep that has a name and a color:"
+msgstr "现在看一个例子，我们创建了一个有名字有颜色的 sheep 实例引用："
+
+#. type: verbatim
+#: perlboot.pod:739
+#, no-wrap
+msgid ""
+"  my $bad = bless { Name => \"Evil\", Color => \"black\" }, Sheep;\n"
+"\n"
+msgstr ""
+"  my $bad = bless { Name => \"Evil\", Color => \"black\" }, Sheep;\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:741
+msgid "so C<< $bad->{Name} >> has C<Evil>, and C<< $bad->{Color} >> has C<black>.  But we want to make C<< $bad->name >> access the name, and that's now messed up because it's expecting a scalar reference.  Not to worry, because that's pretty easy to fix up."
+msgstr "此时，C<< $bad->{Name} >> 是 C<Evil>，而且 C<< $bad->{Color} >> 是 C<black>。"
+"现在我们想通过 C<< $bad->name >> 来访问它的名字，接下来我们修改一下它。"
+
+#. type: textblock
+#: perlboot.pod:746
+msgid "One solution is to override C<Animal::name> and C<Animal::named> by defining them anew in C<Sheep>, but then any methods added later to C<Animal> might still mess up, and we'd have to override all of those too. Therefore, it's never a good idea to define the data layout in a way that's different from the data layout of the base classes. In fact, it's a good idea to use blessed hash references in all cases. Also, this is why it's important to have constructors do the low-level work. So, let's redefine C<Animal>:"
+msgstr "一种方法就是重载 C<Animal::name> 和 C<Animal::named> 方法。另外一种更好的方法就是"
+"我们直接重构 C<Animal::name> 和 C<Animal::named> 方法："
+
+#. type: verbatim
+#: perlboot.pod:755
+#, no-wrap
+msgid ""
+"  ## in Animal\n"
+"  sub name {\n"
+"    my $either = shift;\n"
+"    ref $either ? $either->{Name} : \"Any $either\";\n"
+"  }\n"
+"  sub named {\n"
+"    my $class = shift;\n"
+"    my $name = shift;\n"
+"    my $self = { Name => $name };\n"
+"    bless $self, $class;\n"
+"  }\n"
+"\n"
+msgstr ""
+"  ## in Animal\n"
+"  sub name {\n"
+"    my $either = shift;\n"
+"    ref $either ? $either->{Name} : \"Any $either\";\n"
+"  }\n"
+"  sub named {\n"
+"    my $class = shift;\n"
+"    my $name = shift;\n"
+"    my $self = { Name => $name };\n"
+"    bless $self, $class;\n"
+"  }\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:767
+msgid "Of course, we still need to override C<named> in order to handle constructing a C<Sheep> with a certain color:"
+msgstr "当然，我们也需要在 C<Sheep> 类中重载一下 C<named> 方法，用来接受 color 值："
+
+#. type: verbatim
+#: perlboot.pod:770
+#, no-wrap
+msgid ""
+"  ## in Sheep\n"
+"  sub named {\n"
+"    my ($class, $name) = @_;\n"
+"    my $self = $class->SUPER::named(@_);\n"
+"    $$self{Color} = $class->default_color;\n"
+"    $self\n"
+"  }\n"
+"\n"
+msgstr ""
+"  ## in Sheep\n"
+"  sub named {\n"
+"    my ($class, $name) = @_;\n"
+"    my $self = $class->SUPER::named(@_);\n"
+"    $$self{Color} = $class->default_color;\n"
+"    $self\n"
+"  }\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:778
+msgid "(Note that C<@_> contains the parameters to C<named>.)"
+msgstr "（C<@_> 包含了要传递的所有参数。）"
+
+#. type: textblock
+#: perlboot.pod:780
+msgid "What's this C<default_color>? Well, if C<named> has only the name, we still need to set a color, so we'll have a class-specific default color.  For a sheep, we might define it as white:"
+msgstr "什么是 C<default_color>？我们需要为羊定义默认的颜色。"
+
+#. type: verbatim
+#: perlboot.pod:784
+#, no-wrap
+msgid ""
+"  ## in Sheep\n"
+"  sub default_color { \"white\" }\n"
+"\n"
+msgstr ""
+"  ## in Sheep\n"
+"  sub default_color { \"white\" }\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:787
+msgid "Now:"
+msgstr "现在："
+
+#. type: verbatim
+#: perlboot.pod:789
+#, no-wrap
+msgid ""
+"  my $sheep = Sheep->named(\"Bad\");\n"
+"  print $sheep->{Color}, \"\\n"
+"\";\n"
+"\n"
+msgstr ""
+"  my $sheep = Sheep->named(\"Bad\");\n"
+"  print $sheep->{Color}, \"\\n"
+"\";\n"
+"\n"
+
+#. type: verbatim
+#: perlboot.pod:794
+#, no-wrap
+msgid ""
+"  white\n"
+"\n"
+msgstr ""
+"  white\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:796
+msgid "Now, there's nothing particularly specific to C<Sheep> when it comes to color, so let's remove C<Sheep::named> and implement C<Animal::named> to handle color instead:"
+msgstr "其实不只有 C<Sheep> 类需要颜色数据，所以我们可以在 C<Animal> 类中重构 "
+"C<named> 方法："
+
+#. type: verbatim
+#: perlboot.pod:800
+#, no-wrap
+msgid ""
+"  ## in Animal\n"
+"  sub named {\n"
+"    my ($class, $name) = @_;\n"
+"    my $self = { Name => $name, Color => $class->default_color };\n"
+"    bless $self, $class;\n"
+"  }\n"
+"\n"
+msgstr ""
+"  ## in Animal\n"
+"  sub named {\n"
+"    my ($class, $name) = @_;\n"
+"    my $self = { Name => $name, Color => $class->default_color };\n"
+"    bless $self, $class;\n"
+"  }\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:807
+msgid "And then to keep from having to define C<default_color> for each additional class, we'll define a method that serves as the \"default default\" directly in C<Animal>:"
+msgstr "现在我们需要为 C<Animal> 类添加 C<default_color> 方法。"
+
+#. type: verbatim
+#: perlboot.pod:811
+#, no-wrap
+msgid ""
+"  ## in Animal\n"
+"  sub default_color { \"brown\" }\n"
+"\n"
+msgstr ""
+"  ## in Animal\n"
+"  sub default_color { \"brown\" }\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:814
+msgid "Of course, because C<name> and C<named> were the only methods that referenced the \"structure\" of the object, the rest of the methods can remain the same, so C<speak> still works as before."
+msgstr "因为 C<name> 和 C<named> 是唯一涉及到引用的方法，所以其他的方法完全不需要做任何"
+"改变。"
+
+#. type: =head2
+#: perlboot.pod:818
+msgid "A horse of a different color"
+msgstr "每个实例有不同的颜色"
+
+#. type: textblock
+#: perlboot.pod:820
+msgid "But having all our horses be brown would be boring.  So let's add a method or two to get and set the color."
+msgstr "如果所有的马都是棕色的那就很没意思了。所以我们来添加一对方法来存取动物的颜色："
+
+#. type: verbatim
+#: perlboot.pod:823
+#, no-wrap
+msgid ""
+"  ## in Animal\n"
+"  sub color {\n"
+"    $_[0]->{Color}\n"
+"  }\n"
+"  sub set_color {\n"
+"    $_[0]->{Color} = $_[1];\n"
+"  }\n"
+"\n"
+msgstr ""
+"  ## in Animal\n"
+"  sub color {\n"
+"    $_[0]->{Color}\n"
+"  }\n"
+"  sub set_color {\n"
+"    $_[0]->{Color} = $_[1];\n"
+"  }\n"
+"\n"
+
+#. type: textblock
+#: perlboot.pod:831
+msgid "Note the alternate way of accessing the arguments: C<$_[0]> is used in-place, rather than with a C<shift>.  (This saves us a bit of time for something that may be invoked frequently.)  And now we can fix that color for Mr. Ed:"
+msgstr "这里用 C<$_[0]> 而不是通过 C<shift> 把引用存到一个变量中，这会节省一些时间。现在"
+"我们可以改写上面的代码："
+
+#. type: verbatim
+#: perlboot.pod:836
+#, no-wrap
+msgid ""
+"  my $horse = Horse->named(\"Mr. Ed\");\n"
+"  $horse->set_color(\"black-and-white\");\n"
+"  print $horse->name, \" is colored \", $horse->color, \"\\n"
+"\";\n"
+"\n"
+msgstr ""
+"  my $horse = Horse->named(\"Mr. Ed\");\n"
+"  $horse->set_color(\"black-and-white\");\n"
+"  print $horse->name, \" is colored \", $horse->color, \"\\n"
+"\";\n"
+"\n"
+
+#. type: verbatim
+#: perlboot.pod:842
+#, no-wrap
+msgid ""
+"  Mr. Ed is colored black-and-white\n"
+"\n"
+msgstr ""
+"  Mr. Ed is colored black-and-white\n"
+"\n"
+
+#. type: =head2
+#: perlboot.pod:844
+msgid "Summary"
+msgstr "总结"
+
+#. type: textblock
+#: perlboot.pod:846
+msgid "So, now we have class methods, constructors, instance methods, instance data, and even accessors. But that's still just the beginning of what Perl has to offer. We haven't even begun to talk about accessors that double as getters and setters, destructors, indirect object notation, overloading, \"isa\" and \"can\" tests, the C<UNIVERSAL> class, and so on.  That's for the rest of the Perl documentation to cover. Hopefully, this gets you started, though."
+msgstr "现在我们学会了定义类方法、构造方法、实例方法、实例数据以及访问器。但是我们还是"
+"处于 OO 的初级阶段，我们还没有学会定义完整的访问器、重构、\"isa\" 和 \"can\" 测试、"
+"C<UNIVERSAL> 类等等。本文档就包含这么多内容，希望你可以已此为基础学习更多的知识。"
+
+#. type: =head1
+#: perlboot.pod:854
+msgid "SEE ALSO"
+msgstr "另见"
+
+#. type: textblock
+#: perlboot.pod:856
+msgid "For more information, see L<perlobj> (for all the gritty details about Perl objects, now that you've seen the basics), L<perltoot> (the tutorial for those who already know objects), L<perltooc> (dealing with class data), L<perlbot> (for some more tricks), and books such as Damian Conway's excellent I<Object Oriented Perl>."
+msgstr "L<perlobj>、L<perltoot>、L<perltooc>、L<perlbot>、I<Object Oriented Perl>。"
+
+#. type: textblock
+#: perlboot.pod:862
+msgid "Some modules which might prove interesting are Class::Accessor, Class::Class, Class::Contract, Class::Data::Inheritable, Class::MethodMaker and Tie::SecureHash"
+msgstr "有些模块可能会经常用到 Class::Accessor、Class::Class、Class::Contract、"
+"Class::Data::Inheritable、Class::MethodMaker、Tie::SecureHash"
+
+#. type: =head1
+#: perlboot.pod:866
+msgid "COPYRIGHT"
+msgstr "COPYRIGHT"
+
+#. type: textblock
+#: perlboot.pod:868
+msgid "Copyright (c) 1999, 2000 by Randal L. Schwartz and Stonehenge Consulting Services, Inc."
+msgstr "Copyright (c) 1999, 2000 by Randal L. Schwartz and Stonehenge Consulting Services, Inc."
+
+#. type: textblock
+#: perlboot.pod:871
+msgid "Copyright (c) 2009 by Michael F. Witten."
+msgstr "Copyright (c) 2009 by Michael F. Witten."
+
+#. type: textblock
+#: perlboot.pod:873
+msgid "Permission is hereby granted to distribute this document intact with the Perl distribution, and in accordance with the licenses of the Perl distribution; derived documents must include this copyright notice intact."
+msgstr "Permission is hereby granted to distribute this document intact with the Perl distribution, and in accordance with the licenses of the Perl distribution; derived documents must include this copyright notice intact."
+
+#. type: textblock
+#: perlboot.pod:878
+msgid "Portions of this text have been derived from Perl Training materials originally appearing in the I<Packages, References, Objects, and Modules> course taught by instructors for Stonehenge Consulting Services, Inc. and used with permission."
+msgstr "Portions of this text have been derived from Perl Training materials originally appearing in the I<Packages, References, Objects, and Modules> course taught by instructors for Stonehenge Consulting Services, Inc. and used with permission."
+
+#. type: textblock
+#: perlboot.pod:883
+msgid "Portions of this text have been derived from materials originally appearing in I<Linux Magazine> and used with permission."
+msgstr "Portions of this text have been derived from materials originally appearing in I<Linux Magazine> and used with permission."
+
