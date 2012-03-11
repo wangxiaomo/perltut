@@ -1,0 +1,1300 @@
+NAME
+    perltoot - Perl OO
+
+DESCRIPTION
+    面向对象编程现在越来越火了。那么什么是面向对象呢？什么使的它如此特别？什么又是面向对象的编程呢？
+
+    对象就是把属于某物体的所有的特征行为放在一起形成的一个简单易用的组合。
+
+    跟对象关系最紧密的就是类，类是一个包含着数据、方法的命名空间。你可以把类当作是一种数据类型。
+
+    一般我们通过类的*构造方法*来创建一个类的实例。
+
+    那么类与标准的 Perl 数据类型有哪些不同呢？类的基础类型是什么？第一个问题的答案很简单。类与标准的 Perl
+    数据类型有且只有一个地方是不同的:使用类时，你需要经过解引用来获得相应的数据
+
+    第二个问题的答案是引用。这个引用不是普通的引用，而是经过 *bless*
+    操作绑定后的引用。是一个指向什么的引用呢？引用可以指向标量、数组或哈希，甚至指向代码。一般情况下，该引用是一个指向哈希的引用。
+
+创建类
+    在创建类之前，你需要想好它的名字。因为类的名字将直接决定存储它的文件的名字，这和普通的模块命名类似。然后，这个类需要有一个或多个方法来实例化。最
+    后，我们应该能够通过实例来操作这个类。
+
+    比如，我们创建一个 Person 类。它存储在 Person.pm 中。如果它叫做 Happy::Person 的话，它就应该被存储在
+    Happy/Person.pm 中。不要猜想它们之间有什么关系，它们只是一种组织形式，在代码意义上没有什么直接联系。
+
+    我们不会在这个模块中使用 Exporter 模块，因为我们这是一个完整类，不需要借助 Exporter
+    来导出方法等。当我们构建一个类时，需要借助 *构造方法* 来实现。构造函数会把数据与类绑定并返回相应的引用。这个神奇的过程是靠 bless()
+    操作来完成的。
+
+    构造函数可以被随意命名，大多数的 Perl 程序员习惯将其命名为 new()。new 并不是一个保留词。有些程序员也用和类名来做构造函数的名称。
+
+  类特征
+    在 Perl 中最适合来实现 Pascal record、C struct、C++ class 的就是匿名哈希。
+
+    你可以用如下结构来存储一些信息：
+
+        $rec = {
+            name  => "Jason",
+            age   => 23,
+            peers => [ "Norbert", "Rhys", "Phineas"],
+        };
+
+    你也可以用全部大写的字符串来当作键来构成哈希：
+
+        $rec = {
+            NAME  => "Jason",
+            AGE   => 23,
+            PEERS => [ "Norbert", "Rhys", "Phineas"],
+        };
+
+    在上面代码的基础上，你可以通过 "$rec->{NAME}" 来得到 "Jason"，或者通过 "@{ $rec->{PEERS} }" 来得到
+    "Norbert"、"Rhys"、"Phineas"。
+
+    和这类似的结构经常用在类中存储数据。
+
+  类接口
+    有些语言提供了类与接口之间的链接关系，所以在编译时可以检查接口函数是否存在，而 Perl
+    不提供这个功能。所以如果你调用了一个未定义的接口函数，Perl
+    在编译时不会报错，但是在运行时会得到错误。就好比某个函数你想接受质数作为参数而不做合法性检查，那么当传递进一个不是质数的数时，编译器是不会检查到
+    错误的。虽然你希望它能检查到，但这是不可能的。所以我们在使用一个类时需要首先好好阅读它的文档。
+
+    我们假设你已经定义好了 Person 类，并且用户已经通过文档详细了解了该类的使用方法。下面是该用户写的代码：
+
+        use Person;
+
+        $him = Person->new();
+        $him->name("Jason");
+        $him->age(23);
+        $him->peers( "Norbert", "Rhys", "Phineas" );
+
+        push @All_Recs, $him;  # save object in array for later
+
+        printf "%s is %d years old.\n", $him->name, $him->age;
+        print "His peers are: ", join(", ", $him->peers), "\n";
+
+        printf "Last rec's name is %s\n", $All_Recs[-1]->name;
+
+    As you can see, the user of the class doesn't know (or at least, has no
+    business paying attention to the fact) that the object has one
+    particular implementation or another. The interface to the class and its
+    objects is exclusively via methods, and that's all the user of the class
+    should ever play with.
+
+  构造方法和实例方法
+    现在让我们看看如何通过构造方法 new() 方法将数据与类绑定以及如何创建三个实例方法来构建相应的存取方法。
+
+        package Person;
+        use strict;
+
+        ##################################################
+        ## the object constructor (simplistic version)  ##
+        ##################################################
+        sub new {
+            my $self  = {};
+            $self->{NAME}   = undef;
+            $self->{AGE}    = undef;
+            $self->{PEERS}  = [];
+            bless($self);           # but see below
+            return $self;
+        }
+
+        ##############################################
+        ## methods to access per-object data        ##
+        ##                                          ##
+        ## With args, they set the value.  Without  ##
+        ## any, they only retrieve it/them.         ##
+        ##############################################
+
+        sub name {
+            my $self = shift;
+            if (@_) { $self->{NAME} = shift }
+            return $self->{NAME};
+        }
+
+        sub age {
+            my $self = shift;
+            if (@_) { $self->{AGE} = shift }
+            return $self->{AGE};
+        }
+
+        sub peers {
+            my $self = shift;
+            if (@_) { @{ $self->{PEERS} } = @_ }
+            return @{ $self->{PEERS} };
+        }
+
+        1;  # so the require or use succeeds
+
+    通过上面的代码，我们创建了三个访问方法，name()、age() 和
+    peers()。它们基本类似，当接收到参数时，会把参数存储到实例变量中并返回实例变量中的结果。如果没有接收到参数的话，会直接返回实例变量中的结果
+    。
+
+  改进构造方法
+    也许你现在还不知道我们需要改进什么地方。但是为了保证之后继承工作的正确执行，我们需要保证 bless 操作正确的完成，也就是保证传递给
+    bless 的第二个参数要正确。所以我们改成如下形式：
+
+        sub new {
+            my $class = shift;
+            my $self  = {};
+            $self->{NAME}   = undef;
+            $self->{AGE}    = undef;
+            $self->{PEERS}  = [];
+            bless ($self, $class);
+            return $self;
+        }
+
+    这就是我们所需要的构造函数，返回与类绑定的实例引用。
+
+  析构函数
+    每个故事都有开始和结束。类一般都由构造函数开始，从而完成实例化。那么在类的最后，我们需要对实例进行析构，析构的方法叫做析构函数。Perl OO
+    中的析构函数为 DESTROY。
+
+    为什么构造函数可以用户自己命名，而析构函数不可以呢？这是因为构造函数是用户自己调用的，而析构函数是由 Perl 在释放变量时自动调用的。关于
+    Perl 何时调用 DESTROY 方法，Perl 还没有明确的说明，所以在析构方法不应该依赖于它们何时被执行。
+
+    为什么 DESTROY 全部都是大写字母？Perl 习惯上把全部是大写字母的方法作为 Perl 自动调用执行的方法，如
+    BEGIN、END、AUTOLOAD、还有通过 perltie 绑定的方法。
+
+    在好的面向对象语言中，用户根本不需要关心它们的析构函数是否被调用。它的调用应该与 GC 系统挂钩。不像 C++，析构函数在 Perl OO
+    中基本不需要定义。在我们的例子 Person 类中，我们不定义析构函数。
+
+    唯一需要定义析构函数的情景是我们要释放一个循环引用的结构，如
+
+        $this->{WHATEVER} = $this;
+
+    在上面的代码中，我们必须要手动删除指向自己的引用。
+
+  其他类方法
+    我们在之前谈论过的类方法有构造函数，以及一些简单的对数据进行操作的方法。这和 C++ 的语法有点相似，不过 Perl
+    无法直接通过实例来存取其数据。注意：在 Perl OO 中，对数据的存取*只能*通过方法来完成。
+
+    Perl 不提供方法的访问权限。方法的访问权限由约定指明，而不是通过语法。一般以一个到两个下划线开头或结尾的方法名即为私有方法。
+
+    没有理由限制访问方法的权限，需要关注的重点应该是类调用还是实例调用。
+
+        sub exclaim {
+            my $self = shift;
+            return sprintf "Hi, I'm %s, age %d, working with %s",
+                $self->{NAME}, $self->{AGE}, join(", ", @{$self->{PEERS}});
+        }
+
+    或者：
+
+        sub happy_birthday {
+            my $self = shift;
+            return ++$self->{AGE};
+        }
+
+    有时候我们可能会这样写：
+
+        sub exclaim {
+            my $self = shift;
+            return sprintf "Hi, I'm %s, age %d, working with %s",
+                $self->name, $self->age, join(", ", $self->peers);
+        }
+
+        sub happy_birthday {
+            my $self = shift;
+            return $self->age( $self->age() + 1 );
+        }
+
+    这两种方法其实没什么太大差别。但是直接通过哈希访问数据的话会节省些时间。
+
+类数据
+    什么是类数据？我们用它来做什么？我们可以通过它来使得 Person 类更加生动。那么该怎么做呢？
+
+    我们*可以*定义一个全局变量
+    $Person::Census。我们创建它的一个原因就是想直接获得相应的类数据。我们也可以将该变量导出模块。要想使该变量能被导出，它必须是全局的
+    。
+
+    我们可以利用类中的方法来存取类数据。
+
+    我们*应该*使 $Census 为包全局变量。
+
+    很多时候我们只是想把类数据的作用域变为文件作用域，此时，我们只需要简单的将下面的代码放在文件的开始：
+
+        my $Census = 0;
+
+    虽然通过 my() 声明的变量在块结束后就会失去作用，但是 Perl 的引用机制会保证该变量不会被释放掉。
+
+    不管你是把它作为包全局变量来处理还是仅仅给予了文件作用域，我们都应该修改 Person::new() 构造函数：
+
+        sub new {
+            my $class = shift;
+            my $self  = {};
+            $Census++;
+            $self->{NAME}   = undef;
+            $self->{AGE}    = undef;
+            $self->{PEERS}  = [];
+            bless ($self, $class);
+            return $self;
+        }
+
+        sub population {
+            return $Census;
+        }
+
+    现在，我们完成了。但是我们也需要一个析构函数，当该实例被释放时完成一定的操作：
+
+        sub DESTROY { --$Census }
+
+    Notice how there's no memory to deallocate in the destructor? That's
+    something that Perl takes care of for you all by itself.
+
+    Alternatively, you could use the Class::Data::Inheritable module from
+    CPAN.
+
+  使用类数据
+    上面的代码并没有很好的使用类数据。一个重要的规则是*你不应该在实例方法中使用类数据*。不然的话，你就无法创建一个可拓展的可继承的类。
+
+    Got that? Maybe not. Ok, let's say that some other class "borrowed"
+    (well, inherited) the DESTROY method as it was defined above. When those
+    objects are destroyed, the original $Census variable will be altered,
+    not the one in the new class's package namespace. Perhaps this is what
+    you want, but probably it isn't.
+
+    现在我们开始改进它。我们将存储一个指向类数据的引用。
+
+        sub new {
+            my $class = shift;
+            my $self  = {};
+            $self->{NAME}     = undef;
+            $self->{AGE}      = undef;
+            $self->{PEERS}    = [];
+            # "private" data
+            $self->{"_CENSUS"} = \$Census;
+            bless ($self, $class);
+            ++ ${ $self->{"_CENSUS"} };
+            return $self;
+        }
+
+        sub population {
+            my $self = shift;
+            if (ref $self) {
+                return ${ $self->{"_CENSUS"} };
+            } else {
+                return $Census;
+            }
+        }
+
+        sub DESTROY {
+            my $self = shift;
+            -- ${ $self->{"_CENSUS"} };
+        }
+
+  调试方法
+    为类创建调试方法是很正常的。比如，我们想要看到类是如何被建立或删除的。首先，我们需要有个 debug 变量用来控制调试状态。而且，我们用
+    Carp 模块中的方法来提供调试信息。Carp 模块中的方法能够为我们提供错误发生的具体信息。
+
+        use Carp;
+        my $Debugging = 0;
+
+    现在为我们的类添加存取调试变量的方法：
+
+        sub debug {
+            my $class = shift;
+            if (ref $class)  { confess "Class method called as object method" }
+            unless (@_ == 1) { confess "usage: CLASSNAME->debug(level)" }
+            $Debugging = shift;
+        }
+
+    现在修改 DESTROY 方法：
+
+        sub DESTROY {
+            my $self = shift;
+            if ($Debugging) { carp "Destroying $self " . $self->name }
+            -- ${ $self->{"_CENSUS"} };
+        }
+
+    我们可以通过下面两种方式来启动调试：
+
+        Person->debug(1);   # entire class
+        $him->debug(1);     # just this object
+
+    现在我们修改 debug() 方法使其既可以在类调用中正常工作也可以在实例调用中正常工作：
+
+        sub debug {
+            my $self = shift;
+            confess "usage: thing->debug(level)"    unless @_ == 1;
+            my $level = shift;
+            if (ref($self))  {
+                $self->{"_DEBUG"} = $level;         # just myself
+            } else {
+                $Debugging        = $level;         # whole class
+            }
+        }
+
+        sub DESTROY {
+            my $self = shift;
+            if ($Debugging || $self->{"_DEBUG"}) {
+                carp "Destroying $self " . $self->name;
+            }
+            -- ${ $self->{"_CENSUS"} };
+        }
+
+    现在当 Employee 类继承 Person 类时，调用 "Employee->debug()" 方法将会正确执行。
+
+  类析构
+    类析构指的是该类型释放时调用的方法，这个过程一般发生在程序退出的时候。要想定义该函数，只需要定义 END
+    方法，这个方法就会在程序执行的最后被调用。
+
+        sub END {
+            if ($Debugging) {
+                print "All persons are going away now.\n";
+            }
+        }
+
+    当程序结束时，所有类的 END 方法将会按照先进后出的顺序执行。
+
+  文档化接口
+    现在我们将会为 Person 类的各接口书写文档。最通常的就是把文档按 pod 格式组织放在同一个文件中。所以，我们可以把 Person
+    类文档连同 Person 类代码放在 Person.pm 文件中。尽管它看起来像是代码，但是它不是，它只是一种内嵌的文档，我们可以通过
+    pod2man、pod2html、pod2text 等程序将其提取成特定的格式。Perl 解释器在运行程序时也会忽略掉 pod
+    文档。下面是一个简单的例子：
+
+        =head1 NAME
+
+        Person - class to implement people
+
+        =head1 SYNOPSIS
+
+         use Person;
+
+         #################
+         # class methods #
+         #################
+         $ob    = Person->new;
+         $count = Person->population;
+
+         #######################
+         # object data methods #
+         #######################
+
+         ### get versions ###
+             $who   = $ob->name;
+             $years = $ob->age;
+             @pals  = $ob->peers;
+
+         ### set versions ###
+             $ob->name("Jason");
+             $ob->age(23);
+             $ob->peers( "Norbert", "Rhys", "Phineas" );
+
+         ########################
+         # other object methods #
+         ########################
+
+         $phrase = $ob->exclaim;
+         $ob->happy_birthday;
+
+        =head1 DESCRIPTION
+
+        The Person class implements dah dee dah dee dah....
+
+    通过 pod 文档，人们可以很方便的学会如何去理解使用你的代码。
+
+组合类
+    Suppose you later want to change the class to implement better names.
+    Perhaps you'd like to support both given names (called Christian names,
+    irrespective of one's religion) and family names (called surnames), plus
+    nicknames and titles. If users of your Person class have been properly
+    accessing it through its documented interface, then you can easily
+    change the underlying implementation. If they haven't, then they lose
+    and it's their fault for breaking the contract and voiding their
+    warranty.
+
+    我们又创建了一个 Fullname 类。在解释 Fullname 类的结构前，我们先看看我们将如何使用它：
+
+        $him = Person->new();
+        $him->fullname->title("St");
+        $him->fullname->christian("Thomas");
+        $him->fullname->surname("Aquinas");
+        $him->fullname->nickname("Tommy");
+        printf "His normal name is %s\n", $him->name;
+        printf "But his real name is %s\n", $him->fullname->as_string;
+
+    现在我们改进 Person::new() 方法：
+
+        sub new {
+            my $class = shift;
+            my $self  = {};
+            $self->{FULLNAME} = Fullname->new();
+            $self->{AGE}      = undef;
+            $self->{PEERS}    = [];
+            $self->{"_CENSUS"} = \$Census;
+            bless ($self, $class);
+            ++ ${ $self->{"_CENSUS"} };
+            return $self;
+        }
+
+        sub fullname {
+            my $self = shift;
+            return $self->{FULLNAME};
+        }
+
+    与此同时，我们重新定义 Person::name() 方法：
+
+        sub name {
+            my $self = shift;
+            return $self->{FULLNAME}->nickname(@_)
+              ||   $self->{FULLNAME}->christian(@_);
+        }
+
+    现在，我们开始定义 Fullname 类：
+
+        package Fullname;
+        use strict;
+
+        sub new {
+            my $class = shift;
+            my $self  = {
+                TITLE       => undef,
+                CHRISTIAN   => undef,
+                SURNAME     => undef,
+                NICK        => undef,
+            };
+            bless ($self, $class);
+            return $self;
+        }
+
+        sub christian {
+            my $self = shift;
+            if (@_) { $self->{CHRISTIAN} = shift }
+            return $self->{CHRISTIAN};
+        }
+
+        sub surname {
+            my $self = shift;
+            if (@_) { $self->{SURNAME} = shift }
+            return $self->{SURNAME};
+        }
+
+        sub nickname {
+            my $self = shift;
+            if (@_) { $self->{NICK} = shift }
+            return $self->{NICK};
+        }
+
+        sub title {
+            my $self = shift;
+            if (@_) { $self->{TITLE} = shift }
+            return $self->{TITLE};
+        }
+
+        sub as_string {
+            my $self = shift;
+            my $name = join(" ", @$self{'CHRISTIAN', 'SURNAME'});
+            if ($self->{TITLE}) {
+                $name = $self->{TITLE} . " " . $name;
+            }
+            return $name;
+        }
+
+        1;
+
+    最终我们这样测试程序：
+
+        #!/usr/bin/perl -w
+        use strict;
+        use Person;
+        sub END { show_census() }
+
+        sub show_census ()  {
+            printf "Current population: %d\n", Person->population;
+        }
+
+        Person->debug(1);
+
+        show_census();
+
+        my $him = Person->new();
+
+        $him->fullname->christian("Thomas");
+        $him->fullname->surname("Aquinas");
+        $him->fullname->nickname("Tommy");
+        $him->fullname->title("St");
+        $him->age(1);
+
+        printf "%s is really %s.\n", $him->name, $him->fullname->as_string;
+        printf "%s's age: %d.\n", $him->name, $him->age;
+        $him->happy_birthday;
+        printf "%s's age: %d.\n", $him->name, $him->age;
+
+        show_census();
+
+继承
+    不支持继承的语言不是面向对象的编程语言。继承一个类，你便不需要一遍又一遍的编写相同的代码。通过继承我们可以写出可复用的风格良好的代码。（impo
+    rt/export 也是一种复用方法，不过和类比起来相对简单。）
+
+    有些语言把继承实现在语言的内部，而有些不是。Perl 没有为类的继承准备特别的语法，而只是语义上的规定而已。每个包可以通过 @ISA
+    数组来指定继承的类。如果你调用了一个在该类中未定义的方法，Perl 便会在它的 @ISA 指明的父类中去递归查找。
+
+    和 Exporter 模块中的变量（如 @EXPORT、@EXPORT_OK、@EXPORT_FAIL、%EXPORT_TAGS 和
+    $VERSION）一样，@ISA 数组必须是包全局变量而不是通过 my() 声明的文件作用域内的变量。大部分类的 @ISA
+    数组包含一个元素，我们称之为单继承。
+
+    考虑下面这个类：
+
+        package Employee;
+        use Person;
+        @ISA = ("Person");
+        1;
+
+    没有很多代码，是吧？我们只是建立了一个 Employee 类并且继承于 Person 类，而且没有定义属于自己的任何方法，完全和父类相同。
+
+    这种方式经常用来测试继承关系。如果一切正常的话，你便可以正确执行下面的代码：
+
+        use Employee;
+        my $empl = Employee->new();
+        $empl->name("Jason");
+        $empl->age(23);
+        printf "%s is age %d.\n", $empl->name, $empl->age;
+
+    我们一般通过 bless() 来返回实例引用，之后便可以通过引用来调用实例方法。
+
+    方法不同于函数，方法接收到的第一个参数为类名或实例引用。
+
+            Method Call             Resulting Function Call
+            -----------             ------------------------
+            Person->new()           Person::new("Person")
+            Employee->new()         Person::new("Employee")
+
+    所以当我们说调用函数时指的就是调用类的方法。
+
+    如果 Employee 类与 Person 类完全相同，那就太没有意思了。所以让我们添加一些方法进去。我们会为 Employee
+    添加一些标量信息，它们的 employee ID、start date。
+
+    如果你觉得这些重复的写这些功能类似的函数很枯燥，请不要绝望。稍后我们会介绍不同的方法来改进它们。但是现在，请继续下去：
+
+        sub salary {
+            my $self = shift;
+            if (@_) { $self->{SALARY} = shift }
+            return $self->{SALARY};
+        }
+
+        sub id_number {
+            my $self = shift;
+            if (@_) { $self->{ID} = shift }
+            return $self->{ID};
+        }
+
+        sub start_date {
+            my $self = shift;
+            if (@_) { $self->{START_DATE} = shift }
+            return $self->{START_DATE};
+        }
+
+  重载方法
+    如果子类与它的父类有一个相同名字的函数，那么会发生什么事情呢？那样的话，在默认调用时我们将会调用子类的该方法。比如，我们调用 Employee
+    类和 Person 类都有的 peers() 方法
+
+        $empl->peers("Peter", "Paul", "Mary");
+        printf "His peers are: %s\n", join(", ", $empl->peers);
+
+    将会输出：
+
+        His peers are: PEON=PETER, PEON=PAUL, PEON=MARY
+
+    与此同时，我们需要相应的修改 Employee.pm 文件：
+
+        sub peers {
+            my $self = shift;
+            if (@_) { @{ $self->{PEERS} } = @_ }
+            return map { "PEON=\U$_" } @{ $self->{PEERS} };
+        }
+
+    上面的代码已经包含了我们所熟知的*多态性*概念。我们继承一个类，并且根据自己特殊的情况对其进行了修改。
+
+    无论什么时候我们都想拥有一个触发器来调试方法的执行，无论它是父类方法还是子类方法。我们可以通过之前提到过的调试方法来实现。
+
+    把下面的代码添加到 Employee.pm 中：
+
+        use Carp;
+        my $Debugging = 0;
+
+        sub debug {
+            my $self = shift;
+            confess "usage: thing->debug(level)"    unless @_ == 1;
+            my $level = shift;
+            if (ref($self))  {
+                $self->{"_DEBUG"} = $level;
+            } else {
+                $Debugging = $level;            # whole class
+            }
+            Person::debug($self, $Debugging);   # don't really do this
+        }
+
+    如果我们调用 Person 类的 debug() 方法，而在 Person 类中却不存在 debug() 方法，这时会发生什么呢？
+
+        Person->debug($Debugging);
+
+    实际上也就是执行了如下代码：
+
+        $self->Person::debug($Debugging);
+
+    它会在 Person 类中查找 debug() 方法。这种形式在重载时经常用到。
+
+    我们也可以用 SUPER 来代替类名，让 Perl 在其父类中查找方法。
+
+        $self->SUPER::debug($Debugging);
+
+    需要注意的是 "SUPER" 指向类的父类，*而不是* $self 的父类。
+
+    现在我们编写个更为复杂的 Boss 类，它继承 Employee 类。
+
+        package Boss;
+        use Employee;        # :-)
+        @ISA = qw(Employee);
+
+    下面这段代码用来测试它：
+
+        #!/usr/bin/perl -w
+        use strict;
+        use Boss;
+        Boss->debug(1);
+
+        my $boss = Boss->new();
+
+        $boss->fullname->title("Don");
+        $boss->fullname->surname("Pichon Alvarez");
+        $boss->fullname->christian("Federico Jesus");
+        $boss->fullname->nickname("Fred");
+
+        $boss->age(47);
+        $boss->peers("Frank", "Felipe", "Faust");
+
+        printf "%s is age %d.\n", $boss->fullname->as_string, $boss->age;
+        printf "His peers are: %s\n", join(", ", $boss->peers);
+
+    运行后，一切正常。如果你想要查看对象的具体情况，可以使用 Data::Dumper 模块。
+
+        use Data::Dumper;
+        print "Here's the boss:\n";
+        print Dumper($boss);
+
+    它将会显示：
+
+        Here's the boss:
+        $VAR1 = bless( {
+             _CENSUS => \1,
+             FULLNAME => bless( {
+                                  TITLE => 'Don',
+                                  SURNAME => 'Pichon Alvarez',
+                                  NICK => 'Fred',
+                                  CHRISTIAN => 'Federico Jesus'
+                                }, 'Fullname' ),
+             AGE => 47,
+             PEERS => [
+                        'Frank',
+                        'Felipe',
+                        'Faust'
+                      ]
+           }, 'Boss' );
+
+    恩，有个问题，salary、start date 和 ID fields 去哪了？我们从来没有赋予它们任何值，连 undef
+    都不是，所以才没有在哈希中输出出来。因此，我们修改 Employee::new() 方法：
+
+        sub new {
+            my $class = shift;
+            my $self  = $class->SUPER::new();
+            $self->{SALARY}        = undef;
+            $self->{ID}            = undef;
+            $self->{START_DATE}    = undef;
+            bless ($self, $class);          # reconsecrate
+            return $self;
+        }
+
+    现在你查看 Employee、Boss 对象，你就会发现它们出现了。
+
+  多继承
+    尽管下面的知识会让新手们产生困惑，但是是时候该介绍多继承了。
+
+    多继承的工作方式其实也很简单：只是在 @ISA 数组中多了几个元素而已。当 Perl 在 @ISA
+    中查找方法时，按照从左到右递归查找的规则进行。
+
+        @First::ISA    = qw( Alpha );
+        @Second::ISA   = qw( Beta );
+        @Third::ISA    = qw( First Second );
+
+    如果你有一个 Third 类的实例：
+
+        my $ob = Third->new();
+        $ob->spin();
+
+    Perl 会如何查找 spin() 方法呢？从左到右逐渐递归，所以查找的顺序为：Third，First，Alpha，Second，Beta。
+
+    实际中很少用到多继承，但是并不代表生活中不存在多继承的关系。
+
+    However, there is one particular area where MI in Perl is rampant:
+    borrowing another class's class methods. This is rather common,
+    especially with some bundled "objectless" classes, like Exporter,
+    DynaLoader, AutoLoader, and SelfLoader. These classes do not provide
+    constructors; they exist only so you may inherit their class methods.
+    (It's not entirely clear why inheritance was done here rather than
+    traditional module importation.)
+
+    下面的例子为 POSIX 模块：
+
+        package POSIX;
+        @ISA = qw(Exporter DynaLoader);
+
+    POSIX 模块不是一个类模块，也不是 Exporter、DynaLoader 模块。它只是从它们中借过来一些方法。
+
+    为什么人们不经常使用多继承呢？一个原因就是它会增加程序的复杂性。
+
+  UNIVERSAL：所有类的父类
+    所有类都是继承于一个共同的基类会不会使面向对象的编程变得更加容易呢？Perl OO 中所有的类都继承 UNIVERSAL 类。
+
+    从 5.004（有些版本如 5.003_08）开始，UNIVERSAL 类中便包含了一些方法，isa()、can() 和 VERSION()
+    方法。isa() 方法可以帮助你判断类或实例是否属于某类：
+
+       $has_io = $fd->isa("IO::Handle");
+       $itza_handle = IO::Socket->isa("IO::Handle");
+
+    can() 方法可以判断它的参数是否可以被实例或类所调用。实际上，它会返回该函数的引用。
+
+       $his_print_method = $obj->can('as_string');
+
+    VERSION 方法会返回该包内的 $VERSION 值。
+
+        Some_Module->VERSION(3.0);
+        $his_vers = $ob->VERSION();
+
+    一般情况下，我们不调用 VERSION 方法。（记得之前说过全部大写字母的方法 Perl 会自动调用它们吗？）
+
+        use Some_Module 3.0;
+
+    如果你想要为你的模块添加版本检查的话，你只需要在 Person.pm 中加入：
+
+        our $VERSION = '1.1';
+
+    然后在 Employee.pm 中你可以这样引入：
+
+        use Person 1.1;
+
+    上面的代码将保证 Person 模块的版本至少为 1.1，否则无法运行。
+
+  关于 UNIVERSAL 的更多信息
+    我们无法向 @UNIVERSAL::ISA 中添加任何类名。
+
+        @UNIVERSAL::ISA = ('REALLYUNIVERSAL');
+
+        package REALLYUNIVERSAL;
+        sub special_method { return "123" }
+
+        package Foo;
+        sub normal_method { return "321" }
+
+    此时调用 Foo->special_method() 会返回 "123"，但是调用 Foo->isa('REALLYUNIVERSAL') 或
+    Foo->isa('UNIVERSAL') 时会返回 false。
+
+    下面是关于 mro 的东西，暂时没有看懂，先不翻译了。Mark。
+
+    All of the above is made more intuitive by realizing what really happens
+    during method lookup, which is roughly like this ugly pseudo-code:
+
+        get_mro(class) {
+            # recurses down the @ISA's starting at class,
+            # builds a single linear array of all
+            # classes to search in the appropriate order.
+            # The method resolution order (mro) to use
+            # for the ordering is whichever mro "class"
+            # has set on it (either default (depth first
+            # l-to-r) or C3 ordering).
+            # The first entry in the list is the class
+            # itself.
+        }
+
+        find_method(class, methname) {
+            foreach $class (get_mro(class)) {
+                if($class->has_method(methname)) {
+                    return ref_to($class->$methname);
+                }
+            }
+            foreach $class (get_mro(UNIVERSAL)) {
+                if($class->has_method(methname)) {
+                    return ref_to($class->$methname);
+                }
+            }
+            return undef;
+        }
+
+    However the code that implements UNIVERSAL::isa does not search in
+    UNIVERSAL itself, only in the package's actual @ISA.
+
+其他类数据表现
+    Perl 并没有强制要求类的数据表现形式为哈希。一个类的数据可以是任何类型的引用，标量、数组、哈希或者是代码都是可以的。
+
+    使用标量作为类数据表现形式的话，那么只能存储一个值。数组的话也可以，但是我们只能通过下标进行存取操作。
+
+  数组数据
+    如果用户想要用数组作为类数据的表现形式，那么可以按照如下方式修改代码：
+
+        package Person;
+        use strict;
+
+        my($NAME, $AGE, $PEERS) = ( 0 .. 2 );
+
+        ############################################
+        ## the object constructor (array version) ##
+        ############################################
+        sub new {
+            my $self = [];
+            $self->[$NAME]   = undef;  # this is unnecessary
+            $self->[$AGE]    = undef;  # as is this
+            $self->[$PEERS]  = [];     # but this isn't, really
+            bless($self);
+            return $self;
+        }
+
+        sub name {
+            my $self = shift;
+            if (@_) { $self->[$NAME] = shift }
+            return $self->[$NAME];
+        }
+
+        sub age {
+            my $self = shift;
+            if (@_) { $self->[$AGE] = shift }
+            return $self->[$AGE];
+        }
+
+        sub peers {
+            my $self = shift;
+            if (@_) { @{ $self->[$PEERS] } = @_ }
+            return @{ $self->[$PEERS] };
+        }
+
+        1;  # so the require or use succeeds
+
+    你也许会认为数组的访问速度会比哈希快，但是它们实际上是没有可比性的。数组访问确实会快一些，但是差别没那么大。
+
+    不过仍然会有很多程序员会因为这么细小的差别而选择数组作为类数据表现形式。
+
+  闭包数据
+    我们可以创建一个闭包引用作为实例引用返回。在类中我们我们创建一个匿名函数（闭包），通过这种形式来访问匿名哈希中的数据。这些数据对外是不可见的。
+
+    使用这种形式的类和以前类似：
+
+        use Person;
+        $him = Person->new();
+        $him->name("Jason");
+        $him->age(23);
+        $him->peers( [ "Norbert", "Rhys", "Phineas" ] );
+        printf "%s is %d years old.\n", $him->name, $him->age;
+        print "His peers are: ", join(", ", @{$him->peers}), "\n";
+
+    但是类的构建却是与之前非常不同的：
+
+        package Person;
+
+        sub new {
+             my $class  = shift;
+             my $self = {
+                NAME  => undef,
+                AGE   => undef,
+                PEERS => [],
+             };
+             my $closure = sub {
+                my $field = shift;
+                if (@_) { $self->{$field} = shift }
+                return    $self->{$field};
+            };
+            bless($closure, $class);
+            return $closure;
+        }
+
+        sub name   { &{ $_[0] }("NAME",  @_[ 1 .. $#_ ] ) }
+        sub age    { &{ $_[0] }("AGE",   @_[ 1 .. $#_ ] ) }
+        sub peers  { &{ $_[0] }("PEERS", @_[ 1 .. $#_ ] ) }
+
+        1;
+
+    因为这个类隐藏在闭包之后，所以对很多人来说有些神秘。通过该类的构造函数返回的是一个闭包引用，通过这个闭包我们可以访问到实例数据。
+
+    当 "$him->name("Jason")" 被调用时，将会在 name() 函数中通过闭包引用来存储相应的值。
+
+    Once we're executing inside the closure that had been created in new(),
+    the $self hash reference suddenly becomes visible. The closure grabs its
+    first argument ("NAME" in this case because that's what the name()
+    method passed it), and uses that string to subscript into the private
+    hash hidden in its unique version of $self.
+
+    闭包之后的数据隐藏起来，其他人无法在闭包之外对数据进行访问。
+
+    There, if that doesn't excite the Scheme folks, then I just don't know
+    what will. Translation of this technique into C++, Java, or any other
+    braindead-static language is left as a futile exercise for aficionados
+    of those camps.
+
+    你也可以通过 caller() 函数使的这个闭包只能在自己的包内执行。
+
+    If you were wondering when Hubris, the third principle virtue of a
+    programmer, would come into play, here you have it. (More seriously,
+    Hubris is just the pride in craftsmanship that comes from having written
+    a sound bit of well-designed code.)
+
+AUTOLOAD 方法
+    Autoloading 可以在调用未定义方法时自动执行。
+
+    But that's only one possible approach. Another one is to just have the
+    autoloaded method itself directly provide the requested service. When
+    used in this way, you may think of autoloaded methods as "proxy"
+    methods.
+
+    当调用一个未定义的方法时，Perl 会自动调用 AUTOLOAD 方法，并且传递给它相同的参数。在 AUTOLOAD 中我们可以做任何事情。
+
+    Perl 会先到 @ISA 数组中去查找方法，如果没有找到的话就会调用 AUTOLOAD 方法。有些程序员会定义
+    UNIVERSAL::AUTOLOAD 来为每一个类都定义 AUTOLOAD 方法。
+
+  自动访问器
+    我们之前编写的 Person 类或是 Employee 类，我们为每个类属性分别设置了存取方法，这是一个相当繁琐的过程。但是我们可以通过
+    AUTOLOAD 方法来简化操作，自动生成访问器。
+
+    我们将不会为类的每个属性编写自己的存取方法，我们将通过 AUTOLOAD 的方式来实现。我们会利用 "_permitted"
+    来验证参数的合法性。为什么是下划线开头呢？因为它是一个私有属性。
+
+    下面是实现的代码：
+
+        package Person;
+        use Carp;
+        our $AUTOLOAD;  # it's a package global
+
+        my %fields = (
+            name        => undef,
+            age         => undef,
+            peers       => undef,
+        );
+
+        sub new {
+            my $class = shift;
+            my $self  = {
+                _permitted => \%fields,
+                %fields,
+            };
+            bless $self, $class;
+            return $self;
+        }
+
+    如果想赋予它们一个默认值，我们可以写在 %field 哈希中。
+
+    Notice how we saved a reference to our class data on the object itself?
+    Remember that it's important to access class data through the object
+    itself instead of having any method reference %fields directly, or else
+    you won't have a decent inheritance.
+
+    现在我们通过 AUTOLOAD 方法来实现访问器。
+
+        sub AUTOLOAD {
+            my $self = shift;
+            my $type = ref($self)
+                        or croak "$self is not an object";
+
+            my $name = $AUTOLOAD;
+            $name =~ s/.*://;   # strip fully-qualified portion
+
+            unless (exists $self->{_permitted}->{$name} ) {
+                croak "Can't access `$name' field in class $type";
+            }
+
+            if (@_) {
+                return $self->{$name} = shift;
+            } else {
+                return $self->{$name};
+            }
+        }
+
+    是不是更加漂亮简洁了？我们现在不需要添加额外的方法了。
+
+    I could have avoided the "_permitted" field entirely, but I wanted to
+    demonstrate how to store a reference to class data on the object so you
+    wouldn't have to access that class data directly from an object method.
+
+  继承自动访问器
+    那么我们该如何继承上面的代码呢？
+
+    Here's how to be careful:
+
+        package Employee;
+        use Person;
+        use strict;
+        our @ISA = qw(Person);
+
+        my %fields = (
+            id          => undef,
+            salary      => undef,
+        );
+
+        sub new {
+            my $class = shift;
+            my $self  = $class->SUPER::new();
+            my($element);
+            foreach $element (keys %fields) {
+                $self->{_permitted}->{$element} = $fields{$element};
+            }
+            @{$self}{keys %fields} = values %fields;
+            return $self;
+        }
+
+    一旦我们这么做了，我们就不需要再写 AUTOLOAD 方法了。
+
+元类工具
+    尽管我们前面已经写出了一种很简便的类，但是我们还是希望有更好的方式。
+
+    CPAN 上有很多模块可以帮助我们构建不同形式的类。
+
+  Class::Struct
+    One of the older ones is Class::Struct. In fact, its syntax and
+    interface were sketched out long before perl5 even solidified into a
+    real thing. What it does is provide you a way to "declare" a class as
+    having objects whose fields are of a specific type. The function that
+    does this is called, not surprisingly enough, struct(). Because
+    structures or records are not base types in Perl, each time you want to
+    create a class to provide a record-like data object, you yourself have
+    to define a new() method, plus separate data-access methods for each of
+    that record's fields. You'll quickly become bored with this process. The
+    Class::Struct::struct() function alleviates this tedium.
+
+    下面让我们看一个例子：
+
+        use Class::Struct qw(struct);
+        use Jobbie;  # user-defined; see below
+
+        struct 'Fred' => {
+            one        => '$',
+            many       => '@',
+            profession => 'Jobbie',  # does not call Jobbie->new()
+        };
+
+        $ob = Fred->new(profession => Jobbie->new());
+        $ob->one("hmmmm");
+
+        $ob->many(0, "here");
+        $ob->many(1, "you");
+        $ob->many(2, "go");
+        print "Just set: ", $ob->many(2), "\n";
+
+        $ob->profession->salary(10_000);
+
+    你可以借用 Perl 标准数据类型或自定义类型来声明结构体。
+
+    需要注意的是 "Jobbie" 并不是 Fred 自动调用其 new() 方法生成的，所以你需要手动完成。
+
+    下面是一个使用 struct 的实际例子。gethostbyname() 和 gethostbyaddr() 方法会返回一个类似 C
+    语言结构体的结构。
+
+        use Socket;
+        use Net::hostent;
+        $h = gethostbyname("perl.com");  # object return
+        printf "perl.com's real name is %s, address %s\n",
+            $h->name, inet_ntoa($h->addr);
+
+    下面是我们如何使用 Class::Struct 模块来构建：
+
+        struct 'Net::hostent' => [          # note bracket
+            name       => '$',
+            aliases    => '@',
+            addrtype   => '$',
+            'length'   => '$',
+            addr_list  => '@',
+         ];
+
+    上面的代码构建了相应的属性并且声明了相应的类型，甚至创建了 new() 方法。
+
+    当然我们也可以按下面这种方式来声明：
+
+        struct 'Net::hostent' => {          # note brace
+            name       => '$',
+            aliases    => '@',
+            addrtype   => '$',
+            'length'   => '$',
+            addr_list  => '@',
+         };
+
+    上面的这种方式会以匿名哈希为基础，而不是匿名数组。数组在操作上更快而且存储上更小,但是哈希更容易被继承。但是结构体不会被继承，所以这里我们推荐使
+    用匿名数组的方式。
+
+    下面是整个实现过程：
+
+        package Net::hostent;
+        use strict;
+
+        BEGIN {
+            use Exporter   ();
+            our @EXPORT      = qw(gethostbyname gethostbyaddr gethost);
+            our @EXPORT_OK   = qw(
+                                   $h_name         @h_aliases
+                                   $h_addrtype     $h_length
+                                   @h_addr_list    $h_addr
+                               );
+            our %EXPORT_TAGS = ( FIELDS => [ @EXPORT_OK, @EXPORT ] );
+        }
+        our @EXPORT_OK;
+
+        # Class::Struct forbids use of @ISA
+        sub import { goto &Exporter::import }
+
+        use Class::Struct qw(struct);
+        struct 'Net::hostent' => [
+           name        => '$',
+           aliases     => '@',
+           addrtype    => '$',
+           'length'    => '$',
+           addr_list   => '@',
+        ];
+
+        sub addr { shift->addr_list->[0] }
+
+        sub populate (@) {
+            return unless @_;
+            my $hob = new();  # Class::Struct made this!
+            $h_name     =    $hob->[0]              = $_[0];
+            @h_aliases  = @{ $hob->[1] } = split ' ', $_[1];
+            $h_addrtype =    $hob->[2]              = $_[2];
+            $h_length   =    $hob->[3]              = $_[3];
+            $h_addr     =                             $_[4];
+            @h_addr_list = @{ $hob->[4] } =         @_[ (4 .. $#_) ];
+            return $hob;
+        }
+
+        sub gethostbyname ($)  { populate(CORE::gethostbyname(shift)) }
+
+        sub gethostbyaddr ($;$) {
+            my ($addr, $addrtype);
+            $addr = shift;
+            require Socket unless @_;
+            $addrtype = @_ ? shift : Socket::AF_INET();
+            populate(CORE::gethostbyaddr($addr, $addrtype))
+        }
+
+        sub gethost($) {
+            if ($_[0] =~ /^\d+(?:\.\d+(?:\.\d+(?:\.\d+)?)?)?$/) {
+               require Socket;
+               &gethostbyaddr(Socket::inet_aton(shift));
+            } else {
+               &gethostbyname;
+            }
+        }
+
+        1;
+
+    We've snuck in quite a fair bit of other concepts besides just dynamic
+    class creation, like overriding core functions, import/export bits,
+    function prototyping, short-cut function call via &whatever, and
+    function replacement with "goto &whatever". These all mostly make sense
+    from the perspective of a traditional module, but as you can see, we can
+    also use them in an object module.
+
+    You can look at other object-based, struct-like overrides of core
+    functions in the 5.004 release of Perl in File::stat, Net::hostent,
+    Net::netent, Net::protoent, Net::servent, Time::gmtime, Time::localtime,
+    User::grent, and User::pwent. These modules have a final component
+    that's all lowercase, by convention reserved for compiler pragmas,
+    because they affect the compilation and change a builtin function. They
+    also have the type names that a C programmer would most expect.
+
+  类数据变量化
+    当使用一个 C++ 的对象时，我们可以通过简单的使用变量来存取类属性，在 Perl OO 中，我们可以通过 Alias 模块来实现相同的功能。
+
+    下面是一个使用了 Alias 模块的 Person 类。
+
+        package Person;
+
+        # this is the same as before...
+        sub new {
+             my $class = shift;
+             my $self = {
+                NAME  => undef,
+                AGE   => undef,
+                PEERS => [],
+            };
+            bless($self, $class);
+            return $self;
+        }
+
+        use Alias qw(attr);
+        our ($NAME, $AGE, $PEERS);
+
+        sub name {
+            my $self = attr shift;
+            if (@_) { $NAME = shift; }
+            return    $NAME;
+        }
+
+        sub age {
+            my $self = attr shift;
+            if (@_) { $AGE = shift; }
+            return    $AGE;
+        }
+
+        sub peers {
+            my $self = attr shift;
+            if (@_) { @PEERS = @_; }
+            return    @PEERS;
+        }
+
+        sub exclaim {
+            my $self = attr shift;
+            return sprintf "Hi, I'm %s, age %d, working with %s",
+                $NAME, $AGE, join(", ", @PEERS);
+        }
+
+        sub happy_birthday {
+            my $self = attr shift;
+            return ++$AGE;
+        }
+
+    为了使变量包全局可见，我们需要用 "our" 来声明。在 <use strict> 模式下，我们需要预先声明那些变量。
+
+    当 Alias 模块与 Class::Struct、Class::MethodMaker 配合使用时，能得到更好的效果。
+
+笔记
+  类术语
+    在不同的介绍面向对象的文献中，有各种各样的词语用来讲述面向对象的概念。如果你还不是一个面向对象编程的程序员的话，你不必担心你不知道那些各种各样的
+    术语。如果你已经是一名面向对象编程的程序员，你一定会理解那些概念在 Perl 中如何表示。
+
+    比如，很多时候我们把类叫做*实例*，把其方法叫做*实例方法*。数据被分为*实例数据*、*类属性*。
+
+    还有，*基类*、*泛类*、*超类* 、*派生类*、*特有类*、*子类* 等等。
+
+    C++ 有*静态方法*和*虚拟方法*，但是 Perl 只有 *类方法*和*实例方法*。
+
+    From the C++ perspective, all methods in Perl are virtual. This, by the
+    way, is why they are never checked for function prototypes in the
+    argument list as regular builtin and user-defined functions can be.
+
+    因为 Perl 中的类都继承于 UNIVERSAL 类，所以 Perl 中的类既是元类又是普通的类。而 C++ 中的类不具有元类功能。
+
+另见
+    perlmod、perlref、perlobj、perlbot、perltie、overload。
+
+    perlboot 是一个更加简单易懂的易于初学者学习的文档。
+
+    perltooc 提供了更多关于类数据的信息。
+
+    一些模块经常用到
+    Class::Accessor、Class:Class、Class::Contract、Class::Data::Inheritable、Cla
+    ss::MethodMaker 和 Tie::SecureHash。
+
+AUTHOR AND COPYRIGHT
+    Copyright (c) 1997, 1998 Tom Christiansen All rights reserved.
+
+    This documentation is free; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
+    Irrespective of its distribution, all code examples in this file are
+    hereby placed into the public domain. You are permitted and encouraged
+    to use this code in your own programs for fun or for profit as you see
+    fit. A simple comment in the code giving credit would be courteous but
+    is not required.
+
+  TRANSLATE
+    译者：xiaomo(wxm4ever@gmail.com)
+
+COPYRIGHT
+  鸣谢
+    Thanks to Larry Wall, Roderick Schertler, Gurusamy Sarathy, Dean
+    Roehrich, Raphael Manfredi, Brent Halsey, Greg Bacon, Brad Appleton, and
+    many others for their helpful comments.
+

@@ -1,0 +1,122 @@
+NAME
+    perlpragma - 自定义编译指令
+
+DESCRIPTION
+    编译指令是会影响编译运行结果的模块，如 "strict"、"warnings"。5.10 之后，我们可以自定义编译指令。
+
+简单的例子
+    假设我们现在实现类似 "use integer;" 的编译指令：
+
+        use MyMaths;
+    
+        my $l = MyMaths->new(1.2);
+        my $r = MyMaths->new(3.4);
+    
+        print "A: ", $l + $r, "\n";
+    
+        use myint;
+        print "B: ", $l + $r, "\n";
+    
+        {
+            no myint;
+            print "C: ", $l + $r, "\n";
+        }
+    
+        print "D: ", $l + $r, "\n";
+    
+        no myint;
+        print "E: ", $l + $r, "\n";
+
+    上面的代码将输出：
+
+        A: 4.6
+        B: 4
+        C: 4.6
+        D: 4
+        E: 4.6
+
+    "use myint;" 起到了一定的作用，影响了程序运行的结果。
+
+    下面给出具体的实现过程。首先是 "MyMaths" 类：
+
+        package MyMaths;
+        use warnings;
+        use strict;
+        use myint();
+        use overload '+' => sub {
+            my ($l, $r) = @_;
+            # Pass 1 to check up one call level from here
+            if (myint::in_effect(1)) {
+                int($$l) + int($$r);
+            } else {
+                $$l + $$r;
+            }
+        };
+    
+        sub new {
+            my ($class, $value) = @_;
+            bless \$value, $class;
+        }
+    
+        1;
+
+    注意我们这里加载 "myint" 通过传递一个空的列表 "()" 来防止 "import" 的运行。
+
+    "myint" 的实现如下：
+
+        package myint;
+    
+        use strict;
+        use warnings;
+    
+        sub import {
+            $^H{myint} = 1;
+        }
+    
+        sub unimport {
+            $^H{myint} = 0;
+        }
+    
+        sub in_effect {
+            my $level = shift // 0;
+            my $hinthash = (caller($level))[10];
+            return $hinthash->{myint};
+        }
+    
+        1;
+
+    编译指令也是模块，所以 "use myint;" 就相当于：
+
+        BEGIN {
+            require myint;
+            myint->import();
+        }
+
+    "no myintl" 就是：
+
+        BEGIN {
+            require myint;
+            myint->unimport();
+        }
+
+    "import" 和 "unimport" 方法实在编译时自动执行的。
+
+    编译指令的状态存储在 "%^H" 哈希中，"%^H" 哈希只能通过 "caller()" 在1等级的时候返回的下标为10的值解引用访问。
+
+注意的问题
+    The optree is shared between threads. This means there is a possibility
+    that the optree will outlive the particular thread (and therefore the
+    interpreter instance) that created it, so true Perl scalars cannot be
+    stored in the optree. Instead a compact form is used, which can only
+    store values that are integers (signed and unsigned), strings or "undef"
+    - references and floating point values are stringified. If you need to
+    store multiple values or complex structures, you should serialise them,
+    for example with "pack". The deletion of a hash key from "%^H" is
+    recorded, and as ever can be distinguished from the existence of a key
+    with value "undef" with "exists".
+
+    不要试着在 "%^H" 哈希中存储指向复杂结构的引用，这在线程上是不安全的。
+
+Author
+    译者：xiaomo(wxm4ever@gmail.com)
+

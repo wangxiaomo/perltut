@@ -1,0 +1,368 @@
+NAME
+    perlrequick - Perl 正则表达式快速上手
+
+DESCRIPTION
+    这个页面简单易懂的讲述了如何建立、使用 Perl 正则表达式。
+
+The Guide
+  简单匹配
+    最简单的正则就是由一个字符或一个字符串构成的，它可以成功匹配包含该它的字符串：
+
+        "Hello World" =~ /World/;  # matches
+
+    在这行代码中，"World" 就是一个正则，包围着 "/World/" 的 "//" 告诉 perl 进行模式匹配。"=~"
+    是锚定操作符，表明正则对其左值进行匹配，并将匹配结果返回，成功返回 true，错误返回 false。在这个例子中，"World" 与
+    ""Hello World"" 匹配成功，所以表达式为真。
+
+    该表达式在条件语句中是很有用的：
+
+        print "It matches\n" if "Hello World" =~ /World/;
+
+    "!~" 锚定操作符可以使返回的结果与之前相反
+
+        print "It doesn't match\n" if "Hello World" !~ /World/;
+
+    正则中的字符串可以由变量代替：
+
+        $greeting = "World";
+        print "It matches\n" if "Hello World" =~ /$greeting/;
+
+    如果对 $_ 进行正则匹配，那么 "$_ =~" 可以被省略：
+
+        $_ = "Hello World";
+        print "It matches\n" if /World/;
+
+    "//" 也可以在前置 'm' 的时候由其他符号所代替：
+
+        "Hello World" =~ m!World!;   # matches, delimited by '!'
+        "Hello World" =~ m{World};   # matches, note the matching '{}'
+        "/usr/bin/perl" =~ m"/perl"; # matches after '/usr/bin',
+                                     # '/' becomes an ordinary char
+
+    要想模式匹配成功，正则必须*严格*的包含在要匹配的字符串中：
+
+        "Hello World" =~ /world/;  # doesn't match, case sensitive
+        "Hello World" =~ /o W/;    # matches, ' ' is an ordinary char
+        "Hello World" =~ /World /; # doesn't match, no ' ' at end
+
+    perl 会匹配最先能匹配成功的地方：
+
+        "Hello World" =~ /o/;       # matches 'o' in 'Hello'
+        "That hat is red" =~ /hat/; # matches 'hat' in 'That'
+
+    并不是所有的字符都可以直接写在正则中。有些称作 metacharacters 的字符有着其他特殊的含义。metacharacters 有：
+
+        {}[]()^$.|*+?\
+
+    metacharacter 需要转义之后才能表达它最原始的意义：
+
+        "2+2=4" =~ /2+2/;    # doesn't match, + is a metacharacter
+        "2+2=4" =~ /2\+2/;   # matches, \+ is treated like an ordinary +
+        'C:\WIN32' =~ /C:\\WIN/;                       # matches
+        "/usr/bin/perl" =~ /\/usr\/bin\/perl/;  # matches
+
+    在最后一个正则中，'/' 也需要被转义，因为此时它也用于分割正则。
+
+    非打印字符可以用 escape sequences 来表示，最常见的就是 "\t"、"\n" 以及 "\n"。常用的进制数也可以通过
+    escape sequences 来输出，如 "\x1B"、"\033"。
+
+        "1000\t2000" =~ m(0\t2)      # matches
+        "cat"      =~ /\143\x61\x74/ # matches in ASCII, but a weird way to spell cat
+
+    正则通常被当作双引号字符串来对待，所以变量替换可以正常工作：
+
+        $foo = 'house';
+        'cathouse' =~ /cat$foo/;   # matches
+        'housecat' =~ /${foo}cat/; # matches
+
+    通过上面的知识我们知道如果正则出现在字符串的某个地方，那么正则就会匹配成功。为了便于指定正则出现的位置，Perl
+    为我们提供了*位置锚定符*，"^" 和 "$"。"^" 表明在字符串的开头进行匹配，而 "$" 表明在字符串的结尾进行匹配。
+
+        "housekeeper" =~ /keeper/;         # matches
+        "housekeeper" =~ /^keeper/;        # doesn't match
+        "housekeeper" =~ /keeper$/;        # matches
+        "housekeeper\n" =~ /keeper$/;      # matches
+        "housekeeper" =~ /^housekeeper$/;  # matches
+
+  使用字符集合进行匹配
+    字符集合 是包含着一类字符的集合，字符集合由 "[...]" 和可能出现的字符构成。下面是一些例子：
+
+        /cat/;            # matches 'cat'
+        /[bcr]at/;        # matches 'bat', 'cat', or 'rat'
+        "abc" =~ /[cab]/; # matches 'a'
+
+    在最后一行代码中，尽管 'c' 是集合中的第一个字符，但是最先成功匹配的字符是 'a'，所以在该处匹配成功。
+
+        /[yY][eE][sS]/; # match 'yes' in a case-insensitive way
+                        # 'yes', 'Yes', 'YES', etc.
+        /yes/i;         # also match 'yes' in a case-insensitive way
+
+    在最后一个例子中展示了 'i' 修饰符的作用：使正则大小写不敏感。
+
+    字符集合中可以包含普通字符和特殊字符。字符集合中的特殊字符与外面的特殊字符有些不同，字符集合中的特殊字符有 "-]\^$"。
+
+       /[\]c]def/; # matches ']def' or 'cdef'
+       $x = 'bcr';
+       /[$x]at/;   # matches 'bat, 'cat', or 'rat'
+       /[\$x]at/;  # matches '$at' or 'xat'
+       /[\\$x]at/; # matches '\at', 'bat, 'cat', or 'rat'
+
+    '-' 表示到的意思，如 "[0-9]" 表示 "[0123456789]"、"[a-z]" 表示 "[abc..xyz]"。
+
+        /item[0-9]/;  # matches 'item0' or ... or 'item9'
+        /[0-9a-fA-F]/;  # matches a hexadecimal digit
+
+    如果 '-' 在字符集合中是第一个字符或是最后一个字符，则把它当作普通字符对待。
+
+    "^" 表示不包含字符集合中的任一字符。
+
+        /[^a]at/;  # doesn't match 'aat' or 'at', but matches
+                   # all other 'bat', 'cat, '0at', '%at', etc.
+        /[^0-9]/;  # matches a non-numeric character
+        /[a^]at/;  # matches 'aat' or '^at'; here '^' is ordinary
+
+    Perl 有一系列的代替常用字符集合的缩写：
+
+    *   \d 表示数字
+
+            [0-9]
+
+    *   \s 表示空白符
+
+            [\ \t\r\n\f]
+
+    *   \w 表示数字或字母
+
+            [0-9a-zA-Z_]
+
+    *   \D 是 \d 的反义，它表示除数字外的任意字符
+
+            [^0-9]
+
+    *   \S 是 \s 的反义，它表示除空白符外的任意字符
+
+            [^\s]
+
+    *   \W 是 \w 的反义，它表示除数字、字母外的字符
+
+            [^\w]
+
+    *   '.' 匹配除 "\n" 外的任意字符
+
+    "\d\s\w\D\S\W" 可以在字符集合内或字符集合外使用。
+
+        /\d\d:\d\d:\d\d/; # matches a hh:mm:ss time format
+        /[\d\s]/;         # matches any digit or whitespace character
+        /\w\W\w/;         # matches a word char, followed by a
+                          # non-word char, followed by a word char
+        /..rt/;           # matches any two chars, followed by 'rt'
+        /end\./;          # matches 'end.'
+        /end[.]/;         # same thing, matches 'end.'
+
+    词定界符 "\b" 用来作为词的定界，匹配过程为 "\w\W" 或 "\W\w"：
+
+        $x = "Housecat catenates house and cat";
+        $x =~ /\bcat/;  # matches cat in 'catenates'
+        $x =~ /cat\b/;  # matches cat in 'housecat'
+        $x =~ /\bcat\b/;  # matches 'cat' at end of string
+
+    在最后一行代码中，字符串的结尾也被当作词的边界来对待。
+
+  匹配这个或那个
+    我们可以通过 '|' 在一个正则中匹配多个字符串。想要匹配 "dog" 和 "cat"，我们可以这样写，"dog|cat"。
+
+        "cats and dogs" =~ /cat|dog|bird/;  # matches "cat"
+        "cats and dogs" =~ /dog|cat|bird/;  # matches "cat"
+
+    在第二行代码中，尽管 "dog" 最先被匹配，但是 "cat" 匹配的位置更加靠前，所以仍然在 "cat" 处匹配成功。
+
+        "cats"          =~ /c|ca|cat|cats/; # matches "c"
+        "cats"          =~ /cats|cat|ca|c/; # matches "cats"
+
+    这个例子中 "c" 和 "cats" 都能匹配成功，而且匹配出现的位置也相同，所以匹配的结果受到了正则的影响。
+
+  分组
+    metacharacters "()" 可以对正则进行分组。正则 "house(cat|keeper)" 表示匹配出现在 "cat" 或
+    "keeper" 之前的 "house"。
+
+        /(a|b)b/;    # matches 'ab' or 'bb'
+        /(^a|b)c/;   # matches 'ac' at start of string or 'bc' anywhere
+
+        /house(cat|)/;  # matches either 'housecat' or 'house'
+        /house(cat(s|)|)/;  # matches either 'housecats' or 'housecat' or
+                            # 'house'.  Note groups can be nested.
+
+        "20" =~ /(19|20|)\d\d/;  # matches the null alternative '()\d\d',
+                                 # because '20\d\d' can't match
+
+  捕获匹配结果
+    分组 metacharacters "()" 同时也对各个分组内的内容进行捕获。每一个分组按照出现先后次序，相应的存入 $1，$2 等变量中。
+
+        # extract hours, minutes, seconds
+        $time =~ /(\d\d):(\d\d):(\d\d)/;  # match hh:mm:ss format
+        $hours = $1;
+        $minutes = $2;
+        $seconds = $3;
+
+    在列表上下文中，我们会得到一个 "($1,$2,...)" 列表。所以我们可以这样改写：
+
+        ($hours, $minutes, $second) = ($time =~ /(\d\d):(\d\d):(\d\d)/);
+
+    如果分组存在嵌套，那么按照左括号出现的次序来捕获。
+
+        /(ab(cd|ef)((gi)|j))/;
+         1  2      34
+
+    和 $1，$2 等类似的，"\1"，"\2" 也表示相同的意思，这种形式可以用在正则中。
+
+        /(\w\w\w)\s\1/; # find sequences like 'the the' in string
+
+    $1，$2 等应该用在正则的外部，而 "\1"，"\2" 等应该用在正则的内部。
+
+  重复匹配
+    "?"、"*"、"+" 和 "{}" 允许你决定重复匹配的次数。它们紧跟在字符、字符集合或分组后面。
+
+    *   "a?" = 匹配字符 'a' 1次或0次
+
+    *   "a*" = 匹配字符 'a' 0次或0次以上，也就是任意次
+
+    *   "a+" = 匹配字符 'a' 1次或1次以上，也就是至少1次
+
+    *   "a{n,m}" = 匹配字符 'a' 至少 "n" 次，但是不超过 "m" 次
+
+    *   "a{n,}" = 匹配字符 'a' 至少 "n" 次或 "n" 次以上
+
+    *   "a{n}" = 匹配字符 'a' "n" 次
+
+    下面是一些例子：
+
+        /[a-z]+\s+\d*/;  # match a lowercase word, at least some space, and
+                         # any number of digits
+        /(\w+)\s+\1/;    # match doubled words of arbitrary length
+        $year =~ /\d{2,4}/;  # make sure year is at least 2 but not more
+                             # than 4 digits
+        $year =~ /\d{4}|\d{2}/;    # better match; throw out 3 digit dates
+
+    这些 metacharacters 会尽可能的多匹配，所以
+
+        $x = 'the cat in the hat';
+        $x =~ /^(.*)(at)(.*)$/; # matches,
+                                # $1 = 'the cat in the h'
+                                # $2 = 'at'
+                                # $3 = ''   (0 matches)
+
+    第一个 ".*" 匹配了尽可能多的内容。第二个 ".*" 匹配时已经没有剩余的内容供匹配，所以它什么也没匹配到。
+
+  关于正则更多的内容
+    关于正则还有许多其他的东西你会感兴趣知道。在下面代码中
+
+        $pattern = 'Seuss';
+        while (<>) {
+            print if /$pattern/;
+        }
+
+    perl 将不得不在每次循环时重新编译正则，这是很消耗时间的。所以如果正则不变的话，使用 "//o"
+    修饰符。如果你不想在正则中使用变量替代，使用 "m''"：
+
+        @pattern = ('Seuss');
+        m/@pattern/; # matches 'Seuss'
+        m'@pattern'; # matches the literal string '@pattern'
+
+    "//g" 修饰符表明匹配所有的结果。在一个标量环境中，"//g" 会不断的向后进行匹配，你可以从 "pos()" 方法得到匹配的位置。
+
+        $x = "cat dog house"; # 3 words
+        while ($x =~ /(\w+)/g) {
+            print "Word is $1, ends at position ", pos $x, "\n";
+        }
+
+    输出
+
+        Word is cat, ends at position 3
+        Word is dog, ends at position 7
+        Word is house, ends at position 13
+
+    匹配失败时会重置下次开始匹配的位置。如果你不想这样的话，添加 "//c" 修饰符，如 "/regex/gc"。
+
+    在列表上下文环境中，"//g" 会返回所有匹配的分组，如果没有分组的话，就会返回所有匹配到的内容。
+
+        @words = ($x =~ /(\w+)/g);  # matches,
+                                    # $word[0] = 'cat'
+                                    # $word[1] = 'dog'
+                                    # $word[2] = 'house'
+
+  查找替换
+    查找替换正则形式如 "s/regex/replacement/modifiers"。"replacement" 是一个双引号字符串。"s///"
+    返回成功替换的次数，反之，返回 false。
+
+        $x = "Time to feed the cat!";
+        $x =~ s/cat/hacker/;   # $x contains "Time to feed the hacker!"
+        $y = "'quoted words'";
+        $y =~ s/^'(.*)'$/$1/;  # strip single quotes,
+                               # $y contains "quoted words"
+
+    在 "s///" 中，匹配捕获到的 $1、$2 可以在 "replacement" 中使用。"s///g" 会替换所有符合条件的匹配：
+
+        $x = "I batted 4 for 4";
+        $x =~ s/4/four/;   # $x contains "I batted four for 4"
+        $x = "I batted 4 for 4";
+        $x =~ s/4/four/g;  # $x contains "I batted four for four"
+
+    "s///e" 封装了 "eval{...}" 在 replacement 中。
+
+        # reverse all the words in a string
+        $x = "the cat in the hat";
+        $x =~ s/(\w+)/reverse $1/ge;   # $x contains "eht tac ni eht tah"
+
+        # convert percentage to decimal
+        $x = "A 39% hit rate";
+        $x =~ s!(\d+)%!$1/100!e;       # $x contains "A 0.39 hit rate"
+
+    最后一行代码中演示了如何使用其他分隔符，如 "s!!!"、"s{}{}"。需要注意的是，如果用 "s'''" 那么 regex 和
+    replacement 将被当作单引号字符串来对待。
+
+  分割操作
+    "split /regex/, string" 将 "string" 分割。
+
+        $x = "Calvin and Hobbes";
+        @word = split /\s+/, $x;  # $word[0] = 'Calvin'
+                                  # $word[1] = 'and'
+                                  # $word[2] = 'Hobbes'
+
+    下面这个例子演示如何分割数字：
+
+        $x = "1.618,2.718,   3.142";
+        @const = split /,\s*/, $x;  # $const[0] = '1.618'
+                                    # $const[1] = '2.718'
+                                    # $const[2] = '3.142'
+
+    如果使用 "//" 的话，字符串会被逐字被分割。如果正则中包含分组，那么返回的列表中也包含捕获到的内容。
+
+        $x = "/usr/bin";
+        @parts = split m!(/)!, $x;  # $parts[0] = ''
+                                    # $parts[1] = '/'
+                                    # $parts[2] = 'usr'
+                                    # $parts[3] = '/'
+                                    # $parts[4] = 'bin'
+
+    Since the first character of $x matched the regex, "split" prepended an
+    empty initial element to the list.
+
+BUGS
+    None.
+
+另见
+    这个文档是用来快速上手 Perl 正则表达式。想要更深入的了解正则表达式，请查阅 perlretut 以及 perlre。
+
+AUTHOR AND COPYRIGHT
+    Copyright (c) 2000 Mark Kvale All rights reserved.
+
+    This document may be distributed under the same terms as Perl itself.
+
+  Acknowledgments
+    The author would like to thank Mark-Jason Dominus, Tom Christiansen,
+    Ilya Zakharevich, Brad Hughes, and Mike Giroux for all their helpful
+    comments.
+
+  Translate
+    译者：xiaomo(wxm4ever@gmail.com)
+

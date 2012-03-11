@@ -1,0 +1,160 @@
+NAME
+    perlstyle - perl 代码风格
+
+DESCRIPTION
+    每个程序员都有自己的代码风格，但是有一种约束可以使你的代码更加容易阅读、理解。
+
+    我们建议您在 -w 下运行程序来获得所有关于程序的警告。在不想要任何警告信息的时候，您可以通过 "no warnings" 或设置 $^W
+    变量来实现。当然，你也应该在 <use strict> 下来运行程序，"use sigtrap" 甚至是 "use diagnostics"
+    也很有用。
+
+    Larry 推荐将代码块起始的大括号与关键字放在同一行。除此之外，他还有一些其他的建议：
+
+    *   4-tab 对齐
+
+    *   独立代码块的大括号尽量放在单独的行里。
+
+    *   关键字与大括号之间用空格分隔。
+
+    *   单行代码块可以和大括号一起放置在一行中。
+
+    *   分号前不包含任何空格。
+
+    *   单行代码块中可以省略末尾的分号。
+
+    *   空格包围大多数操作符。
+
+    *   复杂的子代码用空格来控制格式。
+
+    *   空行分割行为不同的代码块。
+
+    *   TODO:
+
+    *   函数与参数列表中间不包含空格。
+
+    *   逗号后紧跟一个空格。
+
+    *   在除 "and" 和 "or" 的操作符之后将长代码分隔。
+
+    *   通过空格来完成反括号的缩进。
+
+    *   使相同类别的东西竖直对齐。
+
+    *   在不产生歧义的前提下可以省略多余的符号。
+
+    Larry 推荐这么做是有他的原因的，但是他并不强制每个人都必须这么做。
+
+    下面是另外一些值得推荐的风格：
+
+    *   正是因为 Perl
+        的哲学，你可以通过很多方式来实现你的目的，而不是应该通过某种方式来实现你的目的。所以你可以从多种方式中选取一种你认为比较好的风格，比如：
+
+            open(FOO,$foo) || die "Can't open $foo: $!";
+
+        比下面这段代码的风格要好：
+
+            die "Can't open $foo: $!" unless open(FOO,$foo);
+
+        因为第二种代码把代码的重点隐藏在修饰符之后而使得代码不那么容易理解。
+
+            print "Starting analysis\n" if $verbose;
+
+        比下面这段代码的风格要好：
+
+            $verbose && print "Starting analysis\n";
+
+        因为这段代码的重点不是 -v 的使用与否。
+
+        虽然你可以写出精简的 perl 代码，但如果想让你的代码更加可读，在使用技巧的时候就需要仔细想想了。
+
+        考虑如下代码，虽然你省略符号仍能得到正确的结果，但是它的可读性明显不如后者好。
+
+            return print reverse sort num values %array;
+            return print(reverse(sort num (values(%array))));
+
+        后者的代码这至少能让比较笨的程序员通过在 vi 中使用 % 来了解到代码应有的结构。
+
+        如果你仍然坚持把它们省略掉，那么请你为将来维护你代码的人考虑下。
+
+    *   灵活的使用 "last" 来跳出循环，或者通过 Label 配合空格来使你的循环更加清晰：
+
+            LINE:
+                for (;;) {
+                    statements;
+                  last LINE if $foo;
+                    next LINE if /^#/;
+                    statements;
+                }
+
+    *   不要过度担心 loop labels 的使用，正如前面的例子，它可以使我们的代码更加清晰。
+
+    *   在不需要接受 "grep()"、"map()"、或是 `backticks` 的时候，尽量避免使用它们。相反，你应该使用
+        "foreach()" 或是 "system()" 来代替它们。
+
+    *   一些兼容性不好的特性最好包含在 eval 中执行来检测是否失败。如果知道该特性由哪个版本所支持，你也可以通过
+        $]（$PERL_VERSION）来判断是否可以正确使用该特性。"Config" 模块也可以使你查看安装 Perl 时候的配置信息。
+
+    *   选择正确的助记符。
+
+    *   通过下划线来分割较长的变量明。$var_names_like_this 显然比 $VarNamesLikeThis
+        更加适合，对于常量来说，该规则也同样适用，如 "VAR_NAMES_LIKE_THIS"。
+
+        Package names 是一个特例。一些系统自带的包是用小写单词来命名的，如 "pragma" 模块中的 "integer" 和
+        "strict" 包。然后，用户自定义的包却应该使用首字母大写的混合大小写的单词作为包名，甚至在有些系统包名中不能包含下划线。
+
+    *   通过变量名的格式来代表不同类型的变量。
+
+            $ALL_CAPS_HERE   constants only (beware clashes with perl vars!)
+            $Some_Caps_Here  package-wide global/static
+            $no_caps_here    function scope my() or local() variables
+
+        函数或方法名最好全部由小写字母构成，如 "$obj-">as_string()>。
+
+        你也可以通过一个下划线前缀来表明某个变量或函数是私有的，在包外是不可见的。
+
+    *   如果你有一个特别复杂的正则表达式，那么请通过 "/x" 修饰符和一些多余的空白、注释等使它清晰易懂。另外，当你的正则中有 slash
+        时，请不要把 slash 作为正则的分隔符。
+
+    *   使用 "and" 和 "or" 来代替 "&&" 和 "||"。另外，像函数那样调用子程序来避免出现过多的 & 符号。
+
+    *   大段的输出请用 here documents，而不是重复的使用 "print()" 语句。
+
+    *   同类的语句竖直对齐。
+
+            $IDX = $ST_MTIME;
+            $IDX = $ST_ATIME       if $opt_u;
+            $IDX = $ST_CTIME       if $opt_c;
+            $IDX = $ST_SIZE        if $opt_s;
+
+            mkdir $tmpdir, 0700 or die "can't mkdir $tmpdir: $!";
+            chdir($tmpdir)      or die "can't chdir $tmpdir: $!";
+            mkdir 'tmp',   0700 or die "can't mkdir $tmpdir/tmp: $!";
+
+    *   系统调用之后经常需要检查返回值。好的错误信息应该输出在 "STDERR" 。
+
+            opendir(D, $dir)     or die "can't opendir $dir: $!";
+
+    *   通过换行来使你的 transliterations 更加清晰：
+
+            tr [abc]
+               [xyz];
+
+    *   多多考虑代码的复用。为什么要浪费你的脑力在一次性的代码上而重复开发呢？考虑如何组织你的代码，考虑通过模块或类的方式来书写你的代码。推荐在
+        "use strict" 和 "use warnings"
+        下运行代码，考虑放弃你的代码，考虑你的世界观，考虑很多东西。。。没关系，别气馁。
+
+    *   试着书写 pod 来为你的代码书写文档。下面是一些简单的风格规范：
+
+        *   使用 "C<>" 来包含函数、变量、模块。函数后面需要加括号，如 "function()"。
+
+        *   使用 "B<>" 来包含命令，如 cat、grep。
+
+        *   使用 "F<>" 或 "C<>" 来包含文件。
+
+    *   前后风格保持一致。
+
+    *   书写美丽好看的代码
+
+Author
+    译者：xiaomo(wxm4ever@gmail.com)
+

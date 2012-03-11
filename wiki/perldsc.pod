@@ -1,0 +1,694 @@
+NAME
+    perldsc - Perl 数据结构
+
+DESCRIPTION
+    Perl 5
+    最大的特性就是使我们可以很容易的操作复杂的数据结构。以前语言没有直接支持的情况下，很多人编写了大量的代码来实现类似功能，但是都很复杂，而且用起来
+    也不称心如意。也有的人 hack 了 Perl 内部机制，但是也没有很好的实现对复杂数据结构的操作。
+
+    Perl 5.0 的到来使我们能够方便的操作像三维数组等的复杂的数据结构。
+
+        for $x (1 .. 10) {
+            for $y (1 .. 10) {
+                for $z (1 .. 10) {
+                    $AoA[$x][$y][$z] =
+                        $x ** $y + $z;
+                }
+            }
+        }
+
+    虽然是一个很简单的过程，但是书写起来是多么的麻烦。
+
+    我们该如何将其输出？为什么不能简单的通过 "print @AoA"
+    来输出？如何将其排序？如何把它传递给一个函数？它是一个对象吗？如何将其持久化存储？如何得到整行整列的矩阵？所有的值必须是数字吗？
+
+    正如上面所提到的，那些问题会让我们很困惑。虽然现在我们可以通过引用很简单的操作复杂的数据结构，但是由于缺少好的文档，使得新手学习起来非常困难。
+
+    这个文档就是来介绍一些常用的复杂数据结构如何进行操作。当你创建复杂数据结构遇到问题时，你也可以参考其中的例子。
+
+    下面列出本文档将会介绍的结构类型。它们会在分开的章节中被介绍。
+
+    *    多维数组
+
+    *    哈希值为数组的哈希
+
+    *    由哈希构成的数组
+
+    *    由哈希构成的哈希
+
+    *    其他复杂的结构
+
+    在开始之前，我们需要对各个类型的结构有所了解。
+
+引用
+    首先我们需要明白，尽管 @ARRAY 和 %HASH
+    看起来不一样，但是它们实际上却都是一维的。而且它们只能存储标量值（字符串，数字，或引用）。它们的值都不能是数组或哈希，而只能是指向它们的引用。
+
+    指向不同结构类型的引用有不同的操作方式。对于 C/C++
+    程序员来说，不要刻意去寻找数组与指向数组的引用之间的区别。如果非要这么做的话，可以对比结构体与结构体指针的区别。
+
+    你可以（你也应该这么做）阅读 perlref
+    得到更多关于引用的知识。引用就像是指针。通过引用你可以用多维的思想去理解实际上一维存储的结构。这也是 C 语言中多维数组的原理。
+
+        $array[7][12]                       # array of arrays
+        $array[7]{string}                   # array of hashes
+        $hash{string}[7]                    # hash of arrays
+        $hash{string}{'another string'}     # hash of hashes
+
+    因此在一开始的例子中，数组中包含的是引用，所以我们不能直接通过 print() 函数将其输出。
+
+        @AoA = ( [2, 3], [4, 5, 7], [0] );
+        print $AoA[1][2];
+      7
+        print @AoA;
+      ARRAY(0x83c38)ARRAY(0x8b194)ARRAY(0x8b1d0)
+
+    在输出时 Perl 对变量的值不做严格的控制。所以你要想得到引用所指向的具体的值，必须通过前置符号印记，如
+    "${$blah}"，"@{$blah}"，"@{$blah[$i]}" 等，或者通过后置箭头，如
+    "$a->[3]"，"$h->{fred}"，"$ob->method()->[3]" 来得到引用所指向的值。
+
+常见错误
+    创建多维数组时最常见的两个错误，要不就是错误的存储数组的长度，要不就是重复的使用指向同一位置的引用。下面就是一个错误的存储数组长度的例子：
+
+        for $i (1..10) {
+            @array = somefunc($i);
+            $AoA[$i] = @array;      # WRONG!
+        }
+
+    上面的代码就是因为进行标量转化而得到了数组的长度，如果这真的就是你想要做的事情，那么你应该通过如下方法实现：
+
+        for $i (1..10) {
+            @array = somefunc($i);
+            $counts[$i] = scalar @array;
+        }
+
+    正确的创建多维数组应该存储该数组的引用，如下：
+
+        for $i (1..10) {
+            @array = somefunc($i);
+            $AoA[$i] = \@array;     # WRONG!
+        }
+
+    现在还有什么问题吗？看起来没什么大问题了。我们需要一个引用，而你也确实给我提供了一个引用。
+
+    不幸的是，这段代码仍然是错误的。@AoA 中的元素都指向了*同一个位置*，而且它们的值都是最近一次 @array 的值。这和 C
+    程序里经常犯的错误一样：
+
+        #include <pwd.h>
+        main() {
+            struct passwd *getpwnam(), *rp, *dp;
+            rp = getpwnam("root");
+            dp = getpwnam("daemon");
+
+            printf("daemon name is %s\nroot name is %s\n",
+                    dp->pw_name, rp->pw_name);
+        }
+
+    上面的代码将会得到如下输出：
+
+        daemon name is daemon
+        root name is daemon
+
+    问题的原因是 "rp" 和 "dp" 都指向内存中的同一个位置。在 C 程序中，你需要通过 malloc(0 函数来得到新的空间。而在 Perl
+    中，你需要通过 "[]" 或 "{}" 来得到。下面是正确的代码：
+
+        for $i (1..10) {
+            @array = somefunc($i);
+            $AoA[$i] = [ @array ];
+        }
+
+    现在复制了一份数组拷贝，并通过它初始化一个匿名数组并返回指向它的引用。这就是我们想要的。
+
+    下面的代码也会得到同样的结果，但是却比较难读懂：
+
+        for $i (1..10) {
+            @array = 0 .. $i;
+            @{$AoA[$i]} = @array;
+        }
+
+    这两种方式有区别吗？可以说有，也可以说没有。通过 "[...]" 方式我们确实得到了一份新的引用。但是 "@{$AoA[$i]}"
+    这种方式的结果却是不一定的，它取决于 "@{$AoA[$i]}" 是否被定义过或是否已经存着一个引用。如果它已经存着一个引用：
+
+        $AoA[3] = \@another_array;
+
+    那么赋值操作后存储的依然是之前的引用。
+
+        @{$AoA[3]} = @array;
+
+    这会对 @another_array 产生一定的影响。
+
+    所以在构造数组或哈希时使用 "[]" 或 "{}"。
+
+    下面这段看似危险的代码却也能正确的得到相应的结果：
+
+        for $i (1..10) {
+            my @array = somefunc($i);
+            $AoA[$i] = \@array;
+        }
+
+    这是因为 my() 是运行时语句。在每次运行时，都会为数组重新申请空间，所以它的引用每次是不同的。虽然这样做是可行的，但是我们还是推荐新手使用
+    "[]" 或 "{}" 方式。
+
+    总结：
+
+        $AoA[$i] = [ @array ];      # usually best
+        $AoA[$i] = \@array;         # perilous; just how my() was that array?
+        @{ $AoA[$i] } = @array;     # way too tricky for most programmers
+
+优先级
+    对于 "@{$AoA[$i]}" 来说，下面两行代码表示的是同样的意思：
+
+        $aref->[2][2]       # clear
+        $$aref[2][2]        # confusing
+
+    因为 Perl 的优先级规则使得 C/C++ 程序员可能理解起来比较困难。虽然可以对比着理解，但 Perl 不是 C。
+
+    The seemingly equivalent construct in Perl, $$aref[$i] first does the
+    deref of $aref, making it take $aref as a reference to an array, and
+    then dereference that, and finally tell you the *i'th* value of the
+    array pointed to by $AoA. If you wanted the C notion, you'd have to
+    write "${$AoA[$i]}" to force the $AoA[$i] to get evaluated first before
+    the leading "$" dereferencer.
+
+为什么应该时刻使用 "use strict"？
+    这听起来很恐怖，但是这确实会给我们带来很多好处。Perl 有许多特性可以帮助你避免一些陷阱，所以我们最好用以下代码开始书写程序：
+
+        #!/usr/bin/perl -w
+        use strict;
+
+    之后，你将不得不通过 my() 来声明每一个变量，而且你不能使用 "symbolic dereferencing"。
+
+        my $aref = [
+            [ "fred", "barney", "pebbles", "bambam", "dino", ],
+            [ "homer", "bart", "marge", "maggie", ],
+            [ "george", "jane", "elroy", "judy", ],
+        ];
+
+        print $aref[2][2];
+
+    编译器会在*编译时*产生错误，因为你没有声明 @aref 变量，而且它会提醒你按如下方式书写：
+
+        print $aref->[2][2]
+
+调试
+    在 5.002 以前，Perl 调试器不能很好的输出复杂的数据结构。5.002
+    版本以上，调试器包含的几个新功能可以很方便的查看复杂的数据结构。比如查看 $AoA 结构，我们会在调试器中得到如下内容：
+
+        DB<1> x $AoA
+        $AoA = ARRAY(0x13b5a0)
+           0  ARRAY(0x1f0a24)
+              0  'fred'
+              1  'barney'
+              2  'pebbles'
+              3  'bambam'
+              4  'dino'
+           1  ARRAY(0x13b558)
+              0  'homer'
+              1  'bart'
+              2  'marge'
+              3  'maggie'
+           2  ARRAY(0x13b540)
+              0  'george'
+              1  'jane'
+              2  'elroy'
+              3  'judy'
+
+代码示例
+    下面是一些常用的复杂数据结构的实现代码。
+
+多维数组
+  声明
+     @AoA = (
+            [ "fred", "barney" ],
+            [ "george", "jane", "elroy" ],
+            [ "homer", "marge", "bart" ],
+          );
+
+  生成
+     # reading from file
+     while ( <> ) {
+         push @AoA, [ split ];
+     }
+
+     # calling a function
+     for $i ( 1 .. 10 ) {
+         $AoA[$i] = [ somefunc($i) ];
+     }
+
+     # using temp vars
+     for $i ( 1 .. 10 ) {
+         @tmp = somefunc($i);
+         $AoA[$i] = [ @tmp ];
+     }
+
+     # add to an existing row
+     push @{ $AoA[0] }, "wilma", "betty";
+
+  使用和输出
+     # one element
+     $AoA[0][0] = "Fred";
+
+     # another element
+     $AoA[1][1] =~ s/(\w)/\u$1/;
+
+     # print the whole thing with refs
+     for $aref ( @AoA ) {
+         print "\t [ @$aref ],\n";
+     }
+
+     # print the whole thing with indices
+     for $i ( 0 .. $#AoA ) {
+         print "\t [ @{$AoA[$i]} ],\n";
+     }
+
+     # print the whole thing one at a time
+     for $i ( 0 .. $#AoA ) {
+         for $j ( 0 .. $#{ $AoA[$i] } ) {
+             print "elt $i $j is $AoA[$i][$j]\n";
+         }
+     }
+
+哈希值为数组的哈希
+  声明
+     %HoA = (
+            flintstones        => [ "fred", "barney" ],
+            jetsons            => [ "george", "jane", "elroy" ],
+            simpsons           => [ "homer", "marge", "bart" ],
+          );
+
+  生成
+     # reading from file
+     # flintstones: fred barney wilma dino
+     while ( <> ) {
+         next unless s/^(.*?):\s*//;
+         $HoA{$1} = [ split ];
+     }
+
+     # reading from file; more temps
+     # flintstones: fred barney wilma dino
+     while ( $line = <> ) {
+         ($who, $rest) = split /:\s*/, $line, 2;
+         @fields = split ' ', $rest;
+         $HoA{$who} = [ @fields ];
+     }
+
+     # calling a function that returns a list
+     for $group ( "simpsons", "jetsons", "flintstones" ) {
+         $HoA{$group} = [ get_family($group) ];
+     }
+
+     # likewise, but using temps
+     for $group ( "simpsons", "jetsons", "flintstones" ) {
+         @members = get_family($group);
+         $HoA{$group} = [ @members ];
+     }
+
+     # append new members to an existing family
+     push @{ $HoA{"flintstones"} }, "wilma", "betty";
+
+  使用和输出
+     # one element
+     $HoA{flintstones}[0] = "Fred";
+
+     # another element
+     $HoA{simpsons}[1] =~ s/(\w)/\u$1/;
+
+     # print the whole thing
+     foreach $family ( keys %HoA ) {
+         print "$family: @{ $HoA{$family} }\n"
+     }
+
+     # print the whole thing with indices
+     foreach $family ( keys %HoA ) {
+         print "family: ";
+         foreach $i ( 0 .. $#{ $HoA{$family} } ) {
+             print " $i = $HoA{$family}[$i]";
+         }
+         print "\n";
+     }
+
+     # print the whole thing sorted by number of members
+     foreach $family ( sort { @{$HoA{$b}} <=> @{$HoA{$a}} } keys %HoA ) {
+         print "$family: @{ $HoA{$family} }\n"
+     }
+
+     # print the whole thing sorted by number of members and name
+     foreach $family ( sort {
+                                @{$HoA{$b}} <=> @{$HoA{$a}}
+                                            ||
+                                        $a cmp $b
+                } keys %HoA )
+     {
+         print "$family: ", join(", ", sort @{ $HoA{$family} }), "\n";
+     }
+
+由哈希构成的数组
+  声明
+     @AoH = (
+            {
+                Lead     => "fred",
+                Friend   => "barney",
+            },
+            {
+                Lead     => "george",
+                Wife     => "jane",
+                Son      => "elroy",
+            },
+            {
+                Lead     => "homer",
+                Wife     => "marge",
+                Son      => "bart",
+            }
+      );
+
+  生成
+     # reading from file
+     # format: LEAD=fred FRIEND=barney
+     while ( <> ) {
+         $rec = {};
+         for $field ( split ) {
+             ($key, $value) = split /=/, $field;
+             $rec->{$key} = $value;
+         }
+         push @AoH, $rec;
+     }
+
+
+
+     # reading from file
+     # format: LEAD=fred FRIEND=barney
+     # no temp
+     while ( <> ) {
+         push @AoH, { split /[\s+=]/ };
+     }
+
+     # calling a function  that returns a key/value pair list, like
+     # "lead","fred","daughter","pebbles"
+     while ( %fields = getnextpairset() ) {
+         push @AoH, { %fields };
+     }
+
+     # likewise, but using no temp vars
+     while (<>) {
+         push @AoH, { parsepairs($_) };
+     }
+
+     # add key/value to an element
+     $AoH[0]{pet} = "dino";
+     $AoH[2]{pet} = "santa's little helper";
+
+  使用和输出
+     # one element
+     $AoH[0]{lead} = "fred";
+
+     # another element
+     $AoH[1]{lead} =~ s/(\w)/\u$1/;
+
+     # print the whole thing with refs
+     for $href ( @AoH ) {
+         print "{ ";
+         for $role ( keys %$href ) {
+             print "$role=$href->{$role} ";
+         }
+         print "}\n";
+     }
+
+     # print the whole thing with indices
+     for $i ( 0 .. $#AoH ) {
+         print "$i is { ";
+         for $role ( keys %{ $AoH[$i] } ) {
+             print "$role=$AoH[$i]{$role} ";
+         }
+         print "}\n";
+     }
+
+     # print the whole thing one at a time
+     for $i ( 0 .. $#AoH ) {
+         for $role ( keys %{ $AoH[$i] } ) {
+             print "elt $i $role is $AoH[$i]{$role}\n";
+         }
+     }
+
+由哈希构成的哈希
+  声明
+     %HoH = (
+            flintstones => {
+                    lead      => "fred",
+                    pal       => "barney",
+            },
+            jetsons     => {
+                    lead      => "george",
+                    wife      => "jane",
+                    "his boy" => "elroy",
+            },
+            simpsons    => {
+                    lead      => "homer",
+                    wife      => "marge",
+                    kid       => "bart",
+            },
+     );
+
+  生成
+     # reading from file
+     # flintstones: lead=fred pal=barney wife=wilma pet=dino
+     while ( <> ) {
+         next unless s/^(.*?):\s*//;
+         $who = $1;
+         for $field ( split ) {
+             ($key, $value) = split /=/, $field;
+             $HoH{$who}{$key} = $value;
+         }
+
+
+
+     # reading from file; more temps
+     while ( <> ) {
+         next unless s/^(.*?):\s*//;
+         $who = $1;
+         $rec = {};
+         $HoH{$who} = $rec;
+         for $field ( split ) {
+             ($key, $value) = split /=/, $field;
+             $rec->{$key} = $value;
+         }
+     }
+
+     # calling a function  that returns a key,value hash
+     for $group ( "simpsons", "jetsons", "flintstones" ) {
+         $HoH{$group} = { get_family($group) };
+     }
+
+     # likewise, but using temps
+     for $group ( "simpsons", "jetsons", "flintstones" ) {
+         %members = get_family($group);
+         $HoH{$group} = { %members };
+     }
+
+     # append new members to an existing family
+     %new_folks = (
+         wife => "wilma",
+         pet  => "dino",
+     );
+
+     for $what (keys %new_folks) {
+         $HoH{flintstones}{$what} = $new_folks{$what};
+     }
+
+  使用和输出
+     # one element
+     $HoH{flintstones}{wife} = "wilma";
+
+     # another element
+     $HoH{simpsons}{lead} =~ s/(\w)/\u$1/;
+
+     # print the whole thing
+     foreach $family ( keys %HoH ) {
+         print "$family: { ";
+         for $role ( keys %{ $HoH{$family} } ) {
+             print "$role=$HoH{$family}{$role} ";
+         }
+         print "}\n";
+     }
+
+     # print the whole thing  somewhat sorted
+     foreach $family ( sort keys %HoH ) {
+         print "$family: { ";
+         for $role ( sort keys %{ $HoH{$family} } ) {
+             print "$role=$HoH{$family}{$role} ";
+         }
+         print "}\n";
+     }
+
+
+
+     # print the whole thing sorted by number of members
+     foreach $family ( sort { keys %{$HoH{$b}} <=> keys %{$HoH{$a}} } keys %HoH ) {
+         print "$family: { ";
+         for $role ( sort keys %{ $HoH{$family} } ) {
+             print "$role=$HoH{$family}{$role} ";
+         }
+         print "}\n";
+     }
+
+     # establish a sort order (rank) for each role
+     $i = 0;
+     for ( qw(lead wife son daughter pal pet) ) { $rank{$_} = ++$i }
+
+     # now print the whole thing sorted by number of members
+     foreach $family ( sort { keys %{ $HoH{$b} } <=> keys %{ $HoH{$a} } } keys %HoH ) {
+         print "$family: { ";
+         # and print these according to rank order
+         for $role ( sort { $rank{$a} <=> $rank{$b} }  keys %{ $HoH{$family} } ) {
+             print "$role=$HoH{$family}{$role} ";
+         }
+         print "}\n";
+     }
+
+其他复杂的数据结构
+  声明
+    下面的例子演示了一个包含了各种类型的数据结构：
+
+         $rec = {
+             TEXT      => $string,
+             SEQUENCE  => [ @old_values ],
+             LOOKUP    => { %some_table },
+             THATCODE  => \&some_function,
+             THISCODE  => sub { $_[0] ** $_[1] },
+             HANDLE    => \*STDOUT,
+         };
+
+         print $rec->{TEXT};
+
+         print $rec->{SEQUENCE}[0];
+         $last = pop @ { $rec->{SEQUENCE} };
+
+         print $rec->{LOOKUP}{"key"};
+         ($first_k, $first_v) = each %{ $rec->{LOOKUP} };
+
+         $answer = $rec->{THATCODE}->($arg);
+         $answer = $rec->{THISCODE}->($arg1, $arg2);
+
+         # careful of extra block braces on fh ref
+         print { $rec->{HANDLE} } "a string\n";
+
+         use FileHandle;
+         $rec->{HANDLE}->autoflush(1);
+         $rec->{HANDLE}->print(" a string\n");
+
+  声明一个复杂的哈希结构
+         %TV = (
+            flintstones => {
+                series   => "flintstones",
+                nights   => [ qw(monday thursday friday) ],
+                members  => [
+                    { name => "fred",    role => "lead", age  => 36, },
+                    { name => "wilma",   role => "wife", age  => 31, },
+                    { name => "pebbles", role => "kid",  age  =>  4, },
+                ],
+            },
+
+         %TV = (
+            flintstones => {
+                series   => "flintstones",
+                nights   => [ qw(monday thursday friday) ],
+                members  => [
+                    { name => "fred",    role => "lead", age  => 36, },
+                    { name => "wilma",   role => "wife", age  => 31, },
+                    { name => "pebbles", role => "kid",  age  =>  4, },
+                ],
+            },
+
+            simpsons    => {
+                series   => "simpsons",
+                nights   => [ qw(monday) ],
+                members  => [
+                    { name => "homer", role => "lead", age  => 34, },
+                    { name => "marge", role => "wife", age => 37, },
+                    { name => "bart",  role => "kid",  age  =>  11, },
+                ],
+             },
+          );
+
+  生成一个复杂的哈希结构
+         # reading from file
+         # this is most easily done by having the file itself be
+         # in the raw data format as shown above.  perl is happy
+         # to parse complex data structures if declared as data, so
+         # sometimes it's easiest to do that
+
+         # here's a piece by piece build up
+         $rec = {};
+         $rec->{series} = "flintstones";
+         $rec->{nights} = [ find_days() ];
+
+         @members = ();
+         # assume this file in field=value syntax
+         while (<>) {
+             %fields = split /[\s=]+/;
+             push @members, { %fields };
+         }
+         $rec->{members} = [ @members ];
+
+         # now remember the whole thing
+         $TV{ $rec->{series} } = $rec;
+
+         ###########################################################
+         # now, you might want to make interesting extra fields that
+         # include pointers back into the same data structure so if
+         # change one piece, it changes everywhere, like for example
+         # if you wanted a {kids} field that was a reference
+         # to an array of the kids' records without having duplicate
+         # records and thus update problems.
+         ###########################################################
+         foreach $family (keys %TV) {
+             $rec = $TV{$family}; # temp pointer
+             @kids = ();
+             for $person ( @{ $rec->{members} } ) {
+                 if ($person->{role} =~ /kid|son|daughter/) {
+                     push @kids, $person;
+                 }
+             }
+             # REMEMBER: $rec and $TV{$family} point to same data!!
+             $rec->{kids} = [ @kids ];
+         }
+
+         # you copied the array, but the array itself contains pointers
+         # to uncopied objects. this means that if you make bart get
+         # older via
+
+         $TV{simpsons}{kids}[0]{age}++;
+
+         # then this would also change in
+         print $TV{simpsons}{members}[2]{age};
+
+         # because $TV{simpsons}{kids}[0] and $TV{simpsons}{members}[2]
+         # both point to the same underlying anonymous hash table
+
+         # print the whole thing
+         foreach $family ( keys %TV ) {
+             print "the $family";
+             print " is on during @{ $TV{$family}{nights} }\n";
+             print "its members are:\n";
+             for $who ( @{ $TV{$family}{members} } ) {
+                 print " $who->{name} ($who->{role}), age $who->{age}\n";
+             }
+             print "it turns out that $TV{$family}{lead} has ";
+             print scalar ( @{ $TV{$family}{kids} } ), " kids named ";
+             print join (", ", map { $_->{name} } @{ $TV{$family}{kids} } );
+             print "\n";
+         }
+
+数据绑定
+    你不能把你的数据结构与数据库文件直接绑定。大小限制是一个因素，对于硬盘资源的引用也是一个重要的问题。MLDBM
+    模块是一个这方面应用的模块，不过目前还处于实验阶段。
+
+另见
+    perlref, perllol, perldata, perlobj
+
+作者
+    Tom Christiansen <tchrist@perl.com>
+
+    Last update: Wed Oct 23 04:57:50 MET DST 1996
+
+    译者：xiaomo(wxm4ever@gmail.com)
+
